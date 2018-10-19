@@ -184,18 +184,20 @@
                       </thead>
                       <tbody>
                         <?php 
-                         require_once "../class/TipoUsuario.php";
-                         $misTipoUsuarios = new TipoUsuario();
-                         $catego = $misTipoUsuarios->selectALL();
+                         require_once "../class/Usuario.php";
+                         $misUsuarios = new Usuario();
+                         $catego = $misUsuarios->selectALL();
                         
                            # code...
                          
                          foreach ((array)$catego as $row) {
                          echo '
                           <tr>
-                           <td>'.$row['id_tipo_usuario'].'</td>
-                           <td>'.$row['nombre'].'</td>
-                           <td>'.$row["descripcion"].'</td>
+                           <td>'.$row['id_usuario'].'</td>
+                           <td>'.$row['nombre']. ' ' .$row['apellido'].'</td>
+                           <td>'.$row['correo'].'</td>
+                           <td>'.$row['telefono'].'</td>
+                           <td>'.$row['id_tipo_usuarios'].'</td>
                            <td>
                           
                                     <input type="button" name="view" value="Ver Detalle" id="'.$row["id_tipo_usuario"].'" class="btn btn-info view_data"/>  
@@ -223,7 +225,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle TipoUsuario</h4>  
+                                                 <h4 class="modal-title">Detalle Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_detail">  
                                             </div>  
@@ -253,7 +255,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Nuevo Tipo Usuario</h4>  
+                                                 <h4 class="modal-title">Agregar Nuevo Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  

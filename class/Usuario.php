@@ -7,11 +7,11 @@ class Usuario extends conexion
 	private $nombre;
 	private $apellido;
 	private $correo;
-	private $telefono
+	private $telefono;
 	private $contrasena;
 	private $id_tipo_usuario;
 
-	function __construct(argument)
+	function __construct()
 	{
 		parent::__construct();
 
@@ -36,7 +36,7 @@ class Usuario extends conexion
 		return $this->nombre;
 	}
 
-	public function setId_usuario($nombre){
+	public function setNombre($nombre){
 		$this->nombre= $nombre;
 	}
 
@@ -88,8 +88,11 @@ class Usuario extends conexion
     public function delete(){
 
     }
-    public function selectAll(){
-
+    public function selectALL(){
+    	$query="SELECT u.id_usuarios, u.nombre, u.apellido, u.correo, u.telefono, u.contrasena, t.nombre FROM usuarios u INNER JOIN tipo_usuario t ON u.id_tipo_usuario = t.id_tipo_usuario";
+    	$selectall=$this->db->query($query);
+    	$ListUsuario=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListUsuario;
     }
     public function seletTipoUSuario(){
 
