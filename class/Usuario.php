@@ -81,6 +81,23 @@ class Usuario extends conexion
 
     public function save(){
 
+    	$query="INSERT INTO usuarios
+    			values(NULL,
+    			'".$this->nombre."',
+    			'".$this->apellido.",
+    			'".$this->correo.",
+    			'".$this->telefono.",
+    			'".$this->contrasena.",
+    			'".$this->id_tipo_usuario."
+    			');";
+    	$save=$this->db->query($query);
+    	if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+
+
     }
     public function update(){
 
@@ -94,14 +111,18 @@ class Usuario extends conexion
     	$ListUsuario=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListUsuario;
     }
-    public function seletTipoUSuario(){
+     public function passMD5(){
 
     }
-    public function passMD5(){
 
-    }
+
+
+
 
 }
 
+
+
+		
 
 ?>

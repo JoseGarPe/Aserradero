@@ -168,7 +168,7 @@
                   <div class="x_content">
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-                   <input type="button" name="accion" value="Nueva TipoUsuario" id="accion" class="btn btn-success save_data" /> 
+                   <input type="button" name="accion" value="Nuevo Usuario" id="accion" class="btn btn-success save_data" /> 
                     <br>
                     <br>
                     <div id="employee_table">
@@ -200,9 +200,9 @@
                            <td>'.$row['id_tipo_usuarios'].'</td>
                            <td>
                           
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_tipo_usuario"].'" class="btn btn-info view_data"/>  
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_tipo_usuario"].'" class="btn btn-warning edit_data" />
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_tipo_usuario"].'" class="btn btn-danger delete_data" />
+                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_usuario"].'" class="btn btn-info view_data"/>  
+                                    <input type="button" name="edit" value="Editar" id="'.$row["id_usuario"].'" class="btn btn-warning edit_data" />
+                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_usuario"].'" class="btn btn-danger delete_data" />
                            </td>
                           </tr>
                          ';
@@ -240,7 +240,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle TipoUsuario</h4>  
+                                                 <h4 class="modal-title">Detalle Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -270,7 +270,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Tipo Usuario</h4>  
+                                                 <h4 class="modal-title">Eliminar Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
                                             </div>  
@@ -286,7 +286,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar nueva TipoUsuario</h4>  
+                     <h4 class="modal-title">Agregar Nuevo Usuario</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -301,7 +301,7 @@
             <!-- footer content -->
             <footer>
               <div class="pull-right">
-                Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                Aserradero - Creado por <a href="https://colorlib.com">Chiltex SV</a>
               </div>
               <div class="clearfix"></div>
             </footer>
@@ -355,6 +355,7 @@ ga('send', 'pageview');
            $('#insert').val("Insert");  
            $('#insert_form')[0].reset();  
       });  
+
       $(document).on('click', '.edit_data', function(){  
           var employee_id = $(this).attr("id");  
            if(employee_id != '')  
@@ -386,12 +387,13 @@ ga('send', 'pageview');
                 });  
            }            
       });  
+
         $(document).on('click', '.save_data', function(){  
            var employee_action = $(this).attr("accion");  
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/saveTipoUsuario.php",  
+                     url:"../views/saveUsuario.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
