@@ -57,7 +57,7 @@ function save()
 
      public function update()
     {
-        $query="UPDATE tipo_usuario SET nombre='".$this->nombre."',descripcion='".$this->descripcion."' WHERE id_tipo_usuario='".$this->id_tipo_usuario."'";
+        $query="UPDATE tipo_usuario SET nombre='".$this->nombre."', descripcion='".$this->descripcion."' WHERE id_tipo_usuario='".$this->id_tipo_usuario."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;

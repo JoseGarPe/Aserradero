@@ -33,7 +33,7 @@
 
                             echo "<option value='".$row['id_tipo_usuario']."'>".$row['nombre']."</option>";
 
-                          }
+                          } 
 
                     
                           ?>

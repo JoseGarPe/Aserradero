@@ -4,7 +4,7 @@ require_once "../class/Usuario.php";
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
 
-	$id_Usuario=$_POST['id_Usuario'];
+	$id_Usuario=$_POST['id'];
 	$nombre=$_POST['nombre'];
 	$apellido=$_POST['apellido'];
 	$correo=$_POST['correo'];
@@ -31,9 +31,9 @@ if ($accion=="modificar") {
 
 }
 elseif ($accion=="eliminar") {
-	$id_TipoUsuario =$_POST['id'];
+	$id_Usuario =$_POST['id'];
 	$Usuario = new Usuario();
-	$Usuario->setId_tipo_usuario($id_TipoUsuario);
+	$Usuario->setId_usuario($id_Usuario);
 	$delete=$Usuario->delete();
 	if ($delete==true) {
 		header('Location: ../listas/Usuario.php?success=correcto');

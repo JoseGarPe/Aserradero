@@ -99,7 +99,7 @@
         
               
 
-			  
+        
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -179,7 +179,8 @@
                           <th>Nombre</th>
                           <th>Correo</th>
                           <th>Telefono</th>
-                          <th>Tipo Usuario</th>                          
+                          <th>Tipo Usuario</th>
+                          <th>Opiones</th>                          
                         </tr>
                       </thead>
                       <tbody>
@@ -193,16 +194,16 @@
                          foreach ((array)$catego as $row) {
                          echo '
                           <tr>
-                           <td>'.$row['id_usuario'].'</td>
+                           <td>'.$row['id_usuarios'].'</td>
                            <td>'.$row['nombre']. ' ' .$row['apellido'].'</td>
                            <td>'.$row['correo'].'</td>
                            <td>'.$row['telefono'].'</td>
-                           <td>'.$row['id_tipo_usuarios'].'</td>
+                           <td>'.$row['tipo'].'</td>
                            <td>
                           
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_usuario"].'" class="btn btn-info view_data"/>  
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_usuario"].'" class="btn btn-warning edit_data" />
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_usuario"].'" class="btn btn-danger delete_data" />
+                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_usuarios"].'" class="btn btn-info view_data"/>  
+                                    <input type="button" name="edit" value="Editar" id="'.$row["id_usuarios"].'" class="btn btn-warning edit_data" />
+                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_usuarios"].'" class="btn btn-danger delete_data" />
                            </td>
                           </tr>
                          ';
@@ -216,9 +217,9 @@
                   </div>
                 </div>
               </div>
-			  
-			  
-			  
+        
+        
+        
             </div>
  <div id="dataModal" class="modal fade">  
                                   <div class="modal-dialog">  
@@ -309,9 +310,9 @@
           </div>
         </div>
     <!-- jQuery -->
-	 <script src="../vendors/jquery/dist/jquery.min.js"></script>
-	 <!-- Bootstrap -->
-	 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+   <script src="../vendors/jquery/dist/jquery.min.js"></script>
+   <!-- Bootstrap -->
+   <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
     <script src="../vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
@@ -361,7 +362,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/modiTipoUsuario.php",  
+                     url:"../views/modiUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -377,7 +378,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/selectTipoUsuario.php",  
+                     url:"../views/selectUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -410,7 +411,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/deleteTipoUsuario.php",  
+                     url:"../views/deleteUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
