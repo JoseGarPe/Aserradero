@@ -351,11 +351,23 @@ ga('send', 'pageview');
     </script>
 <script type="text/javascript">
 
-   $(document).ready(function(){  
+
+   $(document).ready(function(){ 
+
+
+
+
       $('#add').click(function(){  
            $('#insert').val("Insert");  
-           $('#insert_form')[0].reset();  
+           $('#insert_form')[0].reset(); 
+
+
+
+
+
       });  
+
+      
 
       $(document).on('click', '.edit_data', function(){  
           var employee_id = $(this).attr("id");  

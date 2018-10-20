@@ -39,7 +39,7 @@ require_once "../class/Usuario.php";
 
                 <div class="form-group">
                  <label>Contraseña</label>  
-                          <input type="password" name="contrasena"  value="'.$row['correo'].'" id="contrasena" class="form-control"
+                          <input type="password" name="contrasena"  value="'.$row['contrasena'].'" id="contrasena" class="form-control"
                            />  
                            
                 </div>
@@ -61,7 +61,7 @@ require_once "../class/Usuario.php";
                           foreach ((array)$cat as $col) {
                           		if ($row['id_tipo_usuario']== $col['id_tipo_usuario']) {
                           			
-                          			echo "<option value='".$col['id_tipo_usuario']."' selected>".$col['nombre']."</option>";
+                          			echo "<option value='".$col['id_tipo_usuario']."' selected		>".$col['nombre']."</option>";
                           		}else{
                             echo "<option value='".$col['id_tipo_usuario']."''>".$col['nombre']."</option>";
                             }                           	
