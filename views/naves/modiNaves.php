@@ -2,7 +2,7 @@
               <div class="box-body">
 <?php 
 
-require_once "../class/Naves.php";
+require_once "Naves.php";
 
 
          

@@ -1,7 +1,7 @@
-<form role="form" action="../../controllers/NavesControlador.php?accion=eliminar" method="POST">
+<form role="form" action="../controllers/NavesControlador.php?accion=eliminar" method="POST">
               <div class="box-body">
 <?php 
-require_once "../../class/Naves.php";
+require_once "Naves.php";
 
 
          
