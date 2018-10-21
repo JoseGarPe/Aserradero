@@ -1,5 +1,5 @@
 <?php  
-require_once "../config/conexion.php";
+require_once "../../config/conexion.php";
 class Categorias extends conexion
 {
 private $id_categoria;

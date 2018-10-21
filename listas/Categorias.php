@@ -35,7 +35,7 @@
             <div class="col-md-3 left_col">
               <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                  <a href="../indexAdmin.php" class="site_title"><i class="fa fa-paw"></i> <span>Hermes</span></a>
+                  <a href="../indexAdmin.php" class="site_title"><i class="fa fa-paw"></i> <span>Aserradero</span></a>
                 </div>
     
                 <div class="clearfix"></div>
@@ -168,7 +168,7 @@
                   <div class="x_content">
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-                   <input type="button" name="accion" value="Nueva TipoUsuario" id="accion" class="btn btn-success save_data" /> 
+                   <input type="button" name="accion" value="Nueva Categorias" id="accion" class="btn btn-success save_data" /> 
                     <br>
                     <br>
                     <div id="employee_table">
@@ -183,23 +183,23 @@
                       </thead>
                       <tbody>
                         <?php 
-                         require_once "../class/TipoUsuario.php";
-                         $misTipoUsuarios = new TipoUsuario();
-                         $catego = $misTipoUsuarios->selectALL();
+                         require_once "../class/Categorias.php";
+                         $misCategoriass = new Categorias();
+                         $catego = $misCategoriass->selectALL();
                         
                            # code...
                          
                          foreach ((array)$catego as $row) {
                          echo '
                           <tr>
-                           <td>'.$row['id_tipo_usuario'].'</td>
+                           <td>'.$row['id_categoria'].'</td>
                            <td>'.$row['nombre'].'</td>
                            <td>'.$row["descripcion"].'</td>
                            <td>
                           
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_tipo_usuario"].'" class="btn btn-info view_data"/>  
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_tipo_usuario"].'" class="btn btn-warning edit_data" />
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_tipo_usuario"].'" class="btn btn-danger delete_data" />
+                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_categoria"].'" class="btn btn-info view_data"/>  
+                                    <input type="button" name="edit" value="Editar" id="'.$row["id_categoria"].'" class="btn btn-warning edit_data" />
+                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_categoria"].'" class="btn btn-danger delete_data" />
                            </td>
                           </tr>
                          ';
@@ -222,7 +222,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle TipoUsuario</h4>  
+                                                 <h4 class="modal-title">Detalle Categorias</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_detail">  
                                             </div>  
@@ -237,7 +237,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle TipoUsuario</h4>  
+                                                 <h4 class="modal-title">Detalle Categorias</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -283,7 +283,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar nueva TipoUsuario</h4>  
+                     <h4 class="modal-title">Agregar nueva Categorias</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -357,7 +357,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/modiTipoUsuario.php",  
+                     url:"../views/Categorias/modiCategoria.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -373,7 +373,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/selectTipoUsuario.php",  
+                     url:"../views/Categorias/selectCategoria.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -388,7 +388,7 @@ ga('send', 'pageview');
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/saveTipoUsuario.php",  
+                     url:"../views/Categorias/saveCategoria.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
@@ -405,7 +405,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/deleteTipoUsuario.php",  
+                     url:"../views/Categorias/deleteCategoria.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
