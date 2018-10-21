@@ -1,5 +1,5 @@
 <?php
-require_once "../class/Bodega.php";
+require_once "Bodega.php";
 
 							$codigo=$_POST["employee_id"];
 					     $misCategorias = new Bodega();

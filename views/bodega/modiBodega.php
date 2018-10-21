@@ -1,7 +1,7 @@
 <form role="form" action="../controllers/BodegaControlador.php?accion=modificar" method="post">
               <div class="box-body">
 <?php 
-require_once "../class/Bodegs.php";
+require_once "Bodega.php";
 
 
          

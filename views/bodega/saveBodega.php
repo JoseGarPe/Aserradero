@@ -1,9 +1,9 @@
-<form method="post" id="insert_form" action="../../controllers/BodegaControlador.php?accion=guardar">  
+<form method="post" id="insert_form" action="../controllers/BodegaControlador.php?accion=guardar">  
                           <label>Nombre</label>  
                           <input type="text" name="nombre" id="nombre" class="form-control" />  
                           <br />  
                           <label>Ubicacion</label>  
-                          <input type="text" name="nombre" id="nombre" class="form-control" />  
+                          <input type="text" name="ubicacion" id="Ubicacion" class="form-control" />  
                           <br />
                           <label>Descripcion</label>  
                           <textarea name="descripcion" id="descripcion" class="form-control"></textarea>  

@@ -1,8 +1,8 @@
 <?php 
-require_once "../config/conexion.php";
+require_once "../../config/conexion.php";
 class Bodega extends conexion
 {
-private $id_bodega;
+private $id_ubicacion;
 private $nombre;
 private $ubicacion;
 private $descripcion;
@@ -11,19 +11,19 @@ public function __construct()
 {
 	parent::__construct(); //Llamada al constructor de la clase padre conexion
 
-        $this->id_bodega= "";
+        $this->id_ubicacion= "";
         $this->nombre = "";
         $this->ubicacion = "";
         $this->descripcion = "";
 
 }
 
- 	public function getId_bodega() {
-        return $this->id_bodega;
+ 	public function getId_ubicacion() {
+        return $this->id_ubicacion;
     }
 
-    public function setId_bodega($id) {
-        $this->id_bodega = $id;
+    public function setId_ubicacion($id) {
+        $this->id_ubicacion = $id;
     }
     
     public function getNombre() {
@@ -67,7 +67,7 @@ function save()
 
      public function update()
     {
-        $query="UPDATE bodegas SET nombre='".$this->nombre."', ubicacion='".$this->ubicacion."', descripcion='".$this->descripcion."' WHERE id_bodega='".$this->id_bodega."'";
+        $query="UPDATE bodegas SET nombre='".$this->nombre."', ubicacion='".$this->ubicacion."', descripcion='".$this->descripcion."' WHERE id_bodega='".$this->id_ubicacion."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
@@ -77,7 +77,7 @@ function save()
     }
     public function delete()
     {
-       $query="DELETE FROM bodegas WHERE id_bodega='".$this->id_bodega."'"; 
+       $query="DELETE FROM bodegas WHERE id_bodega='".$this->id_ubicacion."'"; 
        $delete=$this->db->query($query);
        if ($delete == true) {
         return true;

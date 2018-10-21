@@ -1,7 +1,7 @@
 <form role="form" action="../controllers/BodegaControlador.php?accion=eliminar" method="POST">
               <div class="box-body">
 <?php 
-require_once "../class/Bodega.php";
+require_once "Bodega.php";
 
 
          
