@@ -1,7 +1,7 @@
-<form role="form" action="../controllers/TipoUsuarioControlador.php?accion=eliminar" method="POST">
+<form role="form" action="../../controllers/NavesControlador.php?accion=eliminar" method="POST">
               <div class="box-body">
 <?php 
-require_once "../class/TipoUsuario.php";
+require_once "../../class/Naves.php";
 
 
          
@@ -15,9 +15,7 @@ require_once "../class/TipoUsuario.php";
                          		echo '
 
                             <label>¿Desea eliminar '.$row['nombre'].'?</label>
-                          <input type="hidden" name="id" id="id" value="'.$row['id_nave'].'"/>  
-
-                        
+                          <input type="hidden" name="id" id="id" value="'.$row['id_nave'].'"/>            
                 
                 ';}
 
