@@ -1,18 +1,18 @@
-<form role="form" action="../controllers/TipoUsuarioControlador.php?accion=eliminar" method="POST">
+<form role="form" action="../controllers/NavesControlador.php?accion=eliminar" method="POST">
               <div class="box-body">
 <?php 
-require_once "../class/TipoUsuario.php";
+require_once "../class/Naves.php";
 
 
          
-							$codigo=$_POST["employee_id"];
-					     $nave = new Naves();
+              $codigo=$_POST["employee_id"];
+               $nave = new Naves();
                          $catego = $nave->selectOne($codigo);
                         
                            # code...
                          
                          foreach ((array)$catego as $row) {
-                         		echo '
+                            echo '
 
                             <label>¿Desea eliminar '.$row['nombre'].'?</label>
                           <input type="hidden" name="id" id="id" value="'.$row['id_nave'].'"/>  
