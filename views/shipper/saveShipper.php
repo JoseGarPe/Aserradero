@@ -1,6 +1,6 @@
 <form method="post" id="insert_form" action="../controllers/ShipperControlador.php?accion=guardar">  
                           <label>Nombre</label>  
-                          <input type="text" name="nombre" id="nombre" class="form-control" />  
+                          <input type="text" name="nombre" id="nombre" class="form-control" required="true" />  
                           <br />  
                           <label>Descripcion</label>  
                           <textarea name="descripcion" id="descripcion" class="form-control"></textarea>  

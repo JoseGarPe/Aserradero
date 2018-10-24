@@ -19,8 +19,8 @@ class Shipper extends conexion
 		return $this->id_shipper;
 	}
 
-	public function setId_shipper($idshipper){
-		$this->id_shipper= $id_shipper;
+	public function setId_shipper($idShipper){
+		$this->id_shipper= $idShipper;
 	}
 
 	public function getNombre(){

@@ -15,7 +15,7 @@ require_once "Shipper.php";
                          		echo '
 
                             <label>¿Desea eliminar '.$row['nombre'].'?</label>
-                          <input type="text" name="id" id="id" value="'.$row['id_shipper'].'"/>            
+                          <input type="hidden" name="id" id="id" value="'.$row['id_shipper'].'"/>            
                 
                 ';}
 
