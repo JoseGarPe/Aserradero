@@ -9,6 +9,12 @@
                            <li><a href="../listas/Permisos.php">Permisos</a></li>
                         </ul>
                       </li>
+                      <li><a><i class="fa fa-ship"></i> Ingresos <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="../listas/Categorias.php">Por Barco</a></li>
+                          <li><a href="../listas/Categorias.php">Material Procesado</a></li>                     
+                        </ul>
+                      </li>
                       <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
