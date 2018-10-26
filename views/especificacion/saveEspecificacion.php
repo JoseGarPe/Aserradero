@@ -1,4 +1,4 @@
-<form method="post" id="insert_form" action="../controllers/NavesControlador.php?accion=guardar">  
+<form method="post" id="insert_form" action="../controllers/EspecificacionControlador.php?accion=guardar">  
                           <label>Nombre</label>  
                           <input type="text" name="nombre" id="nombre" class="form-control" />  
                           <br />  

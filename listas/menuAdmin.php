@@ -14,7 +14,9 @@
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
-                           <li><a href="../listas/Shipper.php">Shipper</a></li>                          
+                           <li><a href="../listas/Shipper.php">Shipper</a></li>  
+                           <li><a href="../listas/Especificacion.php">Especificacion</a></li>
+                           <li><a href="../listas/Maquinas.php">Maquinas</a></li>                        
                         </ul>
                       </li>
                     
