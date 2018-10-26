@@ -372,7 +372,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/modiUsuario.php",  
+                     url:"../views/maquinas/modiMaquinas.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  

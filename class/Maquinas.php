@@ -52,7 +52,7 @@ class Maquina extends conexion
 
     public function save(){
 
-    	$query="INSERT INTO maquinas(id_maquina, nombre, descripcion,id_bodega) values(NULL,'".$this->nombre."','".$this->descripcion."','".$this->id_tipo_usuario."')";
+    	$query="INSERT INTO maquinas(id_maquina, nombre, descripcion,id_bodega) values(NULL,'".$this->nombre."','".$this->descripcion."','".$this->id_bodega."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;

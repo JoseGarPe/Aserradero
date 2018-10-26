@@ -25,10 +25,12 @@
                            <select class="form-control" name="id_Tipo" id="id_Tipo">
                           <?php 
 
+                          
+
                           require_once "../class/TipoUsuario.php";
 
-                          $misTipoUsuarios = new TipoUsuario();
-                         $catego = $misTipoUsuarios->selectALL();
+                          $mistipos = new TipoUsuario();
+                         $catego = $mistipos->selectALL();
                           foreach ((array)$catego as $row) {
 
                             echo "<option value='".$row['id_tipo_usuario']."'>".$row['nombre']."</option>";

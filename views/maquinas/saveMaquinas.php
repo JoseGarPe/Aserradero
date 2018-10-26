@@ -9,10 +9,10 @@
 
                            <label class="input-group-text" for="inputGroupSelect01">Bodega Ubicada</label>
                            <br />
-                           <select class="form-control" name="id_bodega" id="id_bodega">
+                           <select class="form-control" name="id_bodeg" id="id_bodeg">
                           <?php 
 
-                          require_once "../class/Bodega.php";
+                          require_once "Bodega.php";
 
                           $misBodegas = new Bodega();
                          $catego = $misBodegas->selectALL();
@@ -36,7 +36,7 @@
                          
                          
                           <span class="add-on"><i class="glyphicon glyphicon-plus"></i></span>
-                           <input type="submit" name="insert" id="insert"  value="Agregar Usuario" class="btn btn-success "/>
+                           <input type="submit" name="insert" id="insert"  value="Agregar Maquina" class="btn btn-success "/>
 
                          
                        

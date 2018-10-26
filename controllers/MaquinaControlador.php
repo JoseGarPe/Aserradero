@@ -48,11 +48,13 @@ elseif ($accion=="guardar")
 	$maqui->setId_bodega($id_bodega);
 	$save=$maqui->save();
 	if ($save==true) {
-		header('Location: ../listas/Maquina.php?success=correcto');
+		header('Location: ../listas/Maquinas.php?success=correcto');
 		# code...
 	}
 	else{
-		header('Location: ../listas/Maquina.php?error=incorrecto');
+		echo $id_bodega;
+		echo $nombre;
+		echo $descripcion;
 	}
 }
 
