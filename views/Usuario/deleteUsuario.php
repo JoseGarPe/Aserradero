@@ -1,7 +1,7 @@
 <form role="form" action="../controllers/UsuarioControlador.php?accion=eliminar" method="POST">
               <div class="box-body">
 <?php 
-require_once "../class/Usuario.php";
+require_once "Usuario.php";
 
 
          

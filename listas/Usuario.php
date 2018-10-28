@@ -374,7 +374,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/modiUsuario.php",  
+                     url:"../views/Usuario/modiUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -390,7 +390,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/selectUsuario.php",  
+                     url:"../views/Usuario/selectUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -406,7 +406,7 @@ ga('send', 'pageview');
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/saveUsuario.php",  
+                     url:"../views/Usuario/saveUsuario.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
@@ -423,7 +423,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/deleteUsuario.php",  
+                     url:"../views/Usuario/deleteUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  

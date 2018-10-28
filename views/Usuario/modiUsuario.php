@@ -1,7 +1,7 @@
 <form role="form" action="../controllers/UsuarioControlador.php?accion=modificar" method="post">
               <div class="box-body">
 <?php 
-require_once "../class/Usuario.php";
+require_once "Usuario.php";
 
 
          
@@ -54,7 +54,7 @@ require_once "../class/Usuario.php";
 
                           ';
 
-                           require_once "../class/TipoUsuario.php";
+                           require_once "TipoUsuario.php";
 
                           $misTipoUsuarios = new TipoUsuario();
                          $cat = $misTipoUsuarios->selectALL();

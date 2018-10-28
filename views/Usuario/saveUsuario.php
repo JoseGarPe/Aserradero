@@ -27,7 +27,7 @@
 
                           
 
-                          require_once "../class/TipoUsuario.php";
+                          require_once "TipoUsuario.php";
 
                           $mistipos = new TipoUsuario();
                          $catego = $mistipos->selectALL();

@@ -2491,7 +2491,11 @@ if (typeof NProgress != 'undefined') {
 				
 				var handleDataTableButtons = function() {
 				  if ($("#datatable-buttons").length) {
+				  	
 					$("#datatable-buttons").DataTable({
+
+				
+
 					  dom: "Blfrtip",
 					  buttons: [
 						{
@@ -2515,6 +2519,21 @@ if (typeof NProgress != 'undefined') {
 						  className: "btn-sm"
 						},
 					  ],
+
+
+
+					  	language: {
+        				url: "http://cdn.datatables.net/plug-ins/1.10.9/i18n/Spanish.json",         
+        					buttons: {
+        					    print: "Imprimir",
+        					    copy: "Copiar",
+        					    pdf: "PDF",
+        					    excel: "xlsx",
+        					    csv: "CSV"
+        					}
+    					},
+
+
 					  responsive: true
 					});
 				  }

@@ -1,8 +1,8 @@
 <?php
-require_once "../class/TipoUsuario.php";
+require_once "Usuario.php";
 
 							$codigo=$_POST["employee_id"];
-					     $misCategorias = new TipoUsuario();
+					     $misCategorias = new Usuario();
                          $catego = $misCategorias->selectOne($codigo);
                         
                            # code...
@@ -13,16 +13,15 @@ require_once "../class/TipoUsuario.php";
           				 <table class="table table-bordered">
                         <tr>
                          	<td> N°</td>
-                           <td>'.$row['id_tipo_usuario'].'</td>
+                           <td>'.$row['id_usuarios'].'</td>
                         </tr>
                         <tr>
                         <td>Nombre:</td>
-                        <td>'.$row['nombre'].'</td>
+                        <td>'.$row['nombre'].' '.$row['apellido'].'</td>
                         </tr>
                         <tr>
-                        	<td> descripcion: </td>
-                           <td>'.$row["descripcion"].'</td>
-                          <input type="hidden" name="id" id="id" value="'.$row['id_tipo_usuario'].'"/>  
+                        	<td> Tipo Usuaro: </td>
+                               <input type="hidden" name="id" id="id" value="'.$row['id_tipo_usuario'].'"/>  
                                                   
                         </tr>
                           </table>
