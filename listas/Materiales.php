@@ -180,7 +180,8 @@
                           <th>Dimenciones</th>
                           <th>Grosor</th>
                           <th>m<sup>2</sup></th>
-                          <th>Categoria</th>                         
+                          <th>Categoria</th> 
+                          <th>Opciones</th>                            
                         </tr>
                       </thead>
                       <tbody>
@@ -194,16 +195,17 @@
                          foreach ((array)$catego as $row) {
                          echo '
                           <tr>
-                           <td>'.$row['id_usuarios'].'</td>
+                           <td>'.$row['id_material'].'</td>
                            <td>'.$row['nombre']. '</td>
                            <td>'.$row['largo'].'m X ' .$row['ancho'].'m</td>
-                           <td>'.$row['Grosor'].'</td>
+                           <td>'.$row['grueso'].'</td>
+                           <td>'.$row['m_cuadrados'].'</td>
                            <td>'.$row['categoria'].'</td>
                            <td>
                           
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_usuarios"].'" class="btn btn-info view_data"/>  
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_usuarios"].'" class="btn btn-warning edit_data" />
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_usuarios"].'" class="btn btn-danger delete_data" />
+                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_material"].'" class="btn btn-info view_data"/>  
+                                    <input type="button" name="edit" value="Editar" id="'.$row["id_material"].'" class="btn btn-warning edit_data" />
+                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_material"].'" class="btn btn-danger delete_data" />
                            </td>
                           </tr>
                          ';
@@ -221,7 +223,7 @@
         
         
             </div>
-   <div id="dataModal1" class="modal fade">  
+ <div id="dataModal1" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
@@ -230,15 +232,18 @@
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
-                                           
+                                            <div class="modal-footer">  
+                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                            </div>  
                                        </div>  
-                                  </div>  
-  </div>  <div id="dataModal2" class="modal fade">  
+                                  </div>    
+</div>  
+ <div id="dataModal2" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalles Del Material</h4>  
+                                                 <h4 class="modal-title">Detalles Material</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -246,9 +251,9 @@
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
                                             </div>  
                                        </div>  
-                                  </div>  
-  </div>
-     <div id="dataModal3" class="modal fade">  
+                                  </div>    
+</div>  
+        <div id="dataModal3" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
@@ -371,12 +376,12 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Usuario/modiUsuario.php",  
+                     url:"../views/Materiales/modiMateriales.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
-                          $('#dataModal2').modal('show');  
+                          $('#dataModal1').modal('show');  
                      }  
                 });  
            }   
@@ -387,12 +392,12 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Usuario/selectUsuario.php",  
+                     url:"../views/Materiales/selectMateriales.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
-                          $('#dataModal2').modal('show');  
+                          $('#dataModal1').modal('show');  
                      }  
                 });  
            }            
@@ -420,7 +425,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Usuario/deleteUsuario.php",  
+                     url:"../views/Materiales/deleteMateriales.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  

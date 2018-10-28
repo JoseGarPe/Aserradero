@@ -1,9 +1,9 @@
 <?php
-require_once "Usuario.php";
+require_once "Materiales.php";
 
 							$codigo=$_POST["employee_id"];
-					     $misCategorias = new Usuario();
-                         $catego = $misCategorias->selectOneDet($codigo);
+					     $miMaterial = new Materiales();
+                         $catego = $miMaterial->selectOneDet($codigo);
                         
                            # code...
                          
@@ -13,19 +13,23 @@ require_once "Usuario.php";
           				 <table class="table table-bordered">
                         <tr>
                          	<td> N°</td>
-                           <td>'.$row['id_usuarios'].'</td>
+                           <td>'.$row['id_material'].'</td>
                         </tr>
                         <tr>
-                        <td>Nombre:</td>
-                        <td>'.$row['nombre'].' '.$row['apellido'].'</td>
+                        <td>Dimensiones:</td>
+                        <td>'.$row['nombre'].' </td>
                         </tr>
                         <tr>
-                        	<td> Tipo Usuaro: </td>
-                           <td>'.$row['tipo'].'</td>
+                        <td>Dimensiones:</td>
+                        <td>'.$row['largo'].' '.$row['ancho'].'</td>
                         </tr>
                         <tr>
-                          <td> Telefono: </td>
-                           <td>'.$row['telefono'].'</td>
+                        	<td> Grosor: </td>
+                           <td>'.$row['grueso'].'</td>
+                        </tr>
+                        <tr>
+                          <td> Categoria: </td>
+                           <td>'.$row['categoria'].'</td>
                         </tr>
                           </table>
                           </div>

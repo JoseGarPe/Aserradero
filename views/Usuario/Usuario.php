@@ -131,7 +131,13 @@ class Usuario extends conexion
        $ListUsuario=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListUsuario;
     }
-
+     public function selectOneDet($codigo)
+    {
+        $query="SELECT u.id_usuarios, u.nombre, u.apellido, u.correo, u.telefono, u.contrasena, t.nombre as tipo FROM usuarios u INNER JOIN tipo_usuario t ON u.id_tipo_usuario = t.id_tipo_usuario WHERE id_usuarios='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListUsuario=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListUsuario;
+    }
 
 
 }

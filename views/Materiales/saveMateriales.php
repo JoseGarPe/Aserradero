@@ -1,4 +1,4 @@
-<form method="post" id="insert_form" action="../controllers/UsuarioControlador.php?accion=guardar">
+<form method="post" id="insert_form" action="../controllers/MaterialesControlador.php?accion=guardar">
 
                           <label>Nombre</label>  
                           <input type="text" name="nombre" id="nombre" class="form-control" />  
@@ -10,7 +10,7 @@
                           <input type="number" min="0.00" step="0.01" name="ancho" id="ancho" class="form-control" /> 
                           <br /> 
                           <label>Grosor</label>  
-                          <input type="number" min="0.00" step="0.01" name="grosor" id="grosor" class="form-control" /> 
+                          <input type="number" min="0.00" step="0.01" name="grueso" id="grueso" class="form-control" /> 
                           <br />
                      
                           <label>Metro Cuadrado</label>  

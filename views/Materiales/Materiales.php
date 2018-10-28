@@ -1,5 +1,5 @@
 <?php 
-require_once "../config/conexion.php";
+require_once "../../config/conexion.php";
 
 class Materiales extends conexion
 {
@@ -87,7 +87,7 @@ class Materiales extends conexion
 
     public function save(){
 
-    	$query="INSERT INTO materiales(id_material, nombre, largo, ancho, grueso, m_cuadrados, id_categoria) values(NULL,'".$this->nombre."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->m_cuadrados."','".$this->id_categoria."')";
+    	$query="INSERT INTO materiales(id_material, nombre, largo, ancho, grueso, m_cuadrados, id_categoria) values(NULL,'".$this->nombre."','".$this->largo."','".$this->ancho."','".$this->m_cuadrados."','".$this->grueso."','".$this->id_categoria."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -97,7 +97,7 @@ class Materiales extends conexion
 
 
     }
- public function update(){
+    public function update(){
 
     	$query="UPDATE materiales SET nombre='".$this->nombre."', largo='".$this->largo."', ancho='".$this->ancho."', grueso='".$this->grueso."', m_cuadrados='".$this->m_cuadrados."', id_categoria='".$this->id_categoria."' WHERE id_material='".$this->id_materiales."'";
         $update=$this->db->query($query);
@@ -117,7 +117,8 @@ class Materiales extends conexion
         return false;
        }
 
-    }    public function selectALL(){
+    }
+    public function selectALL(){
     	$query="SELECT u.id_material, u.nombre, u.largo, u.ancho, u.grueso, u.m_cuadrados, t.nombre as categoria FROM materiales u INNER JOIN categorias t ON u.id_categoria = t.id_categoria";
     	$selectall=$this->db->query($query);
     	
@@ -131,12 +132,12 @@ class Materiales extends conexion
 
      public function selectOne($codigo)
     {
-        $query="SELECT * FROM materiales WHERE id_materiales='".$codigo."'";
+        $query="SELECT * FROM materiales WHERE id_material='".$codigo."'";
         $selectall=$this->db->query($query);
        $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listmateriales;
     }
-        public function selectOneDet($codigo)
+  public function selectOneDet($codigo)
     {
         $query="SELECT u.id_material, u.nombre, u.largo, u.ancho, u.grueso, u.m_cuadrados, t.nombre as categoria FROM materiales u INNER JOIN categorias t ON u.id_categoria = t.id_categoria WHERE id_material='".$codigo."'";
         $selectall=$this->db->query($query);

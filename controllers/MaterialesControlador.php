@@ -1,45 +1,45 @@
 <?php 
-require_once "../class/Usuario.php";
+require_once "../class/Materiales.php";
 
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
 
-	$id_Usuario=$_POST['id'];
+	$id_materiales=$_POST['id'];
 	$nombre=$_POST['nombre'];
 	$largo=$_POST['largo'];
 	$ancho=$_POST['ancho'];
-	$grosor=$_POST['grosor'];
+	$grueso=$_POST['grueso'];
 	$m_cuadrados=$_POST['m_cuadrados'];
-  	$id_TipoUsuario =$_POST['id_Tipo'];
+  	$id_categoria =$_POST['id_categoria'];
 
-	$Usuario = new Usuario();
-	$Usuario->setNombre($nombre);
-	$Usuario->setLargo($largo);
-	$Usuario->setAncho($ancho);
-	$Usuario->setGrosor($grosor);
-	$Usuario->setM_cuadrados($m_cuadrados);
-	$Usuario->setId_tipo_usuario($id_TipoUsuario);
-	$Usuario->setId_usuario($id_Usuario);
-	$update=$Usuario->update();
+	$Materiales = new Materiales();
+	$Materiales->setNombre($nombre);
+	$Materiales->setLargo($largo);
+	$Materiales->setAncho($ancho);
+	$Materiales->setGrueso($grueso);
+	$Materiales->setM_cuadrados($m_cuadrados);
+	$Materiales->setId_categoria($id_categoria);
+	$Materiales->setId_materiales($id_materiales);
+	$update=$Materiales->update();
 
 	if ($update==true) {
-		header('Location: ../listas/Usuario.php?success=correcto');
+		header('Location: ../listas/Materiales.php?success=correcto');
 		# code...
 	}else{
-		header('Location: ../listas/Usuario.php?error=incorrecto');
+		header('Location: ../listas/Materiales.php?error=incorrecto');
 	}
 
 }
 elseif ($accion=="eliminar") {
-	$id_Usuario =$_POST['id'];
-	$Usuario = new Usuario();
-	$Usuario->setId_usuario($id_Usuario);
-	$delete=$Usuario->delete();
+	$id_categoria =$_POST['id'];
+	$Materiales = new Materiales();
+	$Materiales->setId_materiales($id_material);
+	$delete=$Materiales->delete();
 	if ($delete==true) {
-		header('Location: ../listas/Usuario.php?success=correcto');
+		header('Location: ../listas/Materiales.php?success=correcto');
 		# code...
 	}else{
-		header('Location: ../listas/Usuario.php?error=incorrecto');
+		header('Location: ../listas/Materiales.php?error=incorrecto');
 	}
 }
 elseif ($accion=="guardar") 
@@ -47,24 +47,24 @@ elseif ($accion=="guardar")
 	$nombre=$_POST['nombre'];
 	$largo=$_POST['largo'];
 	$ancho=$_POST['ancho'];
-	$grosor=$_POST['grosor'];
+	$grueso=$_POST['grueso'];
 	$m_cuadrados=$_POST['m_cuadrados'];
-  	$id_TipoUsuario =$_POST['id_Tipo'];
+  	$id_categoria =$_POST['id_categoria'];
 
-	$Usuario = new Usuario();
-	$Usuario->setNombre($nombre);
-	$Usuario->setLargo($largo);
-	$Usuario->setAncho($ancho);
-	$Usuario->setGrosor($grosor);
-	$Usuario->setM_cuadrados($m_cuadrados);
-	$Usuario->setId_tipo_usuario($id_TipoUsuario);
-	$save=$Usuario->save();
+	$Materiales = new Materiales();
+	$Materiales->setNombre($nombre);
+	$Materiales->setLargo($largo);
+	$Materiales->setAncho($ancho);
+	$Materiales->setGrueso($grueso);
+	$Materiales->setM_cuadrados($m_cuadrados);
+	$Materiales->setId_categoria($id_categoria);
+	$save=$Materiales->save();
 	if ($save==true) {
-		header('Location: ../listas/Usuario.php?success=correcto');
+		header('Location: ../listas/Materiales.php?success=correcto');
 		# code...
 	}
 	else{
-		header('Location: ../listas/Usuario.php?error=incorrecto');
+		header('Location: ../listas/Materiales.php?error=incorrecto');
 	}
 }
 
