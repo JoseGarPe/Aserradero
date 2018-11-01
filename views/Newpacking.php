@@ -19,6 +19,7 @@
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- bootstrap-wysiwyg -->
     <link href="../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+    <link href="../vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
     <!-- Select2 -->
     <link href="../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
     <!-- Switchery -->
@@ -59,7 +60,7 @@
 
             <!-- sidebar menu -->
             <?php
-                 require_once "menuAdmin.php";
+                 require_once "../listas/menuAdmin.php";
                   ?>
             <!-- /sidebar menu -->
 
@@ -223,13 +224,13 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/PackingControlador.php?accion=guardar" method="post">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Numero de Factura<span class="required"></span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Numero de Factura<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="numfac" name="numfac"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -237,7 +238,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Codigo Embarque<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="codembarque" name="codembarque"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -245,31 +246,78 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Razon Social<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="razonsocial" name="razonsocial"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Mes<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" id="combomes" name="combomes">
+                          <option value="enero">Enero</option>
+                          <option value="febrero">Febrero</option>
+                          <option value="marzo">Marzo</option>
+                          <option value="abril">Abril</option>
+                          <option value="mayo">Mayo</option>
+                          <option value="junio">Junio</option>
+                          <option value="julio">Julio</option>
+                          <option value="agosto">Agosto</option>
+                          <option value="septiembre">Septiembre</option>
+                          <option value="octubre">Octubre</option>
+                          <option value="noviembre">Noviembre</option>
+                          <option value="diciembre">Diciembre</option>
+                          </select>
+                        </div>
+                      </div>
+
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Fecha<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <div class='input-group date' id='myDatepicker2'>
+                            <input type='text' class="form-control" name="fecha" id="fecha" />
+                            <span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
                         </div>
                       </div>
-
+                      
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Nave Entrante<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <select class="form-control" name="id_nave" id="id_nave">
+                          <?php 
+                          require_once "../class/Naves.php";
+                          $misNaves = new Naves();
+                         $catego = $misNaves->selectALL();
+                          foreach ((array)$catego as $row) {
+                            echo "<option value='".$row['id_nave']."'>".$row['nombre']."</option>";
+                          } 
+                          ?>
+                          </select>
                         </div>
                       </div>
+
+
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Shipper<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <select class="form-control" name="id_shipper" id="id_shipper">
+                          <?php 
+                          require_once "../class/Shipper.php";
+                          $misShippers = new Shipper();
+                         $catego = $misShippers->selectALL();
+                          foreach ((array)$catego as $row) {
+                            echo "<option value='".$row['id_shipper']."'>".$row['nombre']."</option>";
+                          } 
+                          ?>
+                          </select>
                         </div>
                       </div>
 
@@ -277,7 +325,16 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Especificacion<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <select class="form-control" name="id_especificacion" id="id_especificacion">
+                          <?php 
+                          require_once "../class/Especificacion.php";
+                          $misEsp = new Especificacion();
+                         $catego = $misEsp->selectALL();
+                          foreach ((array)$catego as $row) {
+                            echo "<option value='".$row['id_especificacion']."'>".$row['nombre']."</option>";
+                          } 
+                          ?>
+                          </select>
                         </div>
                       </div>
 
@@ -285,7 +342,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Total Contenedores<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="totconte" name="totconte"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -293,7 +350,15 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Contenedores Ingresados<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="conteingre" name="conteingre"  class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Packetes <span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="packetes" name="packetes"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -301,7 +366,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Packetes Fisicos<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="packfisicos" name="packfisicos"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -309,14 +374,21 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Observaciones<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <textarea id="observaciones" name="observaciones" class="form-control col-md-7 col-xs-12"></textarea>
                         </div>
                       </div>
 
-
-
-
-
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Estado<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" id="comboestado" name="comboestado">
+                          <option value="abierto">Abierto</option>
+                          <option value="pendiente">Pendiente</option>
+                          <option value="finalizado">Finalizado</option>
+                          </select>
+                        </div>
+                      </div>
 
 
                     
@@ -368,6 +440,8 @@
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-datetimepicker -->    
+    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
     <!-- bootstrap-wysiwyg -->
     <script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
     <script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
@@ -388,6 +462,37 @@
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <script>
+    $('#myDatepicker').datetimepicker();
+    
+    $('#myDatepicker2').datetimepicker({
+        format: 'YYYY.MM.DD'
+    });
+    
+    $('#myDatepicker3').datetimepicker({
+        format: 'hh:mm A'
+    });
+    
+    $('#myDatepicker4').datetimepicker({
+        ignoreReadonly: true,
+        allowInputToggle: true
+    });
+
+    $('#datetimepicker6').datetimepicker();
+    
+    $('#datetimepicker7').datetimepicker({
+        useCurrent: false
+    });
+    
+    $("#datetimepicker6").on("dp.change", function(e) {
+        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    });
+    
+    $("#datetimepicker7").on("dp.change", function(e) {
+        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    });
+</script>
 	
   </body>
 </html>
