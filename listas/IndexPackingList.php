@@ -212,8 +212,9 @@
                            <td>'.$row['estado'].'</td>
                            <td>
                           
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_packing_list"].'" class="btn btn-info view_data"/>  
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_packing_list"].'" class="btn btn-warning edit_data" />
+                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_packing_list"].'" class="btn btn-info view_data"/>
+                                    <input type="button" name="save" value="Agregar Contededores" id="'.$row["id_packing_list"].'" class="btn btn-warning save_data" />
+                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_packing_list"].'" class="btn btn-info view_data"/>
                                      <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />
                            </td>
                           </tr>
@@ -285,6 +286,21 @@
                                                  <h4 class="modal-title">Eliminar Packing</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
+                                            </div>  
+                                            <div class="modal-footer">  
+                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                            </div>  
+                                       </div>  
+                                  </div>  
+  </div>
+  <div id="dataModal5" class="modal fade">  
+                                  <div class="modal-dialog modal-md">  
+                                       <div class="modal-content">  
+                                            <div class="modal-header">  
+                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                                 <h4 class="modal-title">Contenedores</h4>  
+                                            </div>  
+                                            <div class="modal-body" id="employee_forms5">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -417,12 +433,12 @@ ga('send', 'pageview');
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/naves/saveNaves.php",  
+                     url:"../views/naves/saveConts.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
-                          $('#employee_forms3').html(data);  
-                          $('#dataModal3').modal('show');  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
                      }  
                 });  
            }            
