@@ -182,7 +182,7 @@
                           <th>Mes</th>  
                           <th>Fecha</th>
                           <th>Contenedores</th>
-                          <th>Recividos</th> 
+                          <th>Recibidos</th> 
                           <th>Shipper</th>
                           <th>Nave</th>
                           <th>Estado</th>
@@ -211,11 +211,18 @@
                            <td>'.$row['nav'].'</td>
                            <td>'.$row['estado'].'</td>
                            <td>
-                          
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_packing_list"].'" class="btn btn-info view_data"/>
-                                    <input type="button" name="save" value="Agregar Contededores" id="'.$row["id_packing_list"].'" class="btn btn-warning save_data" />
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_packing_list"].'" class="btn btn-info view_data"/>
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />
+                            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                                <ul class="nav navbar-nav">
+                                    <li> <input type="button" name="view" value="Ver Detalle" id="'.$row["id_packing_list"].'" class="btn btn-info view_data"/></li>
+                                    <li><input type="button" name="save" value="Agregar Contededores" id="'.$row["id_packing_list"].'" class="btn btn-warning save_data" /></li>
+                                   <li> <input type="button" name="view" value="Ver Detalle" id="'.$row["id_packing_list"].'" class="btn btn-info view_data"/></li>
+                                     <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
+                                </ul>
+                              </div>
+
+
+
+
                            </td>
                           </tr>
                          ';
@@ -294,7 +301,7 @@
                                   </div>  
   </div>
   <div id="dataModal5" class="modal fade">  
-                                  <div class="modal-dialog modal-md">  
+                                  <div class="modal-dialog modal-lg">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
@@ -429,13 +436,13 @@ ga('send', 'pageview');
       });  
 
         $(document).on('click', '.save_data', function(){  
-           var employee_action = $(this).attr("accion");  
-           if(employee_action != '')  
+           var employee_id = $(this).attr("id");  
+           if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/naves/saveConts.php",  
+                     url:"../views/saveConts.php",  
                      method:"POST",  
-                     data:{employee_action:employee_action},  
+                     data:{employee_id:employee_id},  
                      success:function(data){  
                           $('#employee_forms5').html(data);  
                           $('#dataModal5').modal('show');  

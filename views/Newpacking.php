@@ -345,7 +345,7 @@
                           <input type="text" id="totconte" name="totconte"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
-
+<!--
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Contenedores Ingresados<span class="required"></span>
                         </label>
@@ -353,7 +353,7 @@
                           <input type="text" id="conteingre" name="conteingre"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
-
+-->
                        <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Packetes <span class="required"></span>
                         </label>

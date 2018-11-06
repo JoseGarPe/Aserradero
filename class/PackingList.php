@@ -241,6 +241,18 @@ function save()
         $selectall=$this->db->query($query);
        $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPacking;
+    } 
+     public function updateIngresos()
+    {
+        $query="UPDATE packing_list SET 
+        contenedores_ingresados='".$this->contenedores_ingresados."'
+         WHERE id_packing_list='".$this->id_packing_list."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
     }
 
     

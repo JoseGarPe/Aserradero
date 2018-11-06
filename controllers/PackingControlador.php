@@ -31,10 +31,10 @@ if ($accion=="modificar") {
 	$shipper->setId_shipper($id_shipper);
 	$update=$shipper->update();
 	if ($update==true) {
-		header('Location: ../listas/Shipper.php?success=correcto');
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
 	}else{
-		header('Location: ../listas/Shipper.php?error=incorrecto');
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 
 }
@@ -44,10 +44,10 @@ elseif ($accion=="eliminar") {
 	$shipper->setId_shipper($id_shipper);
 	$delete=$shipper->delete();
 	if ($delete==true) {
-		header('Location: ../listas/Shipper.php?success=correcto');
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
 	}else{
-		header('Location: ../listas/Shipper.php?error=incorrecto');
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
 elseif ($accion=="guardar") 
@@ -58,7 +58,7 @@ elseif ($accion=="guardar")
 	$mes=$_POST['combomes'];
 	$fecha=$_POST['fecha'];
 	$total_contenedores=$_POST['totconte'];
-	$contenedores_ingresados=$_POST['conteingre'];
+	$contenedores_ingresados=0;
 	$paquetes=$_POST['packetes'];
 	$paquetes_fisicos=$_POST['packfisicos'];
 	$obervaciones=$_POST['observaciones'];
@@ -85,11 +85,11 @@ elseif ($accion=="guardar")
 	$Pack->setEstado($estado);
 	$save=$Pack->save();
 	if ($save==true) {
-		header('Location: ../listas/Usuario.php?success=correcto');
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
 	}
 	else{
-		header('Location: ../listas/Usuario.php?error=incorrecto');
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
 

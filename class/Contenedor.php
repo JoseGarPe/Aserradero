@@ -84,13 +84,13 @@ class Contenedores extends conexion
         return $this->id_packing_list;
     }
 
-    public function setId_packing_lista($id_packing_list) {
-        $this->id_packing_list = $id_packing_list
+    public function setId_packing_list($id_packing_list) {
+        $this->id_packing_list = $id_packing_list;
     }
 
     public function save(){
 
-    	$query="INSERT INTO contenedoress(id_contenedors, etiqueta, piezas, multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."','".$this->id_bodega."','".$this->id_packing_list."')";
+    	$query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas, multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."','".$this->id_bodega."','".$this->id_packing_list."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;

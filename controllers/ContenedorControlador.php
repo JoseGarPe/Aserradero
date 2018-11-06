@@ -1,5 +1,6 @@
 <?php 
-require_once "../class/Contenedores.php";
+require_once "../class/Contenedor.php";
+require_once "../class/PackingList.php";
 
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
@@ -13,7 +14,7 @@ if ($accion=="modificar") {
   	$id_bodega =$_POST['id_bodega'];
   	$id_packing_list =$_POST['id_packing_list'];
 
-	$Contenedor = new Contenedor();
+	$Contenedor = new Contenedores();
 	$Contenedor->setEtiqueta($etiqueta);
 	$Contenedor->setPiezas($piezas);
 	$Contenedor->setMultiplo($multiplo);
@@ -34,7 +35,7 @@ if ($accion=="modificar") {
 }
 elseif ($accion=="eliminar") {
 	$id_contenedor =$_POST['id'];
-	$Contenedor = new Contenedor();
+	$Contenedor = new Contenedores();
 	$Contenedor->setId_contenedor($id_contenedor);
 	$delete=$Contenedor->delete();
 	if ($delete==true) {
@@ -53,8 +54,14 @@ elseif ($accion=="guardar")
 	$tarimas=$_POST['tarimas'];
   	$id_bodega =$_POST['id_bodega'];
   	$id_packing_list =$_POST['id_packing_list'];
+  	$pl= new Packing();
+  	$listpl = $pl->selectOne($id_packing_list);
+  	foreach ($listpl as $key) {
+  		$cont_ingresados=$key['contenedores_ingresados'];
+  	}
+  	$new_con_ing=$cont_ingresados + 1;
 
-	$Contenedor = new Contenedor();
+	$Contenedor = new Contenedores();
 	$Contenedor->setEtiqueta($etiqueta);
 	$Contenedor->setPiezas($piezas);
 	$Contenedor->setMultiplo($multiplo);
@@ -64,11 +71,14 @@ elseif ($accion=="guardar")
 	$Contenedor->setId_packing_list($id_packing_list);
 	$save=$Contenedor->save();
 	if ($save==true) {
-		header('Location: ../listas/Contenedor.php?success=correcto');
+		$pl->setContenedores_ingresados($new_con_ing);
+		$pl->setId_packing_list($id_packing_list);
+		$update1=$pl->updateIngresos();
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
 	}
 	else{
-		header('Location: ../listas/Contenedor.php?error=incorrecto');
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
 
