@@ -8,6 +8,7 @@ if ($accion=="modificar") {
 	$id_contenedor=$_POST['id'];
 	$etiqueta=$_POST['etiqueta'];
 	$piezas=$_POST['piezas'];
+	$n_paquetes=$_POST['paquetes'];
 	$multiplo=$_POST['multiplo'];
 	$m_cuadrados=$_POST['m_cuadrados'];
 	$tarimas=$_POST['tarimas'];
@@ -17,6 +18,7 @@ if ($accion=="modificar") {
 	$Contenedor = new Contenedores();
 	$Contenedor->setEtiqueta($etiqueta);
 	$Contenedor->setPiezas($piezas);
+	$Contenedor->setN_paquetes($n_paquetes);
 	$Contenedor->setMultiplo($multiplo);
 	$Contenedor->setM_cuadrados($m_cuadrados);
 	$Contenedor->setTarimas($tarimas);
@@ -49,6 +51,7 @@ elseif ($accion=="guardar")
 {
 	$etiqueta=$_POST['etiqueta'];
 	$piezas=$_POST['piezas'];
+	$n_paquetes=$_POST['paquetes'];
 	$multiplo=$_POST['multiplo'];
 	$m_cuadrados=$_POST['m_cuadrados'];
 	$tarimas=$_POST['tarimas'];
@@ -64,6 +67,7 @@ elseif ($accion=="guardar")
 	$Contenedor = new Contenedores();
 	$Contenedor->setEtiqueta($etiqueta);
 	$Contenedor->setPiezas($piezas);
+	$Contenedor->setN_paquetes($n_paquetes);
 	$Contenedor->setMultiplo($multiplo);
 	$Contenedor->setM_cuadrados($m_cuadrados);
 	$Contenedor->setTarimas($tarimas);

@@ -35,7 +35,7 @@
             <div class="col-md-3 left_col">
               <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                  <a href="../indexAdmin.php" class="site_title"><i class="fa fa-paw"></i> <span>Rio Blanco</span></a>
+                  <a href="../indexAdmin.php" class="site_title"><i class="fa fa-paw"></i> <span>Hermes</span></a>
                 </div>
     
                 <div class="clearfix"></div>
@@ -103,7 +103,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Packing List - Por Barco</h2>
+                    <h2>Pagina de Usuarios</h2>
 
 
                     
@@ -165,11 +165,10 @@
                 }
             }
              ?></div>
-
-
                   <div class="x_content">
-                    <a href="../views/Newpacking.php" class="btn btn-primary" role="button">Nueva Orden</a>
-                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO--> 
+                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
+
+                   <input type="button" name="accion" value="Nuevo Usuario" id="accion" class="btn btn-success save_data" /> 
                     <br>
                     <br>
                     <div id="employee_table">
@@ -177,52 +176,33 @@
                       <thead>
                         <tr>
                           <th>N° </th>
-                          <th>Factura</th>
-                          <th>Codigo Embarque</th>
-                          <th>Mes</th>  
-                          <th>Fecha</th>
-                          <th>Contenedores</th>
-                          <th>Recibidos</th> 
-                          <th>Shipper</th>
-                          <th>Nave</th>
+                          <th>Componente</th>
+                          <th>Cantidad</th>
                           <th>Estado</th>
-                          <th>Opiones</th>                         
+                          <th>Opiones</th>                          
                         </tr>
                       </thead>
                       <tbody>
                         <?php 
-                         require_once "../class/PackingList.php";
-                         $misPacks = new Packing();
-                         $todos = $misPacks->selectALL();
+                         require_once "../class/Usuario.php";
+                         $misUsuarios = new Usuario();
+                         $catego = $misUsuarios->selectALL();
                         
                            # code...
                          
-                         foreach ((array)$todos as $row) {
+                         foreach ((array)$catego as $row) {
                          echo '
                           <tr>
-                          <td>'.$row['id_packing_list'].'</td>
-                           <td>'.$row['numero_factura'].'</td>
-                           <td>'.$row['codigo_embarque'].'</td>
-                           <td>'.$row['mes'].'</td>
-                           <td>'.$row['fecha'].'</td>
-                           <td>'.$row['total_contenedores'].'</td>
-                           <td>'.$row['contenedores_ingresados'].'</td>
-                           <td>'.$row['ship'].'</td>
-                           <td>'.$row['nav'].'</td>
-                           <td>'.$row['estado'].'</td>
+                           <td>'.$row['id_usuarios'].'</td>
+                           <td>'.$row['nombre']. ' ' .$row['apellido'].'</td>
+                           <td>'.$row['correo'].'</td>
+                           <td>'.$row['telefono'].'</td>
+                           <td>'.$row['tipo'].'</td>
                            <td>
-                            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                                <ul class="nav navbar-nav">
-                                    
-                                    <li><input type="button" name="save" value="Contededores" id="'.$row["id_packing_list"].'" class="btn btn-warning save_data" /></li>
-                                  
-                                     <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
-                                </ul>
-                              </div>
-
-
-
-
+                          
+                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_usuarios"].'" class="btn btn-info view_data"/>  
+                                    <input type="button" name="edit" value="Editar" id="'.$row["id_usuarios"].'" class="btn btn-warning edit_data" />
+                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_usuarios"].'" class="btn btn-danger delete_data" />
                            </td>
                           </tr>
                          ';
@@ -240,12 +220,12 @@
         
         
             </div>
- <div id="dataModal" class="modal fade">  
+ <div id="dataModal1" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
+                                                 <h4 class="modal-title">Editar Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_detail">  
                                             </div>  
@@ -260,7 +240,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
+                                                 <h4 class="modal-title">Detalle Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -275,7 +255,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Orden</h4>  
+                                                 <h4 class="modal-title">Agregar Solicitud</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -290,24 +270,9 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Packing</h4>  
+                                                 <h4 class="modal-title">Eliminar Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>  
-  </div>
-  <div id="dataModal5" class="modal fade">  
-                                  <div class="modal-dialog modal-lg">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Contenedores</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_forms5">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -321,7 +286,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nueva Orden</h4>  
+                     <h4 class="modal-title">Agregar Nuevo Usuario</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -408,7 +373,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/naves/modiNaves.php",  
+                     url:"../views/Usuario/modiUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -424,7 +389,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/selectUsuario.php",  
+                     url:"../views/Usuario/selectUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -436,16 +401,16 @@ ga('send', 'pageview');
       });  
 
         $(document).on('click', '.save_data', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
+           var employee_action = $(this).attr("accion");  
+           if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/saveConts.php",  
+                     url:"../views/proceso/saveProceso.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id},  
+                     data:{employee_action:employee_action},  
                      success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
+                          $('#employee_forms3').html(data);  
+                          $('#dataModal3').modal('show');  
                      }  
                 });  
            }            
@@ -457,7 +422,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/naves/deleteNave.php",  
+                     url:"../views/Usuario/deleteUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  

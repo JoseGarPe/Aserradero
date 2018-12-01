@@ -6,6 +6,7 @@ class Contenedores extends conexion
 	private $id_contenedor;
 	private $etiqueta;
 	private $piezas;
+    private $n_paquetes;
 	private $multiplo;
 	private $m_cuadrados;
 	private $tarimas;
@@ -19,6 +20,7 @@ class Contenedores extends conexion
 		$this->id_contenedor ="";
 		$this->etiqueta ="";
 		$this->piezas ="";
+        $this->n_paquetes ="";
 		$this->multiplo ="";
 		$this->m_cuadrados ="";
 		$this->tarimas ="";
@@ -49,6 +51,13 @@ class Contenedores extends conexion
 	public function setPiezas($piezas){
 		$this->piezas= $piezas;
 	}
+    public function getN_paquetes(){
+        return $this->n_paquetes;
+    }
+
+    public function setN_paquetes($npack){
+        $this->n_paquetes= $npack;
+    }
 
 	public function getMultiplo(){
 		return $this->multiplo;
@@ -90,7 +99,7 @@ class Contenedores extends conexion
 
     public function save(){
 
-    	$query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas, multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."','".$this->id_bodega."','".$this->id_packing_list."')";
+    	$query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas,n_paquetes,multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->n_paquetes."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."','".$this->id_bodega."','".$this->id_packing_list."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -102,7 +111,7 @@ class Contenedores extends conexion
     }
     public function update(){
 
-    	$query="UPDATE contenedoress SET etiqueta='".$this->etiqueta."', piezas='".$this->piezas."', multiplo='".$this->multiplo."', m_cuadrados='".$this->m_cuadrados."', tarimas='".$this->tarimas."', id_bodega='".$this->id_bodega."', id_packing_list='".$this->id_packing_list."' WHERE id_contenedor='".$this->id_contenedor."'";
+    	$query="UPDATE contenedoress SET etiqueta='".$this->etiqueta."', piezas='".$this->piezas."',n_paquetes='".$this->n_paquetes."', multiplo='".$this->multiplo."', m_cuadrados='".$this->m_cuadrados."', tarimas='".$this->tarimas."', id_bodega='".$this->id_bodega."', id_packing_list='".$this->id_packing_list."' WHERE id_contenedor='".$this->id_contenedor."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;

@@ -131,7 +131,14 @@ class Materiales extends conexion
 
      public function selectOne($codigo)
     {
-        $query="SELECT * FROM materiales WHERE id_materiales='".$codigo."'";
+        $query="SELECT * FROM materiales WHERE id_material='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listmateriales;
+    }
+     public function selectALL1($codigo)
+    {
+        $query="SELECT * FROM materiales";
         $selectall=$this->db->query($query);
        $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listmateriales;
