@@ -12,6 +12,9 @@ class Contenedores extends conexion
 	private $tarimas;
 	private $id_bodega;
 	private $id_packing_list;
+    private $id_material;
+    private $bodega_pendiente;
+    private $estado;
 
 	function __construct()
 	{
@@ -26,6 +29,10 @@ class Contenedores extends conexion
 		$this->tarimas ="";
 		$this->id_bodega ="";
 		$this->id_packing_list ="";
+        $this->n_paquetes ="";
+        $this->id_material ="";
+        $this->bodega_pendiente ="";
+        $this->estado ="";
 	}
 
 	public function getId_contenedor(){
@@ -96,10 +103,31 @@ class Contenedores extends conexion
     public function setId_packing_list($id_packing_list) {
         $this->id_packing_list = $id_packing_list;
     }
+    public function getId_material() {
+        return $this->id_material;
+    }
+
+    public function setId_material($id_material) {
+        $this->id_material = $id_material;
+    }
+    public function getBodega_pendiente() {
+        return $this->bodega_pendiente;
+    }
+
+    public function setBodega_pendiente($bodega_pendiente) {
+        $this->bodega_pendiente = $bodega_pendiente;
+    }
+    public function getEstado() {
+        return $this->estado;
+    }
+
+    public function setEstado($estado) {
+        $this->estado = $estado;
+    }
 
     public function save(){
 
-    	$query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas,n_paquetes,multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->n_paquetes."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."','".$this->id_bodega."','".$this->id_packing_list."')";
+    	$query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas,multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list,n_paquetes,id_material,bodega_pendiente,estado) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."','NULL','".$this->id_packing_list."','".$this->n_paquetes."','".$this->id_material."','".$this->id_bodega."','".$this->estado."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -111,7 +139,7 @@ class Contenedores extends conexion
     }
     public function update(){
 
-    	$query="UPDATE contenedoress SET etiqueta='".$this->etiqueta."', piezas='".$this->piezas."',n_paquetes='".$this->n_paquetes."', multiplo='".$this->multiplo."', m_cuadrados='".$this->m_cuadrados."', tarimas='".$this->tarimas."', id_bodega='".$this->id_bodega."', id_packing_list='".$this->id_packing_list."' WHERE id_contenedor='".$this->id_contenedor."'";
+    	$query="UPDATE contenedores SET etiqueta='".$this->etiqueta."', piezas='".$this->piezas."', multiplo='".$this->multiplo."', m_cuadrados='".$this->m_cuadrados."', tarimas='".$this->tarimas."', id_packing_list='".$this->id_packing_list."', n_paquetes='".$this->n_paquetes."', id_material='".$this->id_material."', bodega_pendiente='".$this->id_bodega."' WHERE id_contenedor='".$this->id_contenedor."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
@@ -121,7 +149,7 @@ class Contenedores extends conexion
 
     }
     public function delete(){
-    	$query="DELETE FROM Contenedoress WHERE id_contenedors='".$this->id_contenedor."'"; 
+    	$query="DELETE FROM contenedores WHERE id_contenedors='".$this->id_contenedor."'"; 
        $delete=$this->db->query($query);
        if ($delete == true) {
         return true;

@@ -57,6 +57,9 @@ elseif ($accion=="guardar")
 	$tarimas=$_POST['tarimas'];
   	$id_bodega =$_POST['id_bodega'];
   	$id_packing_list =$_POST['id_packing_list'];
+
+  	$id_material =$_POST['id_materiales'];
+  	$n_paquetes =$_POST['n_paquetes'];
   	$pl= new Packing();
   	$listpl = $pl->selectOne($id_packing_list);
   	foreach ($listpl as $key) {
@@ -71,8 +74,11 @@ elseif ($accion=="guardar")
 	$Contenedor->setMultiplo($multiplo);
 	$Contenedor->setM_cuadrados($m_cuadrados);
 	$Contenedor->setTarimas($tarimas);
-	$Contenedor->setId_bodega($id_bodega);
+	$Contenedor->setBodega_pendiente($id_bodega);
 	$Contenedor->setId_packing_list($id_packing_list);
+	$Contenedor->setN_paquetes($n_paquetes);
+	$Contenedor->setId_material($id_material);
+	$Contenedor->setEstado("Sin Confirmar");
 	$save=$Contenedor->save();
 	if ($save==true) {
 		$pl->setContenedores_ingresados($new_con_ing);
