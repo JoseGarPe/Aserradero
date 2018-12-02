@@ -127,7 +127,7 @@ class Contenedores extends conexion
 
     public function save(){
 
-    	$query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas,multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list,n_paquetes,id_material,bodega_pendiente,estado) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."','NULL','".$this->id_packing_list."','".$this->n_paquetes."','".$this->id_material."','".$this->id_bodega."','".$this->estado."')";
+    	$query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas,multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list,n_paquetes,id_material,bodega_pendiente,estado) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."',NULL,'".$this->id_packing_list."','".$this->n_paquetes."','".$this->id_material."','".$this->id_bodega."','".$this->estado."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -179,7 +179,7 @@ class Contenedores extends conexion
     }
      public function selectALLpack($codigo)
     {
-        $query="SELECT * FROM contenedores WHERE id_packing_list='".$codigo."'";
+        $query="SELECT con.*, m.nombre as material FROM contenedores con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_packing_list='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListContenedores;

@@ -3,12 +3,14 @@
          		<thead>
                         <tr>
                           <th>Id</th>
+                          <th>Material</th>
                           <th>Etiqueta</th>
                           <th width="95">Piezas</th> 
                           <th width="95">Paquetes</th>  
                           <th width="95">m cuadrados</th> 
                           <th width="95">Tarimas</th>
-                          <th>Bodega</th>                              
+                          <th>Bodega</th>
+                          <th>Estado</th>                                
                         </tr>
           		</thead>
           		<tbody>
@@ -19,16 +21,33 @@
                          $contacto = $ms->selectALLpack($codigo);
                          foreach ($contacto as $row) {
                          	echo '<tr>
-                          <td><input type="hidden" name="id_contenedor1[]" id="id_contenedor1[]" value="'.$row['id_contenedor'].'"/>'.$row['id_contenedor'].'</td>
-                           <td><input type="text" id="etiqueta1[]" name="etiqueta" value="'.$row['etiqueta'].'"  class="form-control col-md-7"></td>
-                           <td><input type="number" min="0.00" step="0.01" id="piezas[]" name="piezas1[]" value="'.$row['piezas'].'"  class="form-control col-md-7"></td>
-                           <td> <input type="number" min="0.00" step="0.01" id="n_paquetes[]" name="n_paquetes[]" value="'.$row['n_paquetes'].'"  class="form-control col-md-7"></td>
-                           <td><input type="number" min="0.00" step="0.01" id="m_cuadrados1[]" name="m_cuadrados1[]" value="'.$row['m_cuadrados'].'" class="form-control col-md-4 "></td>
-                           <td><input type="number" min="0.00" step="1" id="tarimas1[]" name="tarimas1[]" value="'.$row['tarimas'].'" class="form-control col-md-4"></td>
-                           <td><select class="form-control col-md-7 col-xs-12" name="id_bodega1[]" id="id_bodega1[]">';
-
-
+                          <td>'.$row['id_contenedor'].'</td>
+                           <td>'.$row['material'].'</td>
+                           <td>'.$row['etiqueta'].'</td>
+                           <td>'.$row['piezas'].'</td>
+                           <td>'.$row['n_paquetes'].'</td>
+                           <td>'.$row['m_cuadrados'].'</td>
+                           <td>'.$row['tarimas'].'</td>
+                          ';
                           require_once "../class/Bodega.php";
+                              $mistipos1 = new Bodega();
+                              if ($row['id_bodega']==NULL) {
+                                 $catego1 = $mistipos1->selectOne($row['bodega_pendiente']);
+                          foreach ((array)$catego1 as $key) {
+                            echo' <td>'.$key['nombre'].'</td>';
+                              }
+                          }
+                          else{
+                             $catego1 = $mistipos1->selectOne($row['id_bodega']);
+                          foreach ((array)$catego1 as $key) {
+                            echo' <td>'.$key['nombre'].'</td>';
+                              }
+
+                          }
+
+
+                     /* echo'<select class="form-control col-md-7 col-xs-12" name="id_bodega1[]" id="id_bodega1[]">';     
+                      require_once "../class/Bodega.php";
 
                           $mistipos1 = new Bodega();
                          $catego1 = $mistipos1->selectALL();
@@ -42,11 +61,12 @@
                             echo "<option value='".$key['id_bodega']."'>".$key['nombre']."</option>";
                              }
 
-                          } 
+                          }
+                          echo'</select> </td>'; 
+                          */
                               
 
-                           echo'</select></td>
-                          
+                           echo' <td>'.$row['estado'].'</td>
                           </tr>';
                          }
     	     
