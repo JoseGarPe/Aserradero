@@ -49,6 +49,8 @@ require_once "Bodega.php";
                         <tr>
                           <td>Numero de Piezas</td>
                            <td>'.$row['piezas'].'</td>
+                           <input type="hidden" name="piezas" id="piezas" value="'.$row['piezas'].'"/>
+                           <input type="hidden" name="material" id="material" value="'.$row['id_material'].'"/>
                         </tr>
                         <tr>
                           <td>Numero de Paquetes</td>

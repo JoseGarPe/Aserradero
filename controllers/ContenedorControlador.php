@@ -1,6 +1,7 @@
 <?php 
 require_once "../class/Contenedor.php";
 require_once "../class/PackingList.php";
+require_once "../class/DetalleBodega.php";
 
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
@@ -94,12 +95,20 @@ elseif ($accion=="confirmar") {
 	$id_bodega =$_POST['id_bodega'];
 	$estado =$_POST['estado'];
 	$pl =$_POST['pl'];
+	$piezas=$_POST['piezas'];
+	$id_material=$_POST['material'];
 	$Contenedor = new Contenedores();
 	$Contenedor->setId_contenedor($id_contenedor);
 	$Contenedor->setId_bodega($id_bodega);
 	$Contenedor->setEstado($estado);
 	$delete=$Contenedor->confirm();
 	if ($delete==true) {
+
+		$detalle_bo= new DetalleBodega();
+		$detalle_bo->setId_bodega($id_bodega);
+		$detalle_bo->setId_material($id_material);
+		$detalle_bo->setCantidad($piezas);
+		$save1=$detalle_bo->save();
 		header('Location: ../listas/contenedores.php?success=correcto&id='.$pl.'');
 		# code...
 	}else{
