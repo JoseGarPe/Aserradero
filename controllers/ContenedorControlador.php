@@ -89,5 +89,22 @@ elseif ($accion=="guardar")
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
+elseif ($accion=="confirmar") {
+	$id_contenedor =$_POST['id'];
+	$id_bodega =$_POST['id_bodega'];
+	$estado =$_POST['estado'];
+	$pl =$_POST['pl'];
+	$Contenedor = new Contenedores();
+	$Contenedor->setId_contenedor($id_contenedor);
+	$Contenedor->setId_bodega($id_bodega);
+	$Contenedor->setEstado($estado);
+	$delete=$Contenedor->confirm();
+	if ($delete==true) {
+		header('Location: ../listas/contenedores.php?success=correcto&id='.$pl.'');
+		# code...
+	}else{
+		header('Location: ../listas/Contenedor.php?error=incorrecto&id='.$pl.'&id='.$id_contenedor.'&id='.$id_bodega.'&id='.$estado.'');
+	}
+}
 
  ?>

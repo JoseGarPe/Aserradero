@@ -2,9 +2,9 @@
               <div class="box-body">
                <label>Detalle de contenedor</label>
 <?php 
-require_once "../class/Contenedor.php";
-require_once "../class/Materiales.php";
-require_once "../class/Bodega.php";
+require_once "Contenedor.php";
+require_once "Materiales.php";
+require_once "Bodega.php";
 
 
          
@@ -92,6 +92,6 @@ require_once "../class/Bodega.php";
       </div>
               <div class="box-footer">
                 <input type="submit" class="btn btn-primary" name="submit" value="Confirmar" >
-                <input type="button" class="btn btn-danger" onClick="location.href = '../listas/contedores.php'" name="cancel" value="Cancelar" >
+                <input type="button" class="btn btn-danger" onClick="location.href = '../listas/Naves.php'" name="cancel" value="Cancelar" >
               </div>
             </form>

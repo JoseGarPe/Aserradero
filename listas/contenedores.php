@@ -223,12 +223,25 @@
                               }
 
                           }
-                            echo' <td>'.$row['estado'].'</td>
+                            echo' <td>'.$row['estado'].'</td>';
+                            if ($row['estado']== 'Sin Confirmar') {
+                             echo'
                             <td>
-                                <input type="button" name="confirm" value="Confirmar" id="'.$row["id_contenedor"].'" class="btn btn-info confirm_data"/>  
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_contenedor"].'" class="btn btn-warning edit_data" />
+                                <input type="button" name="confirm" value="Confirmar" id="'.$row["id_contenedor"].'" pl="'.$row["id_packing_list"].'" class="btn btn-info confirm_data"/>  
+                                   
                                      <input type="button" name="delete" value="Eliminar" id="'.$row["id_contenedor"].'" class="btn btn-danger delete_data" />
-                            </td>
+                            </td>';
+                            }else{
+                               echo'
+                            <td>  
+                                   
+                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_contenedor"].'" class="btn btn-danger delete_data" />
+                            </td>';
+
+                            }
+
+                            
+                            echo'
                           </tr>';
                          }
            
@@ -397,7 +410,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/listPacking.php",  
+                     url:"../views/contenedor/listPacking.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -410,12 +423,13 @@ ga('send', 'pageview');
      
       $(document).on('click', '.confirm_data', function(){  
            var employee_id = $(this).attr("id");  
+           var employee_pl = $(this).attr("pl");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/confirmContenedor.php",  
+                     url:"../views/contenedor/confirmContenedor.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id},  
+                     data:{employee_id:employee_id,employee_pl:employee_pl},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
                           $('#dataModal2').modal('show');  
@@ -442,11 +456,11 @@ ga('send', 'pageview');
 
 
       $(document).on('click', '.delete_data', function(){  
-          var employee_id = $(this).attr("id");  
+          var employee_id = $(this).attr("id");
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Materiales/deleteMateriales.php",  
+                     url:"../views/contenedor/deleteContenedor.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  

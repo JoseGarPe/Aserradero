@@ -440,7 +440,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/saveConts.php",  
+                     url:"../views/contenedor/saveConts.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
