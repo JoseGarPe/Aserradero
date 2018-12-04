@@ -186,7 +186,7 @@
            
                    ?>
                     <div id="employee_table">
-                    <table id="datatable-buttons2" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                        <tr>
                           <th>Id</th>
@@ -230,7 +230,7 @@
             </div>
  <div id="dataModal1" class="modal fade">  
                                   <div class="modal-dialog">  
-                                       <div class="modal-content">  
+                                       <div class="modal-content modal-md">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
                                                  <h4 class="modal-title">Bodegas</h4>  

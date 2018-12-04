@@ -15,7 +15,8 @@
                           <th>Fecha</th> 
                           <th>Shipper</th>
                           <th>Nave</th>
-                          <th>Estado</th>                      
+                          <th>Estado</th>
+                          <th>Seleccionar</th>                        
                         </tr>
                       </thead>
                       <tbody class="buscar">
