@@ -33,12 +33,11 @@
                          $catego = $mistipos->selectALL();
                           foreach ((array)$catego as $row) {
 
-                            echo "<option value='".$row['id_tipo_usuario']."'>".$row['nombre']."</option>";
+                            echo "<option value='".$row['id_tipo_usua']."'>".$row['nombre']."</option>";
 
                           } 
 
-                    
-                          ?>
+ ?>
                           </select>
 
 

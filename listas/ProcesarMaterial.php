@@ -168,7 +168,7 @@
                   <div class="x_content">
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-                   <input type="button" name="accion" value="Nuevo Usuario" id="accion" class="btn btn-success save_data" /> 
+                   <input type="button" name="accion" value="Procesar" id="accion" class="btn btn-success save_data" /> 
                     <br>
                     <br>
                     <div id="employee_table">
@@ -318,6 +318,7 @@
     <script src="../vendors/nprogress/nprogress.js"></script>
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
+    <script src="../vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
     <!-- Datatables -->
     <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -405,7 +406,7 @@ ga('send', 'pageview');
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/proceso/saveProceso.php",  
+                     url:"../views/procesar/saveProceso.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
