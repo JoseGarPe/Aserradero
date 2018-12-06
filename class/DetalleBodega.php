@@ -136,6 +136,32 @@ public function save()
         return $Listdetalle_bodega;
     }
 
+       public function selectALLPRO($codigo)
+    {
+        $query="SELECT db.*, b.nombre as bodega,m.nombre as material,m.largo,m.ancho,m.grueso,m.id_categoria,c.nombre as categoria FROM detalle_bodega db INNER JOIN bodegas b ON b.id_bodega = db.id_bodega INNER JOIN materiales m ON m.id_material = db.id_material INNER JOIN categorias c ON c.id_categoria = m.id_categoria WHERE db.id_bodega='".$codigo."' AND c.nombre='Procesado'";
+        $selectall=$this->db->query($query);
+        $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listdetalle_bodega;
+    }
+
+     public function updateC()
+    {
+        $query="UPDATE detalle_bodega SET cantidad='".$this->cantidad."' WHERE id_bodega='".$this->id_bodega."' AND id_material='".$this->id_material."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+    }
+         public function selectALL_BO($codigo)
+    {
+        $query="SELECT * FROM detalle_bodega WHERE id_bodega='".$codigo."'";
+        $selectall=$this->db->query($query);
+        $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listdetalle_bodega;
+    }
+
 
 }
 

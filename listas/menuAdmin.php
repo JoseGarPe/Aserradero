@@ -23,7 +23,8 @@
                       </li>
                       <li><a><i class=" fa fa-cube"></i> Procesar Materiales <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="../listas/ProcesarMaterial.php">Procesar</a></li>                  
+                          <li><a href="../listas/ProcesarMaterial.php">Procesar Materiales</a></li>  
+                          <li><a href="../listas/DetalleMaterialProcesado.php">Confirmar Material Procesado</a></li>                 
                         </ul>
                       </li>
                       

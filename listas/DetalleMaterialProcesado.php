@@ -103,7 +103,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de Material Procesado</h2>
+                    <h2>Pagina de Contenedores</h2>
 
 
                     
@@ -168,12 +168,25 @@
                   <div class="x_content">
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-                   <input type="button" name="accion" value="Procesar" id="accion" class="btn btn-success save_data" /> 
+
+                   <input type="button" name="accion" value="Bodega Destino" id="accion" class="btn btn-primary view_data1" /> 
+               <?php 
+
+                          if (isset($_GET["id"]) && isset($_GET["nombre"])) {
+                        $codigo=$_GET["id"];
+                        $nombre=$_GET["nombre"];
+                        echo '<label><h2>Bodega: '.$nombre.'</h2></label>';
+                          }else{
+                            $codigo=0;
+                            $nombre="Selecciones un Bodega";
+                          }
+           
+                   ?>
                     <br>
                     <br>
                     <div id="employee_table">
                     <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
-                      <thead>
+                       <thead>
                         <tr>
                           <th>N° </th>
                           <th>Componente</th>
@@ -190,7 +203,7 @@
                           require_once "../class/Materiales.php";
                            require_once "../class/Bodega.php";
                          $misUsuarios = new DetalleProcesado();
-                         $catego = $misUsuarios->selectALL();
+                         $catego = $misUsuarios->selectALL_BO($codigo);
                          
                          foreach ((array)$catego as $row) {
                          echo '
@@ -212,15 +225,25 @@
                           foreach ($bodga as $value) {
                              echo ' <td>'.$value['nombre']. '</td>';
                            }
-                           echo'
+                           if ($row['estado']=="Sin Confirmar") {
+                              echo'
                            <td>
-                          
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_detalle_procesado"].'" class="btn btn-info view_data"/>  
+                             <input type="button" name="view" value="Confirmar" id="'.$row["id_detalle_procesado"].'" pl="'.$row["id_bodega"].'" nombre="'.$nombre.'" class="btn btn-info confirm_data"/>  
                                    
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_detalle_procesado"].'" class="btn btn-danger delete_data" />
                            </td>
                           </tr>
                          ';
+                           }else{
+                             echo'
+                           <td>
+                              
+                                   
+                           </td>
+                          </tr>
+                         ';
+
+                           }
+                          
                        }
                      
                      
@@ -237,25 +260,25 @@
             </div>
  <div id="dataModal1" class="modal fade">  
                                   <div class="modal-dialog">  
-                                       <div class="modal-content">  
+                                       <div class="modal-content modal-lg">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Editar Usuario</h4>  
+                                                 <h4 class="modal-title">Ingresos por Barcos</h4>  
                                             </div>  
-                                            <div class="modal-body" id="employee_detail">  
+                                            <div class="modal-body" id="employee_forms1">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
                                             </div>  
                                        </div>  
-                                  </div>  
-  </div>  
-   <div id="dataModal2" class="modal fade">  
+                                  </div>    
+</div>  
+ <div id="dataModal2" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Usuario</h4>  
+                                                 <h4 class="modal-title">Detalles Contenedor</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -263,14 +286,14 @@
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
                                             </div>  
                                        </div>  
-                                  </div>  
-  </div>
-     <div id="dataModal3" class="modal fade">  
+                                  </div>    
+</div>  
+        <div id="dataModal3" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Solicitud</h4>  
+                                                 <h4 class="modal-title">Agregar Nuevo Material</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -285,7 +308,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Usuario</h4>  
+                                                 <h4 class="modal-title">Eliminar Material</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
                                             </div>  
@@ -301,7 +324,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nuevo Usuario</h4>  
+                     <h4 class="modal-title">Agregar Nuevo Material</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -333,7 +356,6 @@
     <script src="../vendors/nprogress/nprogress.js"></script>
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
-    <script src="../vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
     <!-- Datatables -->
     <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -384,30 +406,32 @@ ga('send', 'pageview');
 
       
 
-      $(document).on('click', '.edit_data', function(){  
+      $(document).on('click', '.view_data1', function(){  
           var employee_id = $(this).attr("id");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Usuario/modiUsuario.php",  
+                     url:"../views/procesar/listBodega_Pro.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
-                          $('#employee_forms2').html(data);  
-                          $('#dataModal2').modal('show');  
+                          $('#employee_forms1').html(data);  
+                          $('#dataModal1').modal('show');  
                      }  
                 });  
            }   
       });  
      
-      $(document).on('click', '.view_data', function(){  
+      $(document).on('click', '.confirm_data', function(){  
            var employee_id = $(this).attr("id");  
+           var employee_pl = $(this).attr("pl");   
+           var employee_n = $(this).attr("nombre");   
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Usuario/selectUsuario.php",  
+                     url:"../views/procesar/confirMaterial.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id},  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_n:employee_n},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
                           $('#dataModal2').modal('show');  
@@ -421,7 +445,7 @@ ga('send', 'pageview');
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/procesar/saveProceso.php",  
+                     url:"../views/Materiales/saveMateriales.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
@@ -434,11 +458,11 @@ ga('send', 'pageview');
 
 
       $(document).on('click', '.delete_data', function(){  
-          var employee_id = $(this).attr("id");  
+          var employee_id = $(this).attr("id");
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Usuario/deleteUsuario.php",  
+                     url:"../views/contenedor/deleteContenedor.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  

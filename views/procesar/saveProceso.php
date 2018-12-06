@@ -104,6 +104,7 @@
                           </div>
                           <div class="form-group">
                             <div id="datos1"></div>
+                            <input type="hidden" id="id_m" name="id_m" value="">
                           </div>
                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Usar <span class="required">*</span>
@@ -277,6 +278,8 @@ xmlhttp.onreadystatechange=function()
   if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
     document.getElementById("datos1").innerHTML=xmlhttp.responseText;
+
+           $("#id_m").val(cod);
     }else{ 
   document.getElementById("datos1").innerHTML='Cargando...';
     }
@@ -294,7 +297,7 @@ xmlhttp.send("cod_banda="+cod);
         var usar = $(this).val();
 
         if (parseInt(piezas)<parseInt(usar)) {
-          alert("cagada");
+          alert("Valor es mayor a la cantidad de piezas en bodegas!");
            $("#usar").val(0);
 
         } 

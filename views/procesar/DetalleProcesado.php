@@ -1,5 +1,5 @@
 <?php 
-require_once "../config/conexion.php";
+require_once "../../config/conexion.php";
 class DetalleProcesado extends conexion
 {
 private $id_detalle_procesado;
@@ -165,13 +165,6 @@ function save()
         }else {
             return false;
         }  
-    }
-         public function selectALL_BO($codigo)
-    {
-        $query="SELECT * FROM detalle_procesado WHERE id_bodega='".$codigo."'";
-        $selectall=$this->db->query($query);
-        $Listcantidad_materia_prima=$selectall->fetch_all(MYSQLI_ASSOC);
-        return $Listcantidad_materia_prima;
     }
 
     

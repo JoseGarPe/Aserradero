@@ -1,5 +1,6 @@
 <?php 
 require_once "../class/DetalleProcesado.php";
+require_once "../class/DetalleBodega.php";
 
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
@@ -36,13 +37,19 @@ elseif ($accion=="eliminar") {
 elseif ($accion=="guardar") 
 {
 
-$id_materia_prima=$_POST['id_materiaprima'];
+$id_materia_prima=$_POST['id_m'];
 $cantidad_materia_prima=$_POST['usar'];
 $id_maquina=$_POST['id_maquina'];
 $id_material_saliente=$_POST['id_materialsaliente'];
 $cantidad_saliente=$_POST['cantidadsaliente'];
 $rendimiento_esperado=$_POST['resperado'];
 $id_bodega=$_POST['id_bodegag'];
+$disponibles=$_POST['c_disponible'];
+
+$id_bodega_mp=$_POST['id_bodega'];
+
+$estado="Sin Confirmar";
+$nueva_cantidad = $disponibles - $cantidad_materia_prima;
 
 	# code...
 	$Detalle_procesado = new DetalleProcesado();
@@ -53,13 +60,47 @@ $id_bodega=$_POST['id_bodegag'];
 	$Detalle_procesado->setCantidad_saliente($cantidad_saliente);
 	$Detalle_procesado->setRendimiento_esperado($rendimiento_esperado);
 	$Detalle_procesado->setId_bodega($id_bodega);
+	$Detalle_procesado->setEstado($estado);
 	$save=$Detalle_procesado->save();
 	if ($save==true) {
+		$detalle_bo= new DetalleBodega();
+		$detalle_bo->setId_bodega($id_bodega);
+		$detalle_bo->setId_material($id_material_saliente);
+		$detalle_bo->setCantidad($nueva_cantidad);
+		$save1=$detalle_bo->updateC();
+
 		header('Location: ../listas/ProcesarMaterial.php?success=correcto&materiaPrima='.$id_materia_prima.'');
 		# code...
 	}
 	else{
 		header('Location: ../listas/ProcesarMaterial.php?error=incorrecto');
+	}
+}
+elseif ($accion=="confirmar") {
+	$id_detalle_procesado =$_POST['id'];
+	$estado =$_POST['estado'];
+	$pl =$_POST['pl'];
+	$piezas=$_POST['piezas'];
+	$id_material=$_POST['material'];
+	$id_bodega=$_POST['id_bodega'];
+	$nombre =$_POST['nombre'];
+
+	$Contenedor = new DetalleProcesado();
+	$Contenedor->setId_detalle_procesado($id_detalle_procesado);
+	$Contenedor->setEstado($estado);
+	$delete=$Contenedor->confirm();
+	if ($delete==true) {
+		
+
+		$detalle_bo= new DetalleBodega();
+		$detalle_bo->setId_bodega($id_bodega);
+		$detalle_bo->setId_material($id_material);
+		$detalle_bo->setCantidad($piezas);
+		$save1=$detalle_bo->save();
+		header('Location: ../listas/DetalleMaterialProcesado.php?success=correcto&id='.$pl.'&nombre='.$nombre.'');
+		# code...
+	}else{
+		header('Location: ../listas/DetalleMaterialProcesado.php?error=incorrecto&id='.$pl.'&id='.$id_bodega.'&id='.$id_material.'&id='.$estado.'&id='.$piezas.'');
 	}
 }
 

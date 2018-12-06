@@ -103,6 +103,7 @@ elseif ($accion=="confirmar") {
 	$Contenedor->setEstado($estado);
 	$delete=$Contenedor->confirm();
 	if ($delete==true) {
+		
 
 		$detalle_bo= new DetalleBodega();
 		$detalle_bo->setId_bodega($id_bodega);
