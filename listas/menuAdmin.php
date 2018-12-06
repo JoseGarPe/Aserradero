@@ -16,7 +16,7 @@
                           <li><a href="../listas/contenedores.php">Contenedores</a></li>                   
                         </ul>
                       </li>
-                      <li><a><i class="fas fa-archive"></i> Detalle de Bodegas <span class="fa fa-chevron-down"></span></a>
+                      <li><a><i class="fa fa-archive"></i> Detalle de Bodegas <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/DetalleBodegas.php">Detella de bodegas</a></li>                  
                         </ul>
