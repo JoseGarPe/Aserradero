@@ -27,6 +27,12 @@
                           <li><a href="../listas/DetalleMaterialProcesado.php">Confirmar Material Procesado</a></li>                 
                         </ul>
                       </li>
+                      <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="../listas/DetallePresets.php">Procesar Preset</a></li>  
+                          <li><a href="../listas/DetalleProducto.php">Orden Creacion</a></li>                 
+                        </ul>
+                      </li>
                       
                       <li><a><i class="fa fa-gavel"></i> Solicitudes <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
@@ -42,7 +48,8 @@
                            <li><a href="../listas/Naves.php">Naves</a></li>   
                            <li><a href="../listas/Shipper.php">Shipper</a></li>  
                            <li><a href="../listas/Especificacion.php">Especificacion</a></li>
-                           <li><a href="../listas/Maquinas.php">Maquinas</a></li>                        
+                           <li><a href="../listas/Maquinas.php">Maquinas</a></li>  
+                           <li><a href="../listas/Presets.php">Presets</a></li>                       
                         </ul>
                       </li>
                     

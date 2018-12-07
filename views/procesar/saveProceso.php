@@ -123,7 +123,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Maquina<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <select  onchange="mostrarInfo(this.value)" class="form-control" name="id_maquina" id="id_maquina">
+                              <select class="form-control" name="id_maquina" id="id_maquina">
                                 <option value="0">Seleccione una Maquina</option>
                           <?php 
                          require_once "Maquinas.php";
@@ -144,7 +144,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Material Saliente<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <select  onchange="mostrarInfo(this.value)" class="form-control" name="id_materialsaliente" id="id_materialsaliente">
+                              <select class="form-control" name="id_materialsaliente" id="id_materialsaliente">
                                 <option value="0">Seleccione una opcion</option>
                           <?php 
                          require_once "Materiales.php";
@@ -196,7 +196,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Bodega<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <select  onchange="mostrarInfo(this.value)" class="form-control" name="id_bodegag" id="id_bodegag">
+                              <select  class="form-control" name="id_bodegag" id="id_bodegag">
                                 <option value="0">Seleccione una opcion</option>
                           <?php 
                          require_once "Bodega.php";

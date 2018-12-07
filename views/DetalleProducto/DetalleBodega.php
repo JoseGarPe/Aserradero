@@ -1,5 +1,5 @@
 <?php  
-require_once "../config/conexion.php";
+require_once "../../config/conexion.php";
 class DetalleBodega extends conexion
 {
 private $id_detalle_bodega;

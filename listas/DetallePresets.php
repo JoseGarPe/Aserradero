@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Aserradero</title>
+    <title>Presets Detalle | Aserradero</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -99,11 +99,11 @@
         
               
 
-        
+			  
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de Materiales</h2>
+                    <h2>Detalle de Presets</h2>
 
 
                     
@@ -166,69 +166,139 @@
             }
              ?></div>
                   <div class="x_content">
-                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
+                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO--> 
+                    <br>
+                    <br>
+                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/DetallePresetsControlador.php?accion=guardar" method="post">
+                    <div class="row">
 
-                   <input type="button" name="accion" value="Nuevo Material" id="accion" class="btn btn-success save_data" /> 
+                      <div class="col-xs-12">
+                            <div class="col-xs-8 col-sm-6">
+                              <div class="form-group">
+                                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Producto Finalizado <span class="required">*</span>
+                                  </label>
+                                  <div class="col-md-6 col-sm-6 col-xs-12">
+                                     <select onchange="mostrarInfo(this.value)" class="form-control" name="id_preset" id="id_preset">
+                                      <option value="0">Seleccione una Opcion</option>
+                                      <?php 
+                                        require_once "../class/Presets.php";
+
+                                      $mipreset = new Presets();
+                                     $catego = $mipreset->selectALL();
+                                      foreach ((array)$catego as $row) {
+
+                                        echo "<option value='".$row['id_preset']."'>".$row['nombre']."</option>";
+
+                                      } 
+
+                                
+                                      ?>
+                                      </select>
+                                  </div>
+                                </div>
+                              
+                            </div>
+                            <div class="col-xs-8 col-sm-6">
+                               <div id="employee_table">
+                    <table id="example1" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                        <tr>
+                          <th>Material </th>
+                          <th>Dimensiones</th>
+                          <th>Cantidad</th>
+                          <th>Opciones</th>                          
+                        </tr>
+                      </thead>
+                      <tbody id="datos">
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                              
+                            </div>
+                      </div>
+                    </div>
                     <br>
                     <br>
+                    <h2>Filtrar Materiales</h2>
+                      <div class="form-group">
+                                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Categoria Material <span class="required">*</span>
+                                  </label>
+                                  <div class="col-md-6 col-sm-6 col-xs-12">
+                                     <select onchange="mostrarInfo1(this.value)" class="form-control" name="id_preset" id="id_preset">
+                                      <option value="0">Seleccione una Opcion</option>
+                                      <?php 
+                                        require_once "../class/Materiales.php";
+
+                                      $miCatt = new Materiales();
+                                     $categos = $miCatt->selectCAT();
+                                      foreach ((array)$categos as $riw) {
+
+                                        echo "<option value='".$riw['id_categoria']."'>".$riw['nombre']."</option>";
+
+                                      } 
+
+                                
+                                      ?>
+                                      </select>
+                                  </div>
+                           </div>
+
+
                     <div id="employee_table">
                     <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                         <tr>
-                          <th>#</th>
-                          <th>Nombre</th>
-                          <th>Dimenciones</th>
-                          <th>Grosor</th>
-                          <th>m<sup>2</sup></th>
-                          <th>Categoria</th> 
-                          <th>Opciones</th>                            
+
+                          <th></th> 
+                          <th>Material</th>
+                          <th>Dimensiones</th>
+                          <th>Cantidad</th>                         
                         </tr>
                       </thead>
-                      <tbody>
-                        <?php 
-                         require_once "../class/Materiales.php";
-                         $miMaterial = new Materiales();
-                         $catego = $miMaterial->selectALL();
+                      <tbody id="datos1">
                         
-                           # code...
-                         
-                         foreach ((array)$catego as $row) {
-                         echo '
-                          <tr>
-                           <td>'.$row['id_material'].'</td>
-                           <td>'.$row['nombre']. '</td>
-                           <td>'.$row['largo'].'m X ' .$row['ancho'].'m</td>
-                           <td>'.$row['grueso'].'</td>
-                           <td>'.$row['m_cuadrados'].'</td>
-                           <td>'.$row['categoria'].'</td>
-                           <td>
-                          
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_material"].'" class="btn btn-info view_data"/>  
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_material"].'" class="btn btn-warning edit_data" />
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_material"].'" class="btn btn-danger delete_data" />
-                           </td>
-                          </tr>
-                         ';
-                       }
-                     
-                     
-                         ?>
                       </tbody>
                     </table>
                   </div>
-                  </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                             
+                              <button type="submit" class="btn btn-success">Ingresar</button>
+                     </div>
+
+                </form>
+
+
+                    <!-- END X CONTENT-->
+                     </div>
+
                 </div>
               </div>
-        
-        
-        
+			  
+			  
+			  
             </div>
- <div id="dataModal1" class="modal fade">  
+ <div id="dataModal" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Editar Material</h4>  
+                                                 <h4 class="modal-title">Detalle Categorias</h4>  
+                                            </div>  
+                                            <div class="modal-body" id="employee_detail">  
+                                            </div>  
+                                            <div class="modal-footer">  
+                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                            </div>  
+                                       </div>  
+                                  </div>  
+  </div>  
+   <div id="dataModal2" class="modal fade">  
+                                  <div class="modal-dialog">  
+                                       <div class="modal-content">  
+                                            <div class="modal-header">  
+                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                                 <h4 class="modal-title">Detalle Categorias</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -236,29 +306,14 @@
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
                                             </div>  
                                        </div>  
-                                  </div>    
-</div>  
- <div id="dataModal2" class="modal fade">  
+                                  </div>  
+  </div>
+     <div id="dataModal3" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalles Material</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_forms2">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>    
-</div>  
-        <div id="dataModal3" class="modal fade">  
-                                  <div class="modal-dialog">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Nuevo Material</h4>  
+                                                 <h4 class="modal-title">Agregar Nuevo Tipo Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -289,7 +344,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nuevo Material</h4>  
+                     <h4 class="modal-title">Agregar nueva Categorias</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -304,7 +359,7 @@
             <!-- footer content -->
             <footer>
               <div class="pull-right">
-                Aserradero - Creado por <a href="https://colorlib.com">Chiltex SV</a>
+                Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
               </div>
               <div class="clearfix"></div>
             </footer>
@@ -312,9 +367,9 @@
           </div>
         </div>
     <!-- jQuery -->
-   <script src="../vendors/jquery/dist/jquery.min.js"></script>
-   <!-- Bootstrap -->
-   <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+	 <script src="../vendors/jquery/dist/jquery.min.js"></script>
+	 <!-- Bootstrap -->
+	 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
     <script src="../vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
@@ -353,35 +408,22 @@ ga('send', 'pageview');
     </script>
 <script type="text/javascript">
 
-
-   $(document).ready(function(){ 
-
-
-
-
+   $(document).ready(function(){  
       $('#add').click(function(){  
            $('#insert').val("Insert");  
-           $('#insert_form')[0].reset(); 
-
-
-
-
-
+           $('#insert_form')[0].reset();  
       });  
-
-      
-
       $(document).on('click', '.edit_data', function(){  
           var employee_id = $(this).attr("id");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Materiales/modiMateriales.php",  
+                     url:"../views/Categorias/modiCategoria.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
-                          $('#dataModal1').modal('show');  
+                          $('#dataModal2').modal('show');  
                      }  
                 });  
            }   
@@ -392,23 +434,22 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Materiales/selectMateriales.php",  
+                     url:"../views/Categorias/selectCategoria.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
-                          $('#dataModal1').modal('show');  
+                          $('#dataModal2').modal('show');  
                      }  
                 });  
            }            
       });  
-
         $(document).on('click', '.save_data', function(){  
            var employee_action = $(this).attr("accion");  
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/Materiales/saveMateriales.php",  
+                     url:"../views/Categorias/saveCategoria.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
@@ -425,7 +466,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Materiales/deleteMateriales.php",  
+                     url:"../views/DetallePresets/deleteDetallePreset.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -438,6 +479,69 @@ ga('send', 'pageview');
 
  });  
 
+              function mostrarInfo(cod){
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("datos").innerHTML=xmlhttp.responseText;
+    }else{ 
+  document.getElementById("datos").innerHTML='Cargando...';
+    }
+  }
+xmlhttp.open("POST","../views/DetallePresets/materiales_preset.php",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("cod_banda="+cod);
+
+};
+
+
+              function mostrarInfo1(cod){
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("datos1").innerHTML=xmlhttp.responseText;
+    }else{ 
+  document.getElementById("datos1").innerHTML='Cargando...';
+    }
+  }
+xmlhttp.open("POST","../views/DetallePresets/materiales_categoria.php",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("cod_banda="+cod);
+
+};
+
+</script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
 </script>
         
     </body>

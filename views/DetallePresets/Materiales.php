@@ -1,5 +1,5 @@
 <?php 
-require_once "../config/conexion.php";
+require_once "../../config/conexion.php";
 
 class Materiales extends conexion
 {
@@ -159,7 +159,7 @@ class Materiales extends conexion
     }
     public function selectCAT()
     {
-        $query="SELECT * FROM categorias WHERE nombre !='Finalizado'";
+        $query="SELECT * FROM categorias WHERE nombre != 'Finalizados'";
         $selectall=$this->db->query($query);
        $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listmateriales;
