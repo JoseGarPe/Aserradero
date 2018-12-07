@@ -64,12 +64,12 @@ $nueva_cantidad = $disponibles - $cantidad_materia_prima;
 	$save=$Detalle_procesado->save();
 	if ($save==true) {
 		$detalle_bo= new DetalleBodega();
-		$detalle_bo->setId_bodega($id_bodega);
-		$detalle_bo->setId_material($id_material_saliente);
+		$detalle_bo->setId_bodega($id_bodega_mp);
+		$detalle_bo->setId_material($id_materia_prima);
 		$detalle_bo->setCantidad($nueva_cantidad);
 		$save1=$detalle_bo->updateC();
 
-		header('Location: ../listas/ProcesarMaterial.php?success=correcto&materiaPrima='.$id_materia_prima.'');
+		header('Location: ../listas/ProcesarMaterial.php?success=correcto&materiaPrima='.$id_bodega_mp.'&materia2='.$id_materia_prima.'&materia1='.$disponibles.'&materia2='.$cantidad_materia_prima.'');
 		# code...
 	}
 	else{
@@ -96,7 +96,7 @@ elseif ($accion=="confirmar") {
 		$detalle_bo->setId_bodega($id_bodega);
 		$detalle_bo->setId_material($id_material);
 		$detalle_bo->setCantidad($piezas);
-		$save1=$detalle_bo->save();
+		$save2=$detalle_bo->save();
 		header('Location: ../listas/DetalleMaterialProcesado.php?success=correcto&id='.$pl.'&nombre='.$nombre.'');
 		# code...
 	}else{

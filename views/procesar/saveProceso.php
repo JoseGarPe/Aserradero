@@ -89,9 +89,9 @@
 
                           $mistipos = new Bodega();
                          $catego = $mistipos->selectALL();
-                          foreach ((array)$catego as $row) {
+                          foreach ((array)$catego as $riw) {
 
-                            echo "<option value='".$row['id_bodega']."'>".$row['nombre']."</option>";
+                            echo "<option value='".$riw['id_bodega']."'>".$riw['nombre']."</option>";
 
                           } 
 
