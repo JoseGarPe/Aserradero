@@ -5,6 +5,7 @@ class DetalleOrden extends conexion
 private $id_detalle_orden;
 private $id_orden_producto;
 private $id_detalle_preset;
+private $id_bodega;
 
 
 public function __construct()
@@ -14,6 +15,7 @@ public function __construct()
         $this->id_detalle_orden= "";
         $this->id_orden_producto = "";
         $this->id_detalle_preset = "";
+        $this->id_bodega = "";
 
 }
 
@@ -33,12 +35,19 @@ public function __construct()
         $this->id_orden_producto = $id_orden_producto;
     }
 
-    public function getid_detalle_preset() {
+    public function getId_detalle_preset() {
         return $this->id_detalle_preset;
     }
 
-    public function setid_detalle_preset($id_detalle_preset) {
+    public function setId_detalle_preset($id_detalle_preset) {
         $this->id_detalle_preset = $id_detalle_preset;
+    }
+    public function getId_bodega() {
+        return $this->id_bodega;
+    }
+
+    public function setId_bodega($id_bodega) {
+        $this->id_bodega = $id_bodega;
     }
 public 
 //---------------------------

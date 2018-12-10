@@ -112,7 +112,13 @@ class Ordenbodega extends conexion
         return $Listorden_producto;
     }
 
-
+      public function selectLast()
+    {
+        $query="SELECT * FROM orden_producto ORDER BY id_orden_producto DESC LIMIT 1";
+        $selectall=$this->db->query($query);
+        $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListClientes;
+    }
 
 }
 

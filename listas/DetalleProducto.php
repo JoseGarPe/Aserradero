@@ -174,24 +174,57 @@
 <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/DetalleProductoControlador.php?accion=guardar" method="post">
                     <?php 
                       if (isset($_GET['id']) && isset($_GET['preset'])) {
-                        $codigo=$_GET['id'];
+                        $id_preset=$_GET['id'];
                         $preset = $_GET['preset'];
-                        echo '<h1>Producto fabricado: '.$preset.'</h1>';
+                        echo '<h1>Producto fabricado: '.$preset.'</h1>
+                        <input id="id_preset"  name="id_preset" readonly type="hidden" value="'.$id_preset.'">';
                       }
                       else{
                         $id_material=0;
-                        $codigo=0;
+                        $id_preset=0;
                       }
 
-                     ?>
-
-                          <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad de Orden<span class="required">*</span>
+                     ?>   
+                        <div class="row">
+                          <div class="col-xs-12" >
+                            <div class="col-xs-8 col-sm-6">
+                              <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad de Orden<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input id="cantidad"  name="cantidad" class="form-control col-md-7 col-xs-12"  type="number">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-6">
+                                 <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Bodega Destino<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="cantidad"  name="cantidad" class="form-control col-md-7 col-xs-12"  type="number">
+                              <select class="form-control" name="id_bodega" id="id_bodega">
+                                <option value="0">Seleccione una opcion</option>
+                          <?php 
+                         require_once "../class/Bodega.php";
+
+                          $mistipos = new Bodega();
+                         $catego = $mistipos->selectALL();
+                          foreach ((array)$catego as $riw) {
+
+                            echo "<option value='".$riw['id_bodega']."'>".$riw['nombre']."</option>";
+
+                          } 
+
+                                    ?>
+                          </select>
                             </div>
                           </div>
+                            </div>
+                            
+                          </div>
+
+                        </div>
+
+                          
 
                      <div class="form-group">
                       <div id="employee_table">
@@ -207,13 +240,15 @@
                         <?php 
                          require_once "../class/DetallePreset.php";
                          $misMateriales = new DetallePreset();
-                         $mate = $misMateriales->selectDetallePreset($codigo);
+                         $mate = $misMateriales->selectDetallePreset($id_preset);
                          foreach ((array)$mate as $rw) {
                          echo '
                           <tr>
+                          <input id="id_d_p[]"  name="id_d_p[]" readonly type="hidden" value="'.$rw["id_detalle_preset"].'">
+                          <input id="id_material[]"  name="id_material[]" readonly type="hidden" value="'.$rw["id_material"].'">
                            <td>'.$rw['material'].'</td>
                            <td>'.$rw['largo'].'x'.$rw['ancho'].'x'.$rw['grueso'].'</td>
-                           <td><input id="necesaria"  name="necesaria" readonly type="hidden" value="'.$rw["cantidad"].'">'.$rw["cantidad"].'</td>
+                           <td><input id="necesaria[]"  name="necesaria[]" readonly type="hidden" value="'.$rw["cantidad"].'">'.$rw["cantidad"].'</td>
                         
                           </tr>
                          ';
@@ -229,43 +264,7 @@
 
                                   
                     <div id="employee_table">
-                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
-                      <thead>
-                        <tr>
-                          <th>N° </th>
-                          <th>Tipo de Usuario</th>
-                          <th>Descripcion</th>
-                          <th>Opciones / Mantenimiento</th>                          
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                         require_once "../class/Categorias.php";
-                         $misCategoriass = new Categorias();
-                         $catego = $misCategoriass->selectALL();
-                        
-                           # code...
-                         
-                         foreach ((array)$catego as $row) {
-                         echo '
-                          <tr>
-                           <td>'.$row['id_categoria'].'</td>
-                           <td>'.$row['nombre'].'</td>
-                           <td>'.$row["descripcion"].'</td>
-                           <td>
-                          
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_categoria"].'" class="btn btn-info view_data"/>  
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_categoria"].'" class="btn btn-warning edit_data" />
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_categoria"].'" class="btn btn-danger delete_data" />
-                           </td>
-                          </tr>
-                         ';
-                       }
-                     
-                     
-                         ?>
-                      </tbody>
-                    </table>
+                  
                   </div>
 
 
