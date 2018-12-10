@@ -175,6 +175,13 @@ public function save()
         $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_bodega;
     }
+             public function selectCantidad_material_bodega($bodega,$material)
+    {
+        $query="SELECT db.*, b.nombre as bodega,m.nombre as material,m.largo,m.ancho,m.grueso,m.id_categoria,c.nombre as categoria FROM detalle_bodega db INNER JOIN bodegas b ON b.id_bodega = db.id_bodega INNER JOIN materiales m ON m.id_material = db.id_material INNER JOIN categorias c ON c.id_categoria = m.id_categoria WHERE db.id_bodega='".$bodega."' AND db.id_material='".$material."'";
+        $selectall=$this->db->query($query);
+        $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listdetalle_bodega;
+    }
 
 
 }

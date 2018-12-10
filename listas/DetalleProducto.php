@@ -171,7 +171,7 @@
                    <input type="button" name="accion" value="Seleccionar Preset" id="accion" class="btn btn-success selec_data" /> 
                     <br>
                     <br>
-<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/DetalleProductoControlador.php?accion=guardar" method="post">
+<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/OrdenProductoControlador.php?accion=guardar" method="post">
                     <?php 
                       if (isset($_GET['id']) && isset($_GET['preset'])) {
                         $id_preset=$_GET['id'];
@@ -233,7 +233,8 @@
                         <tr>
                           <th>Material</th>
                           <th>Dimensiones</th>
-                          <th>Cantidad Necesaria</th>                       
+                          <th>Cantidad Necesaria</th>
+                          <th>Bodegas con Disponibilidad</th>                        
                         </tr>
                       </thead>
                       <tbody>
@@ -249,7 +250,17 @@
                            <td>'.$rw['material'].'</td>
                            <td>'.$rw['largo'].'x'.$rw['ancho'].'x'.$rw['grueso'].'</td>
                            <td><input id="necesaria[]"  name="necesaria[]" readonly type="hidden" value="'.$rw["cantidad"].'">'.$rw["cantidad"].'</td>
-                        
+                            <td>';
+                                require_once "../class/DetalleBodega.php";
+                         $misBodegass = new DetalleBodega();
+                         $bode = $misBodegass->selectALLP_M($rw['id_material']);
+                         echo' <select  class="form-control" name="id_bodega_mp[]" id="id_bodega_mp[]">
+                            <option value="0">Seleccione una Bodega</option>';
+                           foreach ((array)$bode as $r) {
+                            echo "<option value='".$r['id_bodega']."'>".$r['bodega']."</option>";
+                          }
+                          echo'</select>';
+                           echo' </td>
                           </tr>
                          ';
                        }
@@ -267,7 +278,9 @@
                   
                   </div>
 
-
+                   <div class="box-footer">
+                <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
+             </div>
 
 </form>                  <!--END X CONTENT-->
                   </div>
@@ -444,7 +457,7 @@ ga('send', 'pageview');
            }            
       });  
         $(document).on('click', '.selec_data', function(){  
-           var employee_action = $(this).attr("accion");  
+           var employee_action = $(this).attr("id");  
            if(employee_action != '')  
            {  
                 $.ajax({  
@@ -524,7 +537,7 @@ $(document).ready(function () {
     $('#example2').DataTable({
       'paging'      : true,
       'lengthChange': false,
-      'searching'   : false,
+      'searching'   : true,
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : false

@@ -50,6 +50,7 @@ $necesarios = $_POST['necesaria'];
 $i=0;
 //detalle orden
 $id_detalle_preset=$_POST['id_d_p'];
+$id_bodega_descuenta=$_POST['id_bodega_mp'];
 
 
 		$orden_producto= new OrdenProducto();
@@ -64,35 +65,42 @@ $id_detalle_preset=$_POST['id_d_p'];
 		foreach ($orden_ul as $value) {
 			$last_orde=$value['id_orden_producto'];
 		}
-
-
-	
-		
-	if ($save1==true) {
+ if ($save1==true) {
 		while ($i<$count_materiales) {
 
 
-		$dbodega= new DetalleBodega();
-		$desconta = $necesarios[$i]*$cantidad;
-		$bodega_Disponible=$dbodega->selectMaterial_bodega($desconta,$id_material[$i]);
+		$detalle_bo = new DetalleBodega();
+		$bodega_Disponible=$detalle_bo->selectCantidad_material_bodega($id_bodega_descuenta[$i],$id_material[$i]);
 		foreach ($bodega_Disponible as $key) {
-			$bodega_salida = $key['id_bodega'];
+			$disponible = $key['cantidad'];
 		}
 
-
+		$cantidad_nece = $necesarios[$i]* $cantidad;
+		$nueva_cantidad=$disponible - $cantidad_nece;
 
 		$detalle_orden= new DetalleOrden();
-		$detalle_orden->setId_orden_producto($last_orden);
+		$detalle_orden->setId_orden_producto($last_orde);
 		$detalle_orden->setId_detalle_preset($id_detalle_preset[$i]);
-		$detalle_orden->setId_bodega($bodega_salida);
-		$desconta =0;
+		$detalle_orden->setId_bodega($id_bodega_descuenta[$i]);
+		$detalle_orden->setCantidad_utilizada($cantidad_nece);
+		$save_detalleorden=$detalle_orden->save();
+
+
+	
+		$detalle_bo->setId_bodega($id_bodega_descuenta[$i]);
+		$detalle_bo->setId_material($id_material[$i]);
+		$detalle_bo->setCantidad($nueva_cantidad);
+		$save1=$detalle_bo->updateC();
+		$cantidad_nece=0;
+		$i=$i+1;
+
 		}
 
-		header('Location: ../listas/DetalleOrdenProducto.php?success=correcto');
+		header('Location: ../listas/DetalleProducto.php?success=correcto');
 		# code...
 	}
 	else{
-		header('Location: ../listas/OrdenProducto.php?error=incorrecto');
+		header('Location: ../listas/DetalleProducto.php?error=incorrecto');
 	}
 }
 

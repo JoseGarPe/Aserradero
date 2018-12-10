@@ -1,7 +1,7 @@
 <?php 
 require_once "../config/conexion.php";
 
-class Ordenbodega extends conexion
+class OrdenProducto extends conexion
 {
 	private $id_orden_producto;
 	private $id_bodega;
@@ -72,7 +72,7 @@ class Ordenbodega extends conexion
 
     public function save(){
 
-    	$query="INSERT INTO orden_producto(id_orden_productos, id_bodega, cantidad, estado, fase, id_preset) values(NULL,'".$this->id_bodega."','".$this->cantidad."','".$this->estado."','".$this->fase."','".$this->id_preset."')";
+    	$query="INSERT INTO orden_producto(id_orden_producto, id_bodega, cantidad, estado, fase, id_preset) values(NULL,'".$this->id_bodega."','".$this->cantidad."','".$this->estado."','".$this->fase."','".$this->id_preset."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;

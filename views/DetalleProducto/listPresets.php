@@ -6,7 +6,7 @@
 </div>
 //buscador 1
 -->
-       <table id="example1" class="table table-striped table-bordered">
+       <table id="example2" class="table table-striped table-bordered">
          <thead>
                         <tr>
                          <th>N° </th>

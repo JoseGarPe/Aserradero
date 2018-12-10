@@ -6,6 +6,7 @@ private $id_detalle_orden;
 private $id_orden_producto;
 private $id_detalle_preset;
 private $id_bodega;
+private $cantidad_utilizada;
 
 
 public function __construct()
@@ -16,6 +17,7 @@ public function __construct()
         $this->id_orden_producto = "";
         $this->id_detalle_preset = "";
         $this->id_bodega = "";
+        $this->cantidad_utilizada = "";
 
 }
 
@@ -49,14 +51,23 @@ public function __construct()
     public function setId_bodega($id_bodega) {
         $this->id_bodega = $id_bodega;
     }
+    public function getCantidad_utilizada() {
+        return $this->cantidad_utilizada;
+    }
+
+    public function setCantidad_utilizada($cantidad_utilizada) {
+        $this->cantidad_utilizada = $cantidad_utilizada;
+    }
 public 
 //---------------------------
 function save()
     {
-    	$query="INSERT INTO detalle_orden(id_detalle_orden,id_orden_producto,id_detalle_preset)
+    	$query="INSERT INTO detalle_orden(id_detalle_orden,id_orden_producto,id_detalle_preset,id_bodega,cantidad_utilizado)
     			values(NULL,
     			'".$this->id_orden_producto."',
-    			'".$this->id_detalle_preset."');";
+                '".$this->id_detalle_preset."',
+                '".$this->id_bodega."',
+                '".$this->cantidad_utilizada."');";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
