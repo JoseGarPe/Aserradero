@@ -161,6 +161,13 @@ public function save()
         $Listdetalle_preset=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_preset;
     }
+    public function selectDetallePreset($codigo)
+    {
+        $query = "SELECT db.*, b.nombre as preset,m.nombre as material,m.largo,m.ancho,m.grueso,m.id_categoria,c.nombre as categoria FROM detalle_preset db INNER JOIN presets b ON b.id_preset = db.id_preset INNER JOIN materiales m ON m.id_material = db.id_material INNER JOIN categorias c ON c.id_categoria = m.id_categoria WHERE db.id_preset =1";
+        $selectall=$this->db->query($query);
+        $Listdetalle_preset=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listdetalle_preset;
+    }
 
 
 }

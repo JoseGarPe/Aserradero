@@ -22,21 +22,19 @@
                 //$bandera=$_POST["bandera"];
                          require_once "DetallePreset.php";
                          $misPacks = new DetallePreset();
-                         $todos = $misPacks->selectALL();
+                         $todos = $misPacks->selectALL1();
                         
 
                 foreach ((array)$todos as $row) {
                          echo '
                           <tr>
-                          <td>'.$row['id_detalle_preset'].'</td>
-                           <td>'.$row['preset'].'</td>
-                           <td>'.$row['material'].'</td>';
-                           session_start();
-                           $_SESSION['id_material']=$row['id_material'];
+                          <td>'.$row['id_preset'].'</td>
+                           <td>'.$row['nombre'].'</td>
+                           <td>'.$row['descripcion'].'</td>';
 
                 echo '
                            <td>
-                         <a href="../listas/DetalleProducto.php?id='.$row["id_detalle_preset"].'&material='.$row["id_material"].'&preset='.$row['preset'].'" class="btn btn-primary">Seleccionar</a>
+                         <a href="../listas/DetalleProducto.php?id='.$row["id_preset"].'&preset='.$row['nombre'].'" class="btn btn-primary">Seleccionar</a>
                           </tr>
                          ';
                 	

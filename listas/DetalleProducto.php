@@ -174,49 +174,60 @@
 <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/DetalleProductoControlador.php?accion=guardar" method="post">
                     <?php 
                       if (isset($_GET['id']) && isset($_GET['preset'])) {
-                        $id_detalle_preset=$_GET['id'];
+                        $codigo=$_GET['id'];
                         $preset = $_GET['preset'];
-                        $id_material =$_GET['material'];
-                        echo 'Producto fabricado: '.$preset.'';
+                        echo '<h1>Producto fabricado: '.$preset.'</h1>';
                       }
                       else{
                         $id_material=0;
+                        $codigo=0;
                       }
 
                      ?>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad de Orden<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="cantidad"  name="cantidad" class="form-control col-md-7 col-xs-12"  type="number">
+                            </div>
+                          </div>
+
                      <div class="form-group">
-                                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Bodega de Materiales necesarios <span class="required">*</span>
-                                  </label>
-                                  <div class="col-md-6 col-sm-6 col-xs-12">
-                                     <select onchange="mostrarInfo(this.value)" class="form-control" name="id_preset" id="id_preset">
-                                      <option value="0">Seleccione una Opcion</option>
-                                      <?php 
-                                        require_once "../class/DetalleBodega.php";
-
-                                      $midb = new DetalleBodega();
-                                     $catego = $midb-> selectALLP_M($id_material);
-                                     
-                                      foreach ((array)$catego as $row) {
-
-                                        echo '<option value="'.$row['id_bodega'].'">'.$row['bodega'].'</option>
-                                        ';
-
-                                      } 
-
-                                
-                                      ?>
-                                      </select>
-                                      <?php 
-                                      echo '
-                                             <input type="hidden" id="id_m" name="id_m" value="'.$id_material.'">';
-                                       ?>
-                                  </div>
+                      <div id="employee_table">
+                    <table id="example1" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                        <tr>
+                          <th>Material</th>
+                          <th>Dimensiones</th>
+                          <th>Cantidad Necesaria</th>                       
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                         require_once "../class/DetallePreset.php";
+                         $misMateriales = new DetallePreset();
+                         $mate = $misMateriales->selectDetallePreset($codigo);
+                         foreach ((array)$mate as $rw) {
+                         echo '
+                          <tr>
+                           <td>'.$rw['material'].'</td>
+                           <td>'.$rw['largo'].'x'.$rw['ancho'].'x'.$rw['grueso'].'</td>
+                           <td><input id="necesaria"  name="necesaria" readonly type="hidden" value="'.$rw["cantidad"].'">'.$rw["cantidad"].'</td>
+                        
+                          </tr>
+                         ';
+                       }
+                     
+                     
+                         ?>
+                      </tbody>
+                    </table>
+                  </div>
+                               
                       </div>
 
-                                  <div class="form-group">
-                                    <div id="datos"></div>
-                                  </div>
-
+                                  
                     <div id="employee_table">
                     <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
@@ -467,7 +478,7 @@ ga('send', 'pageview');
       });
 
  });  
-   function mostrarInfo(cod){
+   function mostrarInfo(cod,mate){
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
@@ -487,12 +498,39 @@ xmlhttp.onreadystatechange=function()
   document.getElementById("datos").innerHTML='Cargando...';
     }
   }
-xmlhttp.open("POST","../views/DetalleProducto/material_preset.php",true);
+xmlhttp.open("POST","../views/DetalleProducto/cantidadDispo.php",true);
 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-xmlhttp.send("cod_banda="+cod);
+xmlhttp.send("cod_banda="+cod+"&material="+mate);
 
 };
+$(document).ready(function () {
+    $("#cantidad").keyup(function () {
 
+        var necesaria = $("#necesaria").val();
+  
+        var cantidad = $(this).val();
+        var total= necesaria * cantidad;
+
+       
+           $("#usar").val(total);
+
+      
+
+    });
+});
+</script>
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
 </script>
         
     </body>

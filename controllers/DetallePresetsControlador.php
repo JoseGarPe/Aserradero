@@ -34,19 +34,25 @@ elseif ($accion=="eliminar") {
 elseif ($accion=="guardar") 
 {
 	$id_preset=$_POST['id_preset'];
-$id_material=$_POST['id_material'];
+$id_material=$_POST['idmaterial'];
 $count_materiales = count($id_material);
 $i=0;
 $cantidad=$_POST['cantidad'];
+$tm=$_POST['total'];
 
 
-	while ($i<$count_materiales) {
+	while ($i<$tm) {
+		if ($cantidad[$i]=="") {
+		
+		$i=$i+1;
+		}else{	
 		$deta_pres= new DetallePreset();
 		$deta_pres->setId_preset($id_preset);
 		$deta_pres->setId_material($id_material[$i]);
 		$deta_pres->setCantidad($cantidad[$i]);
 		$save1=$deta_pres->save();
-		$i=$i+1;
+			$i=$i+1;
+		}
 	}
 		
 	if ($save1==true) {
@@ -54,7 +60,7 @@ $cantidad=$_POST['cantidad'];
 		# code...
 	}
 	else{
-		header('Location: ../listas/Presets.php?error=incorrecto');
+		header('Location: ../listas/Presets.php?error=incorrecto$cantidad='.$id_material[1].'');
 	}
 }
 

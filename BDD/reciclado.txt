@@ -1,0 +1,11 @@
+
+
+                         require_once "../class/DetalleBodega.php";
+                         $misBodegass = new DetalleBodega();
+                         $bode = $misBodegass->selectALLP_M($rw['id_material']);
+                         echo' <select onchange="mostrarInfo(this.value,'.$rw['id_material'].')" class="form-control" name="id_bodega_mp" id="id_bodega_mp">
+                            <option value="0">Seleccione una Bodega</option>';
+                           foreach ((array)$bode as $r) {
+                            echo "<option value='".$r['id_bodega']."'>".$r['bodega']."</option>";
+                          }
+                          echo'</select>';
