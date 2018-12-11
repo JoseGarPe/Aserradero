@@ -182,6 +182,13 @@ public function save()
         $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_bodega;
     }
+     public function selectProductos($codigo)
+    {
+        $query="SELECT op.id_orden_producto, p.nombre as preset,b.nombre as bodega, SUM(op.cantidad) AS TOTAL,op.estado FROM orden_producto op INNER JOIN presets p ON p.id_preset = op.id_preset INNER JOIN bodegas b ON b.id_bodega = op.id_bodega WHERE op.id_bodega = '".$codigo."' AND op.fase='Finalizado'";
+        $selectall=$this->db->query($query);
+        $ListOrdenes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListOrdenes;
+    }
 
 
 }

@@ -29,8 +29,10 @@
                       </li>
                       <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="../listas/DetallePresets.php">Procesar Preset</a></li>  
-                          <li><a href="../listas/DetalleProducto.php">Orden Creacion</a></li>                 
+                          <li><a href="../listas/DetallePresets.php">Definir Preset</a></li>  
+                          <li><a href="../listas/DetalleProducto.php">Orden Creacion</a></li>
+                          <li><a href="../listas/confirmarOrden.php">Confirmar Producto</a></li>
+                          <li><a href="../listas/cambio_fase.php">Seguimiento Orden</a></li>                      
                         </ul>
                       </li>
                       

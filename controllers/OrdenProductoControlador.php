@@ -38,6 +38,7 @@ elseif ($accion=="guardar")
 {
 	//orden de producto
 	$id_preset=$_POST['id_preset'];
+	$nombre_preset=$_POST['nombre_preset'];
 	$cantidad=$_POST['cantidad'];
 	$id_bodega=$_POST['id_bodega'];
 	$estado="Sin Confirmar";
@@ -96,12 +97,49 @@ $id_bodega_descuenta=$_POST['id_bodega_mp'];
 
 		}
 
-		header('Location: ../listas/DetalleProducto.php?success=correcto');
+		header('Location: ../listas/DetalleProducto.php?success=correcto&id='.$id_preset.'&preset='.$nombre_preset.'');
 		# code...
 	}
 	else{
 		header('Location: ../listas/DetalleProducto.php?error=incorrecto');
 	}
 }
+
+elseif ($accion=="confirmar") {
+	$id_OrdenProducto =$_POST['id'];
+	$estado =$_POST['estado'];
+	$fase =$_POST['fase'];
+	$id =$_POST['pl'];
+	$preset =$_POST['preset'];
+	$orden_producto = new OrdenProducto();
+	$orden_producto->setId_orden_producto($id_OrdenProducto);
+		$orden_producto->setEstado($estado);
+		$orden_producto->setFase($fase);
+	$delete=$orden_producto->changeStatus();
+	if ($delete==true) {
+		header('Location: ../listas/confirmarOrden.php?success=correcto&id='.$id.'&preset='.$preset.'');
+		# code...
+	}else{
+		header('Location: ../listas/OrdenProducto.php?error=incorrecto');
+	}
+}
+
+elseif ($accion=="fase") {
+	$id_OrdenProducto =$_POST['id'];
+	$fase =$_POST['fase'];
+	$id =$_POST['pl'];
+	$preset =$_POST['preset'];
+	$orden_producto = new OrdenProducto();
+	$orden_producto->setId_orden_producto($id_OrdenProducto);
+		$orden_producto->setFase($fase);
+	$delete=$orden_producto->changePhase();
+	if ($delete==true) {
+		header('Location: ../listas/cambio_fase.php?success=correcto&id='.$id.'&preset='.$preset.'');
+		# code...
+	}else{
+		header('Location: ../listas/OrdenProducto.php?error=incorrecto');
+	}
+}
+
 
  ?>

@@ -177,7 +177,8 @@
                         $id_preset=$_GET['id'];
                         $preset = $_GET['preset'];
                         echo '<h1>Producto fabricado: '.$preset.'</h1>
-                        <input id="id_preset"  name="id_preset" readonly type="hidden" value="'.$id_preset.'">';
+                        <input id="id_preset"  name="id_preset" readonly type="hidden" value="'.$id_preset.'">
+                        <input id="nombre_preset"  name="nombre_preset" readonly type="hidden" value="'.$preset.'">';
                       }
                       else{
                         $id_material=0;
@@ -257,7 +258,7 @@
                          echo' <select  class="form-control" name="id_bodega_mp[]" id="id_bodega_mp[]">
                             <option value="0">Seleccione una Bodega</option>';
                            foreach ((array)$bode as $r) {
-                            echo "<option value='".$r['id_bodega']."'>".$r['bodega']."</option>";
+                            echo "<option value='".$r['id_bodega']."'>".$r['bodega']." Cantidad:".$r['cantidad']."</option>";
                           }
                           echo'</select>';
                            echo' </td>
@@ -274,15 +275,55 @@
                       </div>
 
                                   
-                    <div id="employee_table">
-                  
-                  </div>
+                    
 
                    <div class="box-footer">
                 <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
              </div>
 
-</form>                  <!--END X CONTENT-->
+</form>        
+            <div id="employee_table">
+
+              <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                        <tr>
+                          <th>N° Orden</th>
+                          <th>Producto</th>
+                          <th>Cantidad</th>
+                          <th>Bodega Guardado</th>
+                          <th>Estado</th> 
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                         require_once "../class/OrdenProducto.php";
+                         $misOrdenes = new OrdenProducto();
+                         $orden = $misOrdenes->selectOrdenes($id_preset);
+                         foreach ((array)$orden as $ky) {
+                         echo '
+                          <tr>
+                           <td>'.$ky['id_orden_producto'].'</td>
+                           <td>'.$ky['preset'].'</td>
+                            <td>'.$ky["cantidad"].' </td>
+                           <td>'.$ky["bodega"].'</td>
+                            <td>'.$ky["estado"].' </td>
+                          </tr>
+                         ';
+                       }
+                     
+                     
+                         ?>
+                      </tbody>
+                    </table>
+
+                  
+                  </div>
+
+
+
+
+          <!--END X CONTENT-->
                   </div>
                 </div>
               </div>

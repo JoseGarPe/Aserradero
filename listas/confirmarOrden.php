@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Aserradero</title>
+    <title>Creacion | Aserradero</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -99,11 +99,11 @@
         
               
 
-        
+			  
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de DetalleBodegaes</h2>
+                    <h2>Pagina de Categorias</h2>
 
 
                     
@@ -166,128 +166,107 @@
             }
              ?></div>
                   <div class="x_content">
-                  
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-
-                   <input type="button" name="accion" value="Bodegas" id="accion" class="btn btn-primary view_data1" /> 
+                   <input type="button" name="accion" value="Seleccionar Preset" id="accion" class="btn btn-success selec_data" /> 
                     <br>
                     <br>
                     <?php 
+                      if (isset($_GET['id']) && isset($_GET['preset'])) {
+                        $id_preset=$_GET['id'];
+                        $preset = $_GET['preset'];
+                        echo '<h1>Producto fabricado: '.$preset.'</h1>
+                        <input id="id_preset"  name="id_preset" readonly type="hidden" value="'.$id_preset.'">
+                        <input id="nombre_preset"  name="nombre_preset" readonly type="hidden" value="'.$preset.'">';
+                      }
+                      else{
+                        $id_material=0;
+                        $id_preset=0;
+                        $preset="No ha seleccionado aun ";
+                      }
 
-                          if (isset($_GET["id"]) && isset($_GET["nombre"])) {
-                        $codigo=$_GET["id"];
-                        $nombre=$_GET["nombre"];
-                        echo '<label><h2>Bodega: '.$nombre.'</h2></label>';
-                          }else{
-                            $codigo=0;
-                            $nombre="Selecciones un Bodega";
-                          }
-           
-                   ?>
-                   <h1>Materiales Guardados</h1>
-                    <div id="employee_table">
-                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
+                     ?> 
+        
+            <div id="employee_table">
+
+              <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
-                       <tr>
-                          <th>Id</th>
-                          <th>Material</th>
-                          <th>Dimensiones</th>
-                          <th>Categoria</th> 
-                          <th>Cantidad de Piezas</th>  
-                          <th>Opciones</th>                                  
-                        </tr>
-                      </thead>
-                      <tbody>
-                          <?php 
-            require_once "../class/DetalleBodega.php";
-                         $ms = new DetalleBodega();
-                         $contacto = $ms->selectALLP($codigo);
-                         foreach ($contacto as $row) {
-                          echo '<tr>
-                          <td>'.$row['id_material'].'</td>
-                          <td>'.$row['material'].'</td>
-                           <td>'.$row['largo'].'x'.$row['ancho'].'x'.$row['grueso'].'</td>
-                           <td>'.$row['categoria'].'</td>
-                           <td>'.$row['cantidad'].'</td>
-                           <td></td>
-                          ';
-                            
-                            echo'
-                          </tr>';
-                         }
-           
-            ?>
-                         
-                      </tbody>
-                    </table>
-                  </div>
-                  <br>
-                  <br>
-                  <br>
-                  <h1>Productos Guardados:</h1>
-
-
-                  <div id="employee_table">
-                    <table id="example1" class="table table-striped table-bordered" name="datatable-buttons">
-                      <thead>
-                       <tr>
+                        <tr>
                           <th>N° Orden</th>
                           <th>Producto</th>
                           <th>Cantidad</th>
                           <th>Bodega Guardado</th>
-                          <th>Estado</th>                                  
+                          <th>Estado</th> 
+                          <th>Confirmar</th> 
+
                         </tr>
                       </thead>
                       <tbody>
-                          <?php 
-                         $db = new DetalleBodega();
-                         $productos = $db->selectProductos($codigo);
-                         foreach ($productos as $ky) {
-                       echo '
+                        <?php 
+                         require_once "../class/OrdenProducto.php";
+                         $misOrdenes = new OrdenProducto();
+                         $orden = $misOrdenes->selectOrdenes($id_preset);
+                         foreach ((array)$orden as $ky) {
+                         echo '
                           <tr>
                            <td>'.$ky['id_orden_producto'].'</td>
                            <td>'.$ky['preset'].'</td>
-                            <td>'.$ky["TOTAL"].' </td>
+                            <td>'.$ky["cantidad"].' </td>
                            <td>'.$ky["bodega"].'</td>
-                            <td>'.$ky["estado"].' </td>
+                            <td>'.$ky["estado"].' </td>';
+                            if ($ky['estado']=="Confirmado") {
+                              echo "<td></td>
+                              </tr>";
+                            }else{
+
+                            echo '
+                            <td><input type="button" name="confirm" value="Confirmar" id="'.$ky['id_orden_producto'].'" pl="'.$id_preset.'" nombre="'.$preset.'" cantidad="'.$ky['cantidad'].'" class="btn btn-info confirm_data"/></td>
                           </tr>
                          ';
-           }
-            ?>
-                         
+                              
+                            }
+                       }
+                     
+                     
+                         ?>
                       </tbody>
                     </table>
+
+                  
                   </div>
-                  <!--END X CONTENT-->
+
+
+
+
+          <!--END X CONTENT-->
                   </div>
                 </div>
               </div>
-        
-        
-        
+			  
+			  
+			  
             </div>
- <div id="dataModal1" class="modal fade">  
+ <div id="dataModal" class="modal fade">  
                                   <div class="modal-dialog">  
-                                       <div class="modal-content modal-md">  
+                                       <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Bodegas</h4>  
+                                                 <h4 class="modal-title">Detalle Categorias</h4>  
                                             </div>  
-                                            <div class="modal-body" id="employee_forms1">  
+                                            <div class="modal-body" id="employee_detail">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
                                             </div>  
                                        </div>  
-                                  </div>    
-</div>  
- <div id="dataModal2" class="modal fade">  
+                                  </div>  
+  </div>  
+   <div id="dataModal2" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalles DetalleBodega</h4>  
+                                                 <h4 class="modal-title">Detalle Creacion</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -295,14 +274,14 @@
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
                                             </div>  
                                        </div>  
-                                  </div>    
-</div>  
-        <div id="dataModal3" class="modal fade">  
+                                  </div>  
+  </div>
+     <div id="dataModal3" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Nuevo Material</h4>  
+                                                 <h4 class="modal-title">Agregar Nuevo Tipo Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -317,7 +296,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Material</h4>  
+                                                 <h4 class="modal-title">Eliminar Tipo Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
                                             </div>  
@@ -333,7 +312,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nuevo Material</h4>  
+                     <h4 class="modal-title">Agregar nueva Categorias</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -348,7 +327,7 @@
             <!-- footer content -->
             <footer>
               <div class="pull-right">
-                Aserradero - Creado por <a href="https://colorlib.com">Chiltex SV</a>
+                Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
               </div>
               <div class="clearfix"></div>
             </footer>
@@ -356,9 +335,9 @@
           </div>
         </div>
     <!-- jQuery -->
-   <script src="../vendors/jquery/dist/jquery.min.js"></script>
-   <!-- Bootstrap -->
-   <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+	 <script src="../vendors/jquery/dist/jquery.min.js"></script>
+	 <!-- Bootstrap -->
+	 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
     <script src="../vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
@@ -397,63 +376,37 @@ ga('send', 'pageview');
     </script>
 <script type="text/javascript">
 
-
-   $(document).ready(function(){ 
-
-
-
-
+   $(document).ready(function(){  
       $('#add').click(function(){  
            $('#insert').val("Insert");  
-           $('#insert_form')[0].reset(); 
-
-
-
-
-
+           $('#insert_form')[0].reset();  
       });  
 
-      
-
-      $(document).on('click', '.view_data1', function(){  
-          var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/listBodega.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms1').html(data);  
-                          $('#dataModal1').modal('show');  
-                     }  
-                });  
-           }   
-      });  
-     
       $(document).on('click', '.confirm_data', function(){  
            var employee_id = $(this).attr("id");  
-           var employee_pl = $(this).attr("pl");  
+           var employee_pl = $(this).attr("pl");
+           var employee_name = $(this).attr("nombre"); 
+           var employee_cantidad = $(this).attr("cantidad");   
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/DetalleBodega/confirmDetalleBodega.php",  
+                     url:"../views/DetalleProducto/confirmCreacion.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id,employee_pl:employee_pl},  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_name:employee_name,employee_cantidad:employee_cantidad},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
                           $('#dataModal2').modal('show');  
                      }  
                 });  
            }            
-      });  
-
-        $(document).on('click', '.save_data', function(){  
-           var employee_action = $(this).attr("accion");  
+      }); 
+      
+        $(document).on('click', '.selec_data', function(){  
+           var employee_action = $(this).attr("id");  
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/Materiales/saveMateriales.php",  
+                     url:"../views/DetalleProducto/listPresets1.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
@@ -466,11 +419,11 @@ ga('send', 'pageview');
 
 
       $(document).on('click', '.delete_data', function(){  
-          var employee_id = $(this).attr("id");
+          var employee_id = $(this).attr("id");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/DetalleBodega/deleteDetalleBodega.php",  
+                     url:"../views/Categorias/deleteCategoria.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -482,9 +435,47 @@ ga('send', 'pageview');
       });
 
  });  
+   function mostrarInfo(cod,mate){
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("datos").innerHTML=xmlhttp.responseText;
+     var id_m = $("#id_m").val();
+     
+    }else{ 
+  document.getElementById("datos").innerHTML='Cargando...';
+    }
+  }
+xmlhttp.open("POST","../views/DetalleProducto/cantidadDispo.php",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("cod_banda="+cod+"&material="+mate);
 
+};
+$(document).ready(function () {
+    $("#cantidad").keyup(function () {
+
+        var necesaria = $("#necesaria").val();
+  
+        var cantidad = $(this).val();
+        var total= necesaria * cantidad;
+
+       
+           $("#usar").val(total);
+
+      
+
+    });
+});
 </script>
-        
 <script>
   $(function () {
     $('#example1').DataTable()
@@ -498,5 +489,6 @@ ga('send', 'pageview');
     })
   })
 </script>
+        
     </body>
 </html>
