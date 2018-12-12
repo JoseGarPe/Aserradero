@@ -171,12 +171,12 @@
                    <input type="button" name="accion" value="Seleccionar Preset" id="accion" class="btn btn-success selec_data" /> 
                     <br>
                     <br>
-<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/OrdenProductoControlador.php?accion=guardar" method="post">
+<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/OrdenProductoControlador.php?accion=calculo" method="post">
                     <?php 
                       if (isset($_GET['id']) && isset($_GET['preset'])) {
                         $id_preset=$_GET['id'];
                         $preset = $_GET['preset'];
-                        echo '<h1>Producto fabricado: '.$preset.'</h1>
+                        echo '<h1>Producto Seleccionado: '.$preset.'</h1>
                         <input id="id_preset"  name="id_preset" readonly type="hidden" value="'.$id_preset.'">
                         <input id="nombre_preset"  name="nombre_preset" readonly type="hidden" value="'.$preset.'">';
                       }
@@ -184,40 +184,33 @@
                         $id_material=0;
                         $id_preset=0;
                       }
+                      if (isset($_GET['cantidad'])) {
+                        $cantidad_posible=$_GET['cantidad'];
+                        echo '
+                        <br>
+                        <h2>Cantidad Posible con los datos ingresados: '.$cantidad_posible.'</h2>';
+                      }
 
                      ?>   
                         <div class="row">
                           <div class="col-xs-12" >
-                            <div class="col-xs-8 col-sm-6">
-                              <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Cantidad de Orden<span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <input id="cantidad"  name="cantidad" class="form-control col-md-7 col-xs-12"  type="number">
-                                </div>
-                              </div>
-                            </div>
+                            
                             <div class="col-xs-8 col-sm-6">
                                  <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Bodega Destino<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Seleccione Accion<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <select class="form-control" name="id_bodega" id="id_bodega">
-                                <option value="0">Seleccione una opcion</option>
-                          <?php 
-                         require_once "../class/Bodega.php";
-
-                          $mistipos = new Bodega();
-                         $catego = $mistipos->selectALL();
-                          foreach ((array)$catego as $riw) {
-
-                            echo "<option value='".$riw['id_bodega']."'>".$riw['nombre']."</option>";
-
-                          } 
-
-                                    ?>
+                              <select onchange="mostrarInfo(this.value)" class="form-control" name="seleccion" id="seleccion">
+                                <option value="1">Calcular cantidad posible</option>
+                                <option value="2">Calcular cantidad faltante de materiales</option>
+                          
                           </select>
                             </div>
+                          </div>
+                            </div>
+                            <div class="col-xs-8 col-sm-6">
+                              <div class="form-group">
+                              <div id="datos"></div>
                           </div>
                             </div>
                             
@@ -278,7 +271,7 @@
                     
 
                    <div class="box-footer">
-                <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
+                <input type="submit" class="btn btn-primary" name="submit" value="Calcular" >
              </div>
 
 </form>        
@@ -466,7 +459,7 @@ ga('send', 'pageview');
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/DetalleProducto/listPresets.php",  
+                     url:"../views/DetalleProducto/listPresets3.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
@@ -495,7 +488,7 @@ ga('send', 'pageview');
       });
 
  });  
-   function mostrarInfo(cod,mate){
+   function mostrarInfo(cod){
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
@@ -517,7 +510,7 @@ xmlhttp.onreadystatechange=function()
   }
 xmlhttp.open("POST","../views/DetalleProducto/inputCantidad.php",true);
 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-xmlhttp.send("cod_banda="+cod+"&material="+mate);
+xmlhttp.send("cod_banda="+cod);
 
 };
 $(document).ready(function () {

@@ -32,7 +32,8 @@
                           <li><a href="../listas/DetallePresets.php">Definir Preset</a></li>  
                           <li><a href="../listas/DetalleProducto.php">Orden Creacion</a></li>
                           <li><a href="../listas/confirmarOrden.php">Confirmar Producto</a></li>
-                          <li><a href="../listas/cambio_fase.php">Seguimiento Orden</a></li>                      
+                          <li><a href="../listas/cambio_fase.php">Seguimiento Orden</a></li> 
+                          <li><a href="../listas/CalculoCreacion.php">Calcular Productos/a></li>                       
                         </ul>
                       </li>
                       

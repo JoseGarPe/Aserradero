@@ -192,5 +192,45 @@ $tm=$_POST['total'];
 		header('Location: ../listas/OrdenProducto.php?error=incorrecto');
 	}
 }
+elseif ($accion=="calculo") {
+	$seleccion=$_POST['seleccion'];
+
+	$id_preset=$_POST['id_preset'];
+	$nombre_preset=$_POST['nombre_preset'];
+$id_bodega=$_POST['id_bodega_mp'];
+	// MATERIALES USADOS
+$id_material=$_POST['id_material'];
+$count_materiales = count($id_material);
+$necesarios = $_POST['necesaria'];
+$posibles;
+$i=0;
+while ($i<$count_materiales) {
+$detalle_bo = new DetalleBodega();
+			$bodega_Disponible=$detalle_bo->selectCantidad_material_bodega($id_bodega[$i],$id_material[$i]);
+			foreach ($bodega_Disponible as $key) {
+				$disponible = $key['cantidad'];
+			}
+if ($seleccion==1) {
+	$cont = $disponible / $necesarios[$i];
+	$posibles[$i]=$cont;
+	$cont=0;
+	$i=$i+1;	
+}
+
+}
+
+if ($seleccion ==1) {
+	$minimo = min($posibles);
+	header('Location: ../listas/CalculoCreacion.php?success=correcto&id='.$id_preset.'&preset='.$nombre_preset.'&cantidad='.intval($minimo).'');
+}
+	
+/*
+	if ($delete==true) {
+		
+		# code...
+	}else{
+		header('Location: ../listas/OrdenProducto.php?error=incorrecto');
+	}*/
+}
 
  ?>
