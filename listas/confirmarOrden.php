@@ -197,7 +197,8 @@
                           <th>Cantidad</th>
                           <th>Bodega Guardado</th>
                           <th>Estado</th> 
-                          <th>Confirmar</th> 
+                          <th>Confirmar</th>
+                          <th>Repuesto</th>  
 
                         </tr>
                       </thead>
@@ -216,11 +217,14 @@
                             <td>'.$ky["estado"].' </td>';
                             if ($ky['estado']=="Confirmado") {
                               echo "<td></td>
-                              </tr>";
+                                <td></td>
+                                                            </tr>";
                             }else{
 
                             echo '
                             <td><input type="button" name="confirm" value="Confirmar" id="'.$ky['id_orden_producto'].'" pl="'.$id_preset.'" nombre="'.$preset.'" cantidad="'.$ky['cantidad'].'" class="btn btn-info confirm_data"/></td>
+
+                            <td><input type="button" name="confirm" value="Error Produccion" id="'.$ky['id_orden_producto'].'" pl="'.$id_preset.'" nombre="'.$preset.'" cantidad="'.$ky['cantidad'].'" class="btn btn-info error_data"/></td>
                           </tr>
                          ';
                               
@@ -400,6 +404,24 @@ ga('send', 'pageview');
                 });  
            }            
       }); 
+      $(document).on('click', '.error_data', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_pl = $(this).attr("pl");
+           var employee_name = $(this).attr("nombre"); 
+           var employee_cantidad = $(this).attr("cantidad");   
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/DetalleProducto/errorCreacion.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_name:employee_name,employee_cantidad:employee_cantidad},  
+                     success:function(data){  
+                          $('#employee_forms2').html(data);  
+                          $('#dataModal2').modal('show');  
+                     }  
+                });  
+           }            
+      });
       
         $(document).on('click', '.selec_data', function(){  
            var employee_action = $(this).attr("id");  

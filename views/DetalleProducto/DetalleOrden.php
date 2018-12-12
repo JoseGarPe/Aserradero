@@ -114,7 +114,7 @@ function save()
 
      public function selectDetalle_Orden($codigo)
     {
-        $query="SELECT op.*,deo.id_orden_producto,deo.id_detalle_preset,deo.cantidad_utilizado,m.nombre, m.largo,m.ancho,m.grueso FROM detalle_orden deo INNER JOIN orden_producto op ON op.id_orden_producto=deo.id_orden_producto INNER JOIN detalle_preset dp ON dp.id_detalle_preset = deo.id_detalle_preset INNER JOIN materiales m ON m.id_material = dp.id_material WHERE op.id_orden_producto ='".$codigo."'";
+        $query="SELECT op.*,deo.id_orden_producto,deo.id_detalle_preset,deo.cantidad_utilizado,m.nombre, m.largo,m.ancho,m.grueso,deo.id_detalle_orden, dp.id_material, deo.id_bodega FROM detalle_orden deo INNER JOIN orden_producto op ON op.id_orden_producto=deo.id_orden_producto INNER JOIN detalle_preset dp ON dp.id_detalle_preset = deo.id_detalle_preset INNER JOIN materiales m ON m.id_material = dp.id_material WHERE op.id_orden_producto ='".$codigo."'";
         $selectall=$this->db->query($query);
        $Listdetalle_orden=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_orden;

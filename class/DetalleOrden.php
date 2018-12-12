@@ -120,6 +120,17 @@ function save()
         return $Listdetalle_orden;
     }
 
+     public function updateUtilizado()
+    {
+        $query="UPDATE detalle_orden SET cantidad_utilizado='".$this->cantidad_utilizada."' WHERE id_detalle_orden='".$this->id_detalle_orden."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+    }
+
     
 
 

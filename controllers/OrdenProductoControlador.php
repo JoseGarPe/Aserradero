@@ -140,6 +140,57 @@ elseif ($accion=="fase") {
 		header('Location: ../listas/OrdenProducto.php?error=incorrecto');
 	}
 }
+elseif ($accion=="error") {
+	$id_OrdenProducto =$_POST['id'];
+	$estado =$_POST['estado'];
+	$fase =$_POST['fase'];
+	$id =$_POST['pl'];
+	$preset =$_POST['preset'];
+	// actualizar bodega
+	$id_bodega=$_POST['bodega'];
+	$id_material=$_POST['material'];
+	// datos para actualizar la cantidad usada
+	$id_do= $_POST['id_do'];
+	$count_materiales = count($id_do);
+	$repuesto=$_POST['repuesto'];
+$tm=$_POST['total'];
+	$i=0;
+		while ($i<$tm) {
+		if ($repuesto[$i]=="" || $repuesto[$i]=="0") {
+		
+		$i=$i+1;
+		}else{		
+			$detalle_orden= new DetalleOrden();
+			$orden= $detalle_orden->selectOne($id_do[$i]);
+			foreach ($orden as $key) {
+				$anterior = $key['cantidad_utilizado'];
+			}
+			$nueva_cantidad1=$anterior+$repuesto[$i];
+			$detalle_orden->setCantidad_utilizada($nueva_cantidad1);
+			$detalle_orden->setId_detalle_orden($id_do[$i]);
+			$detalle_orden->updateUtilizado();
 
+			$detalle_bo = new DetalleBodega();
+			$bodega_Disponible=$detalle_bo->selectCantidad_material_bodega($id_bodega[$i],$id_material[$i]);
+			foreach ($bodega_Disponible as $key) {
+				$disponible = $key['cantidad'];
+			}
+			$actualizar_cantidad = $disponible-$repuesto[$i];
+		$detalle_bo->setId_bodega($id_bodega[$i]);
+		$detalle_bo->setId_material($id_material[$i]);
+		$detalle_bo->setCantidad($actualizar_cantidad);
+		$save1=$detalle_bo->updateC();
+
+			$i=$i+1;
+			$nueva_cantidad1=0;
+		}
+	}
+	if ($save1==true) {
+		header('Location: ../listas/confirmarOrden.php?success=correcto&id='.$id.'&preset='.$preset.'');
+		# code...
+	}else{
+		header('Location: ../listas/OrdenProducto.php?error=incorrecto');
+	}
+}
 
  ?>
