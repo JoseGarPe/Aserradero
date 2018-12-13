@@ -292,6 +292,7 @@
                           <th>Cantidad</th>
                           <th>Bodega Guardado</th>
                           <th>Estado</th> 
+                          <th>Fecha Ordenado</th> 
 
                         </tr>
                       </thead>
@@ -308,6 +309,7 @@
                             <td>'.$ky["cantidad"].' </td>
                            <td>'.$ky["bodega"].'</td>
                             <td>'.$ky["estado"].' </td>
+                            <td>'.$ky["fecha_orden"].' </td>
                           </tr>
                          ';
                        }

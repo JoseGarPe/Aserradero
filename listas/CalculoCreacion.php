@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Creacion | Aserradero</title>
+    <title>Productos | Aserradero</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -103,7 +103,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de Categorias</h2>
+                    <h2>Calculo de Productos</h2>
 
 
                     
@@ -274,8 +274,61 @@
                 <input type="submit" class="btn btn-primary" name="submit" value="Calcular" >
              </div>
 
-</form>        
+</form> 
+<br>
+<br>       
+        <?php 
+          if (isset($_GET['calculo']) && isset($_GET['ultimos']) && isset($_GET['cantidad_n'])) {
+            $calculo=$_GET['calculo'];
+            $ultimos=$_GET['ultimos'];
+            $cantidad_n =$_GET['cantidad_n'];
+            echo '
+            <div id="employee_table">
             
+                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                      <tr>
+           <h1>Producto Seleccionado: '.$preset.'</h1>
+           <h2>Cantidad: '.$cantidad_n.'</h2>
+                     </tr>
+                        <tr>
+                        <th>n°</th>
+                          <th>Material</th>
+                          <th>Dimensiones</th>
+                          <th>Bodega Seleccionada</th>
+                          <th>Cantidad Restante</th>                        
+                        </tr>
+                      </thead>
+                      <tbody>
+
+            ';
+            require_once "../class/DetalleBodega.php";
+                         $misTemporales = new DetalleBodega();
+                         $catego = $misTemporales->selectTemp($id_preset,$ultimos);
+                        
+                           # code...
+                         
+                         foreach ((array)$catego as $row) {
+                         echo '
+                          <tr>
+                           <td>'.$row['id_temporal'].'</td>
+                           <td>'.$row['material'].'</td>
+                           <td>'.$row['largo'].' x '.$row['ancho'].' x '.$row['grueso'].'</td>
+                           <td>'.$row['bodega'].'</td>
+                           <td>'.$row['cantidad'].'</td>
+                          </tr>
+                         ';
+                       }
+                     
+                       echo '
+                      </tbody>
+                    </table>
+                  </div>';
+
+
+          }
+
+         ?>
 
 
 

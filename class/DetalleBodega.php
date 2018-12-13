@@ -6,6 +6,8 @@ private $id_detalle_bodega;
 private $id_bodega;
 private $id_material;
 private $cantidad;
+// para temporal
+private $id_preset;
 
 
 public function __construct()
@@ -16,6 +18,7 @@ public function __construct()
         $this->id_bodega = "";
         $this->id_material = "";
         $this->cantidad = "";
+        $this->id_preset = "";
 
 }
 
@@ -49,6 +52,15 @@ public function __construct()
 
     public function setCantidad($cantidad) {
         $this->cantidad = $cantidad;
+    }
+
+    //para temporal
+   public function getId_preset() {
+        return $this->id_preset;
+    }
+
+    public function setId_preset($id_preset) {
+        $this->id_preset = $id_preset;
     }
 
     //-------------------------------------------------------------------------------------------------------//
@@ -188,6 +200,36 @@ public function save()
         $selectall=$this->db->query($query);
         $ListOrdenes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListOrdenes;
+    }
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------- TEMPORAL --------------------------------------------------------------------------//
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+    public function saveTemp(){
+
+        $query="INSERT INTO temporal(id_temporal,id_material, id_bodega, cantidad,id_preset) values(NULL,'".$this->id_material."','".$this->id_bodega."','".$this->cantidad."','".$this->id_preset."')";
+        $save=$this->db->query($query);
+        if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+
+
+    }
+       public function selectTemp($codigo,$cantidad)
+    {
+        $query="SELECT t.id_temporal,m.nombre as material, m.largo,m.grueso,m.ancho, b.nombre as bodega, t.cantidad, p.nombre as preset FROM temporal t INNER JOIN materiales m ON m.id_material = t.id_material INNER JOIN bodegas b on b.id_bodega = t.id_bodega INNER JOIN presets p ON p.id_preset = t.id_preset  WHERE t.id_preset='".$codigo."' ORDER BY id_temporal DESC LIMIT ".$cantidad." ";
+        $selectall=$this->db->query($query);
+        $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listdetalle_bodega;
+
+    }  public function selectLastTemp()
+    {
+        $query="SELECT * FROM temporal ORDER BY id_temporal DESC LIMIT 1";
+        $selectall=$this->db->query($query);
+        $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListClientes;
     }
 
 

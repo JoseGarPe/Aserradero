@@ -202,6 +202,7 @@ $id_bodega=$_POST['id_bodega_mp'];
 $id_material=$_POST['id_material'];
 $count_materiales = count($id_material);
 $necesarios = $_POST['necesaria'];
+$cantidad = $_POST['usar'];
 $posibles;
 $i=0;
 while ($i<$count_materiales) {
@@ -216,12 +217,26 @@ if ($seleccion==1) {
 	$cont=0;
 	$i=$i+1;	
 }
+else{
+	$cont_total = $necesarios[$i] * $cantidad;
+	$totat_faltante = $disponible - $cont_total;
+	$detalle_bo->setId_material($id_material[$i]);
+	$detalle_bo->setId_bodega($id_bodega[$i]);
+	$detalle_bo->setCantidad(abs($totat_faltante));
+	$detalle_bo->setId_preset($id_preset);
+	$save_temporal=$detalle_bo->saveTemp();
+	$i=$i+1;
+
+
+}
 
 }
 
 if ($seleccion ==1) {
 	$minimo = min($posibles);
 	header('Location: ../listas/CalculoCreacion.php?success=correcto&id='.$id_preset.'&preset='.$nombre_preset.'&cantidad='.intval($minimo).'');
+}else{
+	header('Location: ../listas/CalculoCreacion.php?success=correcto&id='.$id_preset.'&preset='.$nombre_preset.'&calculo=SI&ultimos='.$i.'&cantidad_n='.$cantidad.'');
 }
 	
 /*
