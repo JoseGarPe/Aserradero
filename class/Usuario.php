@@ -80,8 +80,8 @@ class Usuario extends conexion
     }
 
     public function save(){
-
-    	$query="INSERT INTO usuarios(id_usuarios, nombre, apellido, correo, telefono, contrasena, id_tipo_usuario) values(NULL,'".$this->nombre."','".$this->apellido."','".$this->correo."','".$this->telefono."','".$this->contrasena."','".$this->id_tipo_usuario."')";
+    	 $password = hash('sha256', $this->contraseña);
+    	$query="INSERT INTO usuarios(id_usuarios, nombre, apellido, correo, telefono, contrasena, id_tipo_usuario) values(NULL,'".$this->nombre."','".$this->apellido."','".$this->correo."','".$this->telefono."','".$password."','".$this->id_tipo_usuario."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -130,6 +130,45 @@ class Usuario extends conexion
         $selectall=$this->db->query($query);
        $ListUsuario=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListUsuario;
+    }
+
+    public function login(){
+
+        $pass = hash("sha256", $this->contraseña);
+        $query1="SELECT * FROM usuarios WHERE correo='".$this->correo."' AND pass='".$pass."'";
+        $selectall1=$this->db->query($query1);
+        $ListUsuario=$selectall1->fetch_all(MYSQLI_ASSOC);
+
+        if ($selectall1->num_rows!=0) {
+            foreach ($ListUsuario as $key) {
+            if ($key["id_tipo_usuario"]==1) {
+                session_start();
+                
+                $_SESSION['logged-in'] = true;
+                $_SESSION['Administrador']= $this->correo;
+                $_SESSION['id_usuario']=$key['id_usuario'];
+                $_SESSION['nombre_usuario']=$key['nombbre'] ." ".$key['apellido'];
+                $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
+                return 1;
+            }
+            elseif($key["id_tipo_usuario"]!=1){
+              session_start();
+                $_SESSION['logged-in'] = true;
+                $_SESSION['Usuario']= $this->correo;
+                $_SESSION['nombre_usuario']=$key['nombbre'] ." ".$key['apellido'];
+                $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
+                $_SESSION['id_usuario']=$key['id_usuario'];
+
+                return 2;
+            }
+            else{
+                $_SESSION['logged-in'] = false;
+                return 3;
+            }
+        }
+            
+        }
+
     }
 
 
