@@ -21,7 +21,7 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                      <?php 
                       require_once "../class/Permisos.php";
                           $misPermisoss = new Permisos();
-                         $catego = $misPermisoss->selectOne($codigo);
+                         $catego = $misPermisoss->selectOnePP($codigo);
                           foreach ((array)$catego as $row) {
 
                      ?>
@@ -31,16 +31,16 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                           ?>
                       <li><a><i class="fa fa-home"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="../listas/Usuarios.php">Usuarios</a></li>
+                          <li><a href="../listas/Usuario.php">Usuarios</a></li>
                            <li><a href="../listas/TipoUsuario.php">Tipos de Usuarios</a></li>
                            <li><a href="../listas/Permisos.php">Permisos</a></li>
                         </ul>
                       </li>
                       <?php 
-                         } elseif ($row['campo_a']!=NULL && $row['campo_b']== NULL && $row['campo_c']!= NULL ){  ?>
+                         } elseif ($row['campo_a']!=NULL && $row['campo_b']== NULL && $row['campo_c']!= NULL ){?>
                          <li><a><i class="fa fa-home"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="../listas/Usuarios.php">Usuarios</a></li>
+                          <li><a href="../listas/Usuario.php">Usuarios</a></li>
                            <li><a href="../listas/Permisos.php">Permisos</a></li>
                         </ul>
                       </li>
@@ -48,7 +48,7 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         } elseif ($row['campo_a']!=NULL && $row['campo_b']!= NULL && $row['campo_c']== NULL) {  ?>
                          <li><a><i class="fa fa-home"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="../listas/Usuarios.php">Usuarios</a></li>
+                          <li><a href="../listas/Usuario.php">Usuarios</a></li>
                            <li><a href="../listas/TipoUsuario.php">Tipos de Usuarios</a></li>
                         </ul>
                       </li>
@@ -56,7 +56,7 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         } elseif ($row['campo_a']!=NULL && $row['campo_b']== NULL && $row['campo_c']== NULL) {  ?>
                          <li><a><i class="fa fa-home"></i> Usuarios <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="../listas/Usuarios.php">Usuarios</a></li>
+                          <li><a href="../listas/Usuario.php">Usuarios</a></li>
                         </ul>
                       </li>
                       <?php 
@@ -164,7 +164,7 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         </ul>
                       </li>
                       <?php 
-                        }elseif ($row['campo_i']!=NULL && $row['campo_j']!=NULL && $row['campo_k']!=NULL && $row['campo_l']!=NULL && $row['campo_m']==NULL ) {  ?>
+                        }elseif($row['campo_i']!=NULL && $row['campo_j']!=NULL && $row['campo_k']!=NULL && $row['campo_l']!=NULL && $row['campo_m']==NULL ) {  ?>
                        <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/DetallePresets.php">Definir Preset</a></li>  
@@ -174,42 +174,42 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         </ul>
                       </li>
                       <?php 
-                        } elseif ($row['campo_i']!=NULL && $row['campo_j']==NULL && $row['campo_k']==NULL && $row['campo_l']==NULL && $row['campo_m']==NULL ) {  ?>
+                        } elseif($row['campo_i']!=NULL && $row['campo_j']==NULL && $row['campo_k']==NULL && $row['campo_l']==NULL && $row['campo_m']==NULL ) {  ?>
                        <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/DetallePresets.php">Definir Preset</a></li>                       
                         </ul>
                       </li>
                       <?php 
-                        }elseif ($row['campo_i']==NULL && $row['campo_j']!=NULL && $row['campo_k']==NULL && $row['campo_l']==NULL && $row['campo_m']==NULL ) {  ?>
+                        }elseif($row['campo_i']==NULL && $row['campo_j']!=NULL && $row['campo_k']==NULL && $row['campo_l']==NULL && $row['campo_m']==NULL ) {  ?>
                        <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu"> 
                           <li><a href="../listas/DetalleProducto.php">Orden Creacion</a></li>                    
                         </ul>
                       </li>
                       <?php 
-                        }elseif ($row['campo_i']==NULL && $row['campo_j']==NULL && $row['campo_k']!=NULL && $row['campo_l']==NULL && $row['campo_m']==NULL ) {  ?>
+                        }elseif($row['campo_i']==NULL && $row['campo_j']==NULL && $row['campo_k']!=NULL && $row['campo_l']==NULL && $row['campo_m']==NULL ) {  ?>
                        <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/confirmarOrden.php">Confirmar Producto</a></li>                      
                         </ul>
                       </li>
                       <?php 
-                        }elseif ($row['campo_i']==NULL && $row['campo_j']==NULL && $row['campo_k']==NULL && $row['campo_l']!=NULL && $row['campo_m']==NULL ) {  ?>
+                        }elseif($row['campo_i']==NULL && $row['campo_j']==NULL && $row['campo_k']==NULL && $row['campo_l']!=NULL && $row['campo_m']==NULL ) {  ?>
                        <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/cambio_fase.php">Seguimiento Orden</a></li>                    
                         </ul>
                       </li>
                       <?php 
-                        }elseif ($row['campo_i']==NULL && $row['campo_j']==NULL && $row['campo_k']==NULL && $row['campo_l']==NULL && $row['campo_m']!=NULL ) {  ?>
+                        }elseif($row['campo_i']==NULL && $row['campo_j']==NULL && $row['campo_k']==NULL && $row['campo_l']==NULL && $row['campo_m']!=NULL ) {  ?>
                        <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/CalculoCreacion.php">Calcular Productos</a></li>                       
                         </ul>
                       </li>
                       <?php 
-                        }elseif ($row['campo_i']!=NULL && $row['campo_j']!=NULL && $row['campo_k']==NULL && $row['campo_l']==NULL && $row['campo_m']==NULL ) {  ?>
+                        }elseif($row['campo_i']!=NULL && $row['campo_j']!=NULL && $row['campo_k']==NULL && $row['campo_l']==NULL && $row['campo_m']==NULL ) {  ?>
                        <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/DetallePresets.php">Definir Preset</a></li>  
@@ -218,7 +218,7 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         </ul>
                       </li>
                       <?php 
-                        }elseif ($row['campo_i']==NULL && $row['campo_j']==NULL && $row['campo_k']!=NULL && $row['campo_l']!=NULL && $row['campo_m']!=NULL ) {  ?>
+                        }elseif($row['campo_i']==NULL && $row['campo_j']==NULL && $row['campo_k']!=NULL && $row['campo_l']!=NULL && $row['campo_m']!=NULL ) {  ?>
                        <li><a><i class=" fa fa-cube"></i> Presets <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/confirmarOrden.php">Confirmar Producto</a></li>
@@ -227,7 +227,7 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         </ul>
                       </li>
                       <?php 
-                        }if ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
+                        }if($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/Categorias.php">Categorias</a></li>

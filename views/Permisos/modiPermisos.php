@@ -1,4 +1,4 @@
-   <form role="form" action="../controller/PermisosControlador.php?accion=modificar" method="post">
+   <form role="form" action="../controllers/PermisosControlador.php?accion=modificar" method="post">
               <div class="box-body">
 <?php 
 require_once "Permisos.php";

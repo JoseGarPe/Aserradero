@@ -33,7 +33,7 @@
                          $catego = $mistipos->selectALL();
                           foreach ((array)$catego as $row) {
 
-                            echo "<option value='".$row['id_tipo_usua']."'>".$row['nombre']."</option>";
+                            echo "<option value='".$row['id_tipo_usuario']."'>".$row['nombre']."</option>";
 
                           } 
 
@@ -55,7 +55,7 @@
                          
                        
 </form>
-
+<!--
 <script type="text/javascript">
 var password = document.getElementById("contrasena")
   , confirm_password = document.getElementById("con_contrasena");
@@ -70,4 +70,4 @@ function validatePassword(){
 
 password.onchange = validatePassword;
 confirm_password.onkeyup = validatePassword;
-</script>
+</script>-->

@@ -319,7 +319,13 @@ class Permisos extends Conexion
         $ListCategoria=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListCategoria;
     }
-
+    public function selectOnePP($codigo)
+    {
+        $query="SELECT p.*, tu.nombre FROM permisos p INNER JOIN tipo_usuario tu ON p.id_tipo_usuario = tu.id_tipo_usuario WHERE p.id_tipo_usuario='".$codigo."'";
+        $selectall=$this->db->query($query);
+        $ListCategoria=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListCategoria;
+    }
     
 }//fin clase
 ?>

@@ -6,7 +6,7 @@ if ($accion=="login") {
 	$contraseña=$_POST['contraseña'];	
 	$usua = new Usuario();
 	$usua->setCorreo($correo);
-	$usua->setContraseña($contraseña);
+	$usua->setContrasena($contraseña);
 	$login=$usua->login();
 	if ($login==1) {
 		header('Location: ../listas/indexUs.php');

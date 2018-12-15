@@ -38,7 +38,7 @@
             <div class="col-md-3 left_col">
               <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                  <a href="../indexAdmin.php" class="site_title"><i class="fa fa-paw"></i> <span>Aserradero</span></a>
+                  <a href="indexUs.php" class="site_title"><i class="fa fa-paw"></i> <span>Aserradero</span></a>
                 </div>
     
                 <div class="clearfix"></div>
@@ -74,7 +74,7 @@
                   <a data-toggle="tooltip" data-placement="top" title="Lock">
                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                   </a>
-                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="controllers/LoginControlador.php?accion=logout">
+                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="../controllers/LoginControlador.php?accion=logout">
                     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                   </a>
                 </div>
@@ -199,6 +199,7 @@
                           <th>Producto</th>
                           <th>Cantidad</th>
                           <th>Bodega Guardado</th>
+                          <th>Maquina Asignada</th>
                           <th>Estado</th> 
                           <th>Confirmar</th>
                           <th>Repuesto</th>  
@@ -217,6 +218,7 @@
                            <td>'.$ky['preset'].'</td>
                             <td>'.$ky["cantidad"].' </td>
                            <td>'.$ky["bodega"].'</td>
+                           <td>'.$ky["maquina"].'</td>
                             <td>'.$ky["estado"].' </td>';
                             if ($ky['estado']=="Confirmado") {
                               echo "<td></td>
@@ -225,7 +227,7 @@
                             }else{
 
                             echo '
-                            <td><input type="button" name="confirm" value="Confirmar" id="'.$ky['id_orden_producto'].'" pl="'.$id_preset.'" nombre="'.$preset.'" cantidad="'.$ky['cantidad'].'" class="btn btn-info confirm_data"/></td>
+                            <td><input type="button" name="confirm" value="Confirmar" id="'.$ky['id_orden_producto'].'" pl="'.$id_preset.'" nombre="'.$preset.'" cantidad="'.$ky['cantidad'].'" maquina="'.$ky['maquina'].'" class="btn btn-info confirm_data"/></td>
 
                             <td><input type="button" name="confirm" value="Error Produccion" id="'.$ky['id_orden_producto'].'" pl="'.$id_preset.'" nombre="'.$preset.'" cantidad="'.$ky['cantidad'].'" class="btn btn-info error_data"/></td>
                           </tr>
@@ -393,13 +395,14 @@ ga('send', 'pageview');
            var employee_id = $(this).attr("id");  
            var employee_pl = $(this).attr("pl");
            var employee_name = $(this).attr("nombre"); 
-           var employee_cantidad = $(this).attr("cantidad");   
+           var employee_cantidad = $(this).attr("cantidad");
+           var employee_maquina = $(this).attr("maquina");    
            if(employee_id != '')  
            {  
                 $.ajax({  
                      url:"../views/DetalleProducto/confirmCreacion.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_name:employee_name,employee_cantidad:employee_cantidad},  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_name:employee_name,employee_cantidad:employee_cantidad,employee_maquina:employee_maquina},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
                           $('#dataModal2').modal('show');  

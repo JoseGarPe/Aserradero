@@ -41,6 +41,7 @@ elseif ($accion=="guardar")
 	$nombre_preset=$_POST['nombre_preset'];
 	$cantidad=$_POST['cantidad'];
 	$id_bodega=$_POST['id_bodega'];
+	$id_maquina=$_POST['id_maquina'];
 	$estado="Sin Confirmar";
 	$fase="NULL";
 
@@ -60,6 +61,7 @@ $id_bodega_descuenta=$_POST['id_bodega_mp'];
 		$orden_producto->setId_preset($id_preset);
 		$orden_producto->setEstado($estado);
 		$orden_producto->setFase($fase);
+		$orden_producto->setId_maquina($id_maquina);
 		$save1=$orden_producto->save();
 
 		$orden_ul=$orden_producto->selectLast();
@@ -101,7 +103,7 @@ $id_bodega_descuenta=$_POST['id_bodega_mp'];
 		# code...
 	}
 	else{
-		header('Location: ../listas/DetalleProducto.php?error=incorrecto');
+		header('Location: ../listas/DetalleProducto.php?error=incorrecto&maquina='.$id_maquina.'');
 	}
 }
 

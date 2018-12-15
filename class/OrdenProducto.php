@@ -8,7 +8,8 @@ class OrdenProducto extends conexion
 	private $cantidad;
 	private $estado;
 	private $fase;
-	private $id_preset;
+    private $id_preset;
+    private $id_maquina;
 
 	function __construct()
 	{
@@ -20,6 +21,7 @@ class OrdenProducto extends conexion
 		$this->estado ="";
 		$this->fase ="";
 		$this->id_preset ="";
+        $this->id_maquina ="";
 	}
 
 	public function getId_orden_producto(){
@@ -70,9 +72,17 @@ class OrdenProducto extends conexion
 		$this->id_preset= $id_preset;
 	}
 
+
+    public function getId_maquina(){
+        return $this->id_maquina;
+    }
+
+    public function setId_maquina($id_maquina){
+        $this->id_maquina= $id_maquina;
+    }
     public function save(){
 
-    	$query="INSERT INTO orden_producto(id_orden_producto, id_bodega, cantidad, estado, fase, id_preset,fecha_orden) values(NULL,'".$this->id_bodega."','".$this->cantidad."','".$this->estado."','".$this->fase."','".$this->id_preset."',CURDATE())";
+    	$query="INSERT INTO orden_producto(id_orden_producto, id_bodega, cantidad, estado, fase, id_preset,fecha_orden,id_maquina) values(NULL,'".$this->id_bodega."','".$this->cantidad."','".$this->estado."','".$this->fase."','".$this->id_preset."',CURDATE(),'".$this->id_maquina."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -122,7 +132,7 @@ class OrdenProducto extends conexion
 
       public function selectOrdenes($codigo)
     {
-        $query="SELECT op.id_orden_producto, p.nombre as preset,b.nombre as bodega, op.cantidad,op.estado,op.fecha_orden FROM orden_producto op INNER JOIN presets p ON p.id_preset = op.id_preset INNER JOIN bodegas b ON b.id_bodega = op.id_bodega WHERE op.id_preset ='".$codigo."'";
+        $query="SELECT op.id_orden_producto, p.nombre as preset,b.nombre as bodega, op.cantidad,op.estado,op.fecha_orden,ma.nombre as maquina,op.id_maquina FROM orden_producto op INNER JOIN presets p ON p.id_preset = op.id_preset INNER JOIN bodegas b ON b.id_bodega = op.id_bodega INNER JOIN maquinas ma ON ma.id_maquina = op.id_maquina WHERE op.id_preset ='".$codigo."'";
         $selectall=$this->db->query($query);
         $ListOrdenes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListOrdenes;

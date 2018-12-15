@@ -11,6 +11,7 @@ require_once "Bodega.php";
               $pl=$_POST["employee_pl"];
               $nombre_preset=$_POST["employee_name"];
               $cantidad_prod=$_POST["employee_cantidad"];
+              $maquina=$_POST["employee_maquina"];
 					     $detalle_orden = new DetalleOrden();
                          $catego = $detalle_orden->selectDetalle_Orden($codigo);
                         
@@ -22,6 +23,11 @@ require_once "Bodega.php";
                    <td><label>Producto fabricado: '.$nombre_preset.'</label></td>
                    <td></td>
                    <td><label>Cantidad: '.$cantidad_prod.'</label></td>
+                   </tr>
+                   <tr colspan="3">
+                   <td>Maquina Asignada:</td>
+                   <td></td>
+                    <td>'.$maquina.'</td>
                    </tr>
                    <tr colspan="3">
                    <td>Detalle de Materiales Utilizados:</td>

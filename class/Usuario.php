@@ -80,7 +80,7 @@ class Usuario extends conexion
     }
 
     public function save(){
-    	 $password = hash('sha256', $this->contraseña);
+    	 $password = hash('sha256', $this->contrasena);
     	$query="INSERT INTO usuarios(id_usuarios, nombre, apellido, correo, telefono, contrasena, id_tipo_usuario) values(NULL,'".$this->nombre."','".$this->apellido."','".$this->correo."','".$this->telefono."','".$password."','".$this->id_tipo_usuario."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
@@ -134,8 +134,8 @@ class Usuario extends conexion
 
     public function login(){
 
-        $pass = hash("sha256", $this->contraseña);
-        $query1="SELECT * FROM usuarios WHERE correo='".$this->correo."' AND pass='".$pass."'";
+        $pass = hash("sha256", $this->contrasena);
+        $query1="SELECT * FROM usuarios WHERE correo='".$this->correo."' AND contrasena='".$pass."'";
         $selectall1=$this->db->query($query1);
         $ListUsuario=$selectall1->fetch_all(MYSQLI_ASSOC);
 
@@ -146,7 +146,7 @@ class Usuario extends conexion
                 
                 $_SESSION['logged-in'] = true;
                 $_SESSION['Administrador']= $this->correo;
-                $_SESSION['id_usuario']=$key['id_usuario'];
+                $_SESSION['id_usuario']=$key['id_usuarios'];
                 $_SESSION['nombre_usuario']=$key['nombbre'] ." ".$key['apellido'];
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
                 return 1;
@@ -157,7 +157,7 @@ class Usuario extends conexion
                 $_SESSION['Usuario']= $this->correo;
                 $_SESSION['nombre_usuario']=$key['nombbre'] ." ".$key['apellido'];
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
-                $_SESSION['id_usuario']=$key['id_usuario'];
+                $_SESSION['id_usuario']=$key['id_usuarios'];
 
                 return 2;
             }

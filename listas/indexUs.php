@@ -68,7 +68,7 @@ session_start();
                   </div>
                   <div class="profile_info">
                     <span>Welcome,</span>
-                    <h2>User</h2>
+                    <h2><?php echo "".$_SESSION['nombre_usuario']; ?></h2>
                   </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -92,7 +92,7 @@ session_start();
                   <a data-toggle="tooltip" data-placement="top" title="Lock">
                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                   </a>
-                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="controllers/LoginControlador.php?accion=logout">
+                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="../controllers/LoginControlador.php?accion=logout">
                     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                   </a>
                 </div>
@@ -150,7 +150,7 @@ session_start();
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Bienvenido</h2>
+                    <h2>Bienvenido <?php echo "".$_SESSION['id_tipo_usuario']; ?></h2>
 
 
                     

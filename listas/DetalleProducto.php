@@ -38,7 +38,7 @@ session_start();
             <div class="col-md-3 left_col">
               <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                  <a href="../indexAdmin.php" class="site_title"><i class="fa fa-paw"></i> <span>Aserradero</span></a>
+                  <a href="indexUs.php" class="site_title"><i class="fa fa-paw"></i> <span>Aserradero</span></a>
                 </div>
     
                 <div class="clearfix"></div>
@@ -74,7 +74,7 @@ session_start();
                   <a data-toggle="tooltip" data-placement="top" title="Lock">
                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                   </a>
-                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="../controllers/LoginControlador.php?accion=logout">
                     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                   </a>
                 </div>
@@ -223,6 +223,30 @@ session_start();
                             </div>
                           </div>
                             </div>
+
+                            <div class="col-xs-8 col-sm-6">
+                                 <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Maquina Asignada<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <select class="form-control" name="id_maquina" id="id_maquina">
+                                <option value="0">Seleccione una opcion</option>
+                          <?php 
+                         require_once "../class/Maquinas.php";
+
+                          $misMaquinas = new Maquina();
+                         $categos = $misMaquinas->selectALL();
+                          foreach ((array)$categos as $raw) {
+
+                            echo "<option value='".$raw['id_maquina']."'>".$raw['nombre']."</option>";
+
+                          } 
+
+                                    ?>
+                          </select>
+                            </div>
+                          </div>
+                            </div>
                             
                           </div>
 
@@ -295,7 +319,8 @@ session_start();
                           <th>Cantidad</th>
                           <th>Bodega Guardado</th>
                           <th>Estado</th> 
-                          <th>Fecha Ordenado</th> 
+                          <th>Fecha Ordenado</th>
+                          <th>Maquina Asignada</th>  
 
                         </tr>
                       </thead>
@@ -313,6 +338,7 @@ session_start();
                            <td>'.$ky["bodega"].'</td>
                             <td>'.$ky["estado"].' </td>
                             <td>'.$ky["fecha_orden"].' </td>
+                            <td>'.$ky["maquina"].' </td>
                           </tr>
                          ';
                        }
