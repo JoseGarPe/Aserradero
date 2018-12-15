@@ -9,7 +9,7 @@ if ($accion=="login") {
 	$usua->setContraseña($contraseña);
 	$login=$usua->login();
 	if ($login==1) {
-		header('Location: ../listas/indexAdmin.php');
+		header('Location: ../listas/indexUs.php');
 		# code...
 	}
 	elseif($login>1) {

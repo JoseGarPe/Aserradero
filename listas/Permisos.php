@@ -1,6 +1,6 @@
-<?php
-  session_start();
-  ?>
+<?php 
+session_start();
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Aserradero</title>
+    <title>DataTables | Gentelella</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@
             <div class="col-md-3 left_col">
               <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                  <a href="../indexAdmin.php" class="site_title"><i class="fa fa-paw"></i> <span>Rio Blanco</span></a>
+                  <a href="../indexAdmin.php" class="site_title"><i class="fa fa-paw"></i> <span>Hermes</span></a>
                 </div>
     
                 <div class="clearfix"></div>
@@ -74,7 +74,7 @@
                   <a data-toggle="tooltip" data-placement="top" title="Lock">
                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                   </a>
-                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="controllers/LoginControlador.php?accion=logout">
+                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="../controller/LoginControlador.php?accion=logout">
                     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                   </a>
                 </div>
@@ -90,7 +90,90 @@
                     <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                   </div>
     
-                  
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="">
+                      <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <img src="images/img.jpg" alt="">John Doe
+                        <span class=" fa fa-angle-down"></span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <li><a href="javascript:;"> Profile</a></li>
+                        <li>
+                          <a href="javascript:;">
+                            <span class="badge bg-red pull-right">50%</span>
+                            <span>Settings</span>
+                          </a>
+                        </li>
+                        <li><a href="javascript:;">Help</a></li>
+                        <li><a data-toggle="tooltip" data-placement="top" title="Logout" href="../controller/LoginControlador.php?accion=logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                      </ul>
+                    </li>
+    
+                    <li role="presentation" class="dropdown">
+                      <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-envelope-o"></i>
+                        <span class="badge bg-green">6</span>
+                      </a>
+                      <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                        <li>
+                          <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>John Smith</span>
+                              <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>John Smith</span>
+                              <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>John Smith</span>
+                              <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a>
+                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                            <span>
+                              <span>John Smith</span>
+                              <span class="time">3 mins ago</span>
+                            </span>
+                            <span class="message">
+                              Film festivals used to be do-or-die moments for movie makers. They were where...
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <div class="text-center">
+                            <a>
+                              <strong>See All Alerts</strong>
+                              <i class="fa fa-angle-right"></i>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
                 </nav>
               </div>
             </div>
@@ -102,11 +185,11 @@
         
               
 
-        
+			  
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de Naves</h2>
+                    <h2>Pagina de Permisos</h2>
 
 
                     
@@ -169,9 +252,9 @@
             }
              ?></div>
                   <div class="x_content">
-                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
+                      
 
-                   <input type="button" name="accion" value="Nueva Nave" id="accion" class="btn btn-success save_data" /> 
+                                    <input type="button" name="accion" value="Permisosar permisos" id="accion" class="btn btn-success save_data" /> 
                     <br>
                     <br>
                     <div id="employee_table">
@@ -179,30 +262,28 @@
                       <thead>
                         <tr>
                           <th>N° </th>
-                          <th>Nombre</th>
-                          <th>Descripcion</th>
-                          <th>Opiones</th>                          
+                          <th>Tipo usuario</th>
+                          <th>Opciones / Mantenimiento</th>                          
                         </tr>
                       </thead>
                       <tbody>
                         <?php 
-                         require_once "../class/Naves.php";
-                         $misNaves = new Naves();
-                         $todos = $misNaves->selectALL();
+                         require_once "../class/Permisos.php";
+                         $misPermisoss = new Permisos();
+                         $catego = $misPermisoss->selectALL1();
                         
                            # code...
                          
-                         foreach ((array)$todos as $row) {
+                         foreach ((array)$catego as $row) {
                          echo '
                           <tr>
-                           <td>'.$row['id_nave'].'</td>
+                           <td>'.$row['id_permiso'].'</td>
                            <td>'.$row['nombre'].'</td>
-                           <td>'.$row['descripcion'].'</td>
                            <td>
                           
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_nave"].'" class="btn btn-info view_data"/>  
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_nave"].'" class="btn btn-warning edit_data" />
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_nave"].'" class="btn btn-danger delete_data" />
+                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_permiso"].'" class="btn btn-info view_data"/>  
+                                    <input type="button" name="edit" value="Editar" id="'.$row["id_permiso"].'" class="btn btn-warning edit_data" />
+                                    <a href="../controller/PermisosControlador.php?id='.$row["id_permiso"].'&accion=eliminar" class="btn btn-danger">Eliminar</a>
                            </td>
                           </tr>
                          ';
@@ -216,16 +297,16 @@
                   </div>
                 </div>
               </div>
-        
-        
-        
+			  
+			  
+			  
             </div>
  <div id="dataModal" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Usuario</h4>  
+                                                 <h4 class="modal-title">Detalle Permisos</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_detail">  
                                             </div>  
@@ -240,7 +321,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Nave</h4>  
+                                                 <h4 class="modal-title">Detalle Permisos</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -255,24 +336,9 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Nueva Nave</h4>  
+                                                 <h4 class="modal-title">Detalle Permisos</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>  
-  </div>
-      <div id="dataModal4" class="modal fade">  
-                                  <div class="modal-dialog">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Nave</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_forms4">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -286,7 +352,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nueva Nave</h4>  
+                     <h4 class="modal-title">Agregar nueva Permisos</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -301,7 +367,7 @@
             <!-- footer content -->
             <footer>
               <div class="pull-right">
-                Aserradero - Creado por <a href="https://colorlib.com">Chiltex SV</a>
+                Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
               </div>
               <div class="clearfix"></div>
             </footer>
@@ -309,9 +375,9 @@
           </div>
         </div>
     <!-- jQuery -->
-   <script src="../vendors/jquery/dist/jquery.min.js"></script>
-   <!-- Bootstrap -->
-   <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+	 <script src="../vendors/jquery/dist/jquery.min.js"></script>
+	 <!-- Bootstrap -->
+	 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
     <script src="../vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
@@ -349,31 +415,17 @@ ga('send', 'pageview');
     
     </script>
 <script type="text/javascript">
-
-
-   $(document).ready(function(){ 
-
-
-
-
+   $(document).ready(function(){  
       $('#add').click(function(){  
            $('#insert').val("Insert");  
-           $('#insert_form')[0].reset(); 
-
-
-
-
-
+           $('#insert_form')[0].reset();  
       });  
-
-      
-
       $(document).on('click', '.edit_data', function(){  
           var employee_id = $(this).attr("id");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/naves/modiNaves.php",  
+                     url:"../views/Permisos/modiPermisos.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -389,7 +441,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/selectUsuario.php",  
+                     url:"../views/Permisos/selectPermisos.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -399,13 +451,12 @@ ga('send', 'pageview');
                 });  
            }            
       });  
-
         $(document).on('click', '.save_data', function(){  
            var employee_action = $(this).attr("accion");  
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/naves/saveNaves.php",  
+                     url:"../views/savePermisos.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
@@ -415,24 +466,6 @@ ga('send', 'pageview');
                 });  
            }            
       });
-
-
-      $(document).on('click', '.delete_data', function(){  
-          var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/naves/deleteNave.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms4').html(data);  
-                          $('#dataModal4').modal('show');  
-                     }  
-                });  
-           }   
-      });
-
  });  
 
 </script>
