@@ -79,29 +79,29 @@ tfoot {
   elseif ($codigo==3) {
 
    $mes=$_POST['combomes'];
-   if ($mes==01) {
+   if ($mes=="01") {
      $mes_name="Enero";
-   }elseif ($mes==02) {
+   }elseif ($mes=="02") {
      $mes_name="Febrero";
-   }elseif ($mes==03) {
+   }elseif ($mes=="03") {
      $mes_name="Marzo";
-   }elseif ($mes==04) {
+   }elseif ($mes=="04") {
      $mes_name="Abril";
-   }elseif ($mes==05) {
+   }elseif ($mes=="05") {
      $mes_name="Mayo";
-   }elseif ($mes==06) {
+   }elseif ($mes=="06") {
      $mes_name="Junio";
-   }elseif ($mes==07) {
+   }elseif ($mes=="07") {
      $mes_name="Julio";
-   }elseif ($mes==08) {
+   }elseif ($mes=="08") {
      $mes_name="Agosto";
-   }elseif ($mes==09) {
+   }elseif ($mes=="09") {
      $mes_name="Septiembre";
-   }elseif ($mes==10) {
+   }elseif ($mes=="10") {
      $mes_name="Octubre";
-   }elseif ($mes==11) {
+   }elseif ($mes=="11") {
      $mes_name="Noviembre";
-   }elseif ($mes==12) {
+   }elseif ($mes=="12") {
      $mes_name="Diciembre";
    }
     echo "<h1>Reporte de Ordenes generadas el mes de ".$mes_name."</h1>";
