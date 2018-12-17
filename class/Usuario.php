@@ -147,7 +147,7 @@ class Usuario extends conexion
                 $_SESSION['logged-in'] = true;
                 $_SESSION['Administrador']= $this->correo;
                 $_SESSION['id_usuario']=$key['id_usuarios'];
-                $_SESSION['nombre_usuario']=$key['nombbre'] ." ".$key['apellido'];
+                $_SESSION['nombre_usuario']=$key['nombre'] ." ".$key['apellido'];
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
                 return 1;
             }
@@ -155,7 +155,7 @@ class Usuario extends conexion
               session_start();
                 $_SESSION['logged-in'] = true;
                 $_SESSION['Usuario']= $this->correo;
-                $_SESSION['nombre_usuario']=$key['nombbre'] ." ".$key['apellido'];
+                $_SESSION['nombre_usuario']=$key['nombre'] ." ".$key['apellido'];
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
                 $_SESSION['id_usuario']=$key['id_usuarios'];
 
