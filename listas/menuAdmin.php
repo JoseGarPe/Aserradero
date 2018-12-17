@@ -346,6 +346,14 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         </ul>
                       </li>
                       <?php 
+                        }if ($row['campo_v']!= NULL) {  ?>
+                       
+                      <li><a><i class="fa fa-archive"></i> Reportes <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="../listas/reporteOrdenes.php">Reporte de ordenes</a></li>                  
+                        </ul>
+                      </li>
+                      <?php 
                         }
                        ?>                     
                        </ul>

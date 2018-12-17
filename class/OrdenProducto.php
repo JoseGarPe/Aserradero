@@ -162,6 +162,29 @@ class OrdenProducto extends conexion
 
     }
 
+    //--------------------------------------- CONSULTAS REPORTE------------------------------------------------------------//
+    public function selectOrdenesDia($codigo)
+    {
+        $query="SELECT op.id_orden_producto, p.nombre as preset,b.nombre as bodega, op.cantidad,op.estado,op.fecha_orden,ma.nombre as maquina,op.id_maquina FROM orden_producto op INNER JOIN presets p ON p.id_preset = op.id_preset INNER JOIN bodegas b ON b.id_bodega = op.id_bodega INNER JOIN maquinas ma ON ma.id_maquina = op.id_maquina WHERE op.fecha_orden ='".$codigo."'";
+        $selectall=$this->db->query($query);
+        $ListOrdenes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListOrdenes;
+    }
+    public function selectOrdenesMes($codigo)
+    {
+        $query="SELECT op.id_orden_producto, p.nombre as preset,b.nombre as bodega, op.cantidad,op.estado,op.fecha_orden,ma.nombre as maquina,op.id_maquina FROM orden_producto op INNER JOIN presets p ON p.id_preset = op.id_preset INNER JOIN bodegas b ON b.id_bodega = op.id_bodega INNER JOIN maquinas ma ON ma.id_maquina = op.id_maquina WHERE MONTH(op.fecha_orden) ='".$codigo."' AND YEAR(op.fecha_orden)=YEAR(NOW())";
+        $selectall=$this->db->query($query);
+        $ListOrdenes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListOrdenes;
+    }
+    public function selectOrdenesSemana($fecha1,$fecha2)
+    {
+        $query="SELECT op.id_orden_producto, p.nombre as preset,b.nombre as bodega, op.cantidad,op.estado,op.fecha_orden,ma.nombre as maquina,op.id_maquina FROM orden_producto op INNER JOIN presets p ON p.id_preset = op.id_preset INNER JOIN bodegas b ON b.id_bodega = op.id_bodega INNER JOIN maquinas ma ON ma.id_maquina = op.id_maquina WHERE op.fecha_orden BETWEEN '".$fecha1."' AND '".$fecha2."' ";
+        $selectall=$this->db->query($query);
+        $ListOrdenes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListOrdenes;
+    }
+
 }
 
 

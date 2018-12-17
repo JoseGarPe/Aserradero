@@ -88,6 +88,10 @@ require_once "Permisos.php";
                         if (($row['campo_u'])!=NULL) {
                           echo '<tr><td>Presets</td><td>Si</td></tr>';
                         }
+
+                        if (($row['campo_v'])!=NULL) {
+                          echo '<tr><td>Ver Reporte de Ordenes</td><td>Si</td></tr>';
+                        }
                         echo '
                         
                           </table>

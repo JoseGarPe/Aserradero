@@ -288,6 +288,18 @@ require_once "Permisos.php";
                           }
                           echo'
                           </tr>
+                          <tr>
+                          <td>Ver reporte de Ordenes</td>';
+                          if (isset($row['campo_v'])&& $row['campo_v']!=NULL) {
+                            echo '<td><input type="checkbox" name="campo_v" id="campo_v" checked value="Si"></td>';
+                          }else
+                          {
+                            echo '
+                            <td><input type="checkbox" name="campo_v" id="campo_v" value="Si"></td> 
+                             ';
+                          }
+                          echo'
+                          </tr>
                           </table>
                           </div>
                           

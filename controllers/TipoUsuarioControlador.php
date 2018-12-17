@@ -35,8 +35,6 @@ elseif ($accion=="guardar")
 {
 	$nombre=$_POST['nombre'];
 $descripcion=$_POST['descripcion'];
-
-	# code...
 	$TipoUsuario = new TipoUsuario();
 	$TipoUsuario->setNombre($nombre);
 	$TipoUsuario->setDescripcion($descripcion);
@@ -45,8 +43,8 @@ $descripcion=$_POST['descripcion'];
 		header('Location: ../listas/TipoUsuario.php?success=correcto');
 		# code...
 	}
-	else{
-		header('Location: ../listas/TipoUsuario.php?error=incorrecto');
+	elseif($save==false){
+		header('Location: ../listas/TipoUsuario.php?error=incorrecto&nombre='.$nombre.'&descripcion='.$descripcion.'');
 	}
 }
 

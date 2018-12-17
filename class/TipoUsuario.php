@@ -39,14 +39,10 @@ public function __construct()
     public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
     }
-public 
-//---------------------------
-function save()
+
+public function save()
     {
-    	$query="INSERT INTO tipo_usuario(id_tipo_usuario,nombre,descripcion)
-    			values(NULL,
-    			'".$this->nombre."',
-    			'".$this->descripcion."');";
+    	$query="INSERT INTO `tipo_usuario`(`id_tipo_usuario`, `nombre`, `descripcion`) VALUES(NULL,'".$this->nombre."','".$this->descripcion."');";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;

@@ -28,6 +28,7 @@ class Permisos extends Conexion
     private $campo_s;
     private $campo_t;
     private $campo_u;
+    private $campo_v;
 
 	
 	public function __construct()
@@ -57,6 +58,7 @@ class Permisos extends Conexion
         $this->campo_s = "";
         $this->campo_t = "";
         $this->campo_u = "";
+        $this->campo_v = "";
 	}
  	public function getId_permiso() {
         return $this->id_permiso;
@@ -230,6 +232,12 @@ class Permisos extends Conexion
      public function getCampo_u() {
         return $this->campo_u;
     }
+    public function setCampo_v($campo_v) {
+        $this->campo_v = $campo_v;
+    }
+     public function getCampo_v() {
+        return $this->campo_v;
+    }
 
 
 
@@ -272,7 +280,7 @@ class Permisos extends Conexion
     }
     public function update()
     {
-        $query="UPDATE permisos SET campo_a='".$this->campo_a."',campo_b='".$this->campo_b."',campo_c='".$this->campo_c."',campo_d='".$this->campo_d."',campo_e='".$this->campo_e."',campo_f='".$this->campo_f."',campo_g='".$this->campo_g."',campo_h='".$this->campo_h."',campo_i='".$this->campo_i."',campo_j='".$this->campo_j."',campo_k='".$this->campo_k."',campo_l='".$this->campo_l."',campo_m='".$this->campo_m."',campo_n='".$this->campo_n."',campo_o='".$this->campo_o."',campo_p='".$this->campo_p."',campo_q='".$this->campo_q."',campo_r='".$this->campo_r."',campo_s='".$this->campo_s."',campo_t='".$this->campo_t."',campo_u='".$this->campo_u."' WHERE id_permiso='".$this->id_permiso."'";
+        $query="UPDATE permisos SET campo_a='".$this->campo_a."',campo_b='".$this->campo_b."',campo_c='".$this->campo_c."',campo_d='".$this->campo_d."',campo_e='".$this->campo_e."',campo_f='".$this->campo_f."',campo_g='".$this->campo_g."',campo_h='".$this->campo_h."',campo_i='".$this->campo_i."',campo_j='".$this->campo_j."',campo_k='".$this->campo_k."',campo_l='".$this->campo_l."',campo_m='".$this->campo_m."',campo_n='".$this->campo_n."',campo_o='".$this->campo_o."',campo_p='".$this->campo_p."',campo_q='".$this->campo_q."',campo_r='".$this->campo_r."',campo_s='".$this->campo_s."',campo_t='".$this->campo_t."',campo_u='".$this->campo_u."',campo_v='".$this->campo_v."' WHERE id_permiso='".$this->id_permiso."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
