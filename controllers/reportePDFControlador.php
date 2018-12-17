@@ -4,7 +4,7 @@
  
  $accion=$_GET["accion"];
 // inhibit DOMPDF's auto-loader
-define('DOMPDF_ENABLE_AUTOLOAD', false);
+define("DOMPDF_ENABLE_AUTOLOAD", false);
 
 //include the DOMPDF config file (required)
 require '../vendors/dompdf/dompdf_config.inc.php';
@@ -27,29 +27,89 @@ ob_start();
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Reporte</title>
-  <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-    <!-- Datatables -->
-    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-
-    <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+<style type="text/css">
+table {
+   width: 100%;
+   text-align: left;
+   border-collapse: collapse;
+   margin: 0 0 1em 0;
+   caption-side: top;
+}
+caption, td, th {
+   padding: 0.3em;
+}
+tbody {
+   border-top: 1px solid #000;
+   border-bottom: 1px solid #000;
+}
+tbody th, tfoot th {
+   border: 0;
+}
+th.name {
+   width: 25%;
+}
+th.location {
+   width: 20%;
+}
+th.lasteruption {
+   width: 30%;
+}
+th.eruptiontype {
+   width: 25%;
+}
+tfoot {
+   text-align: center;
+   color: #555;
+   font-size: 0.8em;
+}
+</style>
 </head>
 <body>
+  <?php 
+  if ($codigo==1) {
+  $dia=$_POST['fecha'];
+   echo "<h1>Reporte de Ordenes generadas el dia de: ".$dia."</h1>";
+  }
+  elseif ($codigo==2) {
+
+    $fecha1=$_POST['fecha1'];
+    $fecha2=$_POST['fecha2'];
+   echo "<h1>Reporte de Ordenes generadas el entre las fechas de: ".$fecha1." y ".$fecha2."</h1>";
+  }
+  elseif ($codigo==3) {
+
+   $mes=$_POST['combomes'];
+   if ($mes==01) {
+     $mes_name="Enero";
+   }elseif ($mes==02) {
+     $mes_name="Febrero";
+   }elseif ($mes==03) {
+     $mes_name="Marzo";
+   }elseif ($mes==04) {
+     $mes_name="Abril";
+   }elseif ($mes==05) {
+     $mes_name="Mayo";
+   }elseif ($mes==06) {
+     $mes_name="Junio";
+   }elseif ($mes==07) {
+     $mes_name="Julio";
+   }elseif ($mes==08) {
+     $mes_name="Agosto";
+   }elseif ($mes==09) {
+     $mes_name="Septiembre";
+   }elseif ($mes==10) {
+     $mes_name="Octubre";
+   }elseif ($mes==11) {
+     $mes_name="Noviembre";
+   }elseif ($mes==12) {
+     $mes_name="Diciembre";
+   }
+    echo "<h1>Reporte de Ordenes generadas el mes de ".$mes_name."</h1>";
+  }
+   ?>
+  <h1>Reporte de la fecha</h1>
    <div id="employee_table">
-                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="datatable-buttons" name="datatable-buttons">
                      <thead>
                         <tr>
                           <th>N° Orden</th>
@@ -66,15 +126,11 @@ ob_start();
                          require_once "../class/OrdenProducto.php";
                          $misOrdenes = new OrdenProducto();
                          if ($codigo==1) {
-                          $dia=$_POST['fecha'];
                          $orden = $misOrdenes->selectOrdenesDia($dia);
                          }elseif ($codigo==2) {
-                          $mes=$_POST['combomes'];
-                         $orden = $misOrdenes->selectOrdenesMes($mes);
-                         }elseif ($codigo==3) {
-                          $fecha1=$_POST['fecha1'];
-                          $fecha2=$_POST['fecha2'];
                          $orden = $misOrdenes->selectOrdenesSemana($fecha1,$fecha2);
+                         }elseif ($codigo==3) {
+                         $orden = $misOrdenes->selectOrdenesMes($mes);
                          }        
                          foreach ((array)$orden as $ky) {
                          echo '
