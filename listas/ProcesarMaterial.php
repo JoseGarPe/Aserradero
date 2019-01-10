@@ -220,7 +220,6 @@
                           
                                     <input type="button" name="view" value="Ver Detalle" id="'.$row["id_detalle_procesado"].'" class="btn btn-info view_data"/>  
                                    
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_detalle_procesado"].'" class="btn btn-danger delete_data" />
                            </td>
                           </tr>
                          ';
@@ -408,7 +407,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/Usuario/selectUsuario.php",  
+                     url:"../views/procesar/selectProceso.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
