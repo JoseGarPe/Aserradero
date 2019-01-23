@@ -213,7 +213,10 @@ session_start();
                            <td>'.$row['largo'].'x'.$row['ancho'].'x'.$row['grueso'].'</td>
                            <td>'.$row['categoria'].'</td>
                            <td>'.$row['cantidad'].'</td>
-                           <td></td>
+                           <td>
+                             <input type="button" name="view" value="Trasladar" id="'.$row["id_material"].'" pl="'.$codigo.'" nombre="'.$nombre.'" cantidad="'.$row['cantidad'].'" class="btn btn-info new_traslado"/> 
+
+                           </td>
                           ';
                             
                             echo'
@@ -255,6 +258,56 @@ session_start();
                            <td>'.$ky["bodega"].'</td>
                             <td>'.$ky["estado"].' </td>
                           </tr>
+                         ';
+           }
+            ?>
+                         
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <br>
+                  <br>
+                  <br>
+                  <h1>Traslados pendientes:</h1>
+                      <div id="employee_table">
+                    <table id="example3" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                       <tr>
+                          <th>Material</th>
+                          <th>Cantidad</th>
+                          <th>Bodega Procedencia</th>
+                          <th>Estado</th>  
+                          <th>Confirmar</th>                                
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <?php 
+            require_once "../class/Traslado.php";
+            require_once "../class/Bodega.php";
+                        $bodega = new Bodega();
+                         $tras = new Traslado();
+                         $traslados = $tras->selectTrasladoDestino($codigo);
+                         foreach ($traslados as $ky) {
+                       echo '
+                          <tr>
+                           <td>'.$ky['nombre'].'</td>
+                           <td>'.$ky['cantidad'].'</td>';
+                          $bodega_destino = $bodega->selectOne($ky['bodega_origen']);
+                          foreach ($bodega_destino as $value) {
+                            echo '<td>'.$value["nombre"].' </td>';
+                          }
+                            
+                         echo '<td>'.$ky["estado"].' </td>';
+                         if ($ky['estado'] == "No Confirmado") {
+                            echo '<td> 
+                             <input type="button" name="view" value="Confirmar" id="'.$ky["id_traslado"].'" pl="'.$ky["bodega_destino"].'" nombre="'.$nombre.'" class="btn btn-warning confirm_data2"/> 
+                               </td>';
+                         }else{
+                            echo '<td></td>';
+                         }
+
+                         echo' </tr>
                          ';
            }
             ?>
@@ -323,6 +376,21 @@ session_start();
                                                  <h4 class="modal-title">Eliminar Material</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
+                                            </div>  
+                                            <div class="modal-footer">  
+                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                            </div>  
+                                       </div>  
+                                  </div>  
+  </div>
+      <div id="dataModal5" class="modal fade">  
+                                  <div class="modal-dialog">  
+                                       <div class="modal-content">  
+                                            <div class="modal-header">  
+                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                                 <h4 class="modal-title">Traslado</h4>  
+                                            </div>  
+                                            <div class="modal-body" id="employee_forms5">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -482,7 +550,44 @@ ga('send', 'pageview');
                      }  
                 });  
            }   
-      });
+      }); 
+     
+      $(document).on('click', '.confirm_data2', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_pl = $(this).attr("pl");
+           var employee_nombre = $(this).attr("nombre");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/Traslado/confirmTraslado.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_nombre:employee_nombre},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
+      });  
+     
+      $(document).on('click', '.new_traslado', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_pl = $(this).attr("pl");
+           var employee_nombre = $(this).attr("nombre");
+           var employee_cantidad= $(this).attr("cantidad");   
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/Traslado/newTraslado.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_nombre:employee_nombre,employee_cantidad:employee_cantidad},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
+      }); 
 
  });  
 
@@ -498,8 +603,36 @@ ga('send', 'pageview');
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : false
+    }) $('#example3').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+      'order'       : [[0, "desc"]]
     })
   })
+</script>
+
+<script>
+  
+$(document).ready(function () {
+    $("#cantidad").keyup(function () {
+
+        var disponible = $("#cantidad_disponible").val();
+  
+        var cantidad = $(this).val();
+        var total= disponible - cantidad;
+        if (total <= 0) {
+           $("#mensaje").val("El valor ingresa supera a la cantidad disponible");
+        }else{
+
+           $("#mensaje").val("");
+        }
+        });
+});
+
 </script>
     </body>
 </html>

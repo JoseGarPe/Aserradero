@@ -1,5 +1,5 @@
 <?php 
-require_once "../config/conexion.php";
+require_once "../../config/conexion.php";
 
 class Traslado extends conexion
 {
@@ -124,7 +124,7 @@ class Traslado extends conexion
     }
     public function selectTrasladoDestino($codigo)
     {
-        $query="SELECT t.*, m.nombre FROM traslado t INNER JOIN materiales m ON m.id_material=t.id_material WHERE bodega_destino='".$codigo."' AND estado = 'No Confirmado'";
+        $query="SELECT t.*, m.nombre FROM traslado t INNER JOIN materiales m ON m.id_material=t.id_material WHERE bodega_destino='".$codigo."'";
         $selectall=$this->db->query($query);
        $Listtraslado=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listtraslado;

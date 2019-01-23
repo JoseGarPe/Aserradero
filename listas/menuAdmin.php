@@ -354,6 +354,14 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         </ul>
                       </li>
                       <?php 
+                        }if ($row['campo_x']!= NULL) {  ?>
+                       <li><a><i class=" fa fa-cube"></i>Traslados <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="#">Procesar Materiales</a></li>  
+                          <li><a href="#">Confirmar Material Procesado</a></li>                 
+                        </ul>
+                      </li>
+                      <?php 
                         }
                        ?>                     
                        </ul>
