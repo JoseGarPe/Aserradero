@@ -238,25 +238,23 @@ session_start();
                     <table id="example1" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                        <tr>
-                          <th>N° Orden</th>
+                          
                           <th>Producto</th>
-                          <th>Cantidad</th>
-                          <th>Bodega Guardado</th>
-                          <th>Estado</th>                                  
+                          <th>Cantidad</th>                                 
                         </tr>
                       </thead>
                       <tbody>
                           <?php 
-                         $db = new DetalleBodega();
-                         $productos = $db->selectProductos($codigo);
+
+            require_once "../class/DetalleBodegaPro.php";
+                         $db = new DetalleBodegaPro();
+                         $productos = $db->selectALLP($codigo);
                          foreach ($productos as $ky) {
                        echo '
                           <tr>
-                           <td>'.$ky['id_orden_producto'].'</td>
+                          
                            <td>'.$ky['preset'].'</td>
-                            <td>'.$ky["TOTAL"].' </td>
-                           <td>'.$ky["bodega"].'</td>
-                            <td>'.$ky["estado"].' </td>
+                            <td>'.$ky["cantidad"].' </td>
                           </tr>
                          ';
            }

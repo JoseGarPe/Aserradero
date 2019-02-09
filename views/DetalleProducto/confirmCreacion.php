@@ -23,6 +23,7 @@ require_once "Bodega.php";
                    <td><label>Producto fabricado: '.$nombre_preset.'</label></td>
                    <td></td>
                    <td><label>Cantidad: '.$cantidad_prod.'</label></td>
+                 <input type="hidden" name="cantidad" id="cantidad" value="'.$cantidad_prod.'"/>
                    </tr>
                    <tr colspan="3">
                    <td>Maquina Asignada:</td>
@@ -55,6 +56,7 @@ require_once "Bodega.php";
                            <td>'.$row["cantidad_utilizado"].'</td>
 
                           <input type="hidden" name="id" id="id" value="'.$row['id_orden_producto'].'"/>
+                          <input type="hidden" name="id_bodega" id="id_bodega" value="'.$row['id_bodega'].'"/>
                           <input type="hidden" name="pl" id="pl" value="'.$pl.'"/>    
                                                   
                         </tr>

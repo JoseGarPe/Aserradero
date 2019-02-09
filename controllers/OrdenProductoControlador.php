@@ -2,6 +2,7 @@
 require_once "../class/OrdenProducto.php";
 require_once "../class/DetalleOrden.php";
 require_once "../class/DetalleBodega.php";
+require_once "../class/DetalleBodegaPro.php";
 
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
@@ -119,6 +120,7 @@ elseif ($accion=="confirmar") {
 		$orden_producto->setFase($fase);
 	$delete=$orden_producto->changeStatus();
 	if ($delete==true) {
+
 		header('Location: ../listas/confirmarOrden.php?success=correcto&id='.$id.'&preset='.$preset.'');
 		# code...
 	}else{
@@ -131,11 +133,22 @@ elseif ($accion=="fase") {
 	$fase =$_POST['fase'];
 	$id =$_POST['pl'];
 	$preset =$_POST['preset'];
+
+	$id_bodega =$_POST['id_bodega'];
+	$cantidad =$_POST['cantidad'];
 	$orden_producto = new OrdenProducto();
 	$orden_producto->setId_orden_producto($id_OrdenProducto);
 		$orden_producto->setFase($fase);
 	$delete=$orden_producto->changePhase();
 	if ($delete==true) {
+		if ($fase == "Finalizado") {
+			
+				$detalle_bo_pro = new DetalleBodegaPro();
+				$detalle_bo_pro->setId_bodega($id_bodega);
+				$detalle_bo_pro->setId_preset($id);
+				$detalle_bo_pro->setCantidad($cantidad);
+				$save1=$detalle_bo_pro->save();
+		}
 		header('Location: ../listas/cambio_fase.php?success=correcto&id='.$id.'&preset='.$preset.'');
 		# code...
 	}else{

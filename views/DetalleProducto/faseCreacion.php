@@ -32,7 +32,11 @@ require_once "Bodega.php";
 
                          ';
                          foreach ((array)$catego as $row) {
+                          $bodega = $row['id_bodega'];
+                          $cantidad = $row['cantidad'];
+
                           if ($row['fase']=="Ensamblado") {
+
                             echo '
                           <option value="Ensamblado" selected>Ensamblado</option>
                           <option value="Pintado">Pintado</option>
@@ -75,7 +79,9 @@ require_once "Bodega.php";
 
                           <input type="hidden" name="preset" id="presete" value="'.$nombre_preset.'"/>
                           <input type="hidden" name="pl" id="pl" value="'.$pl.'"/>  
-                          <input type="hidden" name="id" id="id" value="'.$codigo.'"/>        
+                          <input type="hidden" name="id" id="id" value="'.$codigo.'"/> 
+                          <input type="hidden" name="id_bodega" id="id_bodega" value="'.$bodega.'"/> 
+                          <input type="hidden" name="cantidad" id="cantidad" value="'.$cantidad.'"/>        
 
                         
                 
