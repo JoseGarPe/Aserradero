@@ -141,6 +141,7 @@ class Contenedores extends conexion
 
         $query1="SELECT * FROM contenedores WHERE id_packing_list='".$this->id_packing_list."' AND id_material='".$this->id_material."'";
         $selectall=$this->db->query($query1);
+        $ListContenedor=$selectall->fetch_all(MYSQLI_ASSOC);
         if ($selectall->num_rows==0) {
             $query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas,multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list,n_paquetes,id_material,bodega_pendiente,estado) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."',NULL,'".$this->id_packing_list."','".$this->n_paquetes."','".$this->id_material."','".$this->id_bodega."','".$this->estado."')";
             $save=$this->db->query($query);
@@ -149,9 +150,23 @@ class Contenedores extends conexion
             }else {
                 return false;
             }  
-          } else{
+          } elseif ($selectall->num_rows==1) {
+              foreach ($ListContenedor as $key) {
+                $cantidad_anteriorPie= $key['piezas'];
+                $cantidad_anteriorPaq= $key['n_paquetes'];
+            }
+            $cantidad=$this->piezas;
+            $nueva_cantidadPie=$cantidad_anteriorPie+$cantidad;
+            $cantidadPaq=$this->n_paquetes;
+            $nueva_cantidadPaq=$cantidad_anteriorPaq+$cantidadPaq;
+            $query2="UPDATE contenedores SET piezas='".$cantidad."', multiplo='".$this->multiplo."', m_cuadrados='".$this->m_cuadrados."', tarimas='".$this->tarimas."', n_paquetes='".$cantidadPaq."' WHERE id_packing_list='".$this->id_packing_list."' AND id_material = '".$this->id_material."'";
+            $update=$this->db->query($query2);
+            if ($update==true) {
+                return true;
+            }else {
+                return false;
+            }  
 
-            return true;
           }
 
 

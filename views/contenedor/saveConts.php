@@ -21,13 +21,13 @@
             require_once "Paquetes.php";
 
                           require_once "Bodega.php";
-            
+                        $cont_ = 0;
                          $ps = new Paquetes();
                          $ms = new Contenedores();
                          $contacto = $ms->selectALLpack($codigo);
                          $paquetes = $ms->materialesPaquete($codigo);
                          foreach ($paquetes as $row) {
-                          $cont_ = 0;
+                          
                             $largo = $row['largo'];
                             $ancho = $row['ancho'];
                             $grueso = $row['grueso'];
@@ -111,3 +111,25 @@
    </div>
   </form>
 				</div>
+<script>
+  $(function () {
+    $('#example1').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+    $('#example3').DataTable()
+    $('#example4').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
