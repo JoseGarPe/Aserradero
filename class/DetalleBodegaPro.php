@@ -181,7 +181,7 @@ public function save()
     }
              public function selectCantidad_preset_bodega($bodega,$preset)
     {
-        $query="SELECT db.*, b.nombre as bodega,m.nombre as preset,m.largo,m.ancho,m.grueso,m.id_categoria,c.nombre as categoria FROM detalle_bodega_pro db INNER JOIN bodegas b ON b.id_bodega = db.id_bodega INNER JOIN presetes m ON m.id_preset = db.id_preset INNER JOIN categorias c ON c.id_categoria = m.id_categoria WHERE db.id_bodega='".$bodega."' AND db.id_preset='".$preset."'";
+        $query="SELECT db.*, b.nombre as bodega,m.nombre as preset FROM detalle_bodega_pro db INNER JOIN bodegas b ON b.id_bodega = db.id_bodega INNER JOIN presets m ON m.id_preset = db.id_preset WHERE db.id_bodega='".$bodega."' AND db.id_preset='".$preset."'";
         $selectall=$this->db->query($query);
         $Listdetalle_bodega_pro=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_bodega_pro;

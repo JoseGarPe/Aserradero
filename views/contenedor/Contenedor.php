@@ -196,6 +196,28 @@ class Contenedores extends conexion
 
     }
 
+    public function materialesPaquete($codigo){
+
+        $query="SELECT p.id_material, COUNT(*), COUNT(p.id_paquete) as n_paquetes, SUM(p.piezas) as t_piezas,m.nombre,m.largo,m.grueso,m.ancho FROM paquetes p INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_packing_list ='".$codigo."' GROUP BY id_material HAVING COUNT(*) > 0";
+        $selectall=$this->db->query($query);
+       $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListContenedores;
+
+    }
+     public function detalleConetenedor($codigo,$material){
+
+        $query="SELECT multiplo,estado,id_bodega,tarimas,bodega_pendiente FROM contenedores WHERE id_packing_list='".$codigo."' and id_material='".$material."'";
+        $selectall=$this->db->query($query);
+        if ($selectall->num_rows!=0) {
+            $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
+        }else{
+            $ListContenedores = "0";
+        }
+       
+        return $ListContenedores;
+
+    }
+
 
 
 }

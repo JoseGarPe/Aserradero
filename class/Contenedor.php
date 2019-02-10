@@ -137,6 +137,25 @@ class Contenedores extends conexion
 
 
     }
+    public function save2(){
+
+        $query1="SELECT * FROM contenedores WHERE id_packing_list='".$this->id_packing_list."' AND id_material='".$this->id_material."'";
+        $selectall=$this->db->query($query1);
+        if ($selectall->num_rows==0) {
+            $query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas,multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list,n_paquetes,id_material,bodega_pendiente,estado) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."',NULL,'".$this->id_packing_list."','".$this->n_paquetes."','".$this->id_material."','".$this->id_bodega."','".$this->estado."')";
+            $save=$this->db->query($query);
+            if ($save==true) {
+                return true;
+            }else {
+                return false;
+            }  
+          } else{
+
+            return true;
+          }
+
+
+    }
     public function update(){
 
     	$query="UPDATE contenedores SET etiqueta='".$this->etiqueta."', piezas='".$this->piezas."', multiplo='".$this->multiplo."', m_cuadrados='".$this->m_cuadrados."', tarimas='".$this->tarimas."', id_packing_list='".$this->id_packing_list."', n_paquetes='".$this->n_paquetes."', id_material='".$this->id_material."', bodega_pendiente='".$this->id_bodega."' WHERE id_contenedor='".$this->id_contenedor."'";
@@ -195,6 +214,28 @@ class Contenedores extends conexion
         }  
 
     }
+    public function materialesPaquete($codigo){
+
+        $query="SELECT p.id_material, COUNT(*), COUNT(p.id_paquete) as n_paquetes, SUM(p.piezas) as t_piezas,m.nombre,m.largo,m.grueso,m.ancho FROM paquetes p INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_packing_list ='".$codigo."' GROUP BY id_material HAVING COUNT(*) > 0";
+        $selectall=$this->db->query($query);
+       $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListContenedores;
+
+    }
+     public function detalleConetenedor($codigo,$material){
+
+        $query="SELECT multiplo,estado,id_bodega,tarimas,bodega_pendiente FROM contenedores WHERE id_packing_list='".$codigo."' and id_material='".$material."'";
+        $selectall=$this->db->query($query);
+        if ($selectall->num_rows!=0) {
+            $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
+        }else{
+            $ListContenedores = "0";
+        }
+       
+        return $ListContenedores;
+
+    }
+
 
 
 

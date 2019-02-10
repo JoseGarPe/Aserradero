@@ -216,10 +216,9 @@
                            <td>
                             <div class="collapse navbar-collapse navbar-ex1-collapse">
                                 <ul class="nav navbar-nav">
-                                    
-                                    <li><input type="button" name="save" value="Contededores" id="'.$row["id_packing_list"].'" class="btn btn-warning save_data" /></li>
-                                  
-                                     <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
+                                    <li><input type="button" name="save" value="Paquetes" id="'.$row["id_packing_list"].'" class="btn btn-warning save_data1" /></li>
+                                    <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-warning save_data" /></li>
+                                    <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
                                 </ul>
                               </div>
 
@@ -453,6 +452,21 @@ ga('send', 'pageview');
                 });  
            }            
       });
+         $(document).on('click', '.save_data1', function(){  
+           var employee_id = $(this).attr("id");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/contenedor/savePaquetes.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
+      });
 
 
       $(document).on('click', '.delete_data', function(){  
@@ -474,6 +488,20 @@ ga('send', 'pageview');
  });  
 
 </script>
-        
+        <script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example3').DataTable()
+    $('#example4').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
     </body>
 </html>

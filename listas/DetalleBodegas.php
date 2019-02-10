@@ -240,7 +240,8 @@ session_start();
                        <tr>
                           
                           <th>Producto</th>
-                          <th>Cantidad</th>                                 
+                          <th>Cantidad</th>
+                          <th>Traslado</th>                                 
                         </tr>
                       </thead>
                       <tbody>
@@ -255,6 +256,10 @@ session_start();
                           
                            <td>'.$ky['preset'].'</td>
                             <td>'.$ky["cantidad"].' </td>
+                            <td>
+                             <input type="button" name="view" value="Trasladar" id="'.$ky["id_preset"].'" pl="'.$codigo.'" nombre="'.$nombre.'" cantidad="'.$ky['cantidad'].'" class="btn btn-info new_traslado_pro"/> 
+
+                           </td>
                           </tr>
                          ';
            }
@@ -268,6 +273,7 @@ session_start();
                   <br>
                   <br>
                   <h1>Traslados pendientes:</h1>
+                  <h1>Materiales:</h1>
                       <div id="employee_table">
                     <table id="example3" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
@@ -300,6 +306,52 @@ session_start();
                          if ($ky['estado'] == "No Confirmado") {
                             echo '<td> 
                              <input type="button" name="view" value="Confirmar" id="'.$ky["id_traslado"].'" pl="'.$ky["bodega_destino"].'" nombre="'.$nombre.'" class="btn btn-warning confirm_data2"/> 
+                               </td>';
+                         }else{
+                            echo '<td></td>';
+                         }
+
+                         echo' </tr>
+                         ';
+           }
+            ?>
+                         
+                      </tbody>
+                    </table>
+                  </div><br><br>
+                  <h2>Productos:</h2>
+                      <div id="employee_table">
+                    <table id="example3" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                       <tr>
+                          <th>Producto</th>
+                          <th>Cantidad</th>
+                          <th>Bodega Procedencia</th>
+                          <th>Estado</th>  
+                          <th>Confirmar</th>                                
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <?php 
+            require_once "../class/TrasladoPro.php";
+            require_once "../class/Bodega.php";
+                        $bodega = new Bodega();
+                         $tras = new TrasladoPro();
+                         $traslados = $tras->selectTraslado_proDestino($codigo);
+                         foreach ($traslados as $ky) {
+                       echo '
+                          <tr>
+                           <td>'.$ky['nombre'].'</td>
+                           <td>'.$ky['cantidad'].'</td>';
+                          $bodega_destino = $bodega->selectOne($ky['bodega_origen']);
+                          foreach ($bodega_destino as $value) {
+                            echo '<td>'.$value["nombre"].' </td>';
+                          }
+                            
+                         echo '<td>'.$ky["estado"].' </td>';
+                         if ($ky['estado'] == "No Confirmado") {
+                            echo '<td> 
+                             <input type="button" name="view" value="Confirmar" id="'.$ky["id_traslado_pro"].'" pl="'.$ky["bodega_destino"].'" nombre="'.$nombre.'" class="btn btn-warning confirm_data3"/> 
                                </td>';
                          }else{
                             echo '<td></td>';
@@ -567,7 +619,23 @@ ga('send', 'pageview');
                 });  
            }            
       });  
-     
+      $(document).on('click', '.confirm_data3', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_pl = $(this).attr("pl");
+           var employee_nombre = $(this).attr("nombre");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/Traslado/confirmTrasladoPro.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_nombre:employee_nombre},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
+      });  
       $(document).on('click', '.new_traslado', function(){  
            var employee_id = $(this).attr("id");  
            var employee_pl = $(this).attr("pl");
@@ -586,6 +654,24 @@ ga('send', 'pageview');
                 });  
            }            
       }); 
+         $(document).on('click', '.new_traslado_pro', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_pl = $(this).attr("pl");
+           var employee_nombre = $(this).attr("nombre");
+           var employee_cantidad= $(this).attr("cantidad");   
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/Traslado/newTrasladoPro.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_nombre:employee_nombre,employee_cantidad:employee_cantidad},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
+      });
 
  });  
 

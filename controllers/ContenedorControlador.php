@@ -116,5 +116,62 @@ elseif ($accion=="confirmar") {
 		header('Location: ../listas/Contenedor.php?error=incorrecto&id='.$pl.'&id='.$id_contenedor.'&id='.$id_bodega.'&id='.$estado.'');
 	}
 }
+elseif ($accion=="guardar1") 
+{
+	$etiqueta=$_POST['etiqueta'];
+	$piezas=$_POST['piezas'];
+	$n_paquetes=$_POST['paquetes'];
+	$multiplo=$_POST['multiplo'];
+	$m_cuadrados=$_POST['m_cuadrados'];
+  	$id_bodega =$_POST['id_bodega1'];
+	$tarimas=$_POST['tarimas'];
+	$estado=$_POST['estado'];
+  	$id_packing_list =$_POST['id_packing_list'];
+  	$cont_ = $_POST['cont_'];
+  	$id_material =$_POST['id_material'];
+  	$pl= new Packing();
+  	$conta = count($id_material);
+
+  	$i=0;
+  	$tarimass = 0;
+
+	$Contenedor = new Contenedores();
+	while ($i<$conta) {
+		$tarimass = $m_cuadrados[$i]/$multiplo[$i];
+	$Contenedor->setEtiqueta($etiqueta[$i]);
+	$Contenedor->setPiezas($piezas[$i]);
+	$Contenedor->setN_paquetes($n_paquetes[$i]);
+	$Contenedor->setMultiplo($multiplo[$i]);
+	$Contenedor->setM_cuadrados($m_cuadrados[$i]);
+	$Contenedor->setId_bodega($id_bodega[$i]);
+
+	$Contenedor->setTarimas($tarimass);
+	$Contenedor->setId_packing_list($id_packing_list);
+	$Contenedor->setId_material($id_material[$i]);
+	$Contenedor->setEstado("Sin Confirmar");
+	$save1=$Contenedor->save2();
+		if($save1==true){
+				$listpl = $pl->selectOne($id_packing_list);
+  	foreach ($listpl as $key) {
+  		$cont_ingresados=$key['contenedores_ingresados'];
+  	}
+  	$new_con_ing=$cont_ingresados + 1;
+		$pl->setContenedores_ingresados($new_con_ing);
+		$pl->setId_packing_list($id_packing_list);
+		$update1=$pl->updateIngresos();
+		}
+	$i = $i+1;
+	$tarimass = 0;
+	}
+	
+	if ($i==$conta) {
+		
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		# code...
+	}
+	else{
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+	}
+}
 
  ?>
