@@ -1,6 +1,6 @@
 <div class="col-xs-12">
 <form role="form1" action="../controllers/ContenedorControlador.php?accion=guardar1" method="post">
-    				<table id="example4" class="table table-striped table-bordered">
+    				<table id="example7" class="table table-striped table-bordered">
          		<thead>
                         <tr>
                           <th>Material</th>
@@ -19,7 +19,7 @@
   					$codigo=$_POST["employee_id"];
 						require_once "Contenedor.php";
             require_once "Paquetes.php";
-
+            echo $codigo;
                           require_once "Bodega.php";
                         $cont_ = 0;
                          $ps = new Paquetes();

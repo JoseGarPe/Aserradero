@@ -176,7 +176,7 @@
                     <br>
                     <br>
                     <div id="employee_table">
-                    <table id="example2" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="example5" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                         <tr>
                           <th>N° </th>
@@ -493,7 +493,7 @@ ga('send', 'pageview');
     $('#example1').DataTable()
     $('#example3').DataTable()
     $('#example4').DataTable()
-    $('#example2').DataTable({
+    $('#example5').DataTable({
       'paging'      : true,
       'lengthChange': true,
       'searching'   : false,
