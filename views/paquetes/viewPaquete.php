@@ -1,9 +1,9 @@
 <?php
-require_once "Usuario.php";
+require_once "Paquetes.php";
 
 							$codigo=$_POST["employee_id"];
-					     $misCategorias = new Usuario();
-                         $catego = $misCategorias->selectOneDet($codigo);
+					     $misCategorias = new Paquetes();
+                         $catego = $misCategorias->selectALLpack2($codigo);
                         
                            # code...
                          
@@ -13,19 +13,23 @@ require_once "Usuario.php";
           				 <table class="table table-bordered">
                         <tr>
                          	<td> N°</td>
-                           <td>'.$row['id_usuarios'].'</td>
+                           <td>'.$row['id_paquete'].'</td>
                         </tr>
                         <tr>
-                        <td>Nombre:</td>
-                        <td>'.$row['nombre'].' '.$row['apellido'].'</td>
+                        <td>Material:</td>
+                        <td>'.$row['material'].'</td>
                         </tr>
                         <tr>
-                        	<td> Tipo Usuario: </td>
-                           <td>'.$row['tipo'].'</td>
+                        	<td> Etiqueta: </td>
+                           <td>'.$row['etiqueta'].'</td>
                         </tr>
                         <tr>
-                          <td> Telefono: </td>
-                           <td>'.$row['telefono'].'</td>
+                          <td> Orden de Ingreso: </td>
+                           <td>'.$row['id_packing_list'].'</td>
+                        </tr>
+                        <tr>
+                          <td> Piezas: </td>
+                           <td>'.$row['piezas'].'</td>
                         </tr>
                           </table>
                           </div>

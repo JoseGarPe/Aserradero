@@ -1,5 +1,5 @@
 <?php 
-require_once "../config/conexion.php";
+require_once "../../config/conexion.php";
 
 class Paquetes extends conexion
 {
@@ -169,17 +169,9 @@ class Paquetes extends conexion
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
-
     public function selectALLpack2($codigo)
     {
         $query="SELECT con.*, m.nombre as material FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_paquete='".$codigo."'";
-        $selectall=$this->db->query($query);
-       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
-        return $ListPaquetes;
-    }
-    public function selectALLpack3()
-    {
-        $query="SELECT con.*, m.nombre as material FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;

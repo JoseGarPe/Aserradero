@@ -107,10 +107,48 @@
                             <input type="hidden" id="id_m" name="id_m" value="">
                           </div>
                           <div class="form-group">
+                            <div id="datos99"></div>
+                          </div>
+                          <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Usar <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                               <input id="usar"  name="usar" class="form-control col-md-7 col-xs-12"  type="number">
+                            </div>
+                          </div>
+                          <div class="x_content">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Etiqueta<span class="required">*</span>
+                            </label>
+                            <div id="employee_table">
+                              <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                        <tr>
+                          <th>Etiqueta</th>
+                           <th>Piezas Disponibles</th>                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                         require_once "Paquetes.php";
+                         $misPacks = new Paquetes();
+                         $catego = $misPacks->selectALL();
+                        
+                           # code...
+                         
+                         foreach ((array)$catego as $row) {
+                         echo '
+                          <tr>
+                           <td>'.$row['etiqueta'].'</td>
+                           <td>'.$row['piezas'].'</td>
+                           
+                          </tr>
+                         ';
+                       }
+                     
+                     
+                         ?>
+                      </tbody>
+                    </table>
                             </div>
                           </div>
 
@@ -264,6 +302,7 @@ xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 xmlhttp.send("cod_banda="+cod);
 
 }
+
            function mostrarInfo1(cod){
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari

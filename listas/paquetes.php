@@ -1,5 +1,5 @@
 <?php 
-  session_start();
+session_start();
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,9 +27,7 @@
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-             
+           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -108,7 +106,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de Material Procesado</h2>
+                    <h2>Pagina de Paquetes</h2>
 
 
                     
@@ -173,7 +171,7 @@
                   <div class="x_content">
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-                   <input type="button" name="accion" value="Procesar" id="accion" class="btn btn-success save_data" /> 
+                    
                     <br>
                     <br>
                     <div id="employee_table">
@@ -181,47 +179,33 @@
                       <thead>
                         <tr>
                           <th>N° </th>
-                          <th>Componente</th>
-                          <th>Procesar</th>
-                          <th>Cantidad</th>
-                          <th>Bodega</th>    
-
-                          <th>Opciones</th>                        
+                          <th>Material</th>
+                          <th>Etiqueta</th>
+                          <th>Orden de Ingreso</th>
+                          <th>Piezas Disponibles</th>
+                          <th>Opiones</th>                          
                         </tr>
                       </thead>
                       <tbody>
                         <?php 
-                         require_once "../class/DetalleProcesado.php";
-                          require_once "../class/Materiales.php";
-                           require_once "../class/Bodega.php";
-                         $misUsuarios = new DetalleProcesado();
-                         $catego = $misUsuarios->selectALL();
+                         require_once "../class/Paquetes.php";
+                         $misPacks = new Paquetes();
+                         $catego = $misPacks->selectALLpack3();
+                        
+                           # code...
                          
                          foreach ((array)$catego as $row) {
                          echo '
                           <tr>
-                           <td>'.$row['id_detalle_procesado'].'</td>';
-                            $misMateriales = new Materiales();
-                         $material = $misMateriales->selectOne($row['id_materia_prima']);
-                           foreach ($material as $key) {
-                             echo ' <td>'.$key['nombre']. '</td>';
-                           }
-                         $material1 = $misMateriales->selectOne($row['id_material_saliente']);
-                           foreach ($material1 as $key1) {
-                             echo ' <td>'.$key1['nombre']. '</td>';
-                           }
-                           echo'
-                           <td>'.$row['cantidad_saliente'].'</td>';
-                           $misBodegas = new Bodega();
-                         $bodga = $misBodegas->selectOne($row['id_bodega']);
-                          foreach ($bodga as $value) {
-                             echo ' <td>'.$value['nombre']. '</td>';
-                           }
-                           echo'
+                           <td>'.$row['id_paquete'].'</td>
+                           <td>'.$row['material']. '</td>
+                           <td>'.$row['etiqueta'].'</td>
+                           <td>'.$row['id_packing_list'].'</td>
+                           <td>'.$row['piezas'].'</td>
                            <td>
                           
-                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_detalle_procesado"].'" class="btn btn-info view_data"/>  
-                                   
+                                    <input type="button" name="view" value="Ver Detalle" id="'.$row["id_paquete"].'" class="btn btn-info view_data"/>  
+                                    
                            </td>
                           </tr>
                          ';
@@ -274,7 +258,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Solicitud</h4>  
+                                                 <h4 class="modal-title">Agregar Nuevo Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -337,7 +321,6 @@
     <script src="../vendors/nprogress/nprogress.js"></script>
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
-    <script src="../vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
     <!-- Datatables -->
     <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -409,7 +392,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/procesar/selectProceso.php",  
+                     url:"../views/paquetes/viewPaquete.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -425,7 +408,7 @@ ga('send', 'pageview');
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/procesar/saveProceso.php",  
+                     url:"../views/Usuario/saveUsuario.php",  
                      method:"POST",  
                      data:{employee_action:employee_action},  
                      success:function(data){  
