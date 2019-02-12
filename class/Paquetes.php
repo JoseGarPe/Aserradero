@@ -185,10 +185,25 @@ class Paquetes extends conexion
         return $ListPaquetes;
     }
 
-
+ public function selectOneM($codigo)
+    {
+        $query="SELECT * FROM Paquetes WHERE etiqueta='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+ public function updateC()
+    {
+        $query="UPDATE paquetes SET piezas=0 WHERE etiqueta='".$this->etiqueta."' AND id_material='".$this->id_material."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+    }
 
 }
-
 
 
 		

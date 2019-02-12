@@ -134,7 +134,7 @@ class Paquetes extends conexion
 
     }
     public function delete(){
-    	$query="DELETE FROM Paquetes WHERE id_paquetes='".$this->id_paquete."'"; 
+    	$query="DELETE FROM paquetes WHERE id_paquetes='".$this->id_paquete."'"; 
        $delete=$this->db->query($query);
        if ($delete == true) {
         return true;
@@ -144,7 +144,7 @@ class Paquetes extends conexion
 
     }
     public function selectALL(){
-    	$query="SELECT * FROM Paquetes";
+    	$query="SELECT * FROM paquetes";
     	$selectall=$this->db->query($query);
     	
     	$ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -157,7 +157,7 @@ class Paquetes extends conexion
 
      public function selectOne($codigo)
     {
-        $query="SELECT * FROM Paquetes WHERE id_paquete='".$codigo."'";
+        $query="SELECT * FROM paquetes WHERE id_paquete='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
@@ -172,6 +172,14 @@ class Paquetes extends conexion
     public function selectALLpack2($codigo)
     {
         $query="SELECT con.*, m.nombre as material FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_paquete='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+
+    public function selectPack_Bodega($codigo)
+    {
+        $query="SELECT p.id_paquete, p.piezas,p.id_material , p.etiqueta, c.id_contenedor,c.id_packing_list FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN contenedores c ON c.id_packing_list = pl.id_packing_list WHERE c.id_bodega='".$codigo."' AND p.piezas > 0";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;

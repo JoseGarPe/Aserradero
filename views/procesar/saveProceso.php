@@ -109,47 +109,15 @@
                           <div class="form-group">
                             <div id="datos99"></div>
                           </div>
-                          <div class="form-group">
+                        <!--  <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Usar <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                               <input id="usar"  name="usar" class="form-control col-md-7 col-xs-12"  type="number">
                             </div>
-                          </div>
+                          </div>-->
                           <div class="x_content">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Etiqueta<span class="required">*</span>
-                            </label>
-                            <div id="employee_table">
-                              <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
-                      <thead>
-                        <tr>
-                          <th>Etiqueta</th>
-                           <th>Piezas Disponibles</th>                         
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                         require_once "Paquetes.php";
-                         $misPacks = new Paquetes();
-                         $catego = $misPacks->selectALL();
-                        
-                           # code...
-                         
-                         foreach ((array)$catego as $row) {
-                         echo '
-                          <tr>
-                           <td>'.$row['etiqueta'].'</td>
-                           <td>'.$row['piezas'].'</td>
-                           
-                          </tr>
-                         ';
-                       }
-                     
-                     
-                         ?>
-                      </tbody>
-                    </table>
-                            </div>
+                        <div id="datos23"></div>
                           </div>
 
                        
@@ -283,10 +251,12 @@
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
+   xmlhttp2=new XMLHttpRequest();
   }
 else
   {// code for IE6, IE5
   xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
   }
 xmlhttp.onreadystatechange=function()
   {
@@ -297,10 +267,22 @@ xmlhttp.onreadystatechange=function()
   document.getElementById("datos").innerHTML='Cargando...';
     }
   }
+  xmlhttp2.onreadystatechange=function()
+  {
+  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
+    {
+    document.getElementById("datos23").innerHTML=xmlhttp2.responseText;
+    }else{ 
+  document.getElementById("datos23").innerHTML='Cargando...';
+    }
+  }
 xmlhttp.open("POST","../views/procesar/material_bodega.php",true);
 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 xmlhttp.send("cod_banda="+cod);
 
+xmlhttp2.open("POST","../views/procesar/paquetes_bodega.php",true);
+xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp2.send("cod_banda="+cod);
 }
 
            function mostrarInfo1(cod){
@@ -346,7 +328,38 @@ xmlhttp.send("cod_banda="+cod);
 
 
       </script>
-   
+       <script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example3').DataTable()
+    $('#example4').DataTable()
+    $('#example5').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+
+
+</script>
+   <script>
+function myFunction() {
+  var checkBox = document.getElementById("id_material");
+
+     var piezas =  $(this).attr("piezas"); 
+     var etiqueta =  $(this).attr("etiqueta"); 
+  if (checkBox.checked == true){
+       $("#usar").val(piezas);
+         $("#etiqueta").val(etiqueta);
+      
+  } else {
+
+  }
+}
+</script>
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>

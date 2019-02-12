@@ -2,6 +2,8 @@
 require_once "../class/DetalleProcesado.php";
 require_once "../class/DetalleBodega.php";
 
+require_once "../class/Paquetes.php";
+
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
 	$id_Bodega =$_POST['id'];
@@ -38,7 +40,7 @@ elseif ($accion=="guardar")
 {
 
 $id_materia_prima=$_POST['id_m'];
-$cantidad_materia_prima=$_POST['usar'];
+//$cantidad_materia_prima=$_POST['usar'];
 $id_maquina=$_POST['id_maquina'];
 $id_material_saliente=$_POST['id_materialsaliente'];
 $cantidad_saliente=$_POST['cantidadsaliente'];
@@ -47,14 +49,21 @@ $id_bodega=$_POST['id_bodegag'];
 $disponibles=$_POST['c_disponible'];
 
 $id_bodega_mp=$_POST['id_bodega'];
-
+$etiqueta = $_POST['etiqueta'];
 $estado="Sin Confirmar";
-$nueva_cantidad = $disponibles - $cantidad_materia_prima;
+
+		$pack = new Paquetes();
+		$paquete= $pack->selectOneM($etiqueta);
+		foreach ($paquete as $ky) {
+			$material11=$ky['id_material'];
+			$cantidadPiezas = $ky['piezas'];
+		}
+$nueva_cantidad = $disponibles - $cantidadPiezas;
 
 	# code...
 	$Detalle_procesado = new DetalleProcesado();
 	$Detalle_procesado->setId_materia_prima($id_materia_prima);
-	$Detalle_procesado->setCantidad_materia_prima($cantidad_materia_prima);
+	$Detalle_procesado->setCantidad_materia_prima($cantidadPiezas);
 	$Detalle_procesado->setId_maquina($id_maquina);
 	$Detalle_procesado->setId_material_saliente($id_material_saliente);
 	$Detalle_procesado->setCantidad_saliente($cantidad_saliente);
@@ -63,12 +72,18 @@ $nueva_cantidad = $disponibles - $cantidad_materia_prima;
 	$Detalle_procesado->setEstado($estado);
 	$save=$Detalle_procesado->save();
 	if ($save==true) {
+
+
 		$detalle_bo= new DetalleBodega();
 		$detalle_bo->setId_bodega($id_bodega_mp);
-		$detalle_bo->setId_material($id_materia_prima);
+		$detalle_bo->setId_material($material11);
 		$detalle_bo->setCantidad($nueva_cantidad);
 		$save1=$detalle_bo->updateC();
-
+		$piezaaa = 0;
+		$pack->setEtiqueta($etiqueta);
+		$pack->setId_material($material11);
+		$pack->setPiezas($piezaaa);
+		$save11=$pack->updateC();
 		header('Location: ../listas/ProcesarMaterial.php?success=correcto&materiaPrima='.$id_bodega_mp.'&materia2='.$id_materia_prima.'&materia1='.$disponibles.'&materia2='.$cantidad_materia_prima.'');
 		# code...
 	}
