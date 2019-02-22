@@ -8,6 +8,14 @@ class Paquetes extends conexion
 	private $etiqueta;
 	private $piezas;
 	private $id_packing_list;
+    private $id_bodega;
+    private $largo;
+    private $grueso;
+    private $ancho;
+    private $metros_cubicos;
+    private $estado;
+    private $fecha_ingreso;
+    private $multiplo;
 
 	function __construct()
 	{
@@ -18,6 +26,14 @@ class Paquetes extends conexion
 		$this->piezas ="";
 		$this->id_packing_list ="";
         $this->id_material ="";
+        $this->largo ="";
+        $this->grueso ="";
+        $this->ancho =""
+        $this->fecha_ingreso ="";
+        $this->multiplo ="";
+        $this->estado ="";
+        $this->metros_cubicos ="";
+
 	}
 
 	public function getId_paquete(){
@@ -43,13 +59,7 @@ class Paquetes extends conexion
 	public function setPiezas($piezas){
 		$this->piezas= $piezas;
 	}
-    public function getN_paquetes(){
-        return $this->n_paquetes;
-    }
-
-    public function setN_paquetes($npack){
-        $this->n_paquetes= $npack;
-    }
+ 
 
 	public function getMultiplo(){
 		return $this->multiplo;
@@ -59,21 +69,14 @@ class Paquetes extends conexion
 		$this->multiplo= $email;
 	}
 
-	public function getM_cuadrados(){
-		return $this->m_cuadrados;
+	public function getMetros_cubicos(){
+		return $this->metros_cubicos;
 	}
 
-	public function setM_cuadrados($m_cuadrados){
-		$this->m_cuadrados= $m_cuadrados;
+	public function setMetros_cubicos($metros_cubicos){
+		$this->metros_cubicos= $metros_cubicos;
 	}
 
-	public function getTarimas(){
-		return $this->tarimas;
-	}
-
-	public function setTarimas($tarimas){
-		$this->tarimas= $tarimas;
-	}
 	public function getId_bodega() {
         return $this->id_bodega;
     }
@@ -95,13 +98,7 @@ class Paquetes extends conexion
     public function setId_material($id_material) {
         $this->id_material = $id_material;
     }
-    public function getBodega_pendiente() {
-        return $this->bodega_pendiente;
-    }
-
-    public function setBodega_pendiente($bodega_pendiente) {
-        $this->bodega_pendiente = $bodega_pendiente;
-    }
+  
     public function getEstado() {
         return $this->estado;
     }
@@ -109,6 +106,38 @@ class Paquetes extends conexion
     public function setEstado($estado) {
         $this->estado = $estado;
     }
+    public function getLargo(){
+        return $this->largo;
+    }
+
+    public function setLargo($largo){
+        $this->largo= $largo;
+    }
+
+    public function getAncho(){
+        return $this->ancho;
+    }
+
+    public function setAncho($ancho){
+        $this->ancho= $ancho;
+    }
+
+    public function getGrueso(){
+        return $this->grueso;
+    }
+
+    public function setGrueso($grueso){
+        $this->grueso= $grueso;
+    }
+    public function getFecha_ingreso(){
+        return $this->fecha_ingreso;
+    }
+
+    public function setGFecha_ingreso($fecha_ingreso){
+        $this->fecha_ingreso= $fecha_ingreso;
+    }
+
+
 
     public function save(){
 
@@ -124,7 +153,7 @@ class Paquetes extends conexion
     }
     public function update(){
 
-    	$query="UPDATE paquetes SET etiqueta='".$this->etiqueta."', piezas='".$this->piezas."', multiplo='".$this->multiplo."', m_cuadrados='".$this->m_cuadrados."', tarimas='".$this->tarimas."', id_packing_list='".$this->id_packing_list."', n_paquetes='".$this->n_paquetes."', id_material='".$this->id_material."', bodega_pendiente='".$this->id_bodega."' WHERE id_paquete='".$this->id_paquete."'";
+    	$query="UPDATE paquetes SET etiqueta='".$this->etiqueta."', piezas='".$this->piezas."', multiplo='".$this->multiplo."', metros_cubicos='".$this->metros_cubicos."', tarimas='".$this->tarimas."', id_packing_list='".$this->id_packing_list."', n_paquetes='".$this->n_paquetes."', id_material='".$this->id_material."', bodega_pendiente='".$this->id_bodega."' WHERE id_paquete='".$this->id_paquete."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
