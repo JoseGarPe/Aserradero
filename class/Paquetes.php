@@ -16,6 +16,9 @@ class Paquetes extends conexion
     private $estado;
     private $fecha_ingreso;
     private $multiplo;
+    private $id_contenedor;
+    private $stock;
+
 
 	function __construct()
 	{
@@ -33,6 +36,9 @@ class Paquetes extends conexion
         $this->multiplo ="";
         $this->estado ="";
         $this->metros_cubicos ="";
+        $this->id_bodega ="";
+        $this->id_contenedor ="";
+        $this->stock ="";
 
 	}
 
@@ -136,12 +142,26 @@ class Paquetes extends conexion
     public function setGFecha_ingreso($fecha_ingreso){
         $this->fecha_ingreso= $fecha_ingreso;
     }
+    public function getId_contenedor() {
+        return $this->id_contenedor;
+    }
+
+    public function setId_contenedor($id_contenedor) {
+        $this->id_contenedor = $id_contenedor;
+    }
+    public function getStock() {
+        return $this->stock;
+    }
+
+    public function setStock($stock) {
+        $this-stockr = $stock;
+    }
 
 
 
     public function save(){
 
-    	$query="INSERT INTO paquetes(id_paquete, etiqueta, piezas,id_packing_list,id_material) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->id_packing_list."','".$this->id_material."')";
+    	$query="INSERT INTO paquetes(id_paquete, etiqueta, piezas,id_packing_list,id_material,largo, ancho, grueso, metros_cubicos,multiplo,fecha_ingreso,estado,id_bodega,id_contenedor,stock) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->id_packing_list."','".$this->id_material."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->metros_cubicos."','".$this->multiplo."','".$this->fecha_ingreso."','".$this->estado."','".$this->id_bodega."','".$this->id_contenedor."','".$this->piezas."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -163,7 +183,7 @@ class Paquetes extends conexion
 
     }
     public function delete(){
-    	$query="DELETE FROM Paquetes WHERE id_paquetes='".$this->id_paquete."'"; 
+    	$query="DELETE FROM paquetes WHERE id_paquetes='".$this->id_paquete."'"; 
        $delete=$this->db->query($query);
        if ($delete == true) {
         return true;
@@ -173,7 +193,7 @@ class Paquetes extends conexion
 
     }
     public function selectALL(){
-    	$query="SELECT * FROM Paquetes";
+    	$query="SELECT * FROM paquetes";
     	$selectall=$this->db->query($query);
     	
     	$ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -223,7 +243,7 @@ class Paquetes extends conexion
     }
  public function updateC()
     {
-        $query="UPDATE paquetes SET piezas=0 WHERE etiqueta='".$this->etiqueta."' AND id_material='".$this->id_material."'";
+        $query="UPDATE paquetes SET stock=0 WHERE etiqueta='".$this->etiqueta."' AND id_material='".$this->id_material."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;

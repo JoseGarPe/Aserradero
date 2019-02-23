@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-02-2019 a las 23:29:25
+-- Tiempo de generación: 23-02-2019 a las 01:24:48
 -- Versión del servidor: 10.1.36-MariaDB
 -- Versión de PHP: 5.6.38
 
@@ -157,16 +157,6 @@ CREATE TABLE `detalle_procesado` (
   `id_bodega` int(11) NOT NULL,
   `estado` varchar(25) DEFAULT 'Sin Confirmar'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `detalle_procesado`
---
-
-INSERT INTO `detalle_procesado` (`id_detalle_procesado`, `id_materia_prima`, `cantidad_materia_prima`, `id_maquina`, `id_material_saliente`, `cantidad_saliente`, `rendimiento_esperado`, `id_bodega`, `estado`) VALUES
-(1, 1, 200, 1, 3, 4, 1, 3, 'Sin Confirmar'),
-(2, 1, 100, 1, 3, 4, 1, 3, 'Sin Confirmar'),
-(3, 1, 100, 1, 4, 2, 1, 3, 'Sin Confirmar'),
-(4, 1, 100, 1, 4, 5, 1, 4, 'Sin Confirmar');
 
 -- --------------------------------------------------------
 
@@ -324,7 +314,9 @@ CREATE TABLE `paquetes` (
   `estado` varchar(150) COLLATE utf8_spanish2_ci DEFAULT 'Sin Confirmar',
   `metros_cubicos` decimal(11,2) DEFAULT NULL,
   `id_bodega` int(11) DEFAULT NULL,
-  `id_contenedor` int(11) DEFAULT NULL
+  `id_contenedor` int(11) DEFAULT NULL,
+  `multiplo` decimal(11,11) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -768,7 +760,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `contenedores`
 --
 ALTER TABLE `contenedores`
-  MODIFY `id_contenedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id_contenedor` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_bodega`
@@ -798,7 +790,7 @@ ALTER TABLE `detalle_preset`
 -- AUTO_INCREMENT de la tabla `detalle_procesado`
 --
 ALTER TABLE `detalle_procesado`
-  MODIFY `id_detalle_procesado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_detalle_procesado` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `especificacion`
@@ -846,7 +838,7 @@ ALTER TABLE `packing_list`
 -- AUTO_INCREMENT de la tabla `paquetes`
 --
 ALTER TABLE `paquetes`
-  MODIFY `id_paquete` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_paquete` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`
