@@ -31,7 +31,7 @@ class Paquetes extends conexion
         $this->id_material ="";
         $this->largo ="";
         $this->grueso ="";
-        $this->ancho =""
+        $this->ancho ="";
         $this->fecha_ingreso ="";
         $this->multiplo ="";
         $this->estado ="";
@@ -139,7 +139,7 @@ class Paquetes extends conexion
         return $this->fecha_ingreso;
     }
 
-    public function setGFecha_ingreso($fecha_ingreso){
+    public function setFecha_ingreso($fecha_ingreso){
         $this->fecha_ingreso= $fecha_ingreso;
     }
     public function getId_contenedor() {
@@ -154,7 +154,7 @@ class Paquetes extends conexion
     }
 
     public function setStock($stock) {
-        $this-stockr = $stock;
+        $this-$stock = $stock;
     }
 
 
@@ -183,7 +183,7 @@ class Paquetes extends conexion
 
     }
     public function delete(){
-    	$query="DELETE FROM paquetes WHERE id_paquetes='".$this->id_paquete."'"; 
+    	$query="DELETE FROM paquetes WHERE id_paquete='".$this->id_paquete."'"; 
        $delete=$this->db->query($query);
        if ($delete == true) {
         return true;
@@ -213,7 +213,7 @@ class Paquetes extends conexion
     }
      public function selectALLpack($codigo)
     {
-        $query="SELECT con.*, m.nombre as material FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_packing_list='".$codigo."'";
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_packing_list='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
@@ -251,6 +251,36 @@ class Paquetes extends conexion
             return false;
         }  
     }
+    //------------------PROYECCIONES---------------------------//
+     public function selectALL_estado($codigo,$material)
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_material = '".$material."' AND con.estado='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+      public function selectALL_estado_metros($codigo,$material)
+    {
+        $query="SELECT SUM(con.metros_cubicos) AS metros_cub, m.nombre as material  FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_material = '".$material."' AND con.estado='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+     public function selectALLpack_fechas($fecha1,$fecha2,$material)
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_material = '".$material."' AND con.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+     public function selectALLpack_fechas_metros($fecha1,$fecha2,$material)
+    {
+        $query="SELECT SUM(con.metros_cubicos) AS metros_cub, m.nombre as material FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_material = '".$material."' AND con.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+
 
 }
 

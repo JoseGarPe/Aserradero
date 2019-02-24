@@ -4,16 +4,8 @@ require_once "../../config/conexion.php";
 class Contenedores extends conexion
 {
 	private $id_contenedor;
-	private $etiqueta;
-	private $piezas;
-    private $n_paquetes;
-	private $multiplo;
-	private $m_cuadrados;
-	private $tarimas;
-	private $id_bodega;
+    private $etiqueta;
 	private $id_packing_list;
-    private $id_material;
-    private $bodega_pendiente;
     private $estado;
 
 	function __construct()
@@ -21,17 +13,8 @@ class Contenedores extends conexion
 		parent::__construct();
 
 		$this->id_contenedor ="";
-		$this->etiqueta ="";
-		$this->piezas ="";
-        $this->n_paquetes ="";
-		$this->multiplo ="";
-		$this->m_cuadrados ="";
-		$this->tarimas ="";
-		$this->id_bodega ="";
+        $this->etiqueta ="";
 		$this->id_packing_list ="";
-        $this->n_paquetes ="";
-        $this->id_material ="";
-        $this->bodega_pendiente ="";
         $this->estado ="";
 	}
 
@@ -42,60 +25,6 @@ class Contenedores extends conexion
 	public function setId_contenedor($idContenedores){
 		$this->id_contenedor= $idContenedores;
 	}
-
-	public function getEtiqueta(){
-		return $this->etiqueta;
-	}
-
-	public function setEtiqueta($etiqueta){
-		$this->etiqueta= $etiqueta;
-	}
-
-	public function getPiezas(){
-		return $this->piezas;
-	}
-
-	public function setPiezas($piezas){
-		$this->piezas= $piezas;
-	}
-    public function getN_paquetes(){
-        return $this->n_paquetes;
-    }
-
-    public function setN_paquetes($npack){
-        $this->n_paquetes= $npack;
-    }
-
-	public function getMultiplo(){
-		return $this->multiplo;
-	}
-
-	public function setMultiplo($email){
-		$this->multiplo= $email;
-	}
-
-	public function getM_cuadrados(){
-		return $this->m_cuadrados;
-	}
-
-	public function setM_cuadrados($m_cuadrados){
-		$this->m_cuadrados= $m_cuadrados;
-	}
-
-	public function getTarimas(){
-		return $this->tarimas;
-	}
-
-	public function setTarimas($tarimas){
-		$this->tarimas= $tarimas;
-	}
-	public function getId_bodega() {
-        return $this->id_bodega;
-    }
-
-    public function setId_bodega($id_bodega) {
-        $this->id_bodega = $id_bodega;
-    }
 	public function getId_packing_list() {
         return $this->id_packing_list;
     }
@@ -103,20 +32,7 @@ class Contenedores extends conexion
     public function setId_packing_list($id_packing_list) {
         $this->id_packing_list = $id_packing_list;
     }
-    public function getId_material() {
-        return $this->id_material;
-    }
-
-    public function setId_material($id_material) {
-        $this->id_material = $id_material;
-    }
-    public function getBodega_pendiente() {
-        return $this->bodega_pendiente;
-    }
-
-    public function setBodega_pendiente($bodega_pendiente) {
-        $this->bodega_pendiente = $bodega_pendiente;
-    }
+   
     public function getEstado() {
         return $this->estado;
     }
@@ -124,10 +40,17 @@ class Contenedores extends conexion
     public function setEstado($estado) {
         $this->estado = $estado;
     }
+    public function getEtiqueta(){
+        return $this->etiqueta;
+    }
+
+    public function setEtiqueta($etiqueta){
+        $this->etiqueta= $etiqueta;
+    }
 
     public function save(){
 
-    	$query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas,multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list,n_paquetes,id_material,bodega_pendiente,estado) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."',NULL,'".$this->id_packing_list."','".$this->n_paquetes."','".$this->id_material."','".$this->id_bodega."','".$this->estado."')";
+    	$query="INSERT INTO contenedores(id_contenedor,id_packing_list,n_paquetes,estado) values(NULL,'".$this->id_packing_list."','".$this->estado."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -137,9 +60,44 @@ class Contenedores extends conexion
 
 
     }
+
+    public function save2(){
+
+        $query1="SELECT * FROM contenedores WHERE id_packing_list='".$this->id_packing_list."' AND id_material='".$this->id_material."'";
+        $selectall=$this->db->query($query1);
+        $ListContenedor=$selectall->fetch_all(MYSQLI_ASSOC);
+        if ($selectall->num_rows==0) {
+            $query="INSERT INTO contenedores(id_contenedor, etiqueta, piezas,multiplo, m_cuadrados, tarimas, id_bodega,id_packing_list,n_paquetes,id_material,bodega_pendiente,estado) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->multiplo."','".$this->m_cuadrados."','".$this->tarimas."',NULL,'".$this->id_packing_list."','".$this->n_paquetes."','".$this->id_material."','".$this->id_bodega."','".$this->estado."')";
+            $save=$this->db->query($query);
+            if ($save==true) {
+                return true;
+            }else {
+                return false;
+            }  
+          } elseif ($selectall->num_rows==1) {
+              foreach ($ListContenedor as $key) {
+                $cantidad_anteriorPie= $key['piezas'];
+                $cantidad_anteriorPaq= $key['n_paquetes'];
+            }
+            $cantidad=$this->piezas;
+            $nueva_cantidadPie=$cantidad_anteriorPie+$cantidad;
+            $cantidadPaq=$this->n_paquetes;
+            $nueva_cantidadPaq=$cantidad_anteriorPaq+$cantidadPaq;
+            $query2="UPDATE contenedores SET piezas='".$cantidad."', multiplo='".$this->multiplo."', m_cuadrados='".$this->m_cuadrados."', tarimas='".$this->tarimas."', n_paquetes='".$cantidadPaq."' WHERE id_packing_list='".$this->id_packing_list."' AND id_material = '".$this->id_material."'";
+            $update=$this->db->query($query2);
+            if ($update==true) {
+                return true;
+            }else {
+                return false;
+            }  
+
+          }
+
+
+    }
     public function update(){
 
-    	$query="UPDATE contenedores SET etiqueta='".$this->etiqueta."', piezas='".$this->piezas."', multiplo='".$this->multiplo."', m_cuadrados='".$this->m_cuadrados."', tarimas='".$this->tarimas."', id_packing_list='".$this->id_packing_list."', n_paquetes='".$this->n_paquetes."', id_material='".$this->id_material."', bodega_pendiente='".$this->id_bodega."' WHERE id_contenedor='".$this->id_contenedor."'";
+    	$query="UPDATE contenedores SET etiqueta='".$this->etiqueta."', id_packing_list='".$this->id_packing_list."' WHERE id_contenedor='".$this->id_contenedor."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
@@ -179,7 +137,7 @@ class Contenedores extends conexion
     }
      public function selectALLpack($codigo)
     {
-        $query="SELECT con.*, m.nombre as material FROM contenedores con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_packing_list='".$codigo."'";
+        $query="SELECT * FROM contenedores  WHERE id_packing_list='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListContenedores;
@@ -195,7 +153,6 @@ class Contenedores extends conexion
         }  
 
     }
-
     public function materialesPaquete($codigo){
 
         $query="SELECT p.id_material, COUNT(*), COUNT(p.id_paquete) as n_paquetes, SUM(p.piezas) as t_piezas,m.nombre,m.largo,m.grueso,m.ancho FROM paquetes p INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_packing_list ='".$codigo."' GROUP BY id_material HAVING COUNT(*) > 0";
@@ -217,6 +174,7 @@ class Contenedores extends conexion
         return $ListContenedores;
 
     }
+
 
 
 

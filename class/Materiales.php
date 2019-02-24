@@ -164,7 +164,13 @@ class Materiales extends conexion
        $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listmateriales;
     }
-
+ public function selectMateria_Prima()
+    {
+        $query="SELECT * FROM materiales WHERE id_categoria=2";
+        $selectall=$this->db->query($query);
+       $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listmateriales;
+    }
 
 }
 

@@ -116,8 +116,26 @@
                               <input id="usar"  name="usar" class="form-control col-md-7 col-xs-12"  type="number">
                             </div>
                           </div>-->
+                           <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Etiqueta<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                             
+                             <input id="etiqueta"  name="etiqueta" class="form-control col-md-7 col-xs-12"  type="text"></div>
+                          </div>
                           <div class="x_content">
-                        <div id="datos23"></div>
+
+        <input type="text" id="search" placeholder="Escribe para buscar..." />
+                           <table id="table" class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Etiqueta</th>
+                           <th>Piezas Disponibles</th>                         
+                        </tr>
+                      </thead>
+                      <tbody id="datos23">
+                      </tbody>
+                      </table>
                           </div>
 
                        
@@ -328,23 +346,7 @@ xmlhttp.send("cod_banda="+cod);
 
 
       </script>
-       <script>
-  $(function () {
-    $('#example1').DataTable()
-    $('#example3').DataTable()
-    $('#example4').DataTable()
-    $('#example5').DataTable({
-      'paging'      : true,
-      'lengthChange': true,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : true
-    })
-  })
-
-
-</script>
+      
    <script>
 function myFunction() {
   var checkBox = document.getElementById("id_material");
@@ -361,8 +363,36 @@ function myFunction() {
 }
 </script>
 
-    <!-- jQuery -->
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+<script>
+     $("#search").keyup(function(){
+        _this = this;
+        // Muestra los tr que concuerdan con la busqueda, y oculta los demás.
+        $.each($("#table tbody tr"), function() {
+            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) === -1)
+               $(this).hide();
+            else
+               $(this).show();                
+        });
+    });
+     $(function () {
+    $('#example1').DataTable()
+    $('#example3').DataTable()
+    $('#example4').DataTable()
+    $('#table').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : false,
+      'order'       : [[0, "desc"]]
+    })
+  });
+</script>
+
+ <!--   <script src="../vendors/jquery/dist/jquery.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+
     <!-- Bootstrap -->
     <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->

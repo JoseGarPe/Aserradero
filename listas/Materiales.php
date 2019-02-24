@@ -182,7 +182,7 @@
                           <th>Nombre</th>
                           <th>Dimenciones</th>
                           <th>Grosor</th>
-                          <th>m<sup>2</sup></th>
+                          <th>m<sup>3</sup></th>
                           <th>Categoria</th> 
                           <th>Opciones</th>                            
                         </tr>

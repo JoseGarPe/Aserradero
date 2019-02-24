@@ -176,20 +176,23 @@
                     <br>
                     <div id="employee_table">
                     <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
-                      <thead>
-                       <tr>
-                          <th>Id</th>
-                          <th>Material</th>
-                          <th>Etiqueta</th>
-                          <th>Piezas</th> 
-                          <th >Paquetes</th>  
-                          <th >m<sup>3</sup></th> 
-                          <th>Tarimas</th>
-                          <th>Bodega</th>
-                          <th>Estado</th>
-                          <th>Opciones</th>                                  
-                        </tr>
-                      </thead>
+                       <thead>
+                            <tr>
+                            <th>Material</th>
+                            <th>Etiqueta</th>
+                            <th width="95">Largo</th>
+                            <th width="95">Ancho</th>
+                            <th width="95">Grueso</th>
+                            <th width="95">Piezas</th>
+                            <th>Multiplo</th>
+                            <th>Fecha Ingreso</th>
+                            <th>Bodega Destino</th>
+                            <th>Contendor</th>
+                            <th>Stock</th>
+                            <th>Estado</th>
+                            <th>Opcion</th>
+
+                            </tr></thead>
                       <tbody>
                           <?php 
                           if (isset($_GET["id"])) {
@@ -197,48 +200,38 @@
                           }else{
                             $codigo=0;
                           }
-           
-            require_once "../class/Contenedor.php";
-                         $ms = new Contenedores();
-                         $contacto = $ms->selectALLpack($codigo);
-                         foreach ($contacto as $row) {
+            require_once "../class/Paquetes.php";
+                            $mss = new Paquetes();
+                         $paquetes = $mss->selectALLpack($codigo);
+                         foreach ($paquetes as $key) {
                           echo '<tr>
-                          <td>'.$row['id_contenedor'].'</td>
-                           <td>'.$row['material'].'</td>
-                           <td>'.$row['etiqueta'].'</td>
-                           <td>'.$row['piezas'].'</td>
-                           <td>'.$row['n_paquetes'].'</td>
-                           <td>'.$row['m_cuadrados'].'</td>
-                           <td>'.$row['tarimas'].'</td>
-                          ';
-                          require_once "../class/Bodega.php";
-                              $mistipos1 = new Bodega();
-                              if ($row['id_bodega']==NULL) {
-                                 $catego1 = $mistipos1->selectOne($row['bodega_pendiente']);
-                          foreach ((array)$catego1 as $key) {
-                            echo' <td>'.$key['nombre'].'</td>';
-                              }
-                          }
-                          else{
-                             $catego1 = $mistipos1->selectOne($row['id_bodega']);
-                          foreach ((array)$catego1 as $key) {
-                            echo' <td>'.$key['nombre'].'</td>';
-                              }
+                          <td>'.$key['material'].'</td>
+                          <td>'.$key['etiqueta'].'</td>
+                          <td>'.$key['largo'].'</td>
+                          <td>'.$key['ancho'].'</td>
+                          <td>'.$key['grueso'].'</td>
+                          <td>'.$key['piezas'].'</td>
+                          <td>'.$key['multiplo'].'</td>
+                          <td>'.$key['fecha_ingreso'].'</td>
+                          <td>'.$key['bodega'].'</td>
+                          <td>'.$key['contenedor'].'</td>
+                          <td>'.$key['stock'].'</td>
+                          <td>'.$key['estado'].'</td>
 
-                          }
-                            echo' <td>'.$row['estado'].'</td>';
-                            if ($row['estado']== 'Sin Confirmar') {
+                          ';
+
+                            if ($key['estado']== 'Sin Confirmar') {
                              echo'
                             <td>
-                                <input type="button" name="confirm" value="Confirmar" id="'.$row["id_contenedor"].'" pl="'.$row["id_packing_list"].'" class="btn btn-info confirm_data"/>  
+                                <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" class="btn btn-info confirm_data"/>  
                                    
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_contenedor"].'" class="btn btn-danger delete_data" />
+                                     <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />
                             </td>';
                             }else{
                                echo'
                             <td>  
                                    
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_contenedor"].'" class="btn btn-danger delete_data" />
+                                     <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />
                             </td>';
 
                             }

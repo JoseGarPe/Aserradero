@@ -4,9 +4,10 @@ require_once "../config/conexion.php";
 class Contenedores extends conexion
 {
 	private $id_contenedor;
-    private $etiqueta
+    private $etiqueta;
 	private $id_packing_list;
     private $estado;
+    private $id_bodega;
 
 	function __construct()
 	{
@@ -16,6 +17,7 @@ class Contenedores extends conexion
         $this->etiqueta ="";
 		$this->id_packing_list ="";
         $this->estado ="";
+        $this->id_bodega ="";
 	}
 
 	public function getId_contenedor(){
@@ -47,10 +49,17 @@ class Contenedores extends conexion
     public function setEtiqueta($etiqueta){
         $this->etiqueta= $etiqueta;
     }
+    public function getId_bodega(){
+        return $this->id_bodega;
+    }
+
+    public function setId_bodega($id_bodega){
+        $this->id_bodega= $id_bodega;
+    }
 
     public function save(){
 
-    	$query="INSERT INTO contenedores(id_contenedor,id_packing_list,n_paquetes,estado) values(NULL,'".$this->id_packing_list."','".$this->estado."')";
+    	$query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -137,14 +146,14 @@ class Contenedores extends conexion
     }
      public function selectALLpack($codigo)
     {
-        $query="SELECT con.*, m.nombre as material FROM contenedores con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_packing_list='".$codigo."'";
+        $query="SELECT * FROM contenedores  WHERE id_packing_list='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListContenedores;
     }
-    public function confirm(){
+    public function confirm($codigo){
 
-        $query="UPDATE contenedores SET id_bodega ='".$this->id_bodega."', estado ='".$this->estado."', bodega_pendiente = 0 WHERE id_contenedor='".$this->id_contenedor."'";
+        $query="UPDATE paquetes SET id_bodega ='".$this->id_bodega."', estado ='".$this->estado."' WHERE id_paquete='".$codigo."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
@@ -175,7 +184,17 @@ class Contenedores extends conexion
 
     }
 
+ public function confirm2(){
 
+        $query="UPDATE contenedores SET estado ='".$this->estado."' WHERE id_contenedor='".$this->id_contenedor."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+
+    }
 
 
 }

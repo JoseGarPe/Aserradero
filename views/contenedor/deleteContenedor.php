@@ -1,21 +1,21 @@
-<form role="form" action="../controllers/ContenedorControlador.php?accion=eliminar" method="POST">
+<form role="form" action="../controllers/PaquetesControlador.php?accion=eliminar" method="POST">
               <div class="box-body">
 <?php 
-require_once "Contenedor.php";
+require_once "Paquetes.php";
 
 
          
 							$codigo=$_POST["employee_id"];
-					     $nave = new Contenedores();
-                         $catego = $nave->selectOne($codigo);
+               $paquete = new Paquetes();
+                         $catego = $paquete->selectALLpackOne($codigo);
                         
                            # code...
                          
                          foreach ((array)$catego as $row) {
                          		echo '
 
-                            <label>¿Desea eliminar el contenedor con etiqueta:'.$row['etiqueta'].'?</label>
-                          <input type="hidden" name="id" id="id" value="'.$row['id_contenedor'].'"/>            
+                            <label>¿Desea eliminar el paquete con etiqueta:'.$row['etiqueta'].'?</label>
+                          <input type="hidden" name="id" id="id" value="'.$row['id_paquete'].'"/>            
                 
                 ';}
 

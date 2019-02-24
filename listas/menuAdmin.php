@@ -64,14 +64,16 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         <li><a><i class="fa fa-ship"></i> Ingresos <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/IndexPackingList.php">Por Barco</a></li>
-                          <li><a href="../listas/contenedores.php">Confirmar Contenedores</a></li>                   
+                          <li><a href="../listas/contenedores.php">Confirmar Paquetes</a></li>
+                          <li><a href="../listas/proyecciones.php">Proyecciones</a></li>                      
                         </ul>
                       </li>
                       <?php 
                         } elseif ($row['campo_d']== NULL && $row['campo_e']!= NULL) {  ?>
                       <li><a><i class="fa fa-ship"></i> Ingresos <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="../listas/contenedores.php">Confirmar Contenedores</a></li>                   
+                          <li><a href="../listas/contenedores.php">Confirmar Paquetes</a></li> 
+                          <li><a href="../listas/proyecciones.php">Proyecciones</a></li>                     
                         </ul>
                       </li>
                       <?php 

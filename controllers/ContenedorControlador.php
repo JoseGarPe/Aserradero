@@ -51,15 +51,8 @@ elseif ($accion=="eliminar") {
 elseif ($accion=="guardar") 
 {
 	$etiqueta=$_POST['etiqueta'];
-	$piezas=$_POST['piezas'];
-	$n_paquetes=$_POST['paquetes'];
-	$multiplo=$_POST['multiplo'];
-	$m_cuadrados=$_POST['m_cuadrados'];
-	$tarimas=$_POST['tarimas'];
-  	$id_bodega =$_POST['id_bodega'];
   	$id_packing_list =$_POST['id_packing_list'];
 
-  	$id_material =$_POST['id_materiales'];
   	$pl= new Packing();
   	$listpl = $pl->selectOne($id_packing_list);
   	foreach ($listpl as $key) {
@@ -69,14 +62,7 @@ elseif ($accion=="guardar")
 
 	$Contenedor = new Contenedores();
 	$Contenedor->setEtiqueta($etiqueta);
-	$Contenedor->setPiezas($piezas);
-	$Contenedor->setN_paquetes($n_paquetes);
-	$Contenedor->setMultiplo($multiplo);
-	$Contenedor->setM_cuadrados($m_cuadrados);
-	$Contenedor->setTarimas($tarimas);
-	$Contenedor->setId_bodega($id_bodega);
 	$Contenedor->setId_packing_list($id_packing_list);
-	$Contenedor->setId_material($id_material);
 	$Contenedor->setEstado("Sin Confirmar");
 	$save=$Contenedor->save();
 	if ($save==true) {
@@ -91,20 +77,18 @@ elseif ($accion=="guardar")
 	}
 }
 elseif ($accion=="confirmar") {
-	$id_contenedor =$_POST['id'];
+	$id_paquete =$_POST['id'];
 	$id_bodega =$_POST['id_bodega'];
 	$estado =$_POST['estado'];
 	$pl =$_POST['pl'];
 	$piezas=$_POST['piezas'];
 	$id_material=$_POST['material'];
 	$Contenedor = new Contenedores();
-	$Contenedor->setId_contenedor($id_contenedor);
 	$Contenedor->setId_bodega($id_bodega);
 	$Contenedor->setEstado($estado);
-	$delete=$Contenedor->confirm();
+	$delete=$Contenedor->confirm($id_paquete);
 	if ($delete==true) {
 		
-
 		$detalle_bo= new DetalleBodega();
 		$detalle_bo->setId_bodega($id_bodega);
 		$detalle_bo->setId_material($id_material);
@@ -113,30 +97,44 @@ elseif ($accion=="confirmar") {
 		header('Location: ../listas/contenedores.php?success=correcto&id='.$pl.'');
 		# code...
 	}else{
-		header('Location: ../listas/Contenedor.php?error=incorrecto&id='.$pl.'&id='.$id_contenedor.'&id='.$id_bodega.'&id='.$estado.'');
+		header('Location: ../listas/Contenedor.php?error=incorrecto&id='.$pl.'&id='.$id_paquete.'&id='.$id_bodega.'&id='.$estado.'');
+	}
+}elseif ($accion=="confirmar2") {
+	$id_contenedor =$_GET['id'];
+	$estado =$_GET['estado'];
+	$Contenedor = new Contenedores();
+	$Contenedor->setId_contenedor($id_contenedor);
+	$Contenedor->setEstado($estado);
+	$delete=$Contenedor->confirm2();
+	if ($delete==true) {
+	
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		# code...
+	}else{
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
 elseif ($accion=="guardar1") 
 {
 	$etiqueta=$_POST['etiqueta'];
-	$piezas=$_POST['piezas'];
+	/*$piezas=$_POST['piezas'];
 	$n_paquetes=$_POST['paquetes'];
 	$multiplo=$_POST['multiplo'];
 	$m_cuadrados=$_POST['m_cuadrados'];
   	$id_bodega =$_POST['id_bodega1'];
-	$tarimas=$_POST['tarimas'];
+	$tarimas=$_POST['tarimas'];*/
 	$estado=$_POST['estado'];
   	$id_packing_list =$_POST['id_packing_list'];
-  	$cont_ = $_POST['cont_'];
-  	$id_material =$_POST['id_material'];
+ /* 	$cont_ = $_POST['cont_'];
+  	$id_material =$_POST['id_material'];*/
   	$pl= new Packing();
-  	$conta = count($id_material);
+  //	$conta = count($id_material);
 
   	$i=0;
   	$tarimass = 0;
 
 	$Contenedor = new Contenedores();
-	while ($i<$conta) {
+/*	while ($i<$conta) {
 		$tarimass = $m_cuadrados[$i]/$multiplo[$i];
 	$Contenedor->setEtiqueta($etiqueta[$i]);
 	$Contenedor->setPiezas($piezas[$i]);
@@ -162,10 +160,23 @@ elseif ($accion=="guardar1")
 		}
 	$i = $i+1;
 	$tarimass = 0;
-	}
+	}*/
+	$listpl = $pl->selectOne($id_packing_list);
+  	foreach ($listpl as $key) {
+  		$cont_ingresados=$key['contenedores_ingresados'];
+  	}
+  	$new_con_ing=$cont_ingresados + 1;
+
+	$Contenedor = new Contenedores();
+	$Contenedor->setEtiqueta($etiqueta);
+	$Contenedor->setId_packing_list($id_packing_list);
+	$Contenedor->setEstado("Sin Confirmar");
+	$save=$Contenedor->save();
 	
 	if ($i==$conta) {
-		
+		$pl->setContenedores_ingresados($new_con_ing);
+		$pl->setId_packing_list($id_packing_list);
+		$update1=$pl->updateIngresos();
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
 	}

@@ -1,6 +1,6 @@
-<?php 
+<?php
   session_start();
- ?>
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +20,8 @@
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+        <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -106,7 +108,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Packing List - Por Barco</h2>
+                    <h2>Pagina de Naves</h2>
 
 
                     
@@ -168,73 +170,184 @@
                 }
             }
              ?></div>
-
-
                   <div class="x_content">
-                    <a href="../views/Newpacking.php" class="btn btn-primary" role="button">Nueva Orden</a>
-                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO--> 
-                    <br>
+                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
+                    <form action="../listas/proyecciones.php" method="POST" class="form-horizontal form-label-right">
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Material<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <select class="form-control" name="id_material" id="id_material">
+                          <option>Seleccione un Material para buscar</option>
+                        <?php 
+                          require_once "../class/Materiales.php";
+
+                          $mistipos = new Materiales();
+                         $catego = $mistipos->selectMateria_Prima();
+                          foreach ((array)$catego as $row) {
+
+                            echo "<option value='".$row['id_material']."'>".$row['nombre']."</option>";
+
+                          } 
+
+                    
+                          ?>
+                          </select>
+                        </div>
+                      </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione una opcion<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <h2> 
+                     Buscar por fecha: <input type="checkbox" id="myCheck" name="myCheck" value="opcion1" onclick="myFunction()">
+                      Buscar por estado: <input type="checkbox" id="myCheck1"  name="myCheck1" value="opcion2" onclick="myFunction1()"></h2>
+                        </div>
+                      </div>
+                    
+
+                      <div id="fechai" class="form-group" style="display:none">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Fecha inicial<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <div class='input-group date' id='myDatepicker2'>
+                            <input type='text' class="form-control" name="fecha_inicial" id="fecha_inicial" />
+                            <span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        </div>
+                      </div>
+                        <div id="fechaf" class="form-group" style="display:none">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Fecha final<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <div class='input-group date' id='myDatepicker3'>
+                            <input type='text' class="form-control" name="fecha_final" id="fecha_final" />
+                            <span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        </div>
+                      </div>
+                       <div id="estado" style="display:none" class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Estado<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <select class="form-control" id="estado_con" name="estado_con">
+                          <option value="Confirmado">Confirmado</option>
+                          <option value="Sin confirmar">Sin Confirmar</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="box-footer">
+
+                        <div class="form-label-right col-md-5 col-sm-5 col-xs-12">
+               <center> <input type="submit" class="btn btn-primary" name="submit" value="Consultar" ></center>
+                        </div>
+                      </div>
+                    </form>
+                   
                     <br>
                     <div id="employee_table">
-                    <table id="example5" class="table table-striped table-bordered" name="datatable-buttons">
-                      <thead>
-                        <tr>
-                          <th>N° </th>
-                          <th>Factura</th>
-                          <th>Codigo Embarque</th>
-                          <th>Mes</th>  
-                          <th>Fecha</th>
-                          <th>Contenedores</th>
-                          <th>Recibidos</th> 
-                          <th>Shipper</th>
-                          <th>Nave</th>
-                          <th>Estado</th>
-                          <th>Opiones</th>                         
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                         require_once "../class/PackingList.php";
-                         $misPacks = new Packing();
-                         $todos = $misPacks->selectALL();
-                        
-                           # code...
-                         
-                         foreach ((array)$todos as $row) {
-                         echo '
+                     <?php 
+                      if (isset($_POST['myCheck']) && isset($_POST['fecha_inicial']) && isset($_POST['fecha_final'])) {
+                        $fecha1=$_POST['fecha_inicial'];
+                        $fecha2=$_POST['fecha_final'];
+                        $id_material=$_POST['id_material'];
+                         require_once "../class/Paquetes.php";
+                            $mss = new Paquetes();
+                         $paquetes1 = $mss->selectALLpack_fechas_metros($fecha1,$fecha2,$id_material);
+                         foreach ($paquetes1 as $key1) {
+                          echo '
+                            <h2>Material seleccionado: <strong>'.$key1['material'].'</strong></h2><br>
+                            <h2>Suma de metros cubicos de su busqueda: <strong>'.$key1['metros_cub'].' m<sup>3</sup></strong> </h2>
+                           ';
+                         }
+
+
+                      }elseif (isset($_POST['myCheck1'])&&isset($_POST['estado_con'])) {
+                        $estado=$_POST['estado_con'];
+                        $id_material=$_POST['id_material'];
+
+                         require_once "../class/Paquetes.php";
+                            $mss = new Paquetes();
+                         $paquetes2 = $mss->selectALL_estado_metros($estado,$id_material);
+                          foreach ($paquetes2 as $key2) {
+                          echo '
+                            <h2>Material seleccionado: <strong>'.$key2['material'].'</strong></h2><br>
+                            <h2>Suma de metros cubicos de su busqueda: <strong>'.$key2['metros_cub'].' m<sup>3</sup></strong> </h2>
+                           ';
+                         }
+                      }
+
+                     ?>
+                    <table id="example1" class="table table-bordered">
+                    <thead>
+                            <tr>
+                            <th>Etiqueta</th>
+                            <th width="95">Largo</th>
+                            <th width="95">Ancho</th>
+                            <th width="95">Grueso</th>
+                            <th width="95">Piezas</th>
+                            <th width="95">M<sup>3</sup></th>
+                            <th>Fecha Ingreso</th>
+                            <th>Bodega</th>
+                            <th>Estado</th>
+                            </tr></thead>
+                            <tbody>
+                     <?php 
+                      if (isset($_POST['myCheck']) && isset($_POST['fecha_inicial']) && isset($_POST['fecha_final'])) {
+                        $fecha1=$_POST['fecha_inicial'];
+                        $fecha2=$_POST['fecha_final'];
+                        $id_material=$_POST['id_material'];
+                         require_once "../class/Paquetes.php";
+                            $mss = new Paquetes();
+                         $paquetes = $mss->selectALLpack_fechas($fecha1,$fecha2,$id_material);
+                         foreach ($paquetes as $key) {
+                          echo '
                           <tr>
-                          <td>'.$row['id_packing_list'].'</td>
-                           <td>'.$row['numero_factura'].'</td>
-                           <td>'.$row['codigo_embarque'].'</td>
-                           <td>'.$row['mes'].'</td>
-                           <td>'.$row['fecha'].'</td>
-                           <td>'.$row['total_contenedores'].'</td>
-                           <td>'.$row['contenedores_ingresados'].'</td>
-                           <td>'.$row['ship'].'</td>
-                           <td>'.$row['nav'].'</td>
-                           <td>'.$row['estado'].'</td>
-                           <td>
-                            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="../views/savePaquetee.php?id='.$row["id_packing_list"].'" class="btn btn-warning">Paquetes</a>
-                                    </li>
-                                    <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
-                                    <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
-                                </ul>
-                              </div>
-
-
-
-
-                           </td>
+                          <td>'.$key['etiqueta'].'</td>
+                          <td>'.$key['largo'].'</td>
+                          <td>'.$key['ancho'].'</td>
+                          <td>'.$key['grueso'].'</td>
+                          <td>'.$key['piezas'].'</td>
+                          <td>'.$key['metros_cubicos'].'</td>
+                          <td>'.$key['fecha_ingreso'].'</td>
+                          <td>'.$key['bodega'].'</td>
+                          <td>'.$key['estado'].'</td>
                           </tr>
-                         ';
-                       }
-                     
-                     
-                         ?>
-                      </tbody>
-                    </table>
+                           ';
+                         }
+
+
+                      }elseif (isset($_POST['myCheck1'])&&isset($_POST['estado_con'])) {
+                        $estado=$_POST['estado_con'];
+                        $id_material=$_POST['id_material'];
+
+                         require_once "../class/Paquetes.php";
+                            $mss = new Paquetes();
+                         $paquetes = $mss->selectALL_estado($estado,$id_material);
+                          foreach ($paquetes as $key) {
+                          echo '
+                          <tr>
+                          <td>'.$key['etiqueta'].'</td>
+                          <td>'.$key['largo'].'</td>
+                          <td>'.$key['ancho'].'</td>
+                          <td>'.$key['grueso'].'</td>
+                          <td>'.$key['piezas'].'</td>
+                          <td>'.$key['metros_cubicos'].'</td>
+                          <td>'.$key['fecha_ingreso'].'</td>
+                          <td>'.$key['bodega'].'</td>
+                          <td>'.$key['estado'].'</td>
+                          </tr>
+                           ';
+                         }
+                      }
+
+                     ?>
+                    </tbody>
+                    </table>  
                   </div>
                   </div>
                 </div>
@@ -248,7 +361,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
+                                                 <h4 class="modal-title">Detalle Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_detail">  
                                             </div>  
@@ -263,7 +376,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
+                                                 <h4 class="modal-title">Detalle Nave</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -278,7 +391,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Orden</h4>  
+                                                 <h4 class="modal-title">Agregar Nueva Nave</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -293,24 +406,9 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Packing</h4>  
+                                                 <h4 class="modal-title">Eliminar Nave</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>  
-  </div>
-  <div id="dataModal5" class="modal fade">  
-                                  <div class="modal-dialog modal-lg">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Contenedores</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_forms5">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -324,7 +422,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nueva Orden</h4>  
+                     <h4 class="modal-title">Agregar Nueva Nave</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -372,6 +470,11 @@
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+     <!-- bootstrap-daterangepicker -->
+    <script src="../vendors/moment/min/moment.min.js"></script>
+    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-datetimepicker -->    
+    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
@@ -439,31 +542,16 @@ ga('send', 'pageview');
       });  
 
         $(document).on('click', '.save_data', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
+           var employee_action = $(this).attr("accion");  
+           if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/contenedor/saveConts1.php",  
+                     url:"../views/naves/saveNaves.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id},  
+                     data:{employee_action:employee_action},  
                      success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
-                     }  
-                });  
-           }            
-      });
-         $(document).on('click', '.save_data1', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/contenedor/savePaquetes.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
+                          $('#employee_forms3').html(data);  
+                          $('#dataModal3').modal('show');  
                      }  
                 });  
            }            
@@ -489,21 +577,96 @@ ga('send', 'pageview');
  });  
 
 </script>
-        <script>
+  <script>
   $(function () {
     $('#example1').DataTable()
     $('#example3').DataTable()
     $('#example4').DataTable()
     $('#example5').DataTable({
       'paging'      : true,
-      'lengthChange': true,
-      'searching'   : false,
+      'lengthChange': false,
+      'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : true,
+      'autoWidth'   : false,
       'order'       : [[0, "desc"]]
     })
-  })
+  });
+</script>
+         <script>
+    $('#myDatepicker').datetimepicker();
+    
+    $('#myDatepicker2').datetimepicker({
+        format: 'YYYY.MM.DD'
+    });
+    
+    $('#myDatepicker3').datetimepicker({
+          format: 'YYYY.MM.DD'
+    });
+    
+    $('#myDatepicker4').datetimepicker({
+        ignoreReadonly: true,
+        allowInputToggle: true
+    });
+
+    $('#datetimepicker6').datetimepicker();
+    
+    $('#datetimepicker7').datetimepicker({
+        useCurrent: false
+    });
+    
+    $("#datetimepicker6").on("dp.change", function(e) {
+        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    });
+    
+    $("#datetimepicker7").on("dp.change", function(e) {
+        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    });
+
+  
+</script>
+<script >
+  
+  function myFunction() {
+  var checkBox = document.getElementById("myCheck");
+  var fecha_i = document.getElementById("fechai");
+  var fecha_f = document.getElementById("fechaf");
+  var checkBox2 = document.getElementById("myCheck1");
+  var estado = document.getElementById("estado");
+  if (checkBox.checked == true){
+    fecha_i.style.display = "block";
+    fecha_f.style.display = "block";
+    checkBox2.checked=false;
+     estado.style.display = "none";
+     
+    
+  } else {
+     fecha_i.style.display = "none";
+     fecha_f.style.display = "none";
+     estado.style.display = "none";
+     
+  }
+}function myFunction1() {
+  var checkBox = document.getElementById("myCheck");
+  var fecha_i = document.getElementById("fechai");
+  var fecha_f = document.getElementById("fechaf");
+  var checkBox2 = document.getElementById("myCheck1");
+  var estado = document.getElementById("estado");
+  
+
+  if(checkBox2.checked == true){
+    estado.style.display = "block";
+    checkBox.checked=false;
+     fecha_i.style.display = "none";
+     fecha_f.style.display = "none";
+    
+  } else {
+     fecha_i.style.display = "none";
+     fecha_f.style.display = "none";
+     estado.style.display = "none";
+     
+  }
+}
 </script>
     </body>
 </html>
