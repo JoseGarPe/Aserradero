@@ -179,7 +179,7 @@ class Paquetes extends conexion
 
     public function selectPack_Bodega($codigo)
     {
-        $query="SELECT p.id_paquete, p.piezas,p.id_material , p.etiqueta, c.id_contenedor,c.id_packing_list FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN contenedores c ON c.id_packing_list = pl.id_packing_list WHERE p.id_bodega='".$codigo."' AND p.stock > 0";
+        $query="SELECT p.id_paquete, p.piezas,p.id_material , p.etiqueta, c.id_contenedor,c.id_packing_list FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN contenedores c ON c.id_packing_list = pl.id_packing_list WHERE p.id_bodega='".$codigo."' AND p.stock > 0 AND estado='Confirmado'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
