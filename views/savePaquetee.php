@@ -185,9 +185,9 @@
                             <tr>
                             <th>Material</th>
                             <th>Etiqueta</th>
-                            <th width="95">Largo</th>
-                            <th width="95">Ancho</th>
                             <th width="95">Grueso</th>
+                            <th width="95">Ancho</th>
+                            <th width="95">Largo</th>
                             <th width="95">Piezas</th>
                             <th>Multiplo</th>
                             <th>Fecha Ingreso</th>
@@ -213,9 +213,9 @@
                           ?>
                           </select></td>
                               <td><input type="text" id="etiqueta" name="etiqueta"  class="form-control col-md-7"></td>
-                              <td ><input type="number"  min="0.00" step="0.0000000001" id="largo" name="largo"  class="form-control col-sm-4"></td>
-                              <td><input type="number" id="ancho" name="ancho" min="0.00" step="0.00000000001"   class="form-control col-sm-7"></td>
                               <td><input type="number" id="grueso" name="grueso" min="0.00" step="0.00000000001"  class="form-control col-sm-7"></td>
+                              <td><input type="number" id="ancho" name="ancho" min="0.00" step="0.00000000001"   class="form-control col-sm-7"></td>
+                              <td ><input type="number"  min="0.00" step="0.0000000001" id="largo" name="largo"  class="form-control col-sm-4"></td>
                               <td><input type="number" id="piezas" name="piezas" min="0.00" step="1"  class="form-control col-md-7"></td>
                               <td><input type="number" id="multiplo" name="multiplo"  min="0.00" step="0.00000000001"  class="form-control col-md-7"></td>
                               <td>  
@@ -285,9 +285,9 @@
                             <tr>
                             <th>Material</th>
                             <th>Etiqueta</th>
-                            <th width="95">Largo</th>
-                            <th width="95">Ancho</th>
                             <th width="95">Grueso</th>
+                            <th width="95">Ancho</th>
+                            <th width="95">Largo</th>
                             <th width="95">Piezas</th>
                             <th>Multiplo</th>
                             <th>Fecha Ingreso</th>
@@ -307,9 +307,9 @@
                           <tr>
                           <td>'.$key['material'].'</td>
                           <td>'.$key['etiqueta'].'</td>
-                          <td>'.$key['largo'].'</td>
-                          <td>'.$key['ancho'].'</td>
                           <td>'.$key['grueso'].'</td>
+                          <td>'.$key['ancho'].'</td>
+                          <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['multiplo'].'</td>
                           <td>'.$key['fecha_ingreso'].'</td>

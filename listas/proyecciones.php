@@ -286,9 +286,9 @@
                     <thead>
                             <tr>
                             <th>Etiqueta</th>
-                            <th width="95">Largo</th>
-                            <th width="95">Ancho</th>
                             <th width="95">Grueso</th>
+                            <th width="95">Ancho</th>
+                            <th width="95">Largo</th>
                             <th width="95">Piezas</th>
                             <th width="95">M<sup>3</sup></th>
                             <th>Fecha Ingreso</th>
@@ -308,9 +308,9 @@
                           echo '
                           <tr>
                           <td>'.$key['etiqueta'].'</td>
-                          <td>'.$key['largo'].'</td>
-                          <td>'.$key['ancho'].'</td>
                           <td>'.$key['grueso'].'</td>
+                          <td>'.$key['ancho'].'</td>
+                          <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['metros_cubicos'].'</td>
                           <td>'.$key['fecha_ingreso'].'</td>
@@ -332,9 +332,9 @@
                           echo '
                           <tr>
                           <td>'.$key['etiqueta'].'</td>
-                          <td>'.$key['largo'].'</td>
-                          <td>'.$key['ancho'].'</td>
                           <td>'.$key['grueso'].'</td>
+                          <td>'.$key['ancho'].'</td>
+                          <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['metros_cubicos'].'</td>
                           <td>'.$key['fecha_ingreso'].'</td>
