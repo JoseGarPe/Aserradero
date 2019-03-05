@@ -132,7 +132,7 @@ class OrdenProducto extends conexion
 
       public function selectOrdenes($codigo)
     {
-        $query="SELECT op.id_orden_producto, p.nombre as preset,b.nombre as bodega, op.cantidad,op.estado,op.fecha_orden,ma.nombre as maquina,op.id_maquina FROM orden_producto op INNER JOIN presets p ON p.id_preset = op.id_preset INNER JOIN bodegas b ON b.id_bodega = op.id_bodega INNER JOIN maquinas ma ON ma.id_maquina = op.id_maquina WHERE op.id_preset ='".$codigo."'";
+        $query="SELECT op.id_orden_producto, p.nombre as preset,b.nombre as bodega, op.cantidad,op.estado,op.fase,op.fecha_orden,ma.nombre as maquina,op.id_maquina FROM orden_producto op INNER JOIN presets p ON p.id_preset = op.id_preset INNER JOIN bodegas b ON b.id_bodega = op.id_bodega INNER JOIN maquinas ma ON ma.id_maquina = op.id_maquina WHERE op.id_preset ='".$codigo."'";
         $selectall=$this->db->query($query);
         $ListOrdenes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListOrdenes;

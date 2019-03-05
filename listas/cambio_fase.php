@@ -200,6 +200,7 @@ session_start();
                           <th>Cantidad</th>
                           <th>Bodega Guardado</th>
                           <th>Estado</th> 
+                          <th>Fase</th> 
                           <th>Confirmar</th> 
 
                         </tr>
@@ -216,7 +217,8 @@ session_start();
                            <td>'.$ky['preset'].'</td>
                             <td>'.$ky["cantidad"].' </td>
                            <td>'.$ky["bodega"].'</td>
-                            <td>'.$ky["estado"].' </td>';
+                            <td>'.$ky["estado"].' </td>
+                            <td>'.$ky["fase"].' </td>';
                             if ($ky['estado']=="Confirmado") {
                                echo '
                             <td><input type="button" name="confirm" value="Cambiar Estado" id="'.$ky['id_orden_producto'].'" pl="'.$id_preset.'" nombre="'.$preset.'" cantidad="'.$ky['cantidad'].'" class="btn btn-info confirm_data"/></td>

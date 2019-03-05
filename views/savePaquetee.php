@@ -177,6 +177,7 @@
 
                   <div class="x_content">
                     <div class="row">
+                      <a href="../listas/IndexPackingList.php" class="btn btn-warning">Volver a Ingresos</a>
                       <div class="col-xs-12 col-xs-12 col-md-12">
                         <form action="../controllers/PaquetesControlador.php?accion=guardar" method="post"  role="form1">
                           <table  class="table table-bordered">
