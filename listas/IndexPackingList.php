@@ -210,7 +210,7 @@
                            <td>'.$row['fecha'].'</td>
                            <td>'.$row['total_contenedores'].'</td>
                            <td>'.$row['contenedores_ingresados'].'</td>
-                           <td>'.$row['ship'].'</td>
+                           <td>'.$row['shipper'].'</td>
                            <td>'.$row['nav'].'</td>
                            <td>'.$row['estado'].'</td>
                            <td>

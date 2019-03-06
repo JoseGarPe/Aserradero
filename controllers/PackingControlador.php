@@ -13,7 +13,7 @@ $contenedores_ingresados=$_POST['conteingre'];
 $paquetes=$_POST['packetes'];
 $paquetes_fisicos=$_POST['packfisicos'];
 $obervaciones=$_POST['observaciones'];
-$id_shipper=$_POST['id_shipper'];
+$shipper=$_POST['shipper'];
 $id_nave=$_POST['id_nave'];
 $id_especificacion=$_POST['id_especificacion'];
 $estado=$_POST['comboestado'];
@@ -28,7 +28,7 @@ if ($accion=="modificar") {
 	$shipper = new Shipper();
 	$shipper->setNombre($nombre);
 	$shipper->setDescripcion($descripcion);
-	$shipper->setId_shipper($id_shipper);
+	$shipper->setShipper($shipper);
 	$update=$shipper->update();
 	if ($update==true) {
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
@@ -62,7 +62,7 @@ elseif ($accion=="guardar")
 	$paquetes=$_POST['packetes'];
 	$paquetes_fisicos=$_POST['packfisicos'];
 	$obervaciones=$_POST['observaciones'];
-	$id_shipper=$_POST['id_shipper'];
+	$shipper=$_POST['shipper'];
 	$id_nave=$_POST['id_nave'];
 	$id_especificacion=$_POST['id_especificacion'];
 	$estado=$_POST['comboestado'];
@@ -79,7 +79,7 @@ elseif ($accion=="guardar")
 	$Pack->setPaquetes($paquetes);
 	$Pack->setPaquetes_fisicos($paquetes_fisicos);
 	$Pack->setObervaciones($obervaciones);
-	$Pack->setId_shipper($id_shipper);
+	$Pack->setShipper($shipper);
 	$Pack->setId_nave($id_nave);
 	$Pack->setId_especificacion($id_especificacion);
 	$Pack->setEstado($estado);

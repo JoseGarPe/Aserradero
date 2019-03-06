@@ -311,16 +311,8 @@ session_start();
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Shipper<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control" name="id_shipper" id="id_shipper">
-                          <?php 
-                          require_once "../class/Shipper.php";
-                          $misShippers = new Shipper();
-                         $catego = $misShippers->selectALL();
-                          foreach ((array)$catego as $row) {
-                            echo "<option value='".$row['id_shipper']."'>".$row['nombre']."</option>";
-                          } 
-                          ?>
-                          </select>
+                        
+                          <input type="text" id="shipper" name="shipper"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 

@@ -18,6 +18,7 @@ private $id_shipper;
 private $id_nave;
 private $id_especificacion;
 private $estado;
+private $shipper;
 
 public function __construct()
 {
@@ -38,6 +39,7 @@ public function __construct()
         $this->id_nave = "";
         $this->id_especificacion = "";
         $this ->estado="";
+        $this ->shipper="";
         
 
 }
@@ -160,6 +162,13 @@ public function __construct()
     public function setEstado($estat) {
         $this->estado = $estat;
     }
+    public function getShipper() {
+        return $this->_shipper;
+    }
+
+    public function setShipper($shipper) {
+        $this->shipper = $shipper;
+    }
 
 
 
@@ -169,7 +178,7 @@ public function __construct()
 //---------------------------
 function save()
     {
-    	$query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `id_shipper`, `id_nave`, `id_especificacion`, `estado`)
+    	$query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`)
     			values(NULL,
     			'".$this->numero_factura."',
                 '".$this->codigo_embarque."',
@@ -181,7 +190,7 @@ function save()
                 '".$this->paquetes."',
                 '".$this->paquetes_fisicos."',
                 '".$this->obervaciones."',
-                '".$this->id_shipper."',
+                '".$this->shipper."',
                 '".$this->id_nave."',
     			'".$this->id_especificacion."',
                 '".$this->estado."');
@@ -206,7 +215,7 @@ function save()
         paquetes='".$this->paquetes."',
         paquetes_fisicos='".$this->paquetes_fisicos."',
         obervaciones='".$this->obervaciones."',
-        id_shipper='".$this->id_shipper."',
+        shipper='".$this->shipper."',
         id_nave='".$this->id_nave."',
         id_especificacion='".$this->id_especificacion."'";
         $update=$this->db->query($query);
@@ -228,7 +237,7 @@ function save()
 
     }
      public function selectALL(){
-        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,shipper.nombre as ship,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado from packing_list INNER JOIN shipper on packing_list.id_shipper = shipper.id_shipper INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion";
+        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion";
         $selectall=$this->db->query($query);
         
         $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
