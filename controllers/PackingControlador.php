@@ -39,10 +39,10 @@ if ($accion=="modificar") {
 
 }
 elseif ($accion=="eliminar") {
-	$id_shipper =$_POST['id'];
-	$shipper = new Shipper();
-	$shipper->setId_shipper($id_shipper);
-	$delete=$shipper->delete();
+	$id_packing_list =$_POST['id'];
+	$Pack = new Packing();
+	$Pack->setId_packing_list($id_packing_list);
+	$delete=$Pack->delete();
 	if ($delete==true) {
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...

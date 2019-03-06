@@ -475,7 +475,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/naves/deleteNave.php",  
+                     url:"../views/deletePacking.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
