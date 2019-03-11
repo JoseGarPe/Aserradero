@@ -128,7 +128,7 @@ class Materiales extends conexion
 
     public function selectALLproce()
     {
-        $query="SELECT * FROM `materiales` WHERE id_categoria=1";
+        $query="SELECT * FROM `materiales` WHERE id_categoria=2";
         $selectall=$this->db->query($query);
        $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listmateriales;
