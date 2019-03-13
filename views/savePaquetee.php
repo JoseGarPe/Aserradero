@@ -270,11 +270,11 @@
                         ?> 
                           <input type="text" readonly="true" id="metros_cubicos" name="metros_cubicos"  class="form-control col-md-7 col-xs-12">
                         </div>
+                      </div><BR><br><br>
+                      <div class="form-group">
+                        <div id="resultado"></div>
                       </div>
-                             <div class="box-footer">
-                <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
-                <input type="button" class="btn btn-danger" onClick="location.href = '../listas/IndexPackingList.php'" name="cancel" value="Cancelar" >
-   </div>
+                            
                         </form>
                       </div>
                       <br>
@@ -570,6 +570,45 @@ ga('send', 'pageview');
 
  
   
+</script>
+<script>
+  $(document).ready(function(){
+                         
+      var consulta;
+             
+      //hacemos focus
+      $("#etiqueta").focus();
+                                                 
+      //comprobamos si se pulsa una tecla
+      $("#etiqueta").keyup(function(e){
+             //obtenemos el texto introducido en el campo
+             consulta = $("#etiqueta").val();
+                                      
+             //hace la búsqueda
+             $("#resultado").delay(1000).queue(function(n) {      
+                                           
+                  $("#resultado").html('<img src="ajax-loader.gif" />');
+                                           
+                        $.ajax({
+                              type: "POST",
+                              url: "../views/paquetes/comprobar.php",
+                              data: "b="+consulta,
+                              dataType: "html",
+                              error: function(){
+                                    alert("error petición ajax");
+                              },
+                              success: function(data){                                                      
+                                    $("#resultado").html(data);
+                                    n();
+                              }
+                  });
+                                           
+             });
+                                
+      });
+                          
+});
+
 </script>
 
     </body>

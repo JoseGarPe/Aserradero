@@ -176,6 +176,16 @@ class Paquetes extends conexion
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
+    public function selectExistente($codigo)
+    {
+        $query="SELECT * FROM paquetes WHERE etiqueta='".$codigo."'";
+        $selectall=$this->db->query($query);
+        if ($selectall->num_rows==0) {
+            return "Disponible";
+        }else{
+            return "No Disponible";
+        }
+    }
 
 
 
