@@ -2,18 +2,20 @@
 
                           <label>Nombre</label>  
                           <input type="text" name="nombre" id="nombre" class="form-control" />  
+                          <br />
+                            <label>Grosor</label>  
+                          <input type="number" min="0.00" step="0.01" name="grueso" id="grueso" class="form-control" /> 
+                            <label>Ancho</label>  
+                          <input type="number" min="0.00" step="0.01" name="ancho" id="ancho" class="form-control" /> 
                           <br /> 
                           <label>Largo</label>  
                           <input type="number" min="0.00" step="0.01" name="largo" id="largo" class="form-control" /> 
                           <br /> 
-                          <label>Ancho</label>  
-                          <input type="number" min="0.00" step="0.01" name="ancho" id="ancho" class="form-control" /> 
-                          <br /> 
-                          <label>Grosor</label>  
-                          <input type="number" min="0.00" step="0.01" name="grueso" id="grueso" class="form-control" /> 
+                        
+                         
                           <br />
                      
-                          <label>Metro Cuadrado</label>  
+                          <label>Metros <sup>3</sup></label>  
                           <input type="number" min="0.00" step="0.01" name="m_cuadrados" id="m_cuadrados" class="form-control" /> 
                           <br />
                      

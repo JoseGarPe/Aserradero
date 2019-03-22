@@ -250,7 +250,20 @@ class Paquetes extends conexion
         }else {
             return false;
         }  
+
     }
+
+    public function selectExistente($codigo)
+    {
+        $query="SELECT * FROM paquetes WHERE etiqueta='".$codigo."'";
+        $selectall=$this->db->query($query);
+        if ($selectall->num_rows==0) {
+            return "Disponible";
+        }else{
+            return "No Disponible";
+        }
+    }
+
     //------------------PROYECCIONES---------------------------//
      public function selectALL_estado($codigo,$material)
     {
@@ -279,7 +292,7 @@ class Paquetes extends conexion
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
-    }
+   }
 
 
 }
