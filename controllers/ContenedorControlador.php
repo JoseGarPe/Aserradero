@@ -53,22 +53,25 @@ elseif ($accion=="guardar")
 	$etiqueta=$_POST['etiqueta'];
   	$id_packing_list =$_POST['id_packing_list'];
 
-  	$pl= new Packing();
-  	$listpl = $pl->selectOne($id_packing_list);
-  	foreach ($listpl as $key) {
-  		$cont_ingresados=$key['contenedores_ingresados'];
-  	}
-  	$new_con_ing=$cont_ingresados + 1;
+  
 
 	$Contenedor = new Contenedores();
+	$primer_cont = $Contenedor->FstContenedor($id_packing_list);
+
 	$Contenedor->setEtiqueta($etiqueta);
 	$Contenedor->setId_packing_list($id_packing_list);
 	$Contenedor->setEstado("Sin Confirmar");
 	$save=$Contenedor->save();
 	if ($save==true) {
-		$pl->setContenedores_ingresados($new_con_ing);
-		$pl->setId_packing_list($id_packing_list);
-		$update1=$pl->updateIngresos();
+		if ($primer_cont== "Primer Contenedor") {
+			$estado="Abierto";
+			$pl= new Packing();
+			$pl->setEstado($estado);
+			$pl->setId_packing_list($id_packing_list);
+			$update1=$pl->updateStatu();
+
+		}
+		
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
 	}
@@ -102,12 +105,26 @@ elseif ($accion=="confirmar") {
 }elseif ($accion=="confirmar2") {
 	$id_contenedor =$_GET['id'];
 	$estado =$_GET['estado'];
+
+	$id_packing_list =$_GET['id_packing_list'];
 	$Contenedor = new Contenedores();
 	$Contenedor->setId_contenedor($id_contenedor);
 	$Contenedor->setEstado($estado);
 	$delete=$Contenedor->confirm2();
 	if ($delete==true) {
-	
+		if($estado=="Confirmado"){
+			$pl= new Packing();
+		
+  	$listpl = $pl->selectOne($id_packing_list);
+  	foreach ($listpl as $key) {
+  		$cont_ingresados=$key['contenedores_ingresados'];
+  	}
+  	$new_con_ing=$cont_ingresados + 1;
+  		$pl->setContenedores_ingresados($new_con_ing);
+		$pl->setId_packing_list($id_packing_list);
+		$update1=$pl->updateIngresos();
+	}
+
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
 	}else{

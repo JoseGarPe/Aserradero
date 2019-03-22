@@ -2,7 +2,7 @@
 
 require_once "../class/PackingList.php";
 
-
+/*
 $numero_factura=$_POST['numfac'];
 $codigo_embarque=$_POST['codembarque'];
 $razon_social=$_POST['razonsocial'];
@@ -17,7 +17,7 @@ $shipper=$_POST['shipper'];
 $id_nave=$_POST['id_nave'];
 $id_especificacion=$_POST['id_especificacion'];
 $estado=$_POST['comboestado'];
-
+*/
 
 
 $accion=$_GET['accion'];
@@ -65,8 +65,8 @@ elseif ($accion=="guardar")
 	$shipper=$_POST['shipper'];
 	$id_nave=$_POST['id_nave'];
 	$id_especificacion=$_POST['id_especificacion'];
-	$estado=$_POST['comboestado'];
-
+	//$estado=$_POST['comboestado'];
+	$estado="Pendiente";
 
 	$Pack = new Packing();
 	$Pack->setNumero_factura($numero_factura);
@@ -89,6 +89,21 @@ elseif ($accion=="guardar")
 		# code...
 	}
 	else{
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+	}
+}
+elseif ($accion=="Cerrar") {
+	$id_packing_list =$_POST['id'];
+	$estado =$_POST['estado'];
+	$pl= new Packing();
+			$pl->setEstado($estado);
+			$pl->setId_packing_list($id_packing_list);
+			$update=$pl->updateStatu();
+
+	if ($update==true) {
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		# code...
+	}else{
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }

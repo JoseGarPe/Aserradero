@@ -220,6 +220,7 @@
                                     </li>
                                     <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
                                     <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
+                                    <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>
                                 </ul>
                               </div>
 
@@ -476,6 +477,21 @@ ga('send', 'pageview');
            {  
                 $.ajax({  
                      url:"../views/deletePacking.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms4').html(data);  
+                          $('#dataModal4').modal('show');  
+                     }  
+                });  
+           }   
+      });
+      $(document).on('click', '.finish_data', function(){  
+          var employee_id = $(this).attr("id");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/cerrarPackingList.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  

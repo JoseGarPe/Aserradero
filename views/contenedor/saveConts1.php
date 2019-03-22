@@ -11,6 +11,12 @@
           		<tbody>
           			<?php 
   					$codigo=$_POST["employee_id"];
+                require_once "PackingList.php";
+                          $packing = new Packing();
+                          $orden = $packing->SelectOne($codigo);
+                         foreach ($orden as $key) {
+                           $estado = $key['estado'];
+                         }
 						require_once "Contenedor.php";
             
                          $ms = new Contenedores();
@@ -21,10 +27,15 @@
                            <td>'.$row['etiqueta'].'</td>
                            <td>'.$row['estado'].'</td>
                           ';
-                          if ($row['estado']=='Sin Confirmar') {
-                            echo '<td><a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Confirmado" class="btn btn-success">Confirmar</a></td>';
+                          if ($estado != "Cerrado") {
+                             
+                            if ($row['estado']=='Sin Confirmar') {
+                              echo '<td><a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Confirmado&id_packing_list='.$codigo.'" class="btn btn-success">Confirmar</a></td>';
+                            }else{
+                              echo '<td><a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Sin Confirmar" class="btn btn-warning">Sin Confirmar</a></td>';
+                            }
                           }else{
-                            echo '<td><a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Sin Confirmar" class="btn btn-warning">Sin Confirmar</a></td>';
+                            echo '<td></td>';
                           }
 
                           }
@@ -59,6 +70,12 @@
           			</table>
 				</div>
         <br><br>
+        <?php 
+
+                         if ($estado != 'Cerrado') {
+
+         ?>
+
 <form role="form1" action="../controllers/ContenedorControlador.php?accion=guardar" method="post">
     <div class="box-body">
     	<div class="row">
@@ -90,6 +107,9 @@
                 <input type="button" class="btn btn-danger" onClick="location.href = '../listas/IndexPackingList.php'" name="cancel" value="Cancelar" >
    </div>
 </form>
+<?php } ?>
+
+
 
         <script>
   $(function () {

@@ -265,6 +265,19 @@ function save()
     }
 
     
+    public function updateStatu()
+    {
+        $query="UPDATE packing_list SET 
+       estado='".$this->estado."'
+         WHERE id_packing_list='".$this->id_packing_list."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+    }
+    
 
 
 }

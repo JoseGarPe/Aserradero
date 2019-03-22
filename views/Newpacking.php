@@ -372,7 +372,7 @@ session_start();
                           <textarea id="observaciones" name="observaciones" class="form-control col-md-7 col-xs-12"></textarea>
                         </div>
                       </div>
-
+                      <!--
                        <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Estado<span class="required"></span>
                         </label>
@@ -384,7 +384,7 @@ session_start();
                           </select>
                         </div>
                       </div>
-
+-->
 
                     
                       <!-- /Botones  -->

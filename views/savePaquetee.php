@@ -179,6 +179,15 @@
                     <div class="row">
                       <a href="../listas/IndexPackingList.php" class="btn btn-warning">Volver a Ingresos</a>
                       <div class="col-xs-12 col-xs-12 col-md-12">
+                        <?php 
+                          require_once "../class/PackingList.php";
+                          $packing = new Packing();
+                          $orden = $packing->SelectOne($codigo);
+                         foreach ($orden as $key) {
+                           $estado = $key['estado'];
+                         }
+                         if ($estado != 'Cerrado') {
+                        ?>
                         <form action="../controllers/PaquetesControlador.php?accion=guardar" method="post"  role="form1">
                           <table  class="table table-bordered">
                             <thead>
@@ -276,10 +285,16 @@
                 <input type="button" class="btn btn-danger" onClick="location.href = '../listas/IndexPackingList.php'" name="cancel" value="Cancelar" >
    </div>
                         </form>
+                        <?php 
+}
+                         ?>
                       </div>
                       <br>
                       <br>
+
+
                       <div class="col-xs-12 col-sm-6 col-md-12">
+                        <h1>Paquetes Ingresados</h1>
                         <table id="example1" class="table table-bordered">
                             <thead>
                             <tr>
