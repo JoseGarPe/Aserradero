@@ -265,17 +265,30 @@ function save()
     }
 
     
-    public function updateStatu()
+    public function updateStatu($vari)
     {
-        $query="UPDATE packing_list SET 
-       estado='".$this->estado."'
-         WHERE id_packing_list='".$this->id_packing_list."'";
+    if ($vari == 'Primero') {
+         $query="UPDATE packing_list SET 
+       estado='".$this->estado."', fecha_inicio = CURDATE() WHERE id_packing_list='".$this->id_packing_list."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
         }else {
             return false;
         }  
+    }
+    else{
+          $query="UPDATE packing_list SET 
+       estado='".$this->estado."', fecha_cierre = CURDATE() WHERE id_packing_list='".$this->id_packing_list."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        } 
+    }
+
+       
     }
     
 

@@ -98,7 +98,8 @@ elseif ($accion=="Cerrar") {
 	$pl= new Packing();
 			$pl->setEstado($estado);
 			$pl->setId_packing_list($id_packing_list);
-			$update=$pl->updateStatu();
+			$vari = 'Ultimo';
+			$update=$pl->updateStatu($vari);
 
 	if ($update==true) {
 		header('Location: ../listas/IndexPackingList.php?success=correcto');

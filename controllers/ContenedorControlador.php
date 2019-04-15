@@ -68,7 +68,8 @@ elseif ($accion=="guardar")
 			$pl= new Packing();
 			$pl->setEstado($estado);
 			$pl->setId_packing_list($id_packing_list);
-			$update1=$pl->updateStatu();
+			$vari = 'Primero';
+			$update1=$pl->updateStatu($vari);
 
 		}
 		

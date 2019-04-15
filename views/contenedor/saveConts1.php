@@ -1,4 +1,16 @@
 <div class="col-xs-12">
+  <?php 
+  $codigo=$_POST["employee_id"];
+                require_once "PackingList.php";
+                          $packing = new Packing();
+                          $orden = $packing->SelectOne($codigo);
+                         foreach ($orden as $key) {
+                           $estado = $key['estado'];
+                           $fecha_inicio = $key['fecha_inicio'];
+                           $fecha_cierre = $key['fecha_cierre'];
+                         }
+                         echo ' <h2><label>Fecha Inicio: <strong> '.$fecha_inicio.' </strong></label> - <label>Fecha Cierre: <strong> '.$fecha_cierre.' </strong></label></h2>';
+   ?>
     				<table id="example1" class="table table-striped table-bordered" name="example1">
          		<thead>
                         <tr>
@@ -10,13 +22,7 @@
           		</thead>
           		<tbody>
           			<?php 
-  					$codigo=$_POST["employee_id"];
-                require_once "PackingList.php";
-                          $packing = new Packing();
-                          $orden = $packing->SelectOne($codigo);
-                         foreach ($orden as $key) {
-                           $estado = $key['estado'];
-                         }
+  				
 						require_once "Contenedor.php";
             
                          $ms = new Contenedores();

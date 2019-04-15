@@ -50,7 +50,7 @@ class Contenedores extends conexion
 
     public function save(){
 
-    	$query="INSERT INTO contenedores(id_contenedor,id_packing_list,n_paquetes,estado) values(NULL,'".$this->id_packing_list."','".$this->estado."')";
+    	$query="INSERT INTO contenedores(id_contenedor,id_packing_list,n_paquetes,estado,fecha_ingreso) values(NULL,'".$this->id_packing_list."','".$this->estado."',CURDATE())";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
