@@ -27,6 +27,10 @@
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+        <!-- starrr -->
+    <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 
     <!-- Custom Theme Style -->
@@ -189,6 +193,8 @@
                           <th>Shipper</th>
                           <th>Nave</th>
                           <th>Estado</th>
+                          <th>F.Ingreso</th>
+                          <th>F.Finalizado</th>
                           <th>Opiones</th>                         
                         </tr>
                       </thead>
@@ -201,19 +207,32 @@
                            # code...
                          
                          foreach ((array)$todos as $row) {
+                          $fecha1= date_create($row['fecha']);
                          echo '
                           <tr>
                           <td>'.$row['id_packing_list'].'</td>
                            <td>'.$row['numero_factura'].'</td>
                            <td>'.$row['codigo_embarque'].'</td>
                            <td>'.$row['mes'].'</td>
-                           <td>'.$row['fecha'].'</td>
+                           <td>'.date_format($fecha1, 'd/m/Y').'</td>
                            <td>'.$row['total_contenedores'].'</td>
                            <td>'.$row['contenedores_ingresados'].'</td>
                            <td>'.$row['shipper'].'</td>
                            <td>'.$row['nav'].'</td>
-                           <td>'.$row['estado'].'</td>
-                           <td>
+                           <td>'.$row['estado'].'</td>';
+                           if ($row['fecha_inicio']!=NULL) {
+                            $date1=date_create($row['fecha_inicio']);
+                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
+                           }else{
+                            echo '<td></td>';
+                           }
+                           if ($row['fecha_cierre']!=NULL) {
+                            $date1=date_create($row['fecha_cierre']);
+                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
+                           }else{
+                            echo '<td></td>';
+                           }
+                           echo '<td>
                             <div class="collapse navbar-collapse navbar-ex1-collapse">
                                 <ul class="nav navbar-nav">
                                     <li><a href="../views/savePaquetee.php?id='.$row["id_packing_list"].'" class="btn btn-warning">Paquetes</a>
@@ -373,6 +392,11 @@
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+     <!-- bootstrap-daterangepicker -->
+    <script src="../vendors/moment/min/moment.min.js"></script>
+    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-datetimepicker -->    
+    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
@@ -521,5 +545,6 @@ ga('send', 'pageview');
     })
   })
 </script>
+
     </body>
 </html>

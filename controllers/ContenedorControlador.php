@@ -104,13 +104,16 @@ elseif ($accion=="confirmar") {
 		header('Location: ../listas/Contenedor.php?error=incorrecto&id='.$pl.'&id='.$id_paquete.'&id='.$id_bodega.'&id='.$estado.'');
 	}
 }elseif ($accion=="confirmar2") {
-	$id_contenedor =$_GET['id'];
-	$estado =$_GET['estado'];
-
-	$id_packing_list =$_GET['id_packing_list'];
+	$id_contenedor =$_POST['employee_id'];
+	$estado =$_POST['employee_status'];
+	$fecha =$_POST['employee_fecha'];
+	$id_bodega =$_POST['id_bodega'];
+	$id_packing_list =$_POST['employee_packing'];
 	$Contenedor = new Contenedores();
 	$Contenedor->setId_contenedor($id_contenedor);
 	$Contenedor->setEstado($estado);
+	$Contenedor->setFecha_ingreso($fecha);
+	$Contenedor->setId_bodega($id_bodega);
 	$delete=$Contenedor->confirm2();
 	if ($delete==true) {
 		if($estado=="Confirmado"){

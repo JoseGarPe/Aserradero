@@ -218,7 +218,13 @@ class Paquetes extends conexion
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
-
+     public function selectALLpack11($codigo,$packing)
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_packing_list='".$codigo."' AND c.id_contenedor='".$packing."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
     public function selectALLpack2($codigo)
     {
         $query="SELECT con.*, m.nombre as material FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_paquete='".$codigo."'";
@@ -263,7 +269,26 @@ class Paquetes extends conexion
             return "No Disponible";
         }
     }
+ public function updateEtiqueta()
+    {
 
+        $query1="SELECT * FROM paquetes WHERE etiqueta='".$this->etiqueta."'";
+        $selectall=$this->db->query($query1);
+        if ($selectall->num_rows==0) {
+             $query="UPDATE paquetes SET etiqueta='".$this->etiqueta."' WHERE id_paquete='".$this->id_paquete."'";
+            $update=$this->db->query($query);
+            if ($update==true) {
+                return 'Disponible';
+            }else {
+                return 'Error';
+            } 
+        }
+        else{
+            return 'No Disponible';
+        }
+        
+
+    }
     //------------------PROYECCIONES---------------------------//
      public function selectALL_estado($codigo,$material)
     {

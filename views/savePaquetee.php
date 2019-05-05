@@ -283,7 +283,11 @@
                       <div class="form-group">
                         <div id="resultado"></div>
                       </div>
-                            
+                            <div class="box-footer">
+
+                
+                <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
+   </div><br><br>
                         </form>
                         <?php 
 }
@@ -310,18 +314,29 @@
                             <th>Contendor</th>
                             <th>Stock</th>
                             <th>Estado</th>
+                            <th>Opcion</th>
                             </tr></thead>
                             <tbody>
+                              
                             <?php 
 
             require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
                          $paquetes = $mss->selectALLpack($codigo);
+                         $datos=1;
                          foreach ($paquetes as $key) {
+
                           echo '
                           <tr>
-                          <td>'.$key['material'].'</td>
-                          <td>'.$key['etiqueta'].'</td>
+                          <td>'.$key['material'].'</td>';
+                          if ($key['etiqueta']==NULL) {
+                          echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
+                          }
+                          else{
+                            echo '<td>'.$key['etiqueta'].'</td>';
+                          }
+                          
+                          echo '
                           <td>'.$key['grueso'].'</td>
                           <td>'.$key['ancho'].'</td>
                           <td>'.$key['largo'].'</td>
@@ -332,11 +347,13 @@
                           <td>'.$key['contenedor'].'</td>
                           <td>'.$key['stock'].'</td>
                           <td>'.$key['estado'].'</td>
+                          <td><input type="button" name="save" value="Confirmar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" /></td>
                           </tr>
                            ';
+                          $datos=$datos+1;
                          }
 
-                             ?>
+                          ?>
                             </tbody>
                         </table>
                       </div>
@@ -621,10 +638,42 @@ ga('send', 'pageview');
              });
                                 
       });
+
+/*
+      $("#respuesta").focus();
+      var resp = $("#respuesta").val();
+      if (resp=="Disponible") {
+
+                                    location.reload();
+      }*/
                           
 });
 
 </script>
+<script type="text/javascript">
+   $(document).ready(function(){ 
+$(document).on('click', '.view_data2', function(){  
 
+           var employee_id = $(this).attr("id"); 
+           var employee_packing = $(this).attr("packing");  
+           var dato = $(this).attr("dato"); 
+           var employee_etiqueta = $("#eti"+dato).val();
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../controllers/PaquetesControlador.php?accion=etiqueta",  
+                     method:"POST",
+                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_etiqueta:employee_etiqueta},  
+                     success:function(data){    
+
+                                    $("#resultado").html(data);  
+                             n(); 
+                     }  
+                });  
+           }            
+      });
+ }); 
+
+</script>
     </body>
 </html>

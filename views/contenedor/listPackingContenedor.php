@@ -10,11 +10,9 @@
          <thead>
                         <tr>
                          <th>N° </th>
-                          <th>Factura</th>
-                          <th>Codigo Embarque</th>
+                          <th>Etiqueta</th>                          
                           <th>Fecha</th> 
-                          <th>Shipper</th>
-                          <th>Nave</th>
+                          <th>Bodega</th> 
                           <th>Estado</th>
                           <th>Seleccionar</th>                        
                         </tr>
@@ -23,29 +21,45 @@
 <?php 
 
   						 $codigo=$_POST["employee_id"];
+               $factura=$_POST["employee_factura"];
                 //$bandera=$_POST["bandera"];
-                         require_once "PackingList.php";
-                         $misPacks = new Packing();
-                         $todos = $misPacks->selectALL();
+                         require_once "Contenedor.php";
+                         require_once "Bodega.php";
+                         $misPacks = new Contenedores();
+                         $todos = $misPacks->selectALLpack($codigo);
                         
+                         $bodegas = new Bodega();
 
                 foreach ((array)$todos as $row) {
                          echo '
                           <tr>
-                          <td>'.$row['id_packing_list'].'</td>
-                           <td>'.$row['numero_factura'].'</td>
-                           <td>'.$row['codigo_embarque'].'</td>
-                           <td>'.$row['fecha'].'</td>
-                           <td>'.$row['shipper'].'</td>
-                           <td>'.$row['nav'].'</td>
+                          <td>'.$row['id_contenedor'].'</td>
+                           <td>'.$row['etiqueta'].'</td>
+                           <td>'.$row['fecha_ingreso'].'</td>';
+                           if ($row['id_bodega']>0) {
+                             $todbodega= $bodegas->selectOne($row['id_bodega']);
+                             foreach ($todbodega as $key) {
+                               echo '<td>'.$key['nombre'].'</td>';
+                             }
+                            }elseif($row['id_bodega']=="0") {
+                              echo '<td></td>';
+                              
+                            }else{
+                              echo '<td></td>';
+                            }
+                           echo '
                            <td>'.$row['estado'].'</td>';
 
+                          if ($row['estado']!='Confirmado') {
+                           echo '<td></td></tr>';
+                           } else{
                 echo '
                            <td>
-                         <a href="../listas/contenedores.php?id='.$row["id_packing_list"].'&factura='.$row["numero_factura"].'" class="btn btn-primary">Seleccionar</a>
+                         <a href="../listas/contenedores.php?id='.$codigo.'&factura='.$factura.'&contenedor='.$row['id_contenedor'].'" class="btn btn-primary">Seleccionar</a>
+                         </td>
                           </tr>
                          ';
-                	
+                	}
                     
                 }
 ?> </tbody>  </table>

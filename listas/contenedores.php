@@ -106,7 +106,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de Contenedores</h2>
+                    <h2>Pagina de Paquetes</h2>
 
 
                     
@@ -172,6 +172,18 @@
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
                    <input type="button" name="accion" value="Ingresos por Barco" id="accion" class="btn btn-primary view_data1" /> 
+                   <?php 
+                   if (isset($_GET["id"])) {
+                        $codigo=$_GET["id"];
+                        $factura=$_GET["factura"];
+                    echo '
+                   <input type="button" name="accion" value="Contenedores" id="'.$codigo.'" factura="'.$factura.'" class="btn btn-success view_data3" /> 
+                   <br></br>
+                   <h1><label>Factura de Ingreso:</label> <strong>'.$factura.'</strong></h1> ';
+                          }else{
+                            $codigo=0;
+                          }
+                    ?>
                     <br>
                     <br>
                     <div id="employee_table">
@@ -195,15 +207,18 @@
                             </tr></thead>
                       <tbody>
                           <?php 
-                          if (isset($_GET["id"])) {
-                        $codigo=$_GET["id"];
-                          }else{
-                            $codigo=0;
-                          }
+                              if (isset($_GET["contenedor"])) {
+
+                        $contenedor=$_GET["contenedor"];
+                      }else{
+                        $contenedor = 0;
+                      }
             require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
-                         $paquetes = $mss->selectALLpack($codigo);
+                         $paquetes = $mss->selectALLpack11($codigo,$contenedor);
                          foreach ($paquetes as $key) {
+                          $fecha_1= date_create($key['fecha_ingreso']);
+
                           echo '<tr>
                           <td>'.$key['material'].'</td>
                           <td>'.$key['etiqueta'].'</td>
@@ -212,7 +227,7 @@
                           <td>'.$key['grueso'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['multiplo'].'</td>
-                          <td>'.$key['fecha_ingreso'].'</td>
+                          <td>'.date_format($fecha_1,'d/m/y').'</td>
                           <td>'.$key['bodega'].'</td>
                           <td>'.$key['contenedor'].'</td>
                           <td>'.$key['stock'].'</td>
@@ -466,6 +481,22 @@ ga('send', 'pageview');
                 });  
            }   
       });
+         $(document).on('click', '.view_data3', function(){  
+          var employee_id = $(this).attr("id"); 
+          var employee_factura = $(this).attr("factura");   
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/contenedor/listPackingContenedor.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_factura:employee_factura},  
+                     success:function(data){  
+                          $('#employee_forms1').html(data);  
+                          $('#dataModal1').modal('show');  
+                     }  
+                });  
+           }   
+      });  
 
  });  
 

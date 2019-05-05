@@ -8,6 +8,7 @@ class Contenedores extends conexion
 	private $id_packing_list;
     private $estado;
     private $id_bodega;
+    private $fecha_ingreso;
 
 	function __construct()
 	{
@@ -18,6 +19,7 @@ class Contenedores extends conexion
 		$this->id_packing_list ="";
         $this->estado ="";
         $this->id_bodega ="";
+        $this->fecha_ingreso ="";
 	}
 
 	public function getId_contenedor(){
@@ -56,10 +58,17 @@ class Contenedores extends conexion
     public function setId_bodega($id_bodega){
         $this->id_bodega= $id_bodega;
     }
+    public function getFecha_ingreso(){
+        return $this->fecha_ingreso;
+    }
+
+    public function setFecha_ingreso($fecha_ingreso){
+        $this->fecha_ingreso= $fecha_ingreso;
+    }
 
     public function save(){
 
-    	$query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado,fecha_ingreso) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."',CURDATE())";
+    	$query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -186,7 +195,7 @@ class Contenedores extends conexion
 
  public function confirm2(){
 
-        $query="UPDATE contenedores SET estado ='".$this->estado."' WHERE id_contenedor='".$this->id_contenedor."'";
+        $query="UPDATE contenedores SET estado ='".$this->estado."', fecha_ingreso='".$this->fecha_ingreso."', id_bodega='".$this->id_bodega."' WHERE id_contenedor='".$this->id_contenedor."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;

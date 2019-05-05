@@ -15,11 +15,7 @@ require_once "Paquetes.php";
               <span class="sr-only">Disponible:</span>
               Disponible: Etiqueta Disponible
               </div>
-               <div class="box-footer">
-
-                
-                <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
-   </div><br><br>
+               
               ';
                          }elseif ($catego == "No Disponible") {
                   echo '<div class="alert alert-warning" role="alert">

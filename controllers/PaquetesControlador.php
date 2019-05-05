@@ -39,7 +39,12 @@ elseif ($accion=="eliminar") {
 }
 elseif ($accion=="guardar") 
 {
-	$etiqueta=$_POST['etiqueta'];
+	if (isset($_POST['etiqueta'])) {
+		$etiqueta=$_POST['etiqueta'];
+	}else{
+		$etiqueta=NULL;
+	}
+	
 	$piezas=$_POST['piezas'];
   	$id_packing_list =$_POST['id_packing_list'];
   	$id_material =$_POST['id_materiales'];
@@ -76,5 +81,20 @@ elseif ($accion=="guardar")
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
-
+elseif ($accion=="etiqueta") {
+	$id_Paquetes =$_POST['employee_id'];
+	$etiqueta =$_POST['employee_etiqueta'];
+	$packing =$_POST['employee_packing'];
+	$Paquetes = new Paquetes();
+	$Paquetes->setId_paquete($id_Paquetes);
+	$Paquetes->setEtiqueta($etiqueta);
+	$delete=$Paquetes->updateEtiqueta();
+	header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'');
+	/*if ($delete==true) {
+		header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'');
+		# code...
+	}else{
+		header('Location: ../views/savePaquetee.php?error=incorrecto&id='.$id_Paquetes.'');
+	}*/
+}
  ?>
