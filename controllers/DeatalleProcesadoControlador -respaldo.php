@@ -50,7 +50,7 @@ $disponibles=$_POST['c_disponible'];
 
 $id_bodega_mp=$_POST['id_bodega'];
 $etiqueta = $_POST['etiqueta'];
-$estado="Confirmado";
+$estado="Sin Confirmar";
 
 		$pack = new Paquetes();
 		$paquete= $pack->selectOneM($etiqueta);
@@ -84,12 +84,6 @@ $nueva_cantidad = $disponibles - $cantidadPiezas;
 		$pack->setId_material($material11);
 		$pack->setPiezas($piezaaa);
 		$save11=$pack->updateC();
-
-		$detalle_bo->setId_bodega($id_bodega);
-		$detalle_bo->setId_material($id_material_saliente);
-		$detalle_bo->setCantidad($nueva_cantidad);
-		$save2=$detalle_bo->save();
-		
 		header('Location: ../listas/ProcesarMaterial.php?success=correcto&materiaPrima='.$id_bodega_mp.'&materia2='.$id_materia_prima.'&materia1='.$disponibles.'&materia2='.$cantidad_materia_prima.'');
 		# code...
 	}
