@@ -85,11 +85,15 @@ elseif ($accion=="confirmar") {
 	$id_bodega =$_POST['id_bodega'];
 	$estado =$_POST['estado'];
 	$pl =$_POST['pl'];
+	$factura =$_POST['factura'];
 	$piezas=$_POST['piezas'];
+	$etiqueta=$_POST['etiquet'];
 	$id_material=$_POST['material'];
+	$con=$_POST['con'];
 	$Contenedor = new Contenedores();
 	$Contenedor->setId_bodega($id_bodega);
 	$Contenedor->setEstado($estado);
+	$Contenedor->setEtiqueta($etiqueta);
 	$delete=$Contenedor->confirm($id_paquete);
 	if ($delete==true) {
 		
@@ -98,10 +102,10 @@ elseif ($accion=="confirmar") {
 		$detalle_bo->setId_material($id_material);
 		$detalle_bo->setCantidad($piezas);
 		$save1=$detalle_bo->save();
-		header('Location: ../listas/contenedores.php?success=correcto&id='.$pl.'');
+		header('Location: ../listas/contenedores.php?success=correcto&id='.$pl.'&factura='.$factura.'&contenedor='.$con.'');
 		# code...
 	}else{
-		header('Location: ../listas/Contenedor.php?error=incorrecto&id='.$pl.'&id='.$id_paquete.'&id='.$id_bodega.'&id='.$estado.'');
+		header('Location: ../listas/contenedores.php?error=incorrecto&id='.$pl.'&factura='.$factura.'&contenedor='.$con.'');
 	}
 }elseif ($accion=="confirmar2") {
 	$id_contenedor =$_POST['employee_id'];

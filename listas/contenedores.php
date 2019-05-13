@@ -238,7 +238,7 @@
                             if ($key['estado']== 'Sin Confirmar') {
                              echo'
                             <td>
-                                <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" class="btn btn-info confirm_data"/>  
+                                <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" factura="'.$factura.'" contenedorr="'.$contenedor.'" class="btn btn-info confirm_data"/>  
                                    
                                      <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />
                             </td>';
@@ -434,13 +434,15 @@ ga('send', 'pageview');
      
       $(document).on('click', '.confirm_data', function(){  
            var employee_id = $(this).attr("id");  
-           var employee_pl = $(this).attr("pl");  
+           var employee_pl = $(this).attr("pl"); 
+           var employee_fac = $(this).attr("factura"); 
+           var employee_contenedor = $(this).attr("contenedorr"); 
            if(employee_id != '')  
            {  
                 $.ajax({  
                      url:"../views/contenedor/confirmContenedor.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id,employee_pl:employee_pl},  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_fac:employee_fac,employee_contenedor:employee_fcontenedor},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
                           $('#dataModal2').modal('show');  

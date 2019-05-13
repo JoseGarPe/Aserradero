@@ -162,13 +162,21 @@ class Contenedores extends conexion
     }
     public function confirm($codigo){
 
-        $query="UPDATE paquetes SET id_bodega ='".$this->id_bodega."', estado ='".$this->estado."' WHERE id_paquete='".$codigo."'";
+        $query1="SELECT * FROM paquetes WHERE etiqueta='".$this->etiqueta."'";
+        $selectall=$this->db->query($query1);
+        $ListContenedor=$selectall->fetch_all(MYSQLI_ASSOC);
+        if ($selectall->num_rows==0) {
+
+        $query="UPDATE paquetes SET id_bodega ='".$this->id_bodega."', estado ='".$this->estado."', etiqueta='".$this->etiqueta."' WHERE id_paquete='".$codigo."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
         }else {
             return false;
         }  
+    }else{
+        return false;
+    }
 
     }
     public function materialesPaquete($codigo){

@@ -11,6 +11,8 @@ require_once "Paquetes.php";
          
 							$codigo=$_POST["employee_id"];
               $pl=$_POST["employee_pl"];
+              $fac=$_POST["employee_fac"];
+              $contenedor=$_POST["employee_contenedor"];
 					     $paquete = new Paquetes();
                          $catego = $paquete->selectALLpackOne($codigo);
                          foreach ((array)$catego as $row) {
@@ -26,11 +28,21 @@ require_once "Paquetes.php";
                         <td>'.$row['material'].'</td>
                         </tr>
                         <tr>
-                          <td> Etiqueta: </td>
-                           <td>'.$row["etiqueta"].'</td>
+                          <td> Etiqueta: </td>';
+                          if ($row['etiqueta']!=NULL || $row['etiqueta']!="") {
+                            echo '<td>'.$row["etiqueta"].'</td>
 
+                          <input type="hidden" name="etiquet" id="etiquet" value="'.$$row['etiqueta'].'"/>   
+                            ';
+                          }else{
+                            echo '<td><input type="text" name="etiquet" id="etiquet"/>  </td>';
+                          }
+                           
+                           echo'
                           <input type="hidden" name="id" id="id" value="'.$row['id_paquete'].'"/>
-                          <input type="hidden" name="pl" id="pl" value="'.$pl.'"/>    
+                          <input type="hidden" name="pl" id="pl" value="'.$pl.'"/>   
+                          <input type="hidden" name="factura" id="factura" value="'.$fac.'"/> 
+                          <input type="hidden" name="con" id="con" value="'.$contenedor.'"/>    
                                                   
                         </tr>
                         <tr>
