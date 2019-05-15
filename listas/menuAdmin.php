@@ -96,14 +96,14 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                        <li><a><i class=" fa fa-cube"></i> Procesar Materiales <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="../listas/ProcesarMaterial.php">Procesar Materiales</a></li>  
-                          <li><a href="../listas/DetalleMaterialProcesado.php">Confirmar Material Procesado</a></li>                 
+                         <!-- <li><a href="../listas/DetalleMaterialProcesado.php">Confirmar Material Procesado</a></li>        -->         
                         </ul>
                       </li>
                       <?php 
                         } elseif ($row['campo_g']== NULL && $row['campo_h']!= NULL) {  ?>
                       <li><a><i class=" fa fa-cube"></i> Procesar Materiales <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="../listas/DetalleMaterialProcesado.php">Confirmar Material Procesado</a></li>                 
+                         <!-- <li><a href="../listas/DetalleMaterialProcesado.php">Confirmar Material Procesado</a></li>       -->          
                         </ul>
                       </li>
                       <?php 
