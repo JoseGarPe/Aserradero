@@ -322,7 +322,23 @@ class Paquetes extends conexion
 
 }
 
+/*
+Consultar todos los Shipper :
+-- SELECT shipper ,COUNT(shipper) as proveedores FROM packing_list GROUP BY shipper HAVING COUNT(*) > 
 
+CONSULTA TODOS LOS SHIPER Y CANTIDAD DE CONTENEDORES QUE TRAJERON
+
+-- SELECT shipper ,COUNT(shipper) as proveedores, SUM(contenedores_ingresados) AS TOTAL FROM packing_list GROUP BY shipper HAVING COUNT(*) > 1
+CONSULTAR EL NUMERO DE PAQUETES SEGUN SL SHIPPER
+
+-- SELECT COUNT(p.id_paquete) as N_Paquetes, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = 'Prueba'
+
+CONSULTA METROS CUBICOS Y MULTIPLO SEGUN MATERIAL Y SHIPPER
+
+SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='Prueba' AND p.id_material = 1
+
+
+*/
 		
 
 ?>
