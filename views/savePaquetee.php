@@ -228,30 +228,12 @@
                               <td><input type="number" id="piezas" name="piezas" min="0.00" step="1"  class="form-control col-md-7"></td>
                               <td><input type="number" id="multiplo" name="multiplo"  min="0.00" step="0.00000000001"  class="form-control col-md-7"></td>
                               <td>  
-                               <div class='input-group date' id='myDatepicker2'>
-                            <input type='text' class="form-control" name="fecha" id="fecha" />
-                            <span class="input-group-addon">
-                               <span class="glyphicon glyphicon-calendar"></span>
-                                  </span>
-                              </div>
+                               <div id="datos2"></div>
                               </td>
-                              <td><select class="form-control" name="id_bodega" id="id_bodega">
-                          <option>Seleccione una opcion</option>
-                          <?php 
-                          require_once "../class/Bodega.php";
-
-                        $mistipos = new Bodega();
-                         $catego = $mistipos->selectALL();
-                          foreach ((array)$catego as $rows1) {
-
-                            echo "<option value='".$rows1['id_bodega']."'>".$rows1['nombre']."</option>";
-
-                          } 
-
-                    
-                          ?>
-                          </select></td>
-                              <td><select class="form-control" name="id_contenedor" id="id_contenedor">
+                              <td>
+                                <div id="datos3"></div>
+                              </td>
+                              <td><select class="form-control" onchange="mostrarInfo(this.value)" name="id_contenedor" id="id_contenedor">
                           <option>Seleccione una opcion</option>
                           <?php 
                           require_once "../class/Contenedor.php";
@@ -674,6 +656,45 @@ $(document).on('click', '.view_data2', function(){
       });
  }); 
 
+</script>
+<script>
+   function mostrarInfo(cod){
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+   xmlhttp2=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("datos2").innerHTML=xmlhttp.responseText;
+    }else{ 
+  document.getElementById("datos2").innerHTML='Cargando...';
+    }
+  }
+  xmlhttp2.onreadystatechange=function()
+  {
+  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
+    {
+    document.getElementById("datos3").innerHTML=xmlhttp2.responseText;
+    }else{ 
+  document.getElementById("datos3").innerHTML='Cargando...';
+    }
+  }
+xmlhttp.open("POST","../views/paquetes/fechaPaquete.php",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("cod_banda="+cod);
+
+xmlhttp2.open("POST","../views/paquetes/bodegaPaquete.php",true);
+xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp2.send("cod_banda="+cod);
+}
 </script>
     </body>
 </html>

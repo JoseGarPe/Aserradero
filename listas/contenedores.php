@@ -175,7 +175,12 @@
                    <?php 
                    if (isset($_GET["id"])) {
                         $codigo=$_GET["id"];
+                        if (isset($_GET["factura"])) {
+                          
                         $factura=$_GET["factura"];
+                        }else{
+                          $factura = 0;
+                        }
                     echo '
                    <input type="button" name="accion" value="Contenedores" id="'.$codigo.'" factura="'.$factura.'" class="btn btn-success view_data3" /> 
                    <br></br>
@@ -213,7 +218,7 @@
                       }else{
                         $contenedor = 0;
                       }
-            require_once "../class/Paquetes.php";
+                          require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
                          $paquetes = $mss->selectALLpack11($codigo,$contenedor);
                          foreach ($paquetes as $key) {

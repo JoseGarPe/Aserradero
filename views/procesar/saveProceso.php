@@ -129,8 +129,11 @@
                            <table id="table" class="table table-bordered">
                       <thead>
                         <tr>
+                          <th>Componente</th>
                           <th>Etiqueta</th>
-                           <th>Piezas Disponibles</th>                         
+                           <th>Piezas Disponibles</th> 
+                           <th>Proveedor</th> 
+                           <th>Factura</th>                       
                         </tr>
                       </thead>
                       <tbody id="datos23">
