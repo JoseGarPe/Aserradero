@@ -123,18 +123,18 @@ require_once "Permisos.php";
                           }
                           echo'
                           </tr>
-                           <tr>
+                          <!-- <tr>
                           <td>Confirmar Material Procesado</td>';
-                          if (isset($row['campo_h'])&& $row['campo_h']!=NULL) {
+                      /*    if (isset($row['campo_h'])&& $row['campo_h']!=NULL) {
                             echo '<td><input type="checkbox" name="campo_h" id="campo_h" checked value="Si"></td>
                             ';
                           }else
                           {
                             echo '<td><input type="checkbox" name="campo_h" id="campo_h" value="Si"></td> 
                              ';
-                          }
+                          }*/
                           echo'
-                          </tr>
+                          </tr> -->
                            <tr>
                           <td>Definir Preset</td>';
                           if (isset($row['campo_i'])&& $row['campo_i']!=NULL) {
