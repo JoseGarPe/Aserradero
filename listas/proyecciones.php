@@ -108,7 +108,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de Naves</h2>
+                    <h2>Proyecciones Por componente</h2>
 
 
                     
@@ -169,7 +169,7 @@
                     ';
                 }
             }
-             ?></div>
+             ?>
                   <div class="x_content">
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
                     <form action="../listas/proyecciones.php" method="POST" class="form-horizontal form-label-right">
@@ -350,9 +350,97 @@
                     </table>  
                   </div>
                   </div>
-                </div>
+                </div> <!--X PANEL 1 -->
+                <div class="x_panel">
+                  <div class="x_title"> 
+                  <h2>Proyecciones Generales</h2>                   
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                   <div class="x_content">
+                    <table id="example3" class="table table-bordered">
+                    <thead>
+                      <?php 
+                       require_once "../class/Materiales.php";
+                       require_once "../class/Paquetes.php";
+                            $mms = new Materiales();
+                         $materialess = $mms->selectALL_CA(2);
+                          $pq = new Paquetes();
+                          $shippers = $pq->selectALLShippers();
+                          
+                       ?>
+                            <tr>
+                            <th>N°</th>
+                            <th>Proveedor</th>
+                            <th>Rec</th>
+                            <th>N° Con</th>
+                            <?php
+                             $numero = 1;
+                            foreach ($materialess as $key2) {
+                              
+                              echo '
+                            <th>'.$key2['nombre'].' M<sup>3</sup></th>
+                               <th>'.$key2['nombre'].' Tarimas </th>
+                         
+                              ';
+                          }
+                             ?>
+                            <!-- <th></th>-->
+                            </tr></thead>
+                            <tbody>
+                              <?php 
+                              foreach ($shippers as $value) {
+                                echo '
+                                <tr>
+                                <td>'.$numero.'</td>
+                                <td>'.$value['shipper'].'</td>';
+                                $nContenedor = $pq->selectShipperNP($value['shipper']);
+                                foreach ($nContenedor as $k) {
+                                  echo '<td>'.$k['N_Paquetes'].'</td>
+                                      <td>'.$value['TOTAL'].'</td>
+                                  ';
+                                }
+                                foreach ($materialess as $m) {
+                                  $mct=$pq->selectShipperMCT($value['shipper'],$m['id_material']);
+                                  foreach ($mct as $valor) {
+                                    echo '
+                                    <td>'.$valor['metroCubicot'].'</td><td>'.round($valor['tarima'],0).'</td>
+
+                                    ';
+                                  }
+                                }
+
+
+                                echo '
+                                 </tr>
+                                ';
+                                $numero = $numero +1;
+                              }
+                               ?>
+                     
+                           </tbody>
+                    </table>   
+
+
+                   </div>
+                </div><!-- X PANEL 2-->
+
               </div>
-        
+        </div>
         
         
             </div>

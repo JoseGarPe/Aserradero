@@ -318,17 +318,42 @@ class Paquetes extends conexion
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
    }
+   // PROYECCIONES SEGUN PROVEEDOR
+   public function selectALLShippers()
+    {
+        $query="SELECT shipper ,COUNT(shipper) as proveedores, SUM(contenedores_ingresados) AS TOTAL FROM packing_list GROUP BY shipper HAVING COUNT(*) > 1";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+   }
+
+   public function selectShipperNP($codigo)
+    {
+        $query="SELECT COUNT(p.id_paquete) as N_Paquetes, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+
+  public function selectShipperMCT($codigo,$materia)
+    {
+        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
 
 
 }
 
 /*
 Consultar todos los Shipper :
--- SELECT shipper ,COUNT(shipper) as proveedores FROM packing_list GROUP BY shipper HAVING COUNT(*) > 
+-- SELECT shipper ,COUNT(shipper) as proveedores FROM packing_list GROUP BY shipper HAVING COUNT(*) > 1
 
 CONSULTA TODOS LOS SHIPER Y CANTIDAD DE CONTENEDORES QUE TRAJERON
 
 -- SELECT shipper ,COUNT(shipper) as proveedores, SUM(contenedores_ingresados) AS TOTAL FROM packing_list GROUP BY shipper HAVING COUNT(*) > 1
+
 CONSULTAR EL NUMERO DE PAQUETES SEGUN SL SHIPPER
 
 -- SELECT COUNT(p.id_paquete) as N_Paquetes, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = 'Prueba'
