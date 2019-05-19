@@ -372,6 +372,77 @@
                     <div class="clearfix"></div>
                   </div>
                    <div class="x_content">
+                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
+                    <form id="form1" action="../listas/proyecciones.php" method="POST" class="form-horizontal form-label-right">
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione una opcion<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <h2> 
+                     Buscar por fecha: <input type="checkbox" id="myCheck2" name="myCheck2" value="opcion3" onclick="myFunction2()">
+                      Buscar por estado: <input type="checkbox" id="myCheck3"  name="myCheck3" value="opcion4" onclick="myFunction3()"></h2>
+                        </div>
+                      </div>
+                    
+
+                      <div id="fechaip" class="form-group" style="display:none">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Fecha inicial<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <div class='input-group date' id='myDatepicker34'>
+                            <input type='text' class="form-control" name="fecha_inicialp" id="fecha_inicialp" />
+                            <span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        </div>
+                      </div>
+                        <div id="fechafp" class="form-group" style="display:none">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Fecha final<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <div class='input-group date' id='myDatepicker33'>
+                            <input type='text' class="form-control" name="fecha_finalp" id="fecha_finalp" />
+                            <span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        </div>
+                      </div>
+                       <div id="estadop" style="display:none" class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Estado<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <select class="form-control" id="estado_conp" name="estado_conp">
+                          <option value="Confirmado">Confirmado</option>
+                          <option value="Sin confirmar">Sin Confirmar</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="box-footer">
+
+                        <div class="form-label-right col-md-5 col-sm-5 col-xs-12">
+               <center> <input type="submit" class="btn btn-primary" name="submit" value="Consultar" ></center>
+                        </div>
+                      </div>
+                    </form>
+
+
+                    <BR>
+                    <BR>
+                    <?php
+                    if (isset($_POST['myCheck2']) && isset($_POST['fecha_inicialp']) && isset($_POST['fecha_finalp']) && isset($_POST['estado_conp'])) {
+                        $fecha3=$_POST['fecha_inicialp'];
+                        $fecha4=$_POST['fecha_finalp'];
+
+                        $estado_pro=$_POST['estado_conp'];
+                        echo '<h2> <label> Proyeccion general Materia prima con estado '.$estado_pro.', desde '.$fecha3.' hasta '.$fecha4.'</label></h2>';
+                      }elseif (isset($_POST['myCheck3'])&&isset($_POST['estado_conp'])) {
+                        $estado_pro=$_POST['estado_conp'];
+                        echo '<h2> <label> Proyeccion general Materia prima con estado '.$estado_pro.'</label></h2>';
+                      }
+                     ?>
+                    <BR>
                     <table id="example3" class="table table-bordered">
                     <thead>
                       <?php 
@@ -390,6 +461,7 @@
                             <th>N° Con</th>
                             <?php
                              $numero = 1;
+                             $columnas = 0;
                             foreach ($materialess as $key2) {
                               
                               echo '
@@ -397,12 +469,96 @@
                                <th>'.$key2['nombre'].' Tarimas </th>
                          
                               ';
+
                           }
                              ?>
                             <!-- <th></th>-->
                             </tr></thead>
                             <tbody>
                               <?php 
+                                if (isset($_POST['myCheck2']) && isset($_POST['fecha_inicialp']) && isset($_POST['fecha_finalp']) && isset($_POST['estado_conp'])) {
+                        $fecha3=$_POST['fecha_inicialp'];
+                        $fecha4=$_POST['fecha_finalp'];
+
+                        $estado_pro=$_POST['estado_conp'];
+                         foreach ($shippers as $value) {
+                                echo '
+                                <tr>
+                                <td>'.$numero.'</td>
+                                <td>'.$value['shipper'].'</td>';
+                                $nContenedor = $pq->selectShipperNP_date($value['shipper'],$estado_pro,$fecha3,$fecha4);
+                                foreach ($nContenedor as $k) {
+                                  echo '<td>'.$k['N_Paquetes'].'</td>
+                                      <td>'.$value['TOTAL'].'</td>
+                                  ';
+                                }
+                                foreach ($materialess as $m) {
+                                  $mct=$pq->selectShipperMCT_date($value['shipper'],$m['id_material'],$estado_pro,$fecha3,$fecha4);
+                                  foreach ($mct as $valor) {
+                                    echo '
+                                    <td>'.$valor['metroCubicot'].'</td><td>'.round($valor['tarima'],0).'</td>
+
+                                    ';
+                                    $totales[$numero][$columnas]=$valor['metroCubicot'];
+                                    $columnas = $columnas + 1;
+
+                                    $totales[$numero][$columnas]=round($valor['tarima'],0);
+                                    $columnas = $columnas +1;
+                                  }
+                                }
+
+
+                                echo '
+                                 </tr>
+                                ';
+                                $numero = $numero +1;
+                              }
+                              $cont = 0;
+                              $sumat = 0;
+                              for ($i=0; $i < $columnas ; $i++) { 
+                               for ($j=1; $j < $numero; $j++) { 
+                                  $sumat = $sumat + $totales[$j][$i];
+                                  $tt[$cont]= $sumat;
+                               }
+                               $cont = $cont +1;
+                              }
+                              for ($k=0; $k < $cont ; $k++) { 
+                                echo 'total'.$k.'='.$tt[$k];
+                              }
+                      }elseif (isset($_POST['myCheck3'])&&isset($_POST['estado_conp'])) {
+                        $estado_pro=$_POST['estado_conp'];
+                            foreach ($shippers as $value) {
+                                echo '
+                                <tr>
+                                <td>'.$numero.'</td>
+                                <td>'.$value['shipper'].'</td>';
+                                $nContenedor = $pq->selectShipperNP_status($value['shipper'],$estado_pro);
+                                foreach ($nContenedor as $k) {
+                                  echo '<td>'.$k['N_Paquetes'].'</td>
+                                      <td>'.$value['TOTAL'].'</td>
+                                  ';
+                                }
+                                foreach ($materialess as $m) {
+                                  $mct=$pq->selectShipperMCT_status($value['shipper'],$m['id_material'],$estado_pro);
+                                  foreach ($mct as $valor) {
+                                    echo '
+                                    <td>'.$valor['metroCubicot'].'</td><td>'.round($valor['tarima'],0).'</td>
+
+                                    ';
+                                  }
+                                }
+
+
+                                echo '
+                                 </tr>
+                                ';
+                                $numero = $numero +1;
+                              }
+                      
+                      }
+
+
+                              /*
                               foreach ($shippers as $value) {
                                 echo '
                                 <tr>
@@ -429,9 +585,11 @@
                                  </tr>
                                 ';
                                 $numero = $numero +1;
-                              }
+                              } */
                                ?>
-                     
+                                <tr>
+                                  <td>TOTAL</td>
+                                </tr>
                            </tbody>
                     </table>   
 
@@ -668,7 +826,21 @@ ga('send', 'pageview');
   <script>
   $(function () {
     $('#example1').DataTable()
-    $('#example3').DataTable()
+    $('#example3').DataTable({
+       'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+       dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+  })
     $('#example4').DataTable()
     $('#example5').DataTable({
       'paging'      : true,
@@ -689,7 +861,13 @@ ga('send', 'pageview');
     });
     
     $('#myDatepicker3').datetimepicker({
-          format: 'YYYY.MM.DD'
+          format: 'YYYY-MM-DD'
+    });
+     $('#myDatepicker33').datetimepicker({
+          format: 'YYYY-MM-DD'
+    });
+      $('#myDatepicker34').datetimepicker({
+          format: 'YYYY-MM-DD'
     });
     
     $('#myDatepicker4').datetimepicker({
@@ -752,6 +930,47 @@ ga('send', 'pageview');
      fecha_i.style.display = "none";
      fecha_f.style.display = "none";
      estado.style.display = "none";
+     
+  }
+}
+  function myFunction2() {
+  var checkBox1 = document.getElementById("myCheck2");
+  var fecha_ip = document.getElementById("fechaip");
+  var fecha_fp = document.getElementById("fechafp");
+  var checkBox3 = document.getElementById("myCheck3");
+  var estadop = document.getElementById("estadop");
+  if (checkBox1.checked == true){
+    fecha_ip.style.display = "block";
+    fecha_fp.style.display = "block";
+    checkBox3.checked=false;
+     estadop.style.display = "block";
+     
+    
+  } else {
+     fecha_ip.style.display = "none";
+     fecha_fp.style.display = "none";
+     estadop.style.display = "none";
+     
+  }
+}
+function myFunction3() {
+  var checkBox1 = document.getElementById("myCheck2");
+  var fecha_ip = document.getElementById("fechaip");
+  var fecha_fp = document.getElementById("fechafp");
+  var checkBox3 = document.getElementById("myCheck3");
+  var estadop = document.getElementById("estadop");
+  
+
+  if(checkBox3.checked == true){
+    estadop.style.display = "block";
+    checkBox1.checked=false;
+     fecha_ip.style.display = "none";
+     fecha_fp.style.display = "none";
+    
+  } else {
+     fecha_ip.style.display = "none";
+     fecha_fp.style.display = "none";
+     estadop.style.display = "none";
      
   }
 }

@@ -319,9 +319,10 @@ class Paquetes extends conexion
         return $ListPaquetes;
    }
    // PROYECCIONES SEGUN PROVEEDOR
+   //general
    public function selectALLShippers()
     {
-        $query="SELECT shipper ,COUNT(shipper) as proveedores, SUM(contenedores_ingresados) AS TOTAL FROM packing_list GROUP BY shipper HAVING COUNT(*) > 1";
+        $query="SELECT shipper ,COUNT(shipper) as proveedores, SUM(contenedores_ingresados) AS TOTAL FROM packing_list GROUP BY shipper HAVING COUNT(*)";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
@@ -338,6 +339,40 @@ class Paquetes extends conexion
   public function selectShipperMCT($codigo,$materia)
     {
         $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+   // por estado
+ 
+   public function selectShipperNP_status($codigo,$estado)
+    {
+        $query="SELECT COUNT(p.id_paquete) as N_Paquetes, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."' AND p.estado='".$estado."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+
+  public function selectShipperMCT_status($codigo,$materia,$estado)
+    {
+        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'  AND p.estado='".$estado."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+   // por fecha y estado
+
+   public function selectShipperNP_date($codigo,$estado,$fecha1,$fecha2)
+    {
+        $query="SELECT COUNT(p.id_paquete) as N_Paquetes, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."' AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+
+  public function selectShipperMCT_date($codigo,$materia,$estado,$fecha1,$fecha2)
+    {
+        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
