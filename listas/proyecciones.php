@@ -476,6 +476,8 @@
                             </tr></thead>
                             <tbody>
                               <?php 
+                              $totalPaquetes=0;
+                              $totalContenedores=0;
                                 if (isset($_POST['myCheck2']) && isset($_POST['fecha_inicialp']) && isset($_POST['fecha_finalp']) && isset($_POST['estado_conp'])) {
                         $fecha3=$_POST['fecha_inicialp'];
                         $fecha4=$_POST['fecha_finalp'];
@@ -491,19 +493,28 @@
                                   echo '<td>'.$k['N_Paquetes'].'</td>
                                       <td>'.$value['TOTAL'].'</td>
                                   ';
+                                 $totalPaquetes = $totalPaquetes + $k['N_Paquetes'];
+                                 $totalContenedores = $totalContenedores + $value['TOTAL']; 
                                 }
                                 foreach ($materialess as $m) {
                                   $mct=$pq->selectShipperMCT_date($value['shipper'],$m['id_material'],$estado_pro,$fecha3,$fecha4);
                                   foreach ($mct as $valor) {
+                                    $metrocu =0;
+                                    if($valor['metroCubicot']== NULL){
+                                      $metrocu =0;
+                                    }else{
+                                      $metrocu = $valor['metroCubicot'];
+                                    }
+
                                     echo '
-                                    <td>'.$valor['metroCubicot'].'</td><td>'.round($valor['tarima'],0).'</td>
+                                    <td>'.$metrocu.'</td><td>'.round($valor['tarima'],0).'</td>
 
                                     ';
-                                    $totales[$numero][$columnas]=$valor['metroCubicot'];
+                                  /*  $totales[$numero][$columnas]=$valor['metroCubicot'];
                                     $columnas = $columnas + 1;
 
                                     $totales[$numero][$columnas]=round($valor['tarima'],0);
-                                    $columnas = $columnas +1;
+                                    $columnas = $columnas +1;*/
                                   }
                                 }
 
@@ -513,7 +524,24 @@
                                 ';
                                 $numero = $numero +1;
                               }
-                              $cont = 0;
+                              echo '<tr class="success">
+                              <td>'.$numero.'</td><td>TOTAL</td><td>'.$totalPaquetes.'</td><td>'.$totalContenedores.'</td>
+                              ';
+                              $tarimaCal=0;
+                              foreach ($materialess as $m1) {
+                                $totalcubico = 0;
+                                $totaltarimas =0;
+                                $mct1=$pq->selectTotalMCT_date($m1['id_material'],$estado_pro,$fecha3,$fecha4); 
+                                foreach ($mct1 as $ma) {
+                                  $totalcubico = $totalcubico + $ma['metros_cubicos'];
+                                  $tarimaCal = ($ma['metros_cubicos'])/$ma['multiplo'];
+                                  $totaltarimas = $totaltarimas + $tarimaCal;
+                                }
+                                echo '<td>'.$totalcubico.'</td><td>'.round($totaltarimas,0).'</td>';
+
+                              }
+                              echo'</tr>';
+                             /* $cont = 0;
                               $sumat = 0;
                               for ($i=0; $i < $columnas ; $i++) { 
                                for ($j=1; $j < $numero; $j++) { 
@@ -525,6 +553,7 @@
                               for ($k=0; $k < $cont ; $k++) { 
                                 echo 'total'.$k.'='.$tt[$k];
                               }
+                              */
                       }elseif (isset($_POST['myCheck3'])&&isset($_POST['estado_conp'])) {
                         $estado_pro=$_POST['estado_conp'];
                             foreach ($shippers as $value) {
@@ -537,12 +566,22 @@
                                   echo '<td>'.$k['N_Paquetes'].'</td>
                                       <td>'.$value['TOTAL'].'</td>
                                   ';
+
+                                 $totalPaquetes = $totalPaquetes + $k['N_Paquetes'];
+                                 $totalContenedores = $totalContenedores + $value['TOTAL']; 
                                 }
                                 foreach ($materialess as $m) {
                                   $mct=$pq->selectShipperMCT_status($value['shipper'],$m['id_material'],$estado_pro);
                                   foreach ($mct as $valor) {
+                                    $metrocu =0;
+                                    if($valor['metroCubicot']== NULL){
+                                      $metrocu =0;
+                                    }else{
+                                      $metrocu = $valor['metroCubicot'];
+                                    }
+
                                     echo '
-                                    <td>'.$valor['metroCubicot'].'</td><td>'.round($valor['tarima'],0).'</td>
+                                    <td>'.$metrocu.'</td><td>'.round($valor['tarima'],0).'</td>
 
                                     ';
                                   }
@@ -554,6 +593,23 @@
                                 ';
                                 $numero = $numero +1;
                               }
+                               echo '<tr class="success">
+                              <td>'.$numero.'</td><td>TOTAL</td><td>'.$totalPaquetes.'</td><td>'.$totalContenedores.'</td>
+                              ';
+                              $tarimaCal=0;
+                              foreach ($materialess as $m1) {
+                                $totalcubico = 0;
+                                $totaltarimas =0;
+                                $mct1=$pq->selectTotalMCT_status($m1['id_material'],$estado_pro); 
+                                foreach ($mct1 as $ma) {
+                                  $totalcubico = $totalcubico + $ma['metros_cubicos'];
+                                  $tarimaCal = ($ma['metros_cubicos'])/$ma['multiplo'];
+                                  $totaltarimas = $totaltarimas + $tarimaCal;
+                                }
+                                echo '<td>'.$totalcubico.'</td><td>'.round($totaltarimas,0).'</td>';
+
+                              }
+                              echo'</tr>';
                       
                       }
 
@@ -587,9 +643,7 @@
                                 $numero = $numero +1;
                               } */
                                ?>
-                                <tr>
-                                  <td>TOTAL</td>
-                                </tr>
+                                
                            </tbody>
                     </table>   
 

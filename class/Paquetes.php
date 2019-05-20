@@ -360,6 +360,14 @@ class Paquetes extends conexion
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
    }
+ public function selectTotalMCT_status($materia,$estado)
+    {
+        $query="SELECT p.metros_cubicos, p.multiplo FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+
    // por fecha y estado
 
    public function selectShipperNP_date($codigo,$estado,$fecha1,$fecha2)
@@ -373,6 +381,14 @@ class Paquetes extends conexion
   public function selectShipperMCT_date($codigo,$materia,$estado,$fecha1,$fecha2)
     {
         $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+
+  public function selectTotalMCT_date($materia,$estado,$fecha1,$fecha2)
+    {
+        $query="SELECT p.metros_cubicos, p.multiplo FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
