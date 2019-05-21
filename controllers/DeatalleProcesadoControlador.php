@@ -52,6 +52,17 @@ $id_bodega_mp=$_POST['id_bodega'];
 $etiqueta = $_POST['etiqueta'];
 $estado="Confirmado";
 
+// segundo material saliente
+if (isset($_POST['id_materialsaliente2'])) {
+	$segundaOpcion = true;
+	$id_material_saliente2=$_POST['id_materialsaliente2'];
+$cantidad_saliente2=$_POST['cantidadsaliente2'];
+$rendimiento_esperado2=$_POST['resperado2'];
+$id_bodega2=$_POST['id_bodegag2'];
+}else{
+	$segundaOpcion=false;
+}
+
 		$pack = new Paquetes();
 		$paquete= $pack->selectOneM($etiqueta);
 		foreach ($paquete as $ky) {
@@ -87,11 +98,29 @@ $nueva_cantidad = $disponibles - $cantidadPiezas;
 
 		$detalle_bo->setId_bodega($id_bodega);
 		$detalle_bo->setId_material($id_material_saliente);
-		$detalle_bo->setCantidad($nueva_cantidad);
+		$detalle_bo->setCantidad($cantidad_saliente);
 		$save2=$detalle_bo->save();
+
+		if ($segundaOpcion==true) {
+		$Detalle_procesado->setId_materia_prima($id_materia_prima);
+		$Detalle_procesado->setCantidad_materia_prima($cantidadPiezas);
+		$Detalle_procesado->setId_maquina($id_maquina);
+		$Detalle_procesado->setId_material_saliente($id_material_saliente2);
+		$Detalle_procesado->setCantidad_saliente($cantidad_saliente2);
+		$Detalle_procesado->setRendimiento_esperado($rendimiento_esperado);
+		$Detalle_procesado->setId_bodega($id_bodega2);
+		$Detalle_procesado->setEstado($estado);
+		$save=$Detalle_procesado->save();
+
+		$detalle_bo->setId_bodega($id_bodega2);
+		$detalle_bo->setId_material($id_material_saliente2);
+		$detalle_bo->setCantidad($cantidad_saliente2);
+		$save3=$detalle_bo->save();
+		}
+
 		
-		header('Location: ../listas/ProcesarMaterial.php?success=correcto&materiaPrima='.$id_bodega_mp.'&materia2='.$id_materia_prima.'&materia1='.$disponibles.'&materia2='.$cantidad_materia_prima.'');
-		# code...
+		header('Location: ../listas/ProcesarMaterial.php?success=correcto');
+		# code... header('Location: ../listas/ProcesarMaterial.php?success=correcto&materiaPrima='.$id_bodega_mp.'&materia2='.$id_materia_prima.'&materia1='.$disponibles.'&materia2='.$cantidad_materia_prima.'');
 	}
 	else{
 		header('Location: ../listas/ProcesarMaterial.php?error=incorrecto');

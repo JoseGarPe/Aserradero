@@ -239,6 +239,13 @@ class Paquetes extends conexion
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
+       public function selectPack_Bodega()
+    {
+        $query="SELECT p.id_paquete, p.piezas,p.id_material , p.etiqueta, pl.id_packing_list, pl.numero_factura,pl.shipper, m.nombre, b.nombre as bodega FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list  INNER JOIN materiales m on m.id_material = p.id_material INNER JOIN bodegas b on b.id_bodega=p.id_bodega WHERE p.stock > 0 AND p.estado='Confirmado'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
 
  public function selectOneM($codigo)
     {
@@ -271,11 +278,19 @@ class Paquetes extends conexion
     }
  public function updateEtiqueta()
     {
-
-        $query1="SELECT * FROM paquetes WHERE etiqueta='".$this->etiqueta."'";
+        if ($this->etiqueta == 'POSEE') {
+             $query="UPDATE paquetes SET estado='Confirmado' WHERE id_paquete='".$this->id_paquete."'";
+            $update=$this->db->query($query);
+            if ($update==true) {
+                return 'Disponible';
+            }else {
+                return 'Error';
+            } 
+        }else{
+             $query1="SELECT * FROM paquetes WHERE etiqueta='".$this->etiqueta."'";
         $selectall=$this->db->query($query1);
         if ($selectall->num_rows==0) {
-             $query="UPDATE paquetes SET etiqueta='".$this->etiqueta."' WHERE id_paquete='".$this->id_paquete."'";
+             $query="UPDATE paquetes SET etiqueta='".$this->etiqueta."' estado='Confirmado' WHERE id_paquete='".$this->id_paquete."'";
             $update=$this->db->query($query);
             if ($update==true) {
                 return 'Disponible';
@@ -287,6 +302,9 @@ class Paquetes extends conexion
             return 'No Disponible';
         }
         
+        }
+
+       
 
     }
     //------------------PROYECCIONES---------------------------//

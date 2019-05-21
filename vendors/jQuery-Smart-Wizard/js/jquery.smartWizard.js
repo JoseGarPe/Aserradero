@@ -18,7 +18,7 @@ function SmartWizard(target, options) {
     this.steps        = $(target).children("ul").children("li").children("a"); // Get all anchors
     this.contentWidth = 0;
     this.msgBox = $('<div class="msgBox"><div class="content"></div><a href="#" class="close">X</a></div>');
-    this.elmStepContainer = $('<div></div>').addClass("stepContainer");
+  
     this.loader = $('<div>Loading</div>').addClass("loader");
     this.buttons = {
         next : $('<a>'+options.labelNext+'</a>').attr("href","#").addClass("buttonNext"),
@@ -49,14 +49,15 @@ function SmartWizard(target, options) {
             });
         }
 
-        $this.elmStepContainer.append(allDivs);
+       $this.elmStepContainer.append(allDivs);
         elmActionBar.append($this.loader);
-        $this.target.append($this.elmStepContainer);
+       $this.target.append($this.elmStepContainer);
         elmActionBar.append($this.buttons.finish)
                     .append($this.buttons.next)
                     .append($this.buttons.previous);
         $this.target.append(elmActionBar);
-        this.contentWidth = $this.elmStepContainer.width();
+      
+       this.contentWidth = $this.elmStepContainer.width();
 
         $($this.buttons.next).click(function() {
             $this.goForward();
@@ -184,7 +185,7 @@ function SmartWizard(target, options) {
                 }
             }
         }
-        $this.elmStepContainer.height(_step($this, selStep).outerHeight());
+      $this.elmStepContainer.height(0);
         var prevCurStepIdx = $this.curStepIdx;
         $this.curStepIdx =  stepIdx;
         if ($this.options.transitionEffect == 'slide'){
@@ -381,14 +382,14 @@ function SmartWizard(target, options) {
         var height = 0;
 
         var selStep = this.steps.eq(this.curStepIdx);
-        var stepContainer = _step(this, selStep);
-        stepContainer.children().each(function() {
+       var stepContainer = _step(this, selStep);
+      stepContainer.children().each(function() {
             height += $(this).outerHeight();
         });
 
-        // These values (5 and 20) are experimentally chosen.
-        stepContainer.height(height + 5);
-        this.elmStepContainer.height(height + 20);
+        //These values (5 and 20) are experimentally chosen.
+      stepContainer.height(0);
+      this.elmStepContainer.height(0);
     }
 
     _init(this);

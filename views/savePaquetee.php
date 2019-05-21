@@ -315,7 +315,10 @@
                           echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
                           }
                           else{
-                            echo '<td>'.$key['etiqueta'].'</td>';
+                            echo '<td>'.$key['etiqueta'].'</td>
+
+                            <input type="hidden" name="eti'.$datos.'" id="eti'.$datos.'" value ="POSEE">
+                            ';
                           }
                           
                           echo '
@@ -328,9 +331,15 @@
                           <td>'.$key['bodega'].'</td>
                           <td>'.$key['contenedor'].'</td>
                           <td>'.$key['stock'].'</td>
-                          <td>'.$key['estado'].'</td>
-                          <td><input type="button" name="save" value="Confirmar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" /></td>
-                          </tr>
+                          <td>'.$key['estado'].'</td>';
+                          if ($key['estado']=='Confirmado') {
+                            echo '<td></td>';
+                          }else{
+                            echo '
+                          <td><input type="button" name="save" value="Confirmar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" /></td>';
+
+                          }
+                          echo '</tr>
                            ';
                           $datos=$datos+1;
                          }

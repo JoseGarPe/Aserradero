@@ -102,7 +102,13 @@ class Maquina extends conexion
        $ListMaqui=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListMaqui;
     }
-
+ public function selectALL2()
+    {
+        $query="SELECT * FROM maquinas";
+        $selectall=$this->db->query($query);
+        $ListTipoUsuario=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListTipoUsuario;
+    }
 
 
 }

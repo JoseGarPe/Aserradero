@@ -5,8 +5,8 @@
                              $codigo = $_POST['cod_banda'];
                                              require_once "DetalleBodega.php";
                                                  $material = new DetalleBodega();
-                                  $catego = $material->selectC_MP($codigo);
-                          foreach ((array)$catego as $rw) {
+                                  $catego3 = $material->selectC_MP($codigo);
+                          foreach ((array)$catego3 as $rw) {
                           	echo '<input id="c_disponible" name="c_disponible" readonly class=" form-control col-md-7 col-xs-12"  type="number" value="'.$rw['cantidad'].'">';
 
                           }                 
