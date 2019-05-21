@@ -100,7 +100,7 @@ public function __construct()
 
       
 //---------------------------
-function save()
+public function save()
     {
     	$query="INSERT INTO `detalle_procesado` (`id_detalle_procesado`, `id_materia_prima`, `cantidad_materia_prima`, `id_maquina`, `id_material_saliente`, `cantidad_saliente`, `rendimiento_esperado`, `id_bodega`,estado) VALUES (NULL,
     			'".$this->id_materia_prima."',

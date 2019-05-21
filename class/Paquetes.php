@@ -249,7 +249,7 @@ class Paquetes extends conexion
 
  public function selectOneM($codigo)
     {
-        $query="SELECT * FROM Paquetes WHERE etiqueta='".$codigo."'";
+        $query="SELECT * FROM paquetes WHERE etiqueta='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
