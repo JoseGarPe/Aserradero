@@ -197,6 +197,7 @@
                           <th>Factura</th>
                           <th>Codigo Embarque</th> 
                           <th>Poliza</th>
+                          <th>Razon Social</th>
                           <th>Opiones</th>                         
                         </tr>
                       </thead>
@@ -213,14 +214,14 @@
                          echo '
                           <tr>
                           <td>'.$row['id_packing_list'].'</td>
+                           <td>'.$row['mes'].'</td>
+                           <td>'.$row['shipper'].'</td>
+                           <td>'.date_format($fecha1, 'd/m/Y').'</td>
+                           <td>'.$row['nav'].'</td>
                            <td>'.$row['numero_factura'].'</td>
                            <td>'.$row['codigo_embarque'].'</td>
-                           <td>'.$row['mes'].'</td>
-                           <td>'.date_format($fecha1, 'd/m/Y').'</td>
                            <td>'.$row['total_contenedores'].'</td>
                            <td>'.$row['contenedores_ingresados'].'</td>
-                           <td>'.$row['shipper'].'</td>
-                           <td>'.$row['nav'].'</td>
                            <td>'.$row['estado'].'</td>';
                            if ($row['fecha_inicio']!=NULL) {
                             $date1=date_create($row['fecha_inicio']);
