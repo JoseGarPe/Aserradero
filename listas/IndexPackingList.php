@@ -184,17 +184,19 @@
                       <thead>
                         <tr>
                           <th>N° </th>
-                          <th>Factura</th>
-                          <th>Codigo Embarque</th>
-                          <th>Mes</th>  
-                          <th>Fecha</th>
-                          <th>Contenedores</th>
-                          <th>Recibidos</th> 
+                          <th>Mes</th> 
                           <th>Shipper</th>
+                          <th>Fecha</th>
                           <th>Nave</th>
-                          <th>Estado</th>
                           <th>F.Ingreso</th>
                           <th>F.Finalizado</th>
+                          <th>Contenedores</th>
+                          <th>Recibidos</th> 
+                          <th>Estado</th>
+                          <th>Total m<sub>3</sub></th>
+                          <th>Factura</th>
+                          <th>Codigo Embarque</th> 
+                          <th>Poliza</th>
                           <th>Opiones</th>                         
                         </tr>
                       </thead>

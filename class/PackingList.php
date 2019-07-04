@@ -19,6 +19,8 @@ private $id_nave;
 private $id_especificacion;
 private $estado;
 private $shipper;
+private $poliza;
+private $bl;
 
 public function __construct()
 {
@@ -40,6 +42,8 @@ public function __construct()
         $this->id_especificacion = "";
         $this ->estado="";
         $this ->shipper="";
+        $this ->poliza="";
+        $this ->bl="";
         
 
 }
@@ -178,7 +182,7 @@ public function __construct()
 //---------------------------
 function save()
     {
-    	$query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`)
+    	$query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`, `poliza`, `bl`)
     			values(NULL,
     			'".$this->numero_factura."',
                 '".$this->codigo_embarque."',
@@ -193,7 +197,9 @@ function save()
                 '".$this->shipper."',
                 '".$this->id_nave."',
     			'".$this->id_especificacion."',
-                '".$this->estado."');
+                '".$this->estado."',
+                '".$this->poliza."',
+                '".$this->bl."');
                 ";
     	$save=$this->db->query($query);
     	if ($save==true) {
@@ -217,7 +223,9 @@ function save()
         obervaciones='".$this->obervaciones."',
         shipper='".$this->shipper."',
         id_nave='".$this->id_nave."',
-        id_especificacion='".$this->id_especificacion."'";
+        id_especificacion='".$this->id_especificacion."',
+        poliza='".$this->poliza."',
+        bl='".$this->bl."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
@@ -237,7 +245,7 @@ function save()
 
     }
      public function selectALL(){
-        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion";
+        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre,packing_list.poliza,packing_list.bl from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion";
         $selectall=$this->db->query($query);
         
         $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -263,8 +271,15 @@ function save()
             return false;
         }  
     }
-
+    public function selectTotalMetrosCubicos($codigo)
+    {
+        $query="SELECT SUM(metros_cubicos) FROM paquetes WHERE id_packing_list ='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPacking;
+    } 
     
+
     public function updateStatu($vari)
     {
     if ($vari == 'Primero') {
