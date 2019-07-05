@@ -9,6 +9,7 @@ class Contenedores extends conexion
     private $estado;
     private $id_bodega;
     private $fecha_ingreso;
+    private $tipo_ingreso;
 
 	function __construct()
 	{
@@ -20,6 +21,7 @@ class Contenedores extends conexion
         $this->estado ="";
         $this->id_bodega ="";
         $this->fecha_ingreso ="";
+        $this ->tipo_ingreso="";
 	}
 
 	public function getId_contenedor(){
@@ -65,12 +67,32 @@ class Contenedores extends conexion
     public function setFecha_ingreso($fecha_ingreso){
         $this->fecha_ingreso= $fecha_ingreso;
     }
+     public function getTipo_ingreso() {
+        return $this->tipo_ingreso;
+    }
+
+    public function setTipo_ingreso($tipo_ingreso) {
+        $this->tipo_ingreso = $tipo_ingreso;
+    }
+
 
     public function save(){
 
     	$query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+
+
+    }
+    public function saveEnvio(){
+
+        $query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado,tipo_ingreso) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."')";
+        $save=$this->db->query($query);
+        if ($save==true) {
             return true;
         }else {
             return false;
@@ -246,11 +268,15 @@ class Contenedores extends conexion
 
         return $ListContenedores;
     }
+     
+      public function selectPaquetesCon($codigo){
+        $query="SELECT * FROM `paquetes` WHERE `id_contenedor` ='".$codigo."' ";
+        $selectall=$this->db->query($query);
+        
+        $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $ListContenedores;
+    }
 
 }
-
-
-
-		
-
 ?>

@@ -131,6 +131,24 @@ elseif ($accion=="confirmar") {
   		$pl->setContenedores_ingresados($new_con_ing);
 		$pl->setId_packing_list($id_packing_list);
 		$update1=$pl->updateIngresos();
+	/*	if ($update1== TRUE) {
+			$paquetess= $Contenedor->selectPaquetesCon($id_contenedor);
+			foreach ($paquetess as $count) {
+
+
+	$Contenedor->setId_bodega($id_bodega);
+	$Contenedor->setEstado($estado);
+	$Contenedor->setEtiqueta($count['etiqueta']);
+	$delete2=$Contenedor->confirm($count['id_paquete']);
+
+				$detalle_bo= new DetalleBodega();
+		$detalle_bo->setId_bodega($id_bodega);
+		$detalle_bo->setId_material($count['id_material']);
+		$detalle_bo->setCantidad($count['piezas']);
+		$save1=$detalle_bo->save();
+			}
+		} */
+		
 	}
 
 		header('Location: ../listas/IndexPackingList.php?success=correcto');

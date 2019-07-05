@@ -57,6 +57,7 @@ elseif ($accion=="guardar")
   	$multiplo=$_POST['multiplo'];
   	$metros_cubicos =$_POST['metros_cubicos'];
   	$fecha_ingreso =$_POST['fecha'];
+  	$estado =$_POST['estado'];
  
 
 	$Paquetes = new Paquetes();
@@ -72,10 +73,15 @@ elseif ($accion=="guardar")
 	$Paquetes->setMultiplo($multiplo);
 	$Paquetes->setMetros_cubicos($metros_cubicos);
 	$Paquetes->setFecha_ingreso($fecha_ingreso);
-	$Paquetes->setEstado("Sin Confirmar");
+	$Paquetes->setEstado("Confirmado");
 	$save=$Paquetes->save();
 	if ($save==true) {
-		header('Location: ../views/savePaquetee.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetCo='.$etiquetaCooo.'');
+		$detalle_bo= new DetalleBodega();
+		$detalle_bo->setId_bodega($id_bodega);
+		$detalle_bo->setId_material($id_material);
+		$detalle_bo->setCantidad($piezas);
+		$save1=$detalle_bo->save();
+		header('Location: ../views/savePaquetee.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCooo.'');
 		# code...
 	}
 	else{

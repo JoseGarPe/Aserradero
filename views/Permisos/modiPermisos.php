@@ -300,6 +300,17 @@ require_once "Permisos.php";
                           }
                           echo'
                           </tr>
+                          <tr>
+                          <td>Ingresos locales</td>';
+                          if (isset($row['campo_x'])&& $row['campo_x']!=NULL) {
+                            echo '<td><input type="checkbox" name="campo_x" id="campo_x" checked value="Si"></td>';
+                          }else
+                          {
+                            echo '
+                            <td><input type="checkbox" name="campo_x" id="campo_x" value="Si"></td> 
+                             ';
+                          }
+                          echo'</tr>
                           </table>
                           </div>
                           

@@ -20,6 +20,7 @@ private $id_especificacion;
 private $estado;
 private $shipper;
 private $poliza;
+private $tipo_ingreso;
 
 public function __construct()
 {
@@ -42,6 +43,7 @@ public function __construct()
         $this ->estado="";
         $this ->shipper="";
         $this ->poliza="";
+        $this ->tipo_ingreso="";
         
 
 }
@@ -178,12 +180,12 @@ public function getPoliza() {
     public function setPoliza($poliza) {
         $this->poliza = $poliza;
     }
-    public function getEspecificacion() {
-        return $this->especificacion;
+    public function getTipo_ingreso() {
+        return $this->tipo_ingreso;
     }
 
-    public function setEspecificacion($especificacion) {
-        $this->especificacion = $especificacion;
+    public function setTipo_ingreso($tipo_ingreso) {
+        $this->tipo_ingreso = $tipo_ingreso;
     }
 
 
@@ -195,7 +197,7 @@ public function getPoliza() {
 //---------------------------
 function save()
     {
-    	$query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`, `poliza`)
+    	$query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`, `poliza`,`tipo_ingreso`)
     			values(NULL,
     			'".$this->numero_factura."',
                 '".$this->codigo_embarque."',
@@ -211,7 +213,8 @@ function save()
                 '".$this->id_nave."',
     			'".$this->id_especificacion."',
                 '".$this->estado."',
-                '".$this->poliza."');
+                '".$this->poliza."',
+                'Importacion');
                 ";
     	$save=$this->db->query($query);
     	if ($save==true) {
@@ -220,7 +223,34 @@ function save()
             return false;
         }   
     }
-
+function saveLocal()
+    {
+        $query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`, `poliza`,`tipo_ingreso`)
+                values(NULL,
+                '".$this->numero_factura."',
+                NULL,
+                NULL,
+                '".$this->mes."',
+                '".$this->fecha."',
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+                '".$this->obervaciones."',
+                '".$this->shipper."',
+                NULL,
+                NULL,
+                '".$this->estado."',
+                '".$this->poliza."',
+                'Local');
+                ";
+        $save=$this->db->query($query);
+        if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+    }
      public function update()
     {
         $query="UPDATE packing_list SET numero_factura='".$this->numero_factura."',
@@ -236,7 +266,8 @@ function save()
         shipper='".$this->shipper."',
         id_nave='".$this->id_nave."',
         id_especificacion='".$this->id_especificacion."',
-        poliza='".$this->poliza."'";
+        poliza='".$this->poliza."',
+        tipo_ingreso='".$tipo_ingreso."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
@@ -256,7 +287,15 @@ function save()
 
     }
      public function selectALL(){
-        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre,packing_list.poliza from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion";
+        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre,packing_list.poliza,packing_list.tipo_ingreso from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion  WHERE packing_list.tipo_ingreso='Importacion'";
+        $selectall=$this->db->query($query);
+        
+        $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $ListPacking;
+    }
+     public function selectALL_Local(){
+        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre,packing_list.poliza,packing_list.tipo_ingreso from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion WHERE packing_list.tipo_ingreso='Local'";
         $selectall=$this->db->query($query);
         
         $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -274,6 +313,17 @@ function save()
     {
         $query="UPDATE packing_list SET 
         contenedores_ingresados='".$this->contenedores_ingresados."'
+         WHERE id_packing_list='".$this->id_packing_list."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+    } public function updateObservacion()
+    {
+        $query="UPDATE packing_list SET 
+       obervaciones='".$this->obervaciones."'
          WHERE id_packing_list='".$this->id_packing_list."'";
         $update=$this->db->query($query);
         if ($update==true) {

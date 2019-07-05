@@ -107,6 +107,63 @@ elseif ($accion=="Cerrar") {
 	}else{
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
+}elseif ($accion=="observacion") {
+	$id_packing_list =$_POST['id'];
+	$estado =$_POST['observacion'];
+	$pl= new Packing();
+			$pl->setObervaciones($estado);
+			$pl->setId_packing_list($id_packing_list);
+		    $update=$pl->updateObservacion();
+
+	if ($update==true) {
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		# code...
+	}else{
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+	}
+}
+
+//-------------------------------------------local-----------------------------
+elseif ($accion=="guardarLocal") 
+{
+	$numero_factura=$_POST['numfac'];
+	$codigo_embarque=NULL;
+	$razon_social=NULL;
+	$mes=$_POST['combomes'];
+	$fecha=$_POST['fecha'];
+	$contenedores_ingresados=NULL;
+	$paquetes=NULL;
+	$paquetes_fisicos=NULL;
+	$obervaciones=$_POST['observaciones'];
+	$shipper=$_POST['shipper'];
+	$id_nave=NULL;
+	$id_especificacion=NULL;
+	//$estado=$_POST['comboestado'];
+	$estado="Pendiente";
+
+	$Pack = new Packing();
+	$Pack->setNumero_factura($numero_factura);
+	$Pack->setCodigo_embarque($codigo_embarque);
+	$Pack->setRazon_social($razon_social);
+	$Pack->setMes($mes);
+	$Pack->setFecha($fecha);
+	$Pack->setTotal_contenedores(NULL);
+	$Pack->setContenedores_ingresados(NULL);
+	$Pack->setPaquetes(NULL);
+	$Pack->setPaquetes_fisicos(NULL);
+	$Pack->setObervaciones($obervaciones);
+	$Pack->setShipper($shipper);
+	$Pack->setId_nave($id_nave);
+	$Pack->setId_especificacion($id_especificacion);
+	$Pack->setEstado($estado);
+	$save=$Pack->saveLocal();
+	if ($save==true) {
+		header('Location: ../listas/IndexPackingList_Local.php?success=correcto');
+		# code...
+	}
+	else{
+		header('Location: ../listas/IndexPackingList_Local.php?error=incorrecto');
+	}
 }
 
 ?>

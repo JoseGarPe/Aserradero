@@ -239,6 +239,13 @@ class Paquetes extends conexion
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
+      public function selectALLpack4($codigo,$contenedor)
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_packing_list='".$codigo."' AND con.id_contenedor='".$contenedor."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
        public function selectPack_Bodega()
     {
         $query="SELECT p.id_paquete, p.piezas,p.id_material , p.etiqueta, pl.id_packing_list, pl.numero_factura,pl.shipper, m.nombre, b.nombre as bodega FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list  INNER JOIN materiales m on m.id_material = p.id_material INNER JOIN bodegas b on b.id_bodega=p.id_bodega WHERE p.stock > 0 AND p.estado='Confirmado'";
@@ -290,7 +297,7 @@ class Paquetes extends conexion
              $query1="SELECT * FROM paquetes WHERE etiqueta='".$this->etiqueta."'";
         $selectall=$this->db->query($query1);
         if ($selectall->num_rows==0) {
-             $query="UPDATE paquetes SET etiqueta='".$this->etiqueta."' estado='Confirmado' WHERE id_paquete='".$this->id_paquete."'";
+             $query="UPDATE paquetes SET etiqueta='".$this->etiqueta."' WHERE id_paquete='".$this->id_paquete."'";
             $update=$this->db->query($query);
             if ($update==true) {
                 return 'Disponible';

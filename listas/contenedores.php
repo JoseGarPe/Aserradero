@@ -243,7 +243,7 @@
                             if ($key['estado']== 'Sin Confirmar') {
                              echo'
                             <td>
-                                <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" factura="'.$factura.'" contenedorr="'.$contenedor.'" class="btn btn-info confirm_data"/>  
+                               <!-- <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" factura="'.$factura.'" contenedorr="'.$contenedor.'" class="btn btn-info confirm_data"/> -->  
                                    
                                      <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />
                             </td>';

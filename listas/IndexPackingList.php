@@ -253,9 +253,13 @@
         <ul class="dropdown-menu">
             <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
         <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
-        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>
+        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
+          if ($row['estado']== 'Cerrado') {
+            echo '
+        <li><input type="button" name="observacion" value="Observacion" id="'.$row["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
+          }
             
-        </ul>
+      echo '  </ul>
     </div>    
    <!-- </li>
 </ul>-->
@@ -303,6 +307,21 @@
                                                  <h4 class="modal-title">Detalle Packing</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
+                                            </div>  
+                                            <div class="modal-footer">  
+                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                            </div>  
+                                       </div>  
+                                  </div>  
+  </div> 
+  <div id="dataModal00" class="modal fade">  
+                                  <div class="modal-dialog">  
+                                       <div class="modal-content">  
+                                            <div class="modal-header">  
+                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                                 <h4 class="modal-title">Observacion</h4>  
+                                            </div>  
+                                            <div class="modal-body" id="employee_forms00">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -464,17 +483,17 @@ ga('send', 'pageview');
            }   
       });  
      
-      $(document).on('click', '.view_data', function(){  
+      $(document).on('click', '.view_obs', function(){  
            var employee_id = $(this).attr("id");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/selectUsuario.php",  
+                     url:"../views/observacion.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
-                          $('#employee_forms2').html(data);  
-                          $('#dataModal2').modal('show');  
+                          $('#employee_forms00').html(data);  
+                          $('#dataModal00').modal('show');  
                      }  
                 });  
            }            

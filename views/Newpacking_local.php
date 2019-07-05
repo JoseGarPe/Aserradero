@@ -227,7 +227,7 @@ session_start();
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/PackingControlador.php?accion=guardar" method="post">
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/PackingControlador.php?accion=guardarLocal" method="post">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Numero de Factura<span class="required"></span>
@@ -237,23 +237,7 @@ session_start();
                         </div>
                       </div>
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Codigo Embarque<span></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="codembarque" name="codembarque"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Razon Social<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="razonsocial" name="razonsocial"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
+                    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Mes<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -287,28 +271,8 @@ session_start();
                         </div>
                         </div>
                       </div>
-                      
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Nave Entrante<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control" name="id_nave" id="id_nave">
-                          <?php 
-                          require_once "../class/Naves.php";
-                          $misNaves = new Naves();
-                         $catego = $misNaves->selectALL();
-                          foreach ((array)$catego as $row) {
-                            echo "<option value='".$row['id_nave']."'>".$row['nombre']."</option>";
-                          } 
-                          ?>
-                          </select>
-                        </div>
-                      </div>
-
-
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Shipper<span class="required"></span>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Proveedor<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                         
@@ -324,56 +288,7 @@ session_start();
                           <input type="text" id="poliza" name="poliza"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Especificacion<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control" name="id_especificacion" id="id_especificacion">
-                          <?php 
-                          require_once "../class/Especificacion.php";
-                          $misEsp = new Especificacion();
-                         $catego = $misEsp->selectALL();
-                          foreach ((array)$catego as $row) {
-                            echo "<option value='".$row['id_especificacion']."'>".$row['nombre']."</option>";
-                          } 
-                          ?>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Total Contenedores<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="totconte" name="totconte"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-<!--
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Contenedores Ingresados<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="conteingre" name="conteingre"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
--->
-                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Packetes <span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="packetes" name="packetes"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Packetes Fisicos<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="packfisicos" name="packfisicos"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-
+                      
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Observaciones<span class="required"></span>
                         </label>
@@ -381,20 +296,7 @@ session_start();
                           <textarea id="observaciones" name="observaciones" class="form-control col-md-7 col-xs-12"></textarea>
                         </div>
                       </div>
-                        
-                      <!--
-                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Estado<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control" id="comboestado" name="comboestado">
-                          <option value="abierto">Abierto</option>
-                          <option value="pendiente">Pendiente</option>
-                          <option value="finalizado">Finalizado</option>
-                          </select>
-                        </div>
-                      </div>
--->
+                      
 
                     
                       <!-- /Botones  -->
@@ -472,7 +374,7 @@ session_start();
     $('#myDatepicker').datetimepicker();
     
     $('#myDatepicker2').datetimepicker({
-        format: 'YYYY.MM.DD'
+        format: 'YYYY-MM-DD'
     });
     
     $('#myDatepicker3').datetimepicker({

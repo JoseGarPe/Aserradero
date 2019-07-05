@@ -110,6 +110,15 @@ if ($accion=="modificar") {
   $campo_u=$_POST['campo_u'];
     }else{
         $campo_u=NULL;
+   }if (isset($_POST['campo_v'])) {
+  $campo_u=$_POST['campo_v'];
+    }else{
+        $campo_u=NULL;
+   }
+   if (isset($_POST['campo_x'])) {
+  $campo_u=$_POST['campo_x'];
+    }else{
+        $campo_u=NULL;
    }
     $Permisos = new Permisos();
     $Permisos->setId_tipo_usuario($id_tipo_usuario);
@@ -134,6 +143,8 @@ if ($accion=="modificar") {
     $Permisos->setCampo_s($campo_s);
     $Permisos->setCampo_t($campo_t);
     $Permisos->setCampo_u($campo_u);
+    $Permisos->setCampo_u($campo_v);
+    $Permisos->setCampo_u($campo_x);
     $Permisos->setId_permiso($id_Permisos);
     $update=$Permisos->update();
     if ($update==true) {
