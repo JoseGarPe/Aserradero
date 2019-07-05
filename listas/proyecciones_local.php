@@ -1,6 +1,6 @@
-<?php 
+<?php
   session_start();
- ?>
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +20,8 @@
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+        <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -27,10 +29,6 @@
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-        <!-- starrr -->
-    <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
-    <!-- bootstrap-daterangepicker -->
-    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 
     <!-- Custom Theme Style -->
@@ -110,7 +108,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Packing List - Local</h2>
+                    <h2>Proyecciones Por componente</h2>
 
 
                     
@@ -171,101 +169,112 @@
                     ';
                 }
             }
-             ?></div>
-
-
+             ?>
                   <div class="x_content">
-                    <a href="../views/Newpacking_local.php" class="btn btn-primary" role="button">Nueva Orden</a>
-                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO--> 
-                    <br>
-                    <br>
-                    <div id="employee_table">
-                    <table id="example5" class="table table-striped table-bordered" name="datatable-buttons">
-                      <thead>
-                        <tr>
-                          <th>N° </th>
-                          <th>Mes</th> 
-                          <th>Proveedor</th>
-                          <th>Fecha</th>
-                          <th>F.Ingreso</th>
-                          <th>F.Finalizado</th>
-                          <th>Estado</th>
-                          <th>Total m<sub>3</sub></th>
-                          <th>Factura</th>
-                          <th>Poliza</th>
-                          <th>Opiones</th>                         
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                         require_once "../class/PackingList.php";
+                  
+                  <table id="example" class="table table-bordered" name="datatable-buttons"> <!-- Lo cambiaremos por CSS -->
+                  <thead>
+                    <tr>
+                      <th>N°</th>
+                      <th>Mes</th>
+                      <th>Envio</th>
+                      <th>Fecha</th>
+                      <th>Madera</th>
+                      <th>Etiqueta</th>
+                      <th>Material</th>
+                      <th>Grosor</th>
+                      <th>Ancho</th>
+                      <th>Largo</th>
+                      <th>Piezas</th>
+                      <th>M<sup>3</sup></th>
+                      <th>Multiplo</th>
+                      <th>Tarima</th>
+                      <th>M<sup>3</sup> TOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php 
+                      require_once "../class/PackingList.php";
+                         require_once "../class/Paquetes.php";
+                         require_once "../class/Contenedor.php";
                          $misPacks = new Packing();
                          $todos = $misPacks->selectALL_Local();
-                        
-                           # code...
-                         
-                         foreach ((array)$todos as $row) {
-                          $fecha1= date_create($row['fecha']);
-                        //  $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
-                      //    foreach ($sumCub as $key) {
-                          //  $metro_cubico = $key['metro_cubico'];
-                          $metro_cubico = 3;
-                        //  }
-                         echo '
-                          <tr>
-                          <td>'.$row['id_packing_list'].'</td>
-                           <td>'.$row['mes'].'</td>
-                           <td>'.$row['shipper'].'</td>
-                           <td>'.date_format($fecha1, 'd/m/Y').'</td>';
-                           if ($row['fecha_inicio']!=NULL) {
-                            $date1=date_create($row['fecha_inicio']);
-                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
-                           }else{
-                            echo '<td></td>';
-                           }
-                           if ($row['fecha_cierre']!=NULL) {
-                            $date1=date_create($row['fecha_cierre']);
-                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
-                           }else{
-                            echo '<td></td>';
-                           }
-                    echo ' <td>'.$row['estado'].'</td>
-                          <td>'.$metro_cubico.' m<sub>3</sub></td>
-                          <td>'.$row['numero_factura'].'</td>
-                           <td>'.$row['poliza'].'</td>';
-                           
-                           echo '<td>
-<!-- <ul>
-   <li class="dropdown">-->
-   <div class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-menu-hamburger"></i><b class="caret"></b></a>
-        <ul class="dropdown-menu">
-            <li><input type="button" name="save" value="envio" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
-        <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
-        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>
+                            $mss = new Paquetes();
+                            
+                       foreach ($todos as $value) {
+                           $dato =1;
+                           $paquetes = $mss->selectALLpack($value['id_packing_list']);
+                           $TP = $misPacks->countPaquetes($value['id_packing_list']);
+                           foreach ($TP as $key) {
+                             $totalPaquetes = $key['total'];
+                             $totalMC = $key['metroCubic'];
+                            }// consulta de total de paquetes
+
+                           echo '<tr>';
+                            foreach ($paquetes as $a) {
+                            
+                              $contenedor = new  Contenedores();
+                              $tarimas= $a['multiplo'] * $a['metros_cubicos'];
+                              $datosC = $contenedor->selectOne($a['id_contenedor']);
+                                  foreach ($datosC as $b) {
+                                   $madera =$b['tipo_ingreso']; 
+                                  }
+                                if ($dato==1) {
+                        echo '
+                         <tr>
+                            <td rowspan="'.$totalPaquetes.'" style="vertical-align:middle;">'.$value['id_packing_list'].'</td>
+                            <td rowspan="'.$totalPaquetes.'" style="vertical-align:middle;">'.$value['mes'].'</td>
+                            <td>'.$a['contenedor'].'</td>
+                            <td rowspan="'.$totalPaquetes.'" style="vertical-align:middle;">'.$value['fecha'].'</td>
+                            <td>'.$madera.'</td>
+                            <td>'.$a['etiqueta'].'</td>
+                            <td>'.$a['material'].'</td>
+                            <td>'.$a['grueso'].'</td>
+                            <td>'.$a['ancho'].'</td>
+                            <td>'.$a['largo'].'</td>
+                            <td>'.$a['piezas'].'</td>
+                            <td>'.$a['metros_cubicos'].'</td>
+                            <td>'.$a['multiplo'].'</td>
+                            <td>'.round($tarimas).'</td>
+                            <td rowspan="'.$totalPaquetes.'"  style="vertical-align:middle;">'.$totalMC.'</td>
+                        </tr> ';
+                        $dato = $dato +1;
+                                }else{
+                                echo '
+                         <tr>
+                            <td>'.$a['contenedor'].'</td>
+                            
+                            <td>'.$madera.'</td>
+                            <td>'.$a['etiqueta'].'</td>
+                            <td>'.$a['material'].'</td>
+                            <td>'.$a['grueso'].'</td>
+                            <td>'.$a['ancho'].'</td>
+                            <td>'.$a['largo'].'</td>
+                            <td>'.$a['piezas'].'</td>
+                            <td>'.$a['metros_cubicos'].'</td>
+                            <td>'.$a['multiplo'].'</td>
+                            <td>'.round($tarimas).'</td>
+                            
+                        </tr> ';
+                        $dato = $dato +1;
+                                  
+                                } 
+                              
+                          }
+
+                            echo'  </tr> <!-- renglon mayor -->
+                            ';
+                         }  
+
+                     ?>
+            </tbody>
+        </table>
+                    
+                  </div>
+                </div> <!--X PANEL 1 -->
             
-        </ul>
-    </div>    
-   <!-- </li>
-</ul>-->
-
-
-
-
-                           </td>
-                          </tr>
-                         ';
-                       }
-                     
-                     
-                         ?>
-                      </tbody>
-                    </table>
-                  </div>
-                  </div>
-                </div>
               </div>
-        
+        </div>
         
         
             </div>
@@ -274,7 +283,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
+                                                 <h4 class="modal-title">Detalle Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_detail">  
                                             </div>  
@@ -289,7 +298,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
+                                                 <h4 class="modal-title">Detalle Nave</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -304,7 +313,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Orden</h4>  
+                                                 <h4 class="modal-title">Agregar Nueva Nave</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -319,24 +328,9 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Packing</h4>  
+                                                 <h4 class="modal-title">Eliminar Nave</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>  
-  </div>
-  <div id="dataModal5" class="modal fade">  
-                                  <div class="modal-dialog modal-lg">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Envios</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_forms5">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -350,7 +344,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nueva Orden</h4>  
+                     <h4 class="modal-title">Agregar Nueva Nave</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -373,6 +367,7 @@
           </div>
         </div>
     <!-- jQuery -->
+    
    <script src="../vendors/jquery/dist/jquery.min.js"></script>
    <!-- Bootstrap -->
    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -383,9 +378,12 @@
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
     <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <!--<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>-->
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+   <!-- <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
@@ -394,7 +392,7 @@
     <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>-->
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
@@ -470,31 +468,16 @@ ga('send', 'pageview');
       });  
 
         $(document).on('click', '.save_data', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
+           var employee_action = $(this).attr("accion");  
+           if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/contenedor/saveConts2.php",  
+                     url:"../views/naves/saveNaves.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id},  
+                     data:{employee_action:employee_action},  
                      success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
-                     }  
-                });  
-           }            
-      });
-         $(document).on('click', '.save_data1', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/contenedor/savePaquetes.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
+                          $('#employee_forms3').html(data);  
+                          $('#dataModal3').modal('show');  
                      }  
                 });  
            }            
@@ -506,22 +489,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/deletePacking.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms4').html(data);  
-                          $('#dataModal4').modal('show');  
-                     }  
-                });  
-           }   
-      });
-      $(document).on('click', '.finish_data', function(){  
-          var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/cerrarPackingList.php",  
+                     url:"../views/naves/deleteNave.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -535,22 +503,137 @@ ga('send', 'pageview');
  });  
 
 </script>
-        <script>
+  <script>
   $(function () {
     $('#example1').DataTable()
-    $('#example3').DataTable()
-    $('#example4').DataTable()
-    $('#example5').DataTable({
-      'paging'      : true,
-      'lengthChange': true,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : true,
-      'order'       : [[0, "desc"]]
-    })
-  })
+    
 </script>
+<script>
+  $(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
+         <script>
+    $('#myDatepicker').datetimepicker();
+    
+    $('#myDatepicker2').datetimepicker({
+        format: 'YYYY.MM.DD'
+    });
+    
+    $('#myDatepicker3').datetimepicker({
+          format: 'YYYY-MM-DD'
+    });
+     $('#myDatepicker33').datetimepicker({
+          format: 'YYYY-MM-DD'
+    });
+      $('#myDatepicker34').datetimepicker({
+          format: 'YYYY-MM-DD'
+    });
+    
+    $('#myDatepicker4').datetimepicker({
+        ignoreReadonly: true,
+        allowInputToggle: true
+    });
 
+    $('#datetimepicker6').datetimepicker();
+    
+    $('#datetimepicker7').datetimepicker({
+        useCurrent: false
+    });
+    
+    $("#datetimepicker6").on("dp.change", function(e) {
+        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    });
+    
+    $("#datetimepicker7").on("dp.change", function(e) {
+        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    });
+
+  
+</script>
+<script >
+  
+  function myFunction() {
+  var checkBox = document.getElementById("myCheck");
+  var fecha_i = document.getElementById("fechai");
+  var fecha_f = document.getElementById("fechaf");
+  var checkBox2 = document.getElementById("myCheck1");
+  var estado = document.getElementById("estado");
+  if (checkBox.checked == true){
+    fecha_i.style.display = "block";
+    fecha_f.style.display = "block";
+    checkBox2.checked=false;
+     estado.style.display = "none";
+     
+    
+  } else {
+     fecha_i.style.display = "none";
+     fecha_f.style.display = "none";
+     estado.style.display = "none";
+     
+  }
+}function myFunction1() {
+  var checkBox = document.getElementById("myCheck");
+  var fecha_i = document.getElementById("fechai");
+  var fecha_f = document.getElementById("fechaf");
+  var checkBox2 = document.getElementById("myCheck1");
+  var estado = document.getElementById("estado");
+  
+
+  if(checkBox2.checked == true){
+    estado.style.display = "block";
+    checkBox.checked=false;
+     fecha_i.style.display = "none";
+     fecha_f.style.display = "none";
+    
+  } else {
+     fecha_i.style.display = "none";
+     fecha_f.style.display = "none";
+     estado.style.display = "none";
+     
+  }
+}
+  function myFunction2() {
+  var checkBox1 = document.getElementById("myCheck2");
+  var fecha_ip = document.getElementById("fechaip");
+  var fecha_fp = document.getElementById("fechafp");
+  var checkBox3 = document.getElementById("myCheck3");
+  var estadop = document.getElementById("estadop");
+  if (checkBox1.checked == true){
+    fecha_ip.style.display = "block";
+    fecha_fp.style.display = "block";
+    checkBox3.checked=false;
+     estadop.style.display = "block";
+     
+    
+  } else {
+     fecha_ip.style.display = "none";
+     fecha_fp.style.display = "none";
+     estadop.style.display = "none";
+     
+  }
+}
+function myFunction3() {
+  var checkBox1 = document.getElementById("myCheck2");
+  var fecha_ip = document.getElementById("fechaip");
+  var fecha_fp = document.getElementById("fechafp");
+  var checkBox3 = document.getElementById("myCheck3");
+  var estadop = document.getElementById("estadop");
+  
+
+  if(checkBox3.checked == true){
+    estadop.style.display = "block";
+    checkBox1.checked=false;
+     fecha_ip.style.display = "none";
+     fecha_fp.style.display = "none";
+    
+  } else {
+     fecha_ip.style.display = "none";
+     fecha_fp.style.display = "none";
+     estadop.style.display = "none";
+     
+  }
+}
+</script>
     </body>
 </html>

@@ -80,6 +80,40 @@ elseif ($accion=="guardar")
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
+elseif ($accion=="guardarLocal") 
+{
+	$etiqueta=$_POST['etiqueta'];
+  	$id_packing_list =$_POST['id_packing_list'];
+	$tipo_ingreso=$_POST['tipo_ingreso'];
+
+  
+
+	$Contenedor = new Contenedores();
+	$primer_cont = $Contenedor->FstContenedor($id_packing_list);
+
+	$Contenedor->setEtiqueta($etiqueta);
+	$Contenedor->setTipo_ingreso($tipo_ingreso);
+	$Contenedor->setId_packing_list($id_packing_list);
+	$Contenedor->setEstado("Sin Confirmar");
+	$save=$Contenedor->saveEnvio();
+	if ($save==true) {
+		if ($primer_cont== "Primer Contenedor") {
+			$estado="Abierto";
+			$pl= new Packing();
+			$pl->setEstado($estado);
+			$pl->setId_packing_list($id_packing_list);
+			$vari = 'Primero';
+			$update1=$pl->updateStatu($vari);
+
+		}
+		
+		header('Location: ../listas/IndexPackingList_Local.php?success=correcto');
+		# code...
+	}
+	else{
+		header('Location: ../listas/IndexPackingList_Local.php?error=incorrecto');
+	}
+}
 elseif ($accion=="confirmar") {
 	$id_paquete =$_POST['id'];
 	$id_bodega =$_POST['id_bodega'];

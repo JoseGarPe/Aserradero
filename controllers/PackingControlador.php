@@ -64,6 +64,7 @@ elseif ($accion=="guardar")
 	$obervaciones=$_POST['observaciones'];
 	$shipper=$_POST['shipper'];
 	$id_nave=$_POST['id_nave'];
+	$poliza=$_POST['poliza'];
 	$id_especificacion=$_POST['id_especificacion'];
 	//$estado=$_POST['comboestado'];
 	$estado="Pendiente";
@@ -83,6 +84,7 @@ elseif ($accion=="guardar")
 	$Pack->setId_nave($id_nave);
 	$Pack->setId_especificacion($id_especificacion);
 	$Pack->setEstado($estado);
+	$Pack->setPoliza($poliza);
 	$save=$Pack->save();
 	if ($save==true) {
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
@@ -136,6 +138,7 @@ elseif ($accion=="guardarLocal")
 	$paquetes_fisicos=NULL;
 	$obervaciones=$_POST['observaciones'];
 	$shipper=$_POST['shipper'];
+	$poliza=$_POST['poliza'];
 	$id_nave=NULL;
 	$id_especificacion=NULL;
 	//$estado=$_POST['comboestado'];
@@ -156,6 +159,7 @@ elseif ($accion=="guardarLocal")
 	$Pack->setId_nave($id_nave);
 	$Pack->setId_especificacion($id_especificacion);
 	$Pack->setEstado($estado);
+	$Pack->setPoliza($poliza);
 	$save=$Pack->saveLocal();
 	if ($save==true) {
 		header('Location: ../listas/IndexPackingList_Local.php?success=correcto');

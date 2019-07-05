@@ -66,7 +66,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                           <li><a href="../listas/IndexPackingList_local.php">Local</a></li>
                           <li><a href="../listas/IndexPackingList.php">Por Barco</a></li>
                           <li><a href="../listas/contenedores.php">Confirmar Paquetes</a></li>
-                          <li><a href="../listas/proyecciones.php">Proyecciones</a></li>                      
+                          <li><a href="../listas/proyecciones.php">Proyecciones</a></li>  
+                          <li><a href="../listas/proyecciones_local.php">Proyecciones Locales</a></li>                      
                         </ul>
                       </li>
                       <?php 

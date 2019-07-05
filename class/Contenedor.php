@@ -90,7 +90,7 @@ class Contenedores extends conexion
     }
     public function saveEnvio(){
 
-        $query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado,tipo_ingreso) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."')";
+        $query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado,tipo_ingreso) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."','".$this->tipo_ingreso."')";
         $save=$this->db->query($query);
         if ($save==true) {
             return true;
@@ -100,6 +100,7 @@ class Contenedores extends conexion
 
 
     }
+
 
     public function save2(){
 
