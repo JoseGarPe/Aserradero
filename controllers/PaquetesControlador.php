@@ -50,6 +50,7 @@ elseif ($accion=="guardar")
   	$id_material =$_POST['id_materiales'];
   	$id_bodega =$_POST['id_bodega'];
   	$id_contenedor =$_POST['id_contenedor'];
+  	$etiquetaCooo =$_POST['etiquetaCoo'];
   	$largo =$_POST['largo'];
   	$ancho =$_POST['ancho'];
   	$grueso =$_POST['grueso'];
@@ -74,7 +75,7 @@ elseif ($accion=="guardar")
 	$Paquetes->setEstado("Sin Confirmar");
 	$save=$Paquetes->save();
 	if ($save==true) {
-		header('Location: ../views/savePaquetee.php?success=correcto&id='.$id_packing_list.'');
+		header('Location: ../views/savePaquetee.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetCo='.$etiquetaCooo.'');
 		# code...
 	}
 	else{

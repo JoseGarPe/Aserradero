@@ -108,11 +108,24 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Lista de Paquetes de la orden: </h2>
+                    <h2>Lista de Paquetes: </h2>
+                    <br><br>
+                    <table class="table table-striped">
+                      <thead>
+                        <tr><th>Orden</th><th>Contenedor</th><th>ID</th></tr>
+                      </thead>
+                      <tbody>
+
                     <?php 
                     $codigo=$_GET['id'];
-                    echo '<strong><h1>'.$codigo.'</h1></strong>';
+                    $conten=$_GET['contenedor'];
+                    $etic=$_GET['etiquetaCo'];
+                    echo '<tr><td><strong>'.$codigo.'</strong></td><td>'.$etic.'</td><td>'.$conten.'</td></tr>';
                      ?>
+                        <tr></tr>
+                      </tbody>
+                    </table>
+                    
 
                     
                     <ul class="nav navbar-right panel_toolbox">
@@ -180,9 +193,22 @@
                       <a href="../listas/IndexPackingList.php" class="btn btn-warning">Volver a Ingresos</a>
                       <div class="col-xs-12 col-xs-12 col-md-12">
                         <?php 
-                          require_once "../class/PackingList.php";
+                          require_once "../class/PackingList.php";                       
+                          require_once "../class/Contenedor.php";
+
                           $packing = new Packing();
                           $orden = $packing->SelectOne($codigo);
+                           $material = new Contenedores();
+                                  $catego1 = $material->selectOne($conten);
+                                  foreach ($catego1 as $k) {
+                                    $fechaPaquete=$k['fecha_ingreso'];
+                                    $bodegaPaquete=$k['id_bodega'];
+                                  $bodega = $material->selectBodega($bodegaPaquete);
+                                  foreach ($bodega as $value) {
+                                    $nombreBodega=$value['nombre'];
+                                    }
+                                  }
+
                          foreach ($orden as $key) {
                            $estado = $key['estado'];
                          }
@@ -201,7 +227,6 @@
                             <th>Multiplo</th>
                             <th>Fecha Ingreso</th>
                             <th>Bodega Destino</th>
-                            <th>Conetendor</th>
                             </tr></thead>
                             <tbody>
                             <tr>
@@ -218,6 +243,7 @@
 
                           } 
 
+
                     
                           ?>
                           </select></td>
@@ -227,28 +253,32 @@
                               <td ><input type="number"  min="0.00" step="0.0000000001" id="largo" name="largo"  class="form-control col-sm-4"></td>
                               <td><input type="number" id="piezas" name="piezas" min="0.00" step="1"  class="form-control col-md-7"></td>
                               <td><input type="number" id="multiplo" name="multiplo"  min="0.00" step="0.00000000001"  class="form-control col-md-7"></td>
-                              <td>  
-                               <div id="datos2"></div>
+                              <td>  <?php 
+                              echo $fechaPaquete;
+                               ?>
                               </td>
-                              <td>
-                                <div id="datos3"></div>
+                            <td>
+                                <!-- <div id="datos3"></div> -->
+                                <?php
+                                 echo $nombreBodega;
+                                 echo '<input type="hidden" name="id_contenedor" value="'.$conten.'">
+                                 <input type="hidden" id="id_bodega" name="id_bodega" value="'.$bodegaPaquete.'">
+                                 <input type="hidden" class="form-control" name="fecha" id="fecha" value="'.$fechaPaquete.'"/>
+                                 <input type="hidden" id="etiquetaCoo" name="etiquetaCoo" value="'.$etiquetaCo.'">'; 
+                                 ?>
                               </td>
-                              <td><select class="form-control" onchange="mostrarInfo(this.value)" name="id_contenedor" id="id_contenedor">
+                              <!--  <td><select class="form-control" onchange="mostrarInfo(this.value)" name="id_contenedor" id="id_contenedor">
                           <option>Seleccione una opcion</option>
                           <?php 
-                          require_once "../class/Contenedor.php";
+                      /*   require_once "../class/Contenedor.php";
 
-                        $mistipo2s = new Contenedores();
+                        /$mistipo2s = new Contenedores();
                          $catego = $mistipo2s->selectALLpack($codigo);
-                          foreach ((array)$catego as $rowss) {
-
+                          //foreach ((array)$catego as $rowss) {
                             echo "<option value='".$rowss['id_contenedor']."'>".$rowss['etiqueta']."</option>";
-
-                          } 
-
-                    
-                          ?>
-                          </select></td>
+                          } */
+                              ?>
+                          </select></td> -->
                             </tr>
                             </tbody>
                           </table>
@@ -553,7 +583,7 @@ ga('send', 'pageview');
 
         var ancho = $("#ancho").val();
         var grueso = $("#grueso").val();
-        var metro_cubico = (piezas * largo * ancho * grueso*multiplo)/1000000000;
+        var metro_cubico = (piezas * largo * ancho * grueso)/1000000000;
        
         $("#metros_cubicos").val(metro_cubico);
     });

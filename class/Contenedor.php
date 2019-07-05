@@ -237,6 +237,15 @@ class Contenedores extends conexion
        $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListContenedores;
     }
+    
+    public function selectBodega($codigo){
+        $query="SELECT * FROM bodegas WHERE id_bodega='".$codigo."' ";
+        $selectall=$this->db->query($query);
+        
+        $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $ListContenedores;
+    }
 
 }
 

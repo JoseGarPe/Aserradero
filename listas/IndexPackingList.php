@@ -190,6 +190,7 @@
                           <th>Nave</th>
                           <th>F.Ingreso</th>
                           <th>F.Finalizado</th>
+                          <th>Especificacion</th>
                           <th>Contenedores</th>
                           <th>Recibidos</th> 
                           <th>Estado</th>
@@ -211,18 +212,17 @@
                          
                          foreach ((array)$todos as $row) {
                           $fecha1= date_create($row['fecha']);
+                          $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
+                          foreach ($sumCub as $key) {
+                            $metro_cubico = $key['metro_cubico'];
+                          }
                          echo '
                           <tr>
                           <td>'.$row['id_packing_list'].'</td>
                            <td>'.$row['mes'].'</td>
                            <td>'.$row['shipper'].'</td>
                            <td>'.date_format($fecha1, 'd/m/Y').'</td>
-                           <td>'.$row['nav'].'</td>
-                           <td>'.$row['numero_factura'].'</td>
-                           <td>'.$row['codigo_embarque'].'</td>
-                           <td>'.$row['total_contenedores'].'</td>
-                           <td>'.$row['contenedores_ingresados'].'</td>
-                           <td>'.$row['estado'].'</td>';
+                           <td>'.$row['nav'].'</td>';
                            if ($row['fecha_inicio']!=NULL) {
                             $date1=date_create($row['fecha_inicio']);
                              echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
@@ -235,16 +235,30 @@
                            }else{
                             echo '<td></td>';
                            }
+                    echo ' <td>'.$row['esp'].'</td>
+                           <td>'.$row['total_contenedores'].'</td>
+                           <td>'.$row['contenedores_ingresados'].'</td>
+                           <td>'.$row['estado'].'</td>
+                          <td>'.$metro_cubico.' m<sub>3</sub></td>
+                          <td>'.$row['numero_factura'].'</td>
+                           <td>'.$row['codigo_embarque'].'</td>
+                           <td>'.$row['poliza'].'</td>
+                           <td>'.$row['razon_social'].'</td>';
+                           
                            echo '<td>
-                            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                                <ul class="nav navbar-nav">
-                                    <li><a href="../views/savePaquetee.php?id='.$row["id_packing_list"].'" class="btn btn-warning">Paquetes</a>
-                                    </li>
-                                    <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
-                                    <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
-                                    <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>
-                                </ul>
-                              </div>
+<!-- <ul>
+   <li class="dropdown">-->
+   <div class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-menu-hamburger"></i><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
+        <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
+        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>
+            
+        </ul>
+    </div>    
+   <!-- </li>
+</ul>-->
 
 
 
