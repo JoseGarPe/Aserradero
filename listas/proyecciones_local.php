@@ -27,6 +27,8 @@
 
    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />  
    <!-- <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">-->
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
@@ -189,8 +191,10 @@ table {
              ?>
                   <div class="x_content">
                
+
         <label>TABLA PRUEBA</label>
-         <table id="example3" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
+        <div class="col-xs-12">
+          <table id="example4" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
                   <thead>
                       <th>N°</th>
                       <th>Mes</th>
@@ -225,89 +229,45 @@ table {
                              $totalPaquetes = $key['total'];
                              $totalMC = $key['metroCubic'];
                             }// consulta de total de paquetes
-                                 echo '
-                         <tr>
-                            <td>'.$value['id_packing_list'].'</td>
-                            <td>'.$value['mes'].'</td>';
-                           echo '<td><ul>';
-                            foreach ($paquetes as $a) {
-                           echo '<li>'.$a['contenedor'].'</li>';
-                          }
-                          echo'</ul></td>';
 
-                           echo ' <td>'.$value['fecha'].'</td>';
-                           echo '<td><ul>';
-                            foreach ($paquetes as $a1) {
-                               $contenedor = new  Contenedores();
-                                $datosC = $contenedor->selectOne($a1['id_contenedor']);
+                            foreach ($paquetes as $a) {
+                            
+                              $contenedor = new  Contenedores();
+                              $tarimas= $a['multiplo'] * $a['metros_cubicos'];
+                              $datosC = $contenedor->selectOne($a['id_contenedor']);
                                   foreach ($datosC as $b) {
                                    $madera =$b['tipo_ingreso']; 
                                   }
-                           echo '<li>'.$madera.'</li>';
+                                
+                        echo '
+                         <tr>
+                            <td style="vertical-align:middle;">'.$value['id_packing_list'].'</td>
+                            <td>'.$value['mes'].'</td>
+                            <td style="vertical-align:middle;">'.$a['contenedor'].'</td>
+                            <td style="vertical-align:middle;">'.$value['fecha'].'</td>
+                            <td>'.$madera.'</td>
+                            <td>'.$a['etiqueta'].'</td>
+                            <td>'.$a['material'].'</td>
+                            <td>'.$a['grueso'].'</td>
+                            <td>'.$a['ancho'].'</td>
+                            <td>'.$a['largo'].'</td>
+                            <td>'.$a['piezas'].'</td>
+                            <td>'.$a['metros_cubicos'].'</td>
+                            <td>'.$a['multiplo'].'</td>
+                            <td>'.round($tarimas).'</td>
+                            <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
+                        </tr> ';
+                                
+                                
+                              
                           }
-                          echo'</ul></td>';
 
-                         echo '<td><ul>';
-                            foreach ($paquetes as $a2) {
-                           echo '<li>'.$a2['etiqueta'].'</li>';
-                          }
-                          echo'</ul></td>';
-
-                           echo '<td><ul>';
-                            foreach ($paquetes as $a3) {
-                           echo '<li>'.$a3['material'].'</li>';
-                          }
-                          echo'</ul></td>';
-
-                           echo '<td><ul>';
-                            foreach ($paquetes as $a4) {
-                           echo '<li>'.$a4['grueso'].'</li>';
-                          }
-                          echo'</ul></td>';
-
-                           echo '<td><ul>';
-                            foreach ($paquetes as $a5) {
-                           echo '<li>'.$a5['ancho'].'</li>';
-                          }
-                          echo'</ul></td>';
-
-                           echo '<td><ul>';
-                            foreach ($paquetes as $a6) {
-                           echo '<li>'.$a6['largo'].'</li>';
-                          }
-                          echo'</ul></td>';
-
-                           echo '<td><ul>';
-                            foreach ($paquetes as $a7) {
-                           echo '<li>'.$a7['piezas'].'</li>';
-                          }
-                          echo'</ul></td>';
-
-                           echo '<td><ul>';
-                            foreach ($paquetes as $a8) {
-                           echo '<li>'.$a8['metros_cubicos'].'</li>';
-                          }
-                          echo'</ul></td>';
-
-                           echo '<td><ul>';
-                            foreach ($paquetes as $a9) {
-                           echo '<li>'.$a9['multiplo'].'</li>';
-                          }
-                          echo'</ul></td>';
-
-                         echo '<td><ul>';
-                            foreach ($paquetes as $a21) {
-                              $tarimas= $a21['multiplo'] * $a21['metros_cubicos'];
-                           echo '<li>'.round($tarimas).'</li>';
-                          }
-                          echo'</ul></td>';
-                            echo ' <td>'.$totalMC.'</td>
-                        </tr>';
                          }  
 
                      ?>
             </tbody>
         </table>
+      </div>
                     
                   </div>
                 </div> <!--X PANEL 1 -->
@@ -423,6 +383,7 @@ table {
 
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>-->
 
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
       <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -431,6 +392,8 @@ table {
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
+
+    <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
 
 
    <!-- <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
@@ -597,6 +560,71 @@ ga('send', 'pageview');
             'colvis'
         ]
     } );
+    $('#example2').DataTable( {
+        order: [[0, 'asc']],
+        rowGroup: {
+            startRender: null,
+            endRender: function ( rows, group ) {
+                var salaryAvg = rows
+                    .data()
+                    .pluck(11)
+                    .reduce( function (a, b) {
+                        return a + b.replace(/[^\d]/g, '')*1;
+                    }, 0) / rows.count();
+                salaryAvg = $.fn.dataTable.render.number(',', '.', 0, '$').display( salaryAvg );
+ 
+                var ageAvg = rows
+                    .data()
+                    .pluck(11)
+                    .reduce( function (a, b) {
+                        return a + b*1;
+                    }, 0) / rows.count();
+ 
+               return $('<tr/>')
+                    .append( '<td colspan="3">Total M<sup>3</sup> Orden'+group+'</td>' )
+                    .append( '<td></td>' )
+                    .append( '<td/>' )
+                    .append( '<td>'+salaryAvg+'</td>' );
+            },
+            dataSrc: 0
+        }
+    } );
+    $('#example4').DataTable( {
+        order: [[0, 'asc']],
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      responsive: true,
+      'autoWidth'   : true,
+        rowsGroup:[0,14,3,2],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
+       
+    } );
+
 } );
 </script>
          <script>

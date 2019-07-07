@@ -27,6 +27,9 @@
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />  
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />  
+
         <!-- starrr -->
     <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
@@ -180,7 +183,8 @@
                     <br>
                     <br>
                     <div id="employee_table">
-                    <table id="example5" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="example6" class="table table-striped table-bordered" name="datatable-buttons">
+                      <h1><caption>Segun Factura:</caption></h1>
                       <thead>
                         <tr>
                           <th>N° </th>
@@ -413,7 +417,11 @@
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
     <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
+
+    <!--<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>-->
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
@@ -580,6 +588,54 @@ ga('send', 'pageview');
       'order'       : [[0, "desc"]]
     })
   })
+</script>
+<script>
+  $(document).ready(function() {
+    $('#example2').DataTable( {
+        order: [[12, 'asc']],
+        rowGroup: {
+            startRender: null,
+            endRender: function ( rows, group ) {
+                var salaryAvg = rows
+                    .data()
+                    .pluck(5)
+                    .reduce( function (a, b) {
+                        return a + b.replace(/[^\d]/g, '')*1;
+                    }, 0) / rows.count();
+                salaryAvg = $.fn.dataTable.render.number(',', '.', 0, '$').display( salaryAvg );
+ 
+                var ageAvg = rows
+                    .data()
+                    .pluck(3)
+                    .reduce( function (a, b) {
+                        return a + b*1;
+                    }, 0) / rows.count();
+ 
+               return $('<tr/>')
+                    .append( '<td colspan="3">Averages for '+group+'</td>' )
+                    .append( '<td>'+ageAvg.toFixed(0)+'</td>' )
+                    .append( '<td/>' )
+                    .append( '<td>'+salaryAvg+'</td>' );
+            },
+            dataSrc: 12
+        }
+    } );
+
+      $('#example6').DataTable( {
+        order: [[12, 'asc']],
+        rowGroup: {
+            endRender: function ( rows, group ) {
+                var avg = rows
+                    .data()
+                    .pluck(5)
+                    .reduce( function (a, b) {
+                        return a + b.replace(/[^\d]/g, 'Factura:')*1;
+                    }, 0) / rows.count();
+            },
+            dataSrc: 12
+        }
+    } );
+} );
 </script>
 
     </body>

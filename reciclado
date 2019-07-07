@@ -98,3 +98,128 @@
                      ?>
             </tbody>
         </table>
+        ----------------------------------------------------------------------
+rowsgroup
+                return 'Avge salary in era'+group+': '+
+                    $.fn.dataTable.render.number(',', '.', 0, '$').display( avg );
+
+
+
+                             <table id="example3" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
+                  <thead>
+                      <th>N°</th>
+                      <th>Mes</th>
+                      <th>Envio</th>
+                      <th>Fecha</th>
+                      <th>Madera</th>
+                      <th>Etiqueta</th>
+                      <th>Material</th>
+                      <th>Grosor</th>
+                      <th>Ancho</th>
+                      <th>Largo</th>
+                      <th>Piezas</th>
+                      <th>M<sup>3</sup></th>
+                      <th>Multiplo</th>
+                      <th>Tarima</th>
+                      <th>M<sup>3</sup> TOTAL</th>
+                  </thead>
+                  <tbody>
+                    <?php 
+                      require_once "../class/PackingList.php";
+                         require_once "../class/Paquetes.php";
+                         require_once "../class/Contenedor.php";
+                         $misPacks = new Packing();
+                         $todos = $misPacks->selectALL_Local();
+                            $mss = new Paquetes();
+                            
+                       foreach ($todos as $value) {
+                           $dato =1;
+                           $paquetes = $mss->selectALLpack($value['id_packing_list']);
+                           $TP = $misPacks->countPaquetes($value['id_packing_list']);
+                           foreach ($TP as $key) {
+                             $totalPaquetes = $key['total'];
+                             $totalMC = $key['metroCubic'];
+                            }// consulta de total de paquetes
+                                 echo '
+                         <tr>
+                            <td>'.$value['id_packing_list'].'</td>
+                            <td>'.$value['mes'].'</td>';
+                           echo '<td><ul>';
+                            foreach ($paquetes as $a) {
+                           echo '<li>'.$a['contenedor'].'</li>';
+                          }
+                          echo'</ul></td>';
+
+                           echo ' <td>'.$value['fecha'].'</td>';
+                           echo '<td><ul>';
+                            foreach ($paquetes as $a1) {
+                               $contenedor = new  Contenedores();
+                                $datosC = $contenedor->selectOne($a1['id_contenedor']);
+                                  foreach ($datosC as $b) {
+                                   $madera =$b['tipo_ingreso']; 
+                                  }
+                           echo '<li>'.$madera.'</li>';
+                          }
+                          echo'</ul></td>';
+
+                         echo '<td><ul>';
+                            foreach ($paquetes as $a2) {
+                           echo '<li>'.$a2['etiqueta'].'</li><br>';
+                          }
+                          echo'</ul></td>';
+
+                           echo '<td><ul>';
+                            foreach ($paquetes as $a3) {
+                           echo '<li>'.$a3['material'].'</li><br>';
+                          }
+                          echo'</ul></td>';
+
+                           echo '<td><ul>';
+                            foreach ($paquetes as $a4) {
+                           echo '<li>'.$a4['grueso'].'</li><br>';
+                          }
+                          echo'</ul></td>';
+
+                           echo '<td><ul>';
+                            foreach ($paquetes as $a5) {
+                           echo '<li>'.$a5['ancho'].'</li><br>';
+                          }
+                          echo'</ul></td>';
+
+                           echo '<td><ul>';
+                            foreach ($paquetes as $a6) {
+                           echo '<li>'.$a6['largo'].'</li><br>';
+                          }
+                          echo'</ul></td>';
+
+                           echo '<td><ul>';
+                            foreach ($paquetes as $a7) {
+                           echo '<li>'.$a7['piezas'].'</li><br>';
+                          }
+                          echo'</ul></td>';
+
+                           echo '<td><ul>';
+                            foreach ($paquetes as $a8) {
+                           echo '<li>'.$a8['metros_cubicos'].'</li><br>';
+                          }
+                          echo'</ul></td>';
+
+                           echo '<td><ul>';
+                            foreach ($paquetes as $a9) {
+                           echo '<li>'.$a9['multiplo'].'</li><br>';
+                          }
+                          echo'</ul></td>';
+
+                         echo '<td><ul>';
+                            foreach ($paquetes as $a21) {
+                              $tarimas= $a21['multiplo'] * $a21['metros_cubicos'];
+                           echo '<li>'.round($tarimas).'</li><br>';
+                          }
+                          echo'</ul></td>';
+                            echo ' <td>'.$totalMC.'</td>
+                        </tr>';
+                         }  
+
+                     ?>
+            </tbody>
+        </table>
