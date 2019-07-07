@@ -1,0 +1,100 @@
+--------------- reciclado de proyecciones locales -----------------------------
+   
+                  <table id="example" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
+                  <thead>
+                      <th>N°</th>
+                      <th>Mes</th>
+                      <th>Envio</th>
+                      <th>Fecha</th>
+                      <th>Madera</th>
+                      <th>Etiqueta</th>
+                      <th>Material</th>
+                      <th>Grosor</th>
+                      <th>Ancho</th>
+                      <th>Largo</th>
+                      <th>Piezas</th>
+                      <th>M<sup>3</sup></th>
+                      <th>Multiplo</th>
+                      <th>Tarima</th>
+                      <th>M<sup>3</sup> TOTAL</th>
+                  </thead>
+                  <tbody>
+                    <?php 
+                      require_once "../class/PackingList.php";
+                         require_once "../class/Paquetes.php";
+                         require_once "../class/Contenedor.php";
+                         $misPacks = new Packing();
+                         $todos = $misPacks->selectALL_Local();
+                            $mss = new Paquetes();
+                            
+                       foreach ($todos as $value) {
+                           $dato =1;
+                           $paquetes = $mss->selectALLpack($value['id_packing_list']);
+                           $TP = $misPacks->countPaquetes($value['id_packing_list']);
+                           foreach ($TP as $key) {
+                             $totalPaquetes = $key['total'];
+                             $totalMC = $key['metroCubic'];
+                            }// consulta de total de paquetes
+
+                           echo '<tr>';
+                            foreach ($paquetes as $a) {
+                            
+                              $contenedor = new  Contenedores();
+                              $tarimas= $a['multiplo'] * $a['metros_cubicos'];
+                              $datosC = $contenedor->selectOne($a['id_contenedor']);
+                                  foreach ($datosC as $b) {
+                                   $madera =$b['tipo_ingreso']; 
+                                  }
+                                if ($dato==1) {
+                        echo '
+                         <tr>
+                            <td rowspan="'.$totalPaquetes.'" style="vertical-align:middle;">'.$value['id_packing_list'].'</td>
+                            <td rowspan="'.$totalPaquetes.'" style="vertical-align:middle;">'.$value['mes'].'</td>
+                            <td>'.$a['contenedor'].'</td>
+                            <td rowspan="'.$totalPaquetes.'" style="vertical-align:middle;">'.$value['fecha'].'</td>
+                            <td>'.$madera.'</td>
+                            <td>'.$a['etiqueta'].'</td>
+                            <td>'.$a['material'].'</td>
+                            <td>'.$a['grueso'].'</td>
+                            <td>'.$a['ancho'].'</td>
+                            <td>'.$a['largo'].'</td>
+                            <td>'.$a['piezas'].'</td>
+                            <td>'.$a['metros_cubicos'].'</td>
+                            <td>'.$a['multiplo'].'</td>
+                            <td>'.round($tarimas).'</td>
+                            <td rowspan="'.$totalPaquetes.'"  style="vertical-align:middle;">'.$totalMC.'</td>
+                        </tr> ';
+                        $dato = $dato +1;
+                                }else{
+                                echo '
+                         <tr>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td>'.$a['contenedor'].'</td>
+                            <td style="display: none;"></td>                            
+                            <td>'.$madera.'</td>
+                            <td>'.$a['etiqueta'].'</td>
+                            <td>'.$a['material'].'</td>
+                            <td>'.$a['grueso'].'</td>
+                            <td>'.$a['ancho'].'</td>
+                            <td>'.$a['largo'].'</td>
+                            <td>'.$a['piezas'].'</td>
+                            <td>'.$a['metros_cubicos'].'</td>
+                            <td>'.$a['multiplo'].'</td>
+                            <td>'.round($tarimas).'</td>
+                            <td style="display: none;"></td>
+                            
+                        </tr> ';
+                        $dato = $dato +1;
+                                  
+                                } 
+                              
+                          }
+
+                            echo'  </tr> <!-- renglon mayor -->
+                            ';
+                         }  
+
+                     ?>
+            </tbody>
+        </table>
