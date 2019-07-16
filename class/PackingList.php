@@ -21,6 +21,7 @@ private $estado;
 private $shipper;
 private $poliza;
 private $tipo_ingreso;
+private $correlativo;
 
 public function __construct()
 {
@@ -44,6 +45,7 @@ public function __construct()
         $this ->shipper="";
         $this ->poliza="";
         $this ->tipo_ingreso="";
+        $this ->correlativo="";
         
 
 }
@@ -188,6 +190,13 @@ public function getPoliza() {
         $this->tipo_ingreso = $tipo_ingreso;
     }
 
+    public function getCorrelativo() {
+        return $this->correlativo;
+    }
+
+    public function setCorrelativo($correlativo) {
+        $this->correlativo = $correlativo;
+    }
 
 
 
