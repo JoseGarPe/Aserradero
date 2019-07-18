@@ -254,6 +254,21 @@ function save()
             return false;
         }  
     }
+     public function FstContenedor($codigo){
+
+     
+        $query="SELECT * FROM contenedores  WHERE id_packing_list='".$codigo."'";
+        $selectall=$this->db->query($query);
+   //    $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
+     //   return $ListContenedores;
+          if ($selectall->num_rows==0) {
+            return "Primer Contenedor";
+          }
+          else{
+            return "Existentes";
+          }
+
+    }
 
     
 

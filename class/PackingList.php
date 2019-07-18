@@ -21,6 +21,7 @@ private $estado;
 private $shipper;
 private $poliza;
 private $tipo_ingreso;
+private $correlativo;
 
 public function __construct()
 {
@@ -44,6 +45,7 @@ public function __construct()
         $this ->shipper="";
         $this ->poliza="";
         $this ->tipo_ingreso="";
+        $this ->correlativo="";
         
 
 }
@@ -188,6 +190,13 @@ public function getPoliza() {
         $this->tipo_ingreso = $tipo_ingreso;
     }
 
+    public function getCorrelativo() {
+        return $this->correlativo;
+    }
+
+    public function setCorrelativo($correlativo) {
+        $this->correlativo = $correlativo;
+    }
 
 
 
@@ -287,7 +296,7 @@ public function saveLocal()
 
     }
      public function selectALL(){
-        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre,packing_list.poliza,packing_list.tipo_ingreso from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion  WHERE packing_list.tipo_ingreso='Importacion'";
+        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre,packing_list.poliza,packing_list.correlativo,packing_list.tipo_ingreso from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion  WHERE packing_list.tipo_ingreso='Importacion'";
         $selectall=$this->db->query($query);
         
         $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -382,7 +391,42 @@ public function saveLocal()
        
     }
     
+public function updateCorrelativo($packing_list,$year,$mes,$c)
+    {
+        $correlativo_pl= $mes."/".$year."-".$c;
 
+        $query="SELECT * FROM packing_list  WHERE correlativo='".$correlativo_pl."'";
+        $selectall=$this->db->query($query);
+   //    $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
+     //   return $ListContenedores;
+          if ($selectall->num_rows==0) {
+
+
+                    $query="SELECT DAY(fecha) as dia FROM packing_list WHERE id_packing_list ='".$codigo."'";
+                    $selectall=$this->db->query($query);
+                   $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+                   foreach ($ListPacking as $key) {
+                    $dia=$key['dia'];
+                   }
+                   $fecha_nueva=$year."/".$mes."/".$dia;
+                   $date1=date_create($fecha_nueva);
+
+                    $query="UPDATE packing_list SET 
+                   fecha='".date_format($date1, 'Y-m-d')."', correlativo='".$correlativo_pl."'
+                     WHERE id_packing_list='".$packing_list."'";
+                    $update=$this->db->query($query);
+                    if ($update==true) {
+                        return true;
+                    }else {
+                        return false;
+                    }  
+
+          }
+          else{
+            return false;
+          }
+
+    }
 
 }
 ?>
