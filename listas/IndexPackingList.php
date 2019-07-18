@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Aserradero</title>
+    <title>DataTables |Ingresos por barco</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -56,7 +56,6 @@
                     <img src="images/img.jpg" alt="..." class="img-circle profile_img">
                   </div>
                   <div class="profile_info">
-                    <span>Welcome,</span>
                     <h2><?php echo "".$_SESSION['nombre_usuario']; ?></h2>
                   </div>
                 </div>

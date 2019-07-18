@@ -223,7 +223,7 @@ function save()
             return false;
         }   
     }
-function saveLocal()
+public function saveLocal()
     {
         $query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`, `poliza`,`tipo_ingreso`)
                 values(NULL,
