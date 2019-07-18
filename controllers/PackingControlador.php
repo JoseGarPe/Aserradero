@@ -13,7 +13,7 @@ $contenedores_ingresados=$_POST['conteingre'];
 $paquetes=$_POST['packetes'];
 $paquetes_fisicos=$_POST['packfisicos'];
 $obervaciones=$_POST['observaciones'];
-$shipper=$_POST['shipper'];
+$Pack=$_POST['Pack'];
 $id_nave=$_POST['id_nave'];
 $id_especificacion=$_POST['id_especificacion'];
 $estado=$_POST['comboestado'];
@@ -22,17 +22,22 @@ $estado=$_POST['comboestado'];
 
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
-	$id_shipper =$_POST['id'];
-	$nombre=$_POST['nombre'];
-	$descripcion=$_POST['descripcion'];
-	$shipper = new Shipper();
-	$shipper->setNombre($nombre);
-	$shipper->setDescripcion($descripcion);
-	$shipper->setShipper($shipper);
-	$update=$shipper->update();
-	if ($update==true) {
+	$id_Pack =$_POST['id'];
+	$correlativo=$_POST['correlativo'];
+	$poliza=$_POST['poliza'];
+	$Pack = new Packing();
+	$Pack->setCorrelativo($nombre);
+	$Pack->setPoliza($descripcion);
+	$Pack->setId_packing_list($Pack);
+	$update=$Pack->updatePC();
+	if ($update=='Datos guardado') {
+
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
+	}elseif($update=='Poliza'){
+		header('Location: ../listas/IndexPackingList.php?error=incorrectoP');
+	}elseif($update=='Correlativo'){
+		header('Location: ../listas/IndexPackingList.php?error=incorrectoC');
 	}else{
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
@@ -62,9 +67,8 @@ elseif ($accion=="guardar")
 	$paquetes=$_POST['packetes'];
 	$paquetes_fisicos=$_POST['packfisicos'];
 	$obervaciones=$_POST['observaciones'];
-	$shipper=$_POST['shipper'];
+	$Pack=$_POST['Pack'];
 	$id_nave=$_POST['id_nave'];
-	$poliza=$_POST['poliza'];
 	$id_especificacion=$_POST['id_especificacion'];
 	//$estado=$_POST['comboestado'];
 	$estado="Pendiente";
@@ -80,11 +84,10 @@ elseif ($accion=="guardar")
 	$Pack->setPaquetes($paquetes);
 	$Pack->setPaquetes_fisicos($paquetes_fisicos);
 	$Pack->setObervaciones($obervaciones);
-	$Pack->setShipper($shipper);
+	$Pack->setPack($Pack);
 	$Pack->setId_nave($id_nave);
 	$Pack->setId_especificacion($id_especificacion);
 	$Pack->setEstado($estado);
-	$Pack->setPoliza($poliza);
 	$save=$Pack->save();
 	if ($save==true) {
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
@@ -124,6 +127,28 @@ elseif ($accion=="Cerrar") {
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
+elseif($accion=="updatePC") {
+	$id_Pack =$_POST['id'];
+	$correlativo=$_POST['correlativo'];
+	$poliza=$_POST['poliza'];
+	$Pack = new Packing();
+	$Pack->setCorrelativo($correlativo);
+	$Pack->setPoliza($poliza);
+	$Pack->setId_packing_list($id_Pack);
+	$update=$Pack->updatePC();
+	if ($update=='Datos guardado') {
+
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		# code...
+	}elseif($update=='Poliza'){
+		header('Location: ../listas/IndexPackingList.php?error=incorrectoP');
+	}elseif($update=='Correlativo'){
+		header('Location: ../listas/IndexPackingList.php?error=incorrectoC');
+	}else{
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+	}
+
+}
 
 //-------------------------------------------local-----------------------------
 elseif ($accion=="guardarLocal") 
@@ -137,7 +162,7 @@ elseif ($accion=="guardarLocal")
 	$paquetes=NULL;
 	$paquetes_fisicos=NULL;
 	$obervaciones=$_POST['observaciones'];
-	$shipper=$_POST['shipper'];
+	$Pack=$_POST['Pack'];
 	$poliza=$_POST['poliza'];
 	$id_nave=NULL;
 	$id_especificacion=NULL;
@@ -155,7 +180,7 @@ elseif ($accion=="guardarLocal")
 	$Pack->setPaquetes(NULL);
 	$Pack->setPaquetes_fisicos(NULL);
 	$Pack->setObervaciones($obervaciones);
-	$Pack->setShipper($shipper);
+	$Pack->setPack($Pack);
 	$Pack->setId_nave($id_nave);
 	$Pack->setId_especificacion($id_especificacion);
 	$Pack->setEstado($estado);

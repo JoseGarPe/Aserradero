@@ -206,7 +206,7 @@ public function getPoliza() {
 //---------------------------
 function save()
     {
-    	$query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`, `poliza`,`tipo_ingreso`)
+    	$query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`,`tipo_ingreso`)
     			values(NULL,
     			'".$this->numero_factura."',
                 '".$this->codigo_embarque."',
@@ -222,7 +222,6 @@ function save()
                 '".$this->id_nave."',
     			'".$this->id_especificacion."',
                 '".$this->estado."',
-                '".$this->poliza."',
                 'Importacion');
                 ";
     	$save=$this->db->query($query);
@@ -391,9 +390,9 @@ public function saveLocal()
        
     }
     
-public function updateCorrelativo($packing_list,$year,$mes,$c)
+public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
     {
-        $correlativo_pl= $mes."/".$year."-".$c;
+        $correlativo_pl= $dia."/".$mes."/".$c;
 
         $query="SELECT * FROM packing_list  WHERE correlativo='".$correlativo_pl."'";
         $selectall1=$this->db->query($query);
@@ -402,16 +401,16 @@ public function updateCorrelativo($packing_list,$year,$mes,$c)
           if ($selectall1->num_rows==0) {
             $dia=1;
 
-                    $query2="SELECT DAY(fecha) as dia FROM packing_list WHERE id_packing_list ='".$packing_list."'";
+                    $query2="SELECT YEAR(fecha) as dia FROM packing_list WHERE id_packing_list ='".$packing_list."'";
                     $selectall=$this->db->query($query2);
                    $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
                    foreach ($ListPacking as $key) {
-                    $dia=$key['dia'];
+                    $year=$key['dia'];
                    }
-                   $fecha_nueva=$year."-".$mes."-".$dia;
+                   $fecha_nueva=$dia."-".$mes."-".$year;
                    $date1=date_create($fecha_nueva);
 
-                    $query1="UPDATE packing_list SET  correlativo='".$correlativo_pl."', fecha ='".$fecha_nueva."' WHERE id_packing_list='".$packing_list."';";
+                    $query1="UPDATE packing_list SET  correlativo='".$correlativo_pl."', fecha ='".$fecha_nueva."',poliza='".$poliza."' WHERE id_packing_list='".$packing_list."';";
                     $update=$this->db->query($query1);
                     if ($update==true) {
                         return true;
@@ -424,6 +423,92 @@ public function updateCorrelativo($packing_list,$year,$mes,$c)
             return false;
           }
 
+    }
+
+
+    public function selectExistenteCorrelativo($codigo)
+    {
+        $query="SELECT * FROM packing_list WHERE correlativo='".$codigo."'";
+        $selectall=$this->db->query($query);
+        if ($selectall->num_rows==0) {
+            return "Disponible";
+        }elseif($selectall>num_rows==1){
+            return "Existe Uno";
+        }else{
+            return "No Disponible";
+        }
+    }
+    public function selectExistentePoliza($codigo)
+    {
+        $query="SELECT * FROM packing_list WHERE poliza='".$codigo."'";
+        $selectall=$this->db->query($query);
+        if ($selectall->num_rows==0) {
+            return "Disponible";
+        }elseif($selectall->num_rows==1){
+            return "Existe Uno";
+        }else{
+            return "No Disponible";
+        }
+    }
+
+     public function updatePC()
+    {  
+        //--------------------------------------------------------------------//
+         $query1="SELECT * FROM packing_list WHERE correlativo='".$this->correlativo."'";
+        $selectall1=$this->db->query($query1);
+        if ($selectall1->num_rows==0) {
+            $correla= "Disponible";
+        }elseif($selectall1->num_rows==1){
+            $correla= "Existe Uno";
+        }else{
+            $correla= "No Disponible";
+        }
+
+        //----------------------------------------------------------------//
+           $query2="SELECT * FROM packing_list WHERE poliza='".$this->poliza."'";
+        $selectall2=$this->db->query($query2);
+        if ($selectall2->num_rows==0) {
+            $poliz= "Disponible";
+        }elseif($selectall2->num_rows==1){
+            $poliz= "Existe Uno";
+        }else{
+            $poliz= "No Disponible";
+        }
+        //----------------------------------------------------------------//
+
+        if ($poliz=='Disponible' && $correla =='Disponible') {
+                $query3="UPDATE packing_list SET correlativo='".$this->correlativo."', poliza='".$this->poliza."'
+                 WHERE id_packing_list='".$this->id_packing_list."'";
+                $update=$this->db->query($query3);
+                if ($update==true) {
+                    return 'Datos guardado';
+                }else {
+                    return 'error';
+                } 
+                    
+        }elseif ($poliz=='Existe Uno' && $correla =='Disponible') {
+                $query4="UPDATE packing_list SET correlativo='".$this->correlativo."' WHERE id_packing_list='".$this->id_packing_list."'";
+                $update=$this->db->query($query4);
+                if ($update==true) {
+                    return 'Poliza';
+                }else {
+                    return 'error';
+                } 
+                    
+        }elseif ($poliz=='Disponible' && $correla =='No Disponible') {
+                $query6="UPDATE packing_list SET poliza='".$this->poliza."' WHERE id_packing_list='".$this->id_packing_list."'";
+                $update=$this->db->query($query6);
+                if ($update==true) {
+                    return 'Correlativo';
+                }else {
+                    return 'error';
+                } 
+                    
+        }else
+        {
+            return 'No Disponible';
+        }
+ 
     }
 
 }

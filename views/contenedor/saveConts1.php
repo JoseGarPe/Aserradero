@@ -131,20 +131,22 @@
     <div class="box-body">
       <?php 
       if ($primerContenedor == 'Primer Contenedor') {
-      echo '<div class="row">
+      echo '
+      <label>Datos complementarios Packing List</label>
+      <div class="row">
               <div class="col-md-12">
                    <div class="row">
                       <div class="form-group col-sm-4 col-sm-2">
                         <label for="middle-name" class="control-label col-xs-8">Correlativo</label>
                         <div class="col-xs-3 col-sm-3">
-                          <input id="mes"  type="number" min="1" max="31" step="1" name="mes">
+                          <input id="dia"  type="number" min="1" max="31" step="1" name="dia">
                         </div>
                       </div>
 
                       <div class="form-group col-sm-4 col-sm-2">
                         <label for="middle-name" class="control-label col-xs-2">/</label>
                         <div class="col-xs-3">
-                          <input id="year"  type="number" name="year" step="1" min="1" max="12">
+                          <input id="mes"  type="number" name="mes" step="1" min="1" max="12">
                         </div>
                       </div>
 
@@ -158,10 +160,19 @@
                    </div>
                 </div>
           </div>
-
+          <div class="row">
+          <div class="form-group">
+                        <label for="middle-name" class="control-label col-md-1 col-sm-3 col-xs-12">Poliza</label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                          <input id="poliza"  type="text" class="form-control" name="poliza">
+                        </div>
+                      </div>
+                      <br><br>
+          </div>
       ';
       }
        ?>
+       <br><br>
     	<div class="row">
 
     		<div class="col-xs-12">

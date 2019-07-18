@@ -64,10 +64,12 @@ elseif ($accion=="guardar")
 		if($primer_cont=='Primer Contenedor'){
 
 	$mes=$_POST['mes'];
-	$year=$_POST['year'];
+	$dia=$_POST['dia'];
 	$corre=$_POST['correlativo'];
+
+	$poliza=$_POST['poliza'];
 	$pac = new Packing();
-	  $updateC=$pac->updateCorrelativo($id_packing_list,$year,$mes,$corre);
+	  $updateC=$pac->updateCorrelativo($id_packing_list,$year,$mes,$corre,$poliza);
 		}
 
 	$Contenedor->setEtiqueta($etiqueta);

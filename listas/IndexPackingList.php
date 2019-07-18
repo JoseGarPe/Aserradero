@@ -155,8 +155,32 @@
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
               <span class="sr-only">Incorecto:</span>
               
-                Error al guardar, verifique los datos ingresados.
-
+                Error al guardar, verifique los datos ingresados o existe estos datos ya.
+                </div>
+           
+                    ';
+                }
+               elseif ($_GET['error']=='incorrectoP') {
+                    
+                    echo '
+                <div class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Incorrecto:</span>
+              
+                Ya existe una poliza con estos datos.
+                </div>
+           
+                    ';
+                }
+               elseif ($_GET['error']=='incorrectoC') {
+                    
+                    echo '
+                <div class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Incorrecto:</span>
+              
+                Ya existe un Correlativo con estos datos.
+                </div>
            
                     ';
                 }
@@ -208,12 +232,16 @@
                       <tbody>
                         <?php 
                          require_once "../class/PackingList.php";
+                         require_once "../class/Contenedor.php";
                          $misPacks = new Packing();
                          $todos = $misPacks->selectALL();
                         
                            # code...
                          
                          foreach ((array)$todos as $row) {
+                          $Contenedor = new Contenedores();
+                          $primer_cont = $Contenedor->FstContenedor($row['id_packing_list']);
+
                           $fecha1= date_create($row['fecha']);
                           $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
                           foreach ($sumCub as $key) {
@@ -257,8 +285,12 @@
             <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
         <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
         <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
+        if ($primer_cont!='Primer Contenedor') {
+        echo '<li><input type="button" name="save" value="Modificar" id="'.$row["id_packing_list"].'" class="btn btn-warning upd_pl" /></li>';
+        }
           if ($row['estado']== 'Cerrado') {
             echo '
+        }
         <li><input type="button" name="observacion" value="Observacion" id="'.$row["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
           }
             
@@ -322,7 +354,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Observacion</h4>  
+                                                 <h4 class="modal-title">Packin List</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms00">  
                                             </div>  
@@ -504,6 +536,22 @@ ga('send', 'pageview');
                      }  
                 });  
            }            
+      }); 
+     
+      $(document).on('click', '.upd_pl', function(){  
+           var employee_id = $(this).attr("id");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/modiPackin.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms00').html(data);  
+                          $('#dataModal00').modal('show');  
+                     }  
+                });  
+           }            
       });  
 
         $(document).on('click', '.save_data', function(){  
@@ -636,6 +684,52 @@ ga('send', 'pageview');
     } );
 } );
 </script>
+            
+<script>
+  $(document).ready(function(){
+                         
+      var consulta;
+             
+      //hacemos focus
+      $("#correlativo").focus();
+                                                 
+      //comprobamos si se pulsa una tecla
+      $("#correlativo").keyup(function(e){
+             //obtenemos el texto introducido en el campo
+          consulta = $("#correlativo").val();  
+          var input = $(this).attr("id");  
+                                      
+             //hace la búsqueda
+             $("#resultado").delay(1000).queue(function(n) {      
+                                           
+                  $("#resultado").html('<img src="ajax-loader.gif" />');
+                                           
+                        $.ajax({
+                              type: "POST",
+                              url: "../views/existente.php",
+                              data: data:{consulta:consulta,input:input},
+                              error: function(){
+                                    alert("error petición ajax");
+                              },
+                              success: function(data){                                                      
+                                    $("#resultado").html(data);
+                                    n();
+                              }
+                  });
+                                           
+             });
+                                
+      });
+/*
+      $("#respuesta").focus();
+      var resp = $("#respuesta").val();
+      if (resp=="Disponible") {
 
+                                    location.reload();
+      }*/
+                          
+});
+
+</script>
     </body>
 </html>
