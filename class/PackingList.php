@@ -396,25 +396,23 @@ public function updateCorrelativo($packing_list,$year,$mes,$c)
         $correlativo_pl= $mes."/".$year."-".$c;
 
         $query="SELECT * FROM packing_list  WHERE correlativo='".$correlativo_pl."'";
-        $selectall=$this->db->query($query);
+        $selectall1=$this->db->query($query);
    //    $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
      //   return $ListContenedores;
-          if ($selectall->num_rows==0) {
+          if ($selectall1->num_rows==0) {
+            $dia=1;
 
-
-                    $query="SELECT DAY(fecha) as dia FROM packing_list WHERE id_packing_list ='".$codigo."'";
-                    $selectall=$this->db->query($query);
+                    $query2="SELECT DAY(fecha) as dia FROM packing_list WHERE id_packing_list ='".$packing_list."'";
+                    $selectall=$this->db->query($query2);
                    $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
                    foreach ($ListPacking as $key) {
                     $dia=$key['dia'];
                    }
-                   $fecha_nueva=$year."/".$mes."/".$dia;
+                   $fecha_nueva=$year."-".$mes."-".$dia;
                    $date1=date_create($fecha_nueva);
 
-                    $query="UPDATE packing_list SET 
-                   fecha='".date_format($date1, 'Y-m-d')."', correlativo='".$correlativo_pl."'
-                     WHERE id_packing_list='".$packing_list."'";
-                    $update=$this->db->query($query);
+                    $query1="UPDATE packing_list SET  correlativo='".$correlativo_pl."', fecha ='".$fecha_nueva."' WHERE id_packing_list='".$packing_list."';";
+                    $update=$this->db->query($query1);
                     if ($update==true) {
                         return true;
                     }else {

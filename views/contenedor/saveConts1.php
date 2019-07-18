@@ -137,14 +137,14 @@
                       <div class="form-group col-sm-4 col-sm-2">
                         <label for="middle-name" class="control-label col-xs-8">Correlativo</label>
                         <div class="col-xs-3 col-sm-3">
-                          <input id="mes"  type="number" min="1" max="12" step="1" name="mes">
+                          <input id="mes"  type="number" min="1" max="31" step="1" name="mes">
                         </div>
                       </div>
 
                       <div class="form-group col-sm-4 col-sm-2">
                         <label for="middle-name" class="control-label col-xs-2">/</label>
                         <div class="col-xs-3">
-                          <input id="year"  type="number" name="year" step="1" min="2000" max="3000">
+                          <input id="year"  type="number" name="year" step="1" min="1" max="12">
                         </div>
                       </div>
 
