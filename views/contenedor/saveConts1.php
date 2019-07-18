@@ -10,6 +10,8 @@
                            $fecha_cierre = $key['fecha_cierre'];
                          }
                          echo ' <h2><label>Fecha Inicio: <strong> '.$fecha_inicio.' </strong></label> - <label>Fecha Cierre: <strong> '.$fecha_cierre.' </strong></label></h2>';
+                         $primerContenedor= $packing->FstContenedor($codigo);
+                       
    ?> <form></form>
     				<table id="example1" class="table table-striped table-bordered" name="example1">
          		<thead>
@@ -127,7 +129,41 @@
                       </div>
 <form role="form1" action="../controllers/ContenedorControlador.php?accion=guardar" method="post">
     <div class="box-body">
+      <?php 
+      if ($primerContenedor == 'Primer Contenedor') {
+      echo '<div class="row">
+              <div class="col-md-12">
+                   <div class="row">
+                      <div class="form-group col-sm-4 col-sm-2">
+                        <label for="middle-name" class="control-label col-xs-8">Correlativo</label>
+                        <div class="col-xs-3 col-sm-3">
+                          <input id="mes"  type="number" min="1" max="12" step="1" name="mes">
+                        </div>
+                      </div>
+
+                      <div class="form-group col-sm-4 col-sm-2">
+                        <label for="middle-name" class="control-label col-xs-2">/</label>
+                        <div class="col-xs-3">
+                          <input id="year"  type="number" name="year" step="1" min="2000" max="3000">
+                        </div>
+                      </div>
+
+                      <div class="form-group col-sm-4">
+                        <label for="middle-name" class="control-label col-xs-2">-</label>
+                        <div class="col-xs-3 col-sm-2">
+                          <input id="correlativo"  type="number" step="1" min="0" max="3000" name="correlativo">
+                        </div>
+                      </div>
+
+                   </div>
+                </div>
+          </div>
+
+      ';
+      }
+       ?>
     	<div class="row">
+
     		<div class="col-xs-12">
     			<table id="example6" class="table table-striped table-bordered">
          		<thead>

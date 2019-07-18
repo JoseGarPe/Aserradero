@@ -190,7 +190,7 @@
                           <th>N° </th>
                           <th>Mes</th> 
                           <th>Shipper</th>
-                          <th>Fecha</th>
+                          <th>Correlativo</th>
                           <th>Nave</th>
                           <th>F.Ingreso</th>
                           <th>F.Finalizado</th>
@@ -225,7 +225,7 @@
                           <td>'.$row['id_packing_list'].'</td>
                            <td>'.$row['mes'].'</td>
                            <td>'.$row['shipper'].'</td>
-                           <td>'.date_format($fecha1, 'd/m/Y').'</td>
+                           <td>'.$row['correlativo'].'</td>
                            <td>'.$row['nav'].'</td>';
                            if ($row['fecha_inicio']!=NULL) {
                             $date1=date_create($row['fecha_inicio']);

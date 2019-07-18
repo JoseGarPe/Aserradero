@@ -50,6 +50,10 @@ elseif ($accion=="eliminar") {
 }
 elseif ($accion=="guardar") 
 {
+
+
+
+
 	$etiqueta=$_POST['etiqueta'];
   	$id_packing_list =$_POST['id_packing_list'];
 
@@ -57,6 +61,14 @@ elseif ($accion=="guardar")
 
 	$Contenedor = new Contenedores();
 	$primer_cont = $Contenedor->FstContenedor($id_packing_list);
+		if($primer_cont=='Primer Contenedor'){
+
+	$mes=$_POST['mes'];
+	$year=$_POST['year'];
+	$corre=$_POST['correlativo'];
+	$pac = new Packing();
+	  $updateC=$pac->updateCorrelativo($id_packing_list,$year,$mes,$corre);
+		}
 
 	$Contenedor->setEtiqueta($etiqueta);
 	$Contenedor->setId_packing_list($id_packing_list);
@@ -70,6 +82,7 @@ elseif ($accion=="guardar")
 			$pl->setId_packing_list($id_packing_list);
 			$vari = 'Primero';
 			$update1=$pl->updateStatu($vari);
+			
 
 		}
 		
