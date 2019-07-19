@@ -73,7 +73,7 @@ elseif ($accion=="guardar")
 	$Paquetes->setMultiplo($multiplo);
 	$Paquetes->setMetros_cubicos($metros_cubicos);
 	$Paquetes->setFecha_ingreso($fecha_ingreso);
-	$Paquetes->setEstado("Confirmado");
+	$Paquetes->setEstado("Sin Confirmar");
 	$save=$Paquetes->save();
 	if ($save==true) {
 		$detalle_bo= new DetalleBodega();

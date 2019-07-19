@@ -69,7 +69,7 @@ elseif ($accion=="guardar")
 
 	$poliza=$_POST['poliza'];
 	$pac = new Packing();
-	  $updateC=$pac->updateCorrelativo($id_packing_list,$year,$mes,$corre,$poliza);
+	  $updateC=$pac->updateCorrelativo($id_packing_list,$dia,$mes,$corre,$poliza);
 		}
 
 	$Contenedor->setEtiqueta($etiqueta);
@@ -180,7 +180,7 @@ elseif ($accion=="confirmar") {
   		$pl->setContenedores_ingresados($new_con_ing);
 		$pl->setId_packing_list($id_packing_list);
 		$update1=$pl->updateIngresos();
-	/*	if ($update1== TRUE) {
+	if ($update1== TRUE) {
 			$paquetess= $Contenedor->selectPaquetesCon($id_contenedor);
 			foreach ($paquetess as $count) {
 
@@ -196,7 +196,7 @@ elseif ($accion=="confirmar") {
 		$detalle_bo->setCantidad($count['piezas']);
 		$save1=$detalle_bo->save();
 			}
-		} */
+		} 
 		
 	}
 

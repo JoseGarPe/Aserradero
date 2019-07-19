@@ -398,25 +398,38 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
         $selectall1=$this->db->query($query);
    //    $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
      //   return $ListContenedores;
+       
           if ($selectall1->num_rows==0) {
-            $dia=1;
+              $query2="SELECT YEAR(fecha) as dia FROM packing_list WHERE id_packing_list ='".$packing_list."'";
+                        $selectall=$this->db->query($query2);
+                       $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+                       foreach ($ListPacking as $key) {
+                        $year=$key['dia'];
+                       }
+                       $fecha_nueva=$year."-".$mes."-".$dia;
+                       $date1=date_create($fecha_nueva);
 
-                    $query2="SELECT YEAR(fecha) as dia FROM packing_list WHERE id_packing_list ='".$packing_list."'";
-                    $selectall=$this->db->query($query2);
-                   $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
-                   foreach ($ListPacking as $key) {
-                    $year=$key['dia'];
-                   }
-                   $fecha_nueva=$dia."-".$mes."-".$year;
-                   $date1=date_create($fecha_nueva);
+                           $query3="SELECT * FROM packing_list  WHERE poliza='".$poliza."'";
+                    $selectall3=$this->db->query($query3);
+                    if ($selectall3->num_rows==0) {
+                       
 
-                    $query1="UPDATE packing_list SET  correlativo='".$correlativo_pl."', fecha ='".$fecha_nueva."',poliza='".$poliza."' WHERE id_packing_list='".$packing_list."';";
-                    $update=$this->db->query($query1);
-                    if ($update==true) {
-                        return true;
-                    }else {
+                        $query1="UPDATE packing_list SET  correlativo='".$correlativo_pl."', fecha ='".$fecha_nueva."',poliza='".$poliza."' WHERE id_packing_list='".$packing_list."';";
+                        $update=$this->db->query($query1);
+                        if ($update==true) {
+                            return true;
+                        }else {
+                            return false;
+                        } 
+                    }
+                    else{
+                        
+                             $query1="UPDATE packing_list SET  correlativo='".$correlativo_pl."', fecha ='".$fecha_nueva."' WHERE id_packing_list='".$packing_list."';";
+                        $update=$this->db->query($query1);
                         return false;
-                    }  
+                    }
+
+                    
 
           }
           else{
@@ -457,26 +470,26 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
          $query1="SELECT * FROM packing_list WHERE correlativo='".$this->correlativo."'";
         $selectall1=$this->db->query($query1);
         if ($selectall1->num_rows==0) {
-            $correla= "Disponible";
+            $correla="Disponible";
         }elseif($selectall1->num_rows==1){
-            $correla= "Existe Uno";
+            $correla="Existe Uno";
         }else{
-            $correla= "No Disponible";
+            $correla="No Disponible";
         }
 
         //----------------------------------------------------------------//
            $query2="SELECT * FROM packing_list WHERE poliza='".$this->poliza."'";
         $selectall2=$this->db->query($query2);
         if ($selectall2->num_rows==0) {
-            $poliz= "Disponible";
+            $poliz="Disponible";
         }elseif($selectall2->num_rows==1){
-            $poliz= "Existe Uno";
+            $poliz="Existe Uno";
         }else{
-            $poliz= "No Disponible";
+            $poliz="No Disponible";
         }
         //----------------------------------------------------------------//
 
-        if ($poliz=='Disponible' && $correla =='Disponible') {
+        if($poliz=='Disponible' && $correla =='Disponible') {
                 $query3="UPDATE packing_list SET correlativo='".$this->correlativo."', poliza='".$this->poliza."'
                  WHERE id_packing_list='".$this->id_packing_list."'";
                 $update=$this->db->query($query3);
@@ -486,7 +499,7 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
                     return 'error';
                 } 
                     
-        }elseif ($poliz=='Existe Uno' && $correla =='Disponible') {
+        }elseif($poliz=='Existe Uno' && $correla =='Disponible') {
                 $query4="UPDATE packing_list SET correlativo='".$this->correlativo."' WHERE id_packing_list='".$this->id_packing_list."'";
                 $update=$this->db->query($query4);
                 if ($update==true) {
@@ -495,7 +508,7 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
                     return 'error';
                 } 
                     
-        }elseif ($poliz=='Disponible' && $correla =='No Disponible') {
+        }elseif($poliz=='Disponible' && $correla =='No Disponible') {
                 $query6="UPDATE packing_list SET poliza='".$this->poliza."' WHERE id_packing_list='".$this->id_packing_list."'";
                 $update=$this->db->query($query6);
                 if ($update==true) {

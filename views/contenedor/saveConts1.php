@@ -8,6 +8,8 @@
                            $estado = $key['estado'];
                            $fecha_inicio = $key['fecha_inicio'];
                            $fecha_cierre = $key['fecha_cierre'];
+                           $cont_previstos = $key['total_contenedores'];
+                           $cont_ingresados = $key['contenedores_ingresados'];
                          }
                          echo ' <h2><label>Fecha Inicio: <strong> '.$fecha_inicio.' </strong></label> - <label>Fecha Cierre: <strong> '.$fecha_cierre.' </strong></label></h2>';
                          $primerContenedor= $packing->FstContenedor($codigo);
@@ -69,6 +71,8 @@
                              
                             if ($row['estado']=='Sin Confirmar') {
                               echo '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Confirmado&id_packing_list='.$codigo.'" class="btn btn-success">Confirmar</a> -->
+                               <a href="../views/savePaquetee.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>
+
                                 <input type="button" name="save" value="Confirmar" id="'.$row["id_contenedor"].'" packing="'.$codigo.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-success view_data2" />
 
                               </td>';
@@ -173,13 +177,16 @@
       }
        ?>
        <br><br>
+       <?php 
+       if($cont_ingresados< $cont_previstos){
+        ?>
     	<div class="row">
 
     		<div class="col-xs-12">
     			<table id="example6" class="table table-striped table-bordered">
          		<thead>
                         <tr>
-                          <th>Etiqueta</th>                          
+                          <th>No. Contenedor</th>                          
                         </tr>
           		</thead>
           		<tbody>
@@ -196,6 +203,7 @@
           			</table>
     		</div>
     	</div><!--END ROW-->
+    <?php } ?>
 
     </div>
     <div class="box-footer">
