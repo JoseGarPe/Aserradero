@@ -42,10 +42,10 @@ elseif ($accion=="eliminar") {
 	$Contenedor->setId_contenedor($id_contenedor);
 	$delete=$Contenedor->delete();
 	if ($delete==true) {
-		header('Location: ../listas/Contenedor.php?success=correcto');
+		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
 	}else{
-		header('Location: ../listas/Contenedor.php?error=incorrecto');
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
 elseif ($accion=="guardar") 

@@ -600,6 +600,20 @@ ga('send', 'pageview');
                      }  
                 });  
            }   
+      }); 
+      $(document).on('click', '.delete_data1', function(){  
+          var employee_id = $(this).attr("id");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../controllers/ContenedorControlador.php?accion=eliminar",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms4').html(data);  
+                     }  
+                });  
+           }   
       });
       $(document).on('click', '.finish_data', function(){  
           var employee_id = $(this).attr("id");  
