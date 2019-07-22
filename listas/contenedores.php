@@ -188,6 +188,11 @@
                           }else{
                             $codigo=0;
                           }
+                          if (isset($_GET['inicio'])) {
+                            $fecha_inicio = $_GET['inicio'];
+                            $fecha_cierre = $_GET['final'];
+                         echo ' <h2><label>Fecha Inicio: <strong> '.$fecha_inicio.' </strong></label> - <label>Fecha Cierre: <strong> '.$fecha_cierre.' </strong></label></h2>';
+                          }
                     ?>
                     <br>
                     <br>

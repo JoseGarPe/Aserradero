@@ -191,7 +191,7 @@
                           <th>F.Ingreso</th>
                           <th>F.Finalizado</th>
                           <th>Estado</th>
-                          <th>Total m<sub>3</sub></th>
+                          <th>Total m<sup>3</sup></th>
                           <th>Factura</th>
                           <th>Poliza</th>
                           <th>Opiones</th>                         
@@ -231,7 +231,7 @@
                             echo '<td></td>';
                            }
                     echo ' <td>'.$row['estado'].'</td>
-                          <td>'.$metro_cubico.' m<sub>3</sub></td>
+                          <td>'.$metro_cubico.' m<sup>3</sup></td>
                           <td>'.$row['numero_factura'].'</td>
                            <td>'.$row['poliza'].'</td>';
                            

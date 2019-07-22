@@ -6,6 +6,7 @@
                           $orden = $packing->SelectOne($codigo);
                          foreach ($orden as $key) {
                            $estado = $key['estado'];
+                           $numero_factura = $key['numero_factura'];
                            $fecha_inicio = $key['fecha_inicio'];
                            $fecha_cierre = $key['fecha_cierre'];
                            $cont_previstos = $key['total_contenedores'];
@@ -43,7 +44,7 @@
                           ';
                             if ($row['fecha_ingreso'] == NULL && $row['estado']!= 'Confirmado' || $row['fecha_ingreso']== '0000-00-00' && $row['estado']!= 'Confirmado' || $row['fecha_ingreso']== '00/00/0000' && $row['estado']!= 'Confirmado') {
                               echo '<td>
-                             <input type="date" class="form-control" name="fecha'.$idf.'" id="fecha'.$idf.'"> 
+                             <input type="date" class="form-control" name="fecha'.$idf.'" id="fecha'.$idf.'" required> 
                               
                               </td>';
                             }else{
@@ -52,7 +53,7 @@
                             }
                             if ($row['id_bodega']== NULL) {
                               echo '<td><select class="form-control" name="id_bodega'.$idf.'" id="id_bodega'.$idf.'" required>
-                          <option>Seleccione una opcion</option>';
+                          <option value="0">Seleccione una opcion</option>';
                           require_once "Bodega.php";
 
                         $mistipos = new Bodega();
@@ -88,14 +89,16 @@
                               echo '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Sin Confirmar" class="btn btn-warning">Sin Confirmar</a>  -->
 
                                 <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />
-            <a href="../views/savePaquetee.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>
+          <!--  <a href="../views/savePaquetee.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
+            <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
 
                               </td>
 
                               ';
                             }
                           }else{
-                            echo '<td></td>';
+                            echo '<td>
+            <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  </td>';
                           }
                           $idf+=1;
                       
@@ -152,21 +155,21 @@
                       <div class="form-group col-sm-4 col-sm-2">
                         <label for="middle-name" class="control-label col-xs-8">Correlativo</label>
                         <div class="col-xs-3 col-sm-3">
-                          <input id="dia"  type="number" min="1" max="31" step="1" name="dia">
+                          <input id="dia"  type="number" min="1" max="31" step="1" name="dia" required>
                         </div>
                       </div>
 
                       <div class="form-group col-sm-4 col-sm-2">
                         <label for="middle-name" class="control-label col-xs-2">/</label>
                         <div class="col-xs-3">
-                          <input id="mes"  type="number" name="mes" step="1" min="1" max="12">
+                          <input id="mes"  type="number" name="mes" step="1" min="1" max="12" required>
                         </div>
                       </div>
 
                       <div class="form-group col-sm-4">
                         <label for="middle-name" class="control-label col-xs-2">-</label>
                         <div class="col-xs-3 col-sm-2">
-                          <input id="correlativo"  type="number" step="1" min="0" max="3000" name="correlativo">
+                          <input id="correlativo"  type="number" step="1" min="0" max="3000" name="correlativo" required>
                         </div>
                       </div>
 
@@ -177,7 +180,7 @@
           <div class="form-group">
                         <label for="middle-name" class="control-label col-md-1 col-sm-3 col-xs-12">Poliza</label>
                         <div class="col-md-5 col-sm-6 col-xs-12">
-                          <input id="poliza"  type="text" class="form-control" name="poliza">
+                          <input id="poliza"  type="text" class="form-control" name="poliza" required>
                         </div>
                       </div>
                       <br><br>
@@ -205,7 +208,7 @@
                           <input type="hidden" name="id_packing_list" id="id_packing_list" value="'.$codigo.'"/>';
                   ?>      
                           
-                          <th><input type="text" id="etiqueta" name="etiqueta"  class="form-control col-md-7"></th>
+                          <th><input type="text" id="etiqueta" name="etiqueta"  class="form-control col-md-7" required></th>
                   <tr>
                          
           		</tbody>

@@ -230,7 +230,7 @@ session_start();
                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/PackingControlador.php?accion=guardarLocal" method="post">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Numero de Factura<span class="required"></span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Numero envio<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="numfac" name="numfac"  class="form-control col-md-7 col-xs-12">
@@ -281,7 +281,7 @@ session_start();
                       </div>
 
                        <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Poliza<span class="required"></span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">INAB<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                         

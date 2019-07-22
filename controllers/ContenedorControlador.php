@@ -184,11 +184,12 @@ elseif ($accion=="confirmar") {
 			$paquetess= $Contenedor->selectPaquetesCon($id_contenedor);
 			foreach ($paquetess as $count) {
 
-
-	$Contenedor->setId_bodega($id_bodega);
-	$Contenedor->setEstado($estado);
-	$Contenedor->setEtiqueta($count['etiqueta']);
-	$delete2=$Contenedor->confirm($count['id_paquete']);
+	$Contenedor1 = new Contenedores();
+	$Contenedor1->setId_bodega($id_bodega);
+	$Contenedor1->setFecha_ingreso($fecha);
+	$Contenedor1->setEstado($estado);
+	//$Contenedor1->setEtiqueta($count['etiqueta']);
+	$delete2=$Contenedor1->confirm($count['id_paquete']);
 
 				$detalle_bo= new DetalleBodega();
 		$detalle_bo->setId_bodega($id_bodega);
