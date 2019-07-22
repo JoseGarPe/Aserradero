@@ -22,13 +22,17 @@
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
         <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-    <!-- Datatables -->
+     <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />  
+   <!-- <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">-->
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 
     <!-- Custom Theme Style -->
@@ -282,7 +286,7 @@
                       }
 
                      ?>
-                    <table id="example1" class="table table-bordered">
+                    <table id="example4" class="table table-bordered">
                     <thead>
                             <tr>
                             <th>Etiqueta</th>
@@ -443,7 +447,7 @@
                       }
                      ?>
                     <BR>
-                    <table id="example3" class="table table-bordered">
+                    <table id="example30" class="table table-bordered">
                     <thead>
                       <?php 
                        require_once "../class/Materiales.php";
@@ -755,9 +759,32 @@
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
     <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <!--<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>-->
+
+    <!--<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>-->
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
+
+    <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
+
+
+   <!-- <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>-->
+   <!-- <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script> -->
+   <!-- <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
@@ -766,7 +793,7 @@
     <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>-->
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
@@ -879,8 +906,8 @@ ga('send', 'pageview');
 </script>
   <script>
   $(function () {
-    $('#example1').DataTable()
-    $('#example3').DataTable({
+    $('#example10').DataTable()
+    $('#example30').DataTable({
        'paging'      : true,
       'lengthChange': false,
       'searching'   : true,
@@ -895,8 +922,8 @@ ga('send', 'pageview');
             'pdfHtml5'
         ]
   })
-    $('#example4').DataTable()
-    $('#example5').DataTable({
+    $('#example40').DataTable()
+    $('#example50').DataTable({
       'paging'      : true,
       'lengthChange': false,
       'searching'   : true,
@@ -906,6 +933,171 @@ ga('send', 'pageview');
       'order'       : [[0, "desc"]]
     })
   });
+</script>
+<script>
+  $(document).ready(function() {
+    $('#example3').DataTable( {
+
+      'order'       : [[0, "desc"]],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 5 ]
+                }
+            },
+            'colvis'
+        ]
+    } );
+    $('#example2').DataTable( {
+        order: [[0, 'asc']],
+        rowGroup: {
+            startRender: null,
+            endRender: function ( rows, group ) {
+                var salaryAvg = rows
+                    .data()
+                    .pluck(11)
+                    .reduce( function (a, b) {
+                        return a + b.replace(/[^\d]/g, '')*1;
+                    }, 0) / rows.count();
+                salaryAvg = $.fn.dataTable.render.number(',', '.', 0, '$').display( salaryAvg );
+ 
+                var ageAvg = rows
+                    .data()
+                    .pluck(11)
+                    .reduce( function (a, b) {
+                        return a + b*1;
+                    }, 0) / rows.count();
+ 
+               return $('<tr/>')
+                    .append( '<td colspan="3">Total M<sup>3</sup> Orden'+group+'</td>' )
+                    .append( '<td></td>' )
+                    .append( '<td/>' )
+                    .append( '<td>'+salaryAvg+'</td>' );
+            },
+            dataSrc: 0
+        }
+    } );
+    $('#example4').DataTable( {
+        order: [[0, 'asc']],
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      responsive: true,
+      'autoWidth'   : true,
+        rowsGroup:[0,14,3,2],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
+       
+    } );
+    $('#example1').DataTable( {
+        
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      responsive: true,
+      'autoWidth'   : true,
+        rowsGroup:[0,14,3,2],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
+       
+    } );
+
+    $('#example5').DataTable( {
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      responsive: true,
+      'autoWidth'   : true,
+        rowsGroup:[0,14,3,2],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
+       
+    } );
+
+} );
 </script>
          <script>
     $('#myDatepicker').datetimepicker();
