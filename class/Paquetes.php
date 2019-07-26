@@ -157,8 +157,6 @@ class Paquetes extends conexion
         $this-$stock = $stock;
     }
 
-
-
     public function save(){
 
     	$query="INSERT INTO paquetes(id_paquete, etiqueta, piezas,id_packing_list,id_material,largo, ancho, grueso, metros_cubicos,multiplo,fecha_ingreso,estado,id_bodega,id_contenedor,stock) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->id_packing_list."','".$this->id_material."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->metros_cubicos."','".$this->multiplo."','".$this->fecha_ingreso."','".$this->estado."','".$this->id_bodega."','".$this->id_contenedor."','".$this->piezas."')";
@@ -168,8 +166,6 @@ class Paquetes extends conexion
         }else {
             return false;
         }   
-
-
     }
     public function update(){
 
@@ -336,6 +332,13 @@ class Paquetes extends conexion
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
+     public function selectALLpack_contenedores($contenedor,$bodega)
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE c.etiqueta = '".$contenedor."' AND con.id_bodega='".$bodega."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
      public function selectALLpack_fechas_metros($fecha1,$fecha2,$material)
     {
         $query="SELECT SUM(con.metros_cubicos) AS metros_cub, m.nombre as material FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material WHERE con.id_material = '".$material."' AND con.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
@@ -343,6 +346,73 @@ class Paquetes extends conexion
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
    }
+   //pAQUETES POR BODEGA
+    public function selectALLpack_Bodega_general($bodega)
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE con.id_bodega ='".$bodega."' AND con.stock > 0 ORDER BY con.id_material";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+
+    public function selectALLpack_Bodega()
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.stock > 0 ORDER BY con.id_bodega";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+     public function selectALLpack_BodegaEs($estado)
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.estado ='".$estado."' AND con.stock > 0 ORDER BY con.id_bodega";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+     public function selectALLpack_Bodega_local()
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Local' AND con.stock > 0 ORDER BY con.id_bodega";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+     public function selectALLpack_BodegaEs_local($estado)
+    {
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Local' AND con.estado ='".$estado."' AND con.stock > 0 ORDER BY con.id_bodega";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    } 
+     public function countPaquetesBodega_general($codigo)
+    {
+        $query="SELECT COUNT(p.id_paquete) as total, SUM(p.metros_cubicos) as metroCubic,p.stock FROM paquetes p WHERE p.id_bodega='".$codigo."' AND p.stock > 0";
+        $selectall=$this->db->query($query);
+       $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPacking;
+    } 
+
+     public function countMcubicos_material($codigo,$bodega)
+    {
+        $query="SELECT COUNT(p.id_paquete) as total, SUM(p.metros_cubicos) as metroCubic,pl.tipo_ingreso FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE p.id_material='".$codigo."' AND p.id_bodega='".$bodega."'";
+        $selectall=$this->db->query($query);
+       $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPacking;
+    } 
+
+    public function countPaquetesBodega($codigo)
+    {
+        $query="SELECT COUNT(p.id_paquete) as total, SUM(p.metros_cubicos) as metroCubic,pl.tipo_ingreso,p.stock FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE p.id_bodega='".$codigo."'AND pl.tipo_ingreso='Importacion' AND p.stock > 0 ";
+        $selectall=$this->db->query($query);
+       $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPacking;
+    } 
+    public function countPaquetesBodegaLocal($codigo)
+    {
+        $query="SELECT COUNT(p.id_paquete) as total, SUM(p.metros_cubicos) as metroCubic,pl.tipo_ingreso,p.stock FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE p.id_bodega='".$codigo."'AND pl.tipo_ingreso='Local' AND p.stock > 0";
+        $selectall=$this->db->query($query);
+       $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPacking;
+    }
    // PROYECCIONES SEGUN PROVEEDOR
    //general
    public function selectALLShippers()
@@ -418,7 +488,19 @@ class Paquetes extends conexion
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
    }
+   //------------------- TRASLADOS--------------
 
+public function updatePaquete(){
+
+        $query="UPDATE paquetes SET id_bodega='".$this->id_bodega."' WHERE id_paquete='".$this->id_paquete."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+
+    }
 
 }
 

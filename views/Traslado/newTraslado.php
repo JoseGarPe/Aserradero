@@ -2,12 +2,14 @@
   <?php 
         $cantidad = $_POST['employee_cantidad'];
         $id_material = $_POST['employee_id'];
+        $id_paquete = $_POST['employee_paque'];
         $bodega_origen = $_POST['employee_pl'];
         $nombre_bodega = $_POST['employee_nombre'];
 
         echo '
                                   <input type="hidden" name="Bodega_origen" id="Bodega_origen" class="form-control"  value="'.$bodega_origen.'"/>
-                                  <input type="hidden" name="nombre_origen" id="nombre_origen" class="form-control"  value="'.$nombre_bodega.'"/>  ';
+                                  <input type="hidden" name="nombre_origen" id="nombre_origen" class="form-control"  value="'.$nombre_bodega.'"/>  
+                                  <input type="hidden" name="id_paquete" id="id_paquete" class="form-control"  value="'.$id_paquete.'"/> ';
    ?>
                           <label>Material</label>  
                           <?php 
@@ -23,18 +25,47 @@
 
                           } 
 
- ?>
+ ?> 
+                    <table class="table table-striped table-bordered">
+                      <?php 
+                      $paquetee = $misMateriales->selectOnePaquete($id_paquete);
+                      foreach ($paquetee as $datoP) {
+                        echo '<tr>
+                          <td>Id</td><td>'.$datoP['id_paquete'].'</td>
+                        </tr>
+                        <tr>
+                        <td>Etiqueta</td><td>'.$datoP['etiqueta'].'</td>
+                        </tr>
+                        <tr>
+                        <td>Dimensiones</td><td>'.$datoP['grueso'].' x '.$datoP['ancho'].' x '.$datoP['largo'].'</td>
+                        </tr>
+                        <tr>
+                        <td>Piezas</td><td>'.$datoP['piezas'].'</td>
+                        </tr>
+                        <tr>
+                        <td>M<sup>3</sup></td><td>'.$datoP['metros_cubicos'].'</td>
+                        </tr>
+
+                        ';
+                      }
+
+                       ?>
+                    </table>
+
                            
                           <br /> 
 
-                          <label>Cantidad Disponible</label>  
+                        <!--  <label>Cantidad Disponible</label>  -->
                           <?php 
-                            echo '<input type="text" name="cantidad_disponible" id="cantidad_disponible" class="form-control" value="'.$cantidad.'" />';
+                          //  echo '<input type="text" name="cantidad_disponible" id="cantidad_disponible" class="form-control" value="'.$cantidad.'" />';
                            ?>
                           <DIV id="mensaje" name="mensaje"></DIV> 
                           <br /> 
                           <label>Cantidad a Trasladar</label>  
-                          <input type="text" name="cantidad" id="cantidad" class="form-control" />  
+                          <?php 
+                        echo '<input type="text" name="cantidad" id="cantidad" class="form-control" value="'.$cantidad.'" />';
+                           ?>
+                        <!--  <input type="text" name="cantidad" id="cantidad" class="form-control" />  -->
                           <br /> 
                           <label>Bodega Destino</label>  
                           <select class="form-control" name="Bodega_destino" id="Bodega_destino">
@@ -68,7 +99,7 @@
                        
 </form>
 <script>
-  
+ /* 
 $(document).ready(function () {
     $("#cantidad").keyup(function () {
 
@@ -83,6 +114,6 @@ $(document).ready(function () {
            $("#mensaje").val("");
         }
         });
-});
+});*/
 
 </script>

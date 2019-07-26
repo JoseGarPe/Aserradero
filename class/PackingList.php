@@ -239,7 +239,7 @@ public function saveLocal()
                 NULL,
                 NULL,
                 '".$this->mes."',
-                '".$this->fecha."',
+                '0000-00-00',
                 NULL,
                 NULL,
                 NULL,

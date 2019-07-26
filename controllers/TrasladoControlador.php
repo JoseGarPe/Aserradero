@@ -36,6 +36,8 @@ elseif ($accion=="guardar")
 {
 	$Bodega_origen=$_POST['Bodega_origen'];
 $Id_material=$_POST['Id_material'];
+
+$id_paquete=$_POST['id_paquete'];
 	$Bodega_destino=$_POST['Bodega_destino'];
 	$cantidad=$_POST['cantidad'];
 	$nombre_bodega = $_POST['nombre_origen'];
@@ -46,6 +48,7 @@ $Id_material=$_POST['Id_material'];
 	$traslado->setId_material($Id_material);
 	$traslado->setCantidad($cantidad);
 	$traslado->setBodega_destino($Bodega_destino);
+	$traslado->setId_paquete($id_paquete);
 	$save=$traslado->save();
 	if ($save==true) {
 
@@ -77,6 +80,7 @@ elseif ($accion=="confirmar") {
 	$preset =$_POST['nombre_bodega'];
 	$cantidad =$_POST['cantidad'];
 	$Id_material =$_POST['id_material'];
+	$id_paquete =$_POST['id_paquete'];
 	$traslado = new Traslado();
 	$traslado->setId_traslado($id_traslado);
 		$traslado->setEstado($estado);
@@ -94,6 +98,9 @@ elseif ($accion=="confirmar") {
 		$detalle_bo->setId_material($Id_material);
 		$detalle_bo->setCantidad($cantidad);
 		$save1=$detalle_bo->save();
+			if ($save1==true) {
+				$updateP =$detalle_bo->updatePaquete($id_paquete);
+			}
 
 		}else{
 		$nueva_cantidad=$disponible + $cantidad;
@@ -101,6 +108,9 @@ elseif ($accion=="confirmar") {
 		$detalle_bo->setId_material($Id_material);
 		$detalle_bo->setCantidad($nueva_cantidad);
 		$save1=$detalle_bo->updateC();
+		if ($save1==true) {
+				$updateP =$detalle_bo->updatePaquete($id_paquete);
+			}
 
 		}
 

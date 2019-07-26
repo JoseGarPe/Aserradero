@@ -187,7 +187,6 @@
                           <th>N° </th>
                           <th>Mes</th> 
                           <th>Proveedor</th>
-                          <th>Fecha</th>
                           <th>F.Ingreso</th>
                           <th>F.Finalizado</th>
                           <th>Estado</th>
@@ -206,7 +205,7 @@
                            # code...
                          
                          foreach ((array)$todos as $row) {
-                          $fecha1= date_create($row['fecha']);
+                        //  $fecha1= date_create($row['fecha']);
                         //  $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
                       //    foreach ($sumCub as $key) {
                           //  $metro_cubico = $key['metro_cubico'];
@@ -216,8 +215,7 @@
                           <tr>
                           <td>'.$row['id_packing_list'].'</td>
                            <td>'.$row['mes'].'</td>
-                           <td>'.$row['shipper'].'</td>
-                           <td>'.date_format($fecha1, 'd/m/Y').'</td>';
+                           <td>'.$row['shipper'].'</td>';
                            if ($row['fecha_inicio']!=NULL) {
                             $date1=date_create($row['fecha_inicio']);
                              echo '<td>'.date_format($date1, 'd/m/Y').'</td>';

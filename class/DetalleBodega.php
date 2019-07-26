@@ -232,6 +232,21 @@ public function save()
         return $ListClientes;
     }
 
+       //------------------- TRASLADOS--------------------------------------------------------------------------------------------------------------------
+
+public function updatePaquete($paquete){
+
+        $query="UPDATE paquetes SET id_bodega='".$this->id_bodega."' WHERE id_paquete='".$paquete."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+
+    }
+
+
 
 }
 

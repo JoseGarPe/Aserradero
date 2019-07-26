@@ -22,7 +22,11 @@ session_start();
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />  
+   <!-- <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">-->
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
@@ -104,9 +108,26 @@ session_start();
 
         
               <div class="col-md-12 col-sm-12 col-xs-12">
+
+
+                 <center><input type="button" name="accion" value="Bodegas" id="accion" class="btn btn-primary view_data1" /> </center>  
+                    <br>
+                    <br>
+                    <?php 
+
+                          if (isset($_GET["id"]) && isset($_GET["nombre"])) {
+                        $codigo=$_GET["id"];
+                        $nombre=$_GET["nombre"];
+                        echo '<label><h1>Bodega: '.$nombre.'</h1></label>';
+                          }else{
+                            $codigo=0;
+                            $nombre="Selecciones un Bodega";
+                          }
+           
+                   ?>
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de DetalleBodegaes</h2>
+                    <h2>Pagina de Detalle de Bodega</h2>
 
 
                     
@@ -137,7 +158,7 @@ session_start();
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
               <span class="sr-only">Correcto:</span>
                 Los datos han sido guardados exitosamente.
-           
+           </div>
                     ';
                 }
             }elseif (isset($_GET['error'])) {
@@ -150,7 +171,7 @@ session_start();
               <span class="sr-only">Incorecto:</span>
               
                 Error al guardar, verifique los datos ingresados.
-
+</div>
            
                     ';
                 }
@@ -163,42 +184,25 @@ session_start();
               <span class="sr-only">Atencion:</span>
               
                 Ingrese todos los datos.
-            
+           </div> 
                     ';
                 }
             }
-             ?></div>
+             ?>
                   <div class="x_content">
                   
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-
-                   <input type="button" name="accion" value="Bodegas" id="accion" class="btn btn-primary view_data1" /> 
-                    <br>
-                    <br>
-                    <?php 
-
-                          if (isset($_GET["id"]) && isset($_GET["nombre"])) {
-                        $codigo=$_GET["id"];
-                        $nombre=$_GET["nombre"];
-                        echo '<label><h2>Bodega: '.$nombre.'</h2></label>';
-                          }else{
-                            $codigo=0;
-                            $nombre="Selecciones un Bodega";
-                          }
-           
-                   ?>
                    <h1>Materiales Guardados</h1>
                     <div id="employee_table">
-                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="example4" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                        <tr>
                           <th>Id</th>
                           <th>Material</th>
                           <th>Dimensiones</th>
                           <th>Categoria</th> 
-                          <th>Cantidad de Piezas</th>  
-                          <th>Opciones</th>                                  
+                          <th>Cantidad de Piezas</th>                                 
                         </tr>
                       </thead>
                       <tbody>
@@ -213,10 +217,7 @@ session_start();
                            <td>'.$row['largo'].'x'.$row['ancho'].'x'.$row['grueso'].'</td>
                            <td>'.$row['categoria'].'</td>
                            <td>'.$row['cantidad'].'</td>
-                           <td>
-                             <input type="button" name="view" value="Trasladar" id="'.$row["id_material"].'" pl="'.$codigo.'" nombre="'.$nombre.'" cantidad="'.$row['cantidad'].'" class="btn btn-info new_traslado"/> 
-
-                           </td>
+                           
                           ';
                             
                             echo'
@@ -227,15 +228,254 @@ session_start();
                          
                       </tbody>
                     </table>
+
+                  <!--END X CONTENT-->
+                   </div>
+                   </div>
+                  
                   </div>
                   <br>
                   <br>
                   <br>
-                  <h1>Productos Guardados:</h1>
+                  <br><br>
+ <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Detalle Paquetes</h2>
 
+
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                       
+                      <br><br>
 
                   <div id="employee_table">
-                    <table id="example1" class="table table-striped table-bordered" name="datatable-buttons">
+                   <table id="examplePa2" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
+                  <thead>
+                      <th>N°</th>
+                      <th>Fecha Ingreso</th>
+                      <th>Etiqueta</th>
+                      <th>Material</th>
+                      <th>Grosor</th>
+                      <th>Ancho</th>
+                      <th>Largo</th>
+                      <th>Piezas</th>
+                      <th>M<sup>3</sup></th>
+                      <th>M<sup>3</sup> Material</th>
+                      <th>Multiplo</th>
+                      <th>Tarima</th>
+                      <th>M<sup>3</sup> TOTAL</th>
+                      <th>Existente</th>
+                      <th>Ingreso</th>
+                      <th>Opcion</th>
+                  </thead>
+                  <tbody id="consu">
+                    <?php 
+                      require_once "../class/PackingList.php";
+                         require_once "../class/Paquetes.php";
+                         require_once "../class/Contenedor.php";
+                         $misPacks = new Packing();
+                         $todos = $misPacks->selectALL_Local();
+                            $mss = new Paquetes();
+                            
+                           $dato =1;
+                           $paquetes = $mss->selectALLpack_Bodega_general($codigo);
+
+                            foreach ($paquetes as $a) {
+                            
+                           $TP = $mss->countPaquetesBodega_general($codigo);
+                           $tm = $mss->countMcubicos_material($a['id_material'],$codigo);
+                           foreach ($TP as $key) {
+                             $totalPaquetes = $key['total'];
+                             $totalMC = $key['metroCubic'];
+                            }// consulta de total de paquetes
+                               foreach ($tm as $material) {
+                             $totalMateriales = $material['total'];
+                             $totalMCM = $material['metroCubic'];
+                            }// consulta de total de paquetes
+                            $tarimas= $a['metros_cubicos']/ $a['multiplo'] ;
+                                
+                        echo '
+                         <tr>
+                            <td>'.$a['id_paquete'].'</td>
+                            <td style="vertical-align:middle;">'.$a['fecha_ingreso'].'</td>
+                            <td>'.$a['etiqueta'].'</td>
+                            <td style="vertical-align:middle;">'.$a['material'].'</td>
+                            <td>'.$a['grueso'].'</td>
+                            <td>'.$a['ancho'].'</td>
+                            <td>'.$a['largo'].'</td>
+                            <td>'.$a['piezas'].'</td>
+                            <td>'.$a['metros_cubicos'].'</td>
+                            <td style="vertical-align:middle;">'.$totalMCM.' m<sup>3</sup></td>
+                            <td>'.$a['multiplo'].'</td>
+                            <td>'.round($tarimas).'</td>
+                            <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
+                            <td>'.$a['estado'].'</td>
+                            <td>'.$a['tipo_ingreso'].'</td> 
+                            <td>
+                             <input type="button" name="view" value="Trasladar" id_paquete="'.$a['id_paquete'].'" id="'.$a["id_material"].'" pl="'.$codigo.'" nombre="'.$nombre.'" cantidad="'.$a['piezas'].'" class="btn btn-info new_traslado"/> 
+
+                           </td>
+                        </tr> ';
+                                
+                                
+                              
+                          }
+
+                     ?>
+            </tbody>
+        </table>
+
+                  </div>
+
+                  <!--END X CONTENT-->
+                   </div>
+                   </div>
+                        <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Paquetes Almacenados</h2>
+
+
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div id="employee_table">
+
+
+                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
+               
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione una opcion<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <h2> 
+                     Contenedor: <input type="checkbox" id="myCheck" name="myCheck" value="opcion1" onclick="myFunction()">
+                      Envio: <input type="checkbox" id="myCheck1"  name="myCheck1" value="opcion2" onclick="myFunction1()"></h2>
+                        </div>
+                      </div>
+                                         
+                        <div id="cont1" class="form-group" style="display:none">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Contenedor<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">                         
+                          <input type="text" id="contenedor" name="contenedor"  class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <?php 
+                      echo '<input type="hidden" id="id" name="id" value="'.$codigo.'">';
+                       ?>
+                       <div id="env" style="display:none" class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Envio<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" id="envio" name="envio"  class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="box-footer">
+
+                        <div style="display:none" id="b_consultar" class="form-label-right col-md-5 col-sm-5 col-xs-12">
+               <center> <input type="button" class="btn btn-primary conte" id="consulta" value="Consultar" ></center>
+                        </div>
+                         <div style="display:none" id="b_envio" class="form-label-right col-md-5 col-sm-5 col-xs-12">
+               <center> <input type="button" class="btn btn-primary envi" id="envia" value="Envio" ></center>
+                        </div>
+                      </div>
+                       
+                       <table id="example3" class="table table-bordered">
+                    <thead>
+                            <tr>
+                            <th>N° Contenedor/Envio</th>
+                            <th width="95">Grueso</th>
+                            <th width="95">Ancho</th>
+                            <th width="95">Largo</th>
+                            <th width="95">Piezas</th>
+                            <th width="95">M<sup>3</sup></th>
+                            <th>Fecha Ingreso</th>
+                            <th>Bodega</th>
+                            <th>En Bodega</th>
+                            </tr></thead>
+                            <tbody id="resultado2">
+                              <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                            </tbody>
+                    </table> 
+
+                  
+                    <!--END X CONTENT-->
+                   </div>
+                   </div>
+
+                  </div>
+
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Productos Guardados</h2>
+
+
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                  <div id="employee_table">
+                    <table id="example10" class="table table-striped table-bordered">
                       <thead>
                        <tr>
                           
@@ -269,15 +509,45 @@ session_start();
                     </table>
                   </div>
 
+                  <!--END X CONTENT-->
+                   </div>
+                   </div>
+
                   <br>
                   <br>
                   <br>
-                  <h1>Traslados pendientes:</h1>
-                  <h1>Materiales:</h1>
+                 
+
+                        <div class="x_panel">
+                  <div class="x_title">
+                    <h2> Traslados pendientes</h2>
+
+
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
                       <div id="employee_table">
-                    <table id="example3" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="example40" class="table table-striped table-bordered">
                       <thead>
                        <tr>
+                        <th>Etiqueta Paquete</th>
                           <th>Material</th>
                           <th>Cantidad</th>
                           <th>Bodega Procedencia</th>
@@ -289,12 +559,19 @@ session_start();
                           <?php 
             require_once "../class/Traslado.php";
             require_once "../class/Bodega.php";
+            require_once "../class/Paquetes.php";
+                            $mss1 = new Paquetes();
                         $bodega = new Bodega();
                          $tras = new Traslado();
                          $traslados = $tras->selectTrasladoDestino($codigo);
                          foreach ($traslados as $ky) {
+                          $paquetes=$mss1->selectOne($ky['id_paquete']);
+                          foreach ($paquetes as $pqt) {
+                            $etiquetaPaquete=$pqt['etiqueta'];
+                          }
                        echo '
                           <tr>
+                          <td>'.$etiquetaPaquete.'</td>
                            <td>'.$ky['nombre'].'</td>
                            <td>'.$ky['cantidad'].'</td>';
                           $bodega_destino = $bodega->selectOne($ky['bodega_origen']);
@@ -318,10 +595,36 @@ session_start();
                          
                       </tbody>
                     </table>
-                  </div><br><br>
-                  <h2>Productos:</h2>
+                  </div>
+                        <!--END X CONTENT-->
+                   </div>
+                   </div><br><br>
+                        <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Productos</h2>
+
+
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
                       <div id="employee_table">
-                    <table id="example3" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="example3" class="table table-striped table-bordered" >
                       <thead>
                        <tr>
                           <th>Producto</th>
@@ -364,8 +667,10 @@ session_start();
                          
                       </tbody>
                     </table>
-                  </div>
-                  <!--END X CONTENT-->
+                    <!--END X CONTENT-->
+                   </div>
+                   </div>
+
                   </div>
                 </div>
               </div>
@@ -487,15 +792,38 @@ session_start();
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
     <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <!--<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>-->
+
+    <!--<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>-->
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
+
+    <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
+
+
+   <!-- <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>-->
+   <!-- <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script> -->
+   <!-- <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>-->
     <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
     <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
@@ -505,6 +833,56 @@ session_start();
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    <script>
+   
+  function myFunction() {
+  var checkBox = document.getElementById("myCheck");
+  var contenedor = document.getElementById("cont1");
+  var checkBox2 = document.getElementById("myCheck1");
+  var envio = document.getElementById("env");
+  var b_contenedor = document.getElementById("b_consultar");
+  var b_envio = document.getElementById("b_envio");
+  if (checkBox.checked == true){
+    b_contenedor.style.display="block";
+    contenedor.style.display = "block";
+    checkBox2.checked=false;
+     envio.style.display = "none";
+     b_envio.style.display = "none";
+     
+    
+  } else {
+     contenedor.style.display = "none";
+     envio.style.display = "none";
+     b_envio.style.display = "none";
+    b_contenedor.style.display="none";
+     
+  }
+};
+function myFunction1() {
+  var checkBox = document.getElementById("myCheck");
+  var contenedor = document.getElementById("cont1");
+  var checkBox2 = document.getElementById("myCheck1");
+  var envio = document.getElementById("env");
+  var b_contenedor = document.getElementById("b_consultar");
+  var b_envio = document.getElementById("b_envio");
+  
+  if(checkBox2.checked == true){
+    envio.style.display = "block";
+     b_envio.style.display = "block";
+    checkBox.checked=false;
+     contenedor.style.display = "none";
+    b_contenedor.style.display="none";
+    
+  } else {
+     contenedor.style.display = "none";
+     envio.style.display = "none";
+     b_envio.style.display = "none";
+    b_contenedor.style.display="none";
+     
+  }
+};
+
+</script>
 <!-- Google Analytics -->
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -638,6 +1016,7 @@ ga('send', 'pageview');
       });  
       $(document).on('click', '.new_traslado', function(){  
            var employee_id = $(this).attr("id");  
+           var employee_paque= $(this).attr("id_paquete");  
            var employee_pl = $(this).attr("pl");
            var employee_nombre = $(this).attr("nombre");
            var employee_cantidad= $(this).attr("cantidad");   
@@ -646,7 +1025,7 @@ ga('send', 'pageview');
                 $.ajax({  
                      url:"../views/Traslado/newTraslado.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_nombre:employee_nombre,employee_cantidad:employee_cantidad},  
+                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_nombre:employee_nombre,employee_cantidad:employee_cantidad,employee_paque:employee_paque},  
                      success:function(data){  
                           $('#employee_forms5').html(data);  
                           $('#dataModal5').modal('show');  
@@ -673,21 +1052,64 @@ ga('send', 'pageview');
            }            
       });
 
+
+      $(document).on('click', '.conte', function(){  
+           var employee_id = $("#id").val(); 
+           var employee_etiqueta = $("#contenedor").val();
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/contenedor/consulta.php?accion=etiqueta",  
+                     method:"POST",
+                     data:{employee_id:employee_id,employee_etiqueta:employee_etiqueta},  
+                     success:function(data){    
+                         $("#resultado2").html(data);  
+                     }  
+                });  
+           }            
+      });
+
+      $(document).on('click', '.envi', function(){  
+           var employee_id = $("#id").val(); 
+           var employee_etiqueta = $("#envio").val();
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/contenedor/consulta.php?accion=envio",  
+                     method:"POST",
+                     data:{employee_id:employee_id,employee_etiqueta:employee_etiqueta},  
+                     success:function(data){    
+                         $("#resultado2").html(data);   
+                     }  
+                });  
+           }            
+      });
+
+
  });  
 
 </script>
         
 <script>
   $(function () {
-    $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
+    $('#example10').DataTable()
+    $('#example30').DataTable({
+       'paging'      : true,
       'lengthChange': false,
       'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : false
-    }) $('#example3').DataTable({
+      'autoWidth'   : false,
+       dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+  })
+    $('#example40').DataTable()
+    $('#example50').DataTable({
       'paging'      : true,
       'lengthChange': false,
       'searching'   : true,
@@ -696,9 +1118,204 @@ ga('send', 'pageview');
       'autoWidth'   : false,
       'order'       : [[0, "desc"]]
     })
-  })
+    $('#examplePa2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+        rowsGroup:[12,3,9,1],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+    })
+  });
 </script>
+<script>
+  $(document).ready(function() {
+    $('#example3').DataTable( {
 
+      'order'       : [[0, "desc"]],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 5 ]
+                }
+            },
+            'colvis'
+        ]
+    } );
+    $('#example2').DataTable( {
+        order: [[0, 'asc']],
+        rowGroup: {
+            startRender: null,
+            endRender: function ( rows, group ) {
+                var salaryAvg = rows
+                    .data()
+                    .pluck(11)
+                    .reduce( function (a, b) {
+                        return a + b.replace(/[^\d]/g, '')*1;
+                    }, 0) / rows.count();
+                salaryAvg = $.fn.dataTable.render.number(',', '.', 0, '$').display( salaryAvg );
+ 
+                var ageAvg = rows
+                    .data()
+                    .pluck(11)
+                    .reduce( function (a, b) {
+                        return a + b*1;
+                    }, 0) / rows.count();
+ 
+               return $('<tr/>')
+                    .append( '<td colspan="3">Total M<sup>3</sup> Orden'+group+'</td>' )
+                    .append( '<td></td>' )
+                    .append( '<td/>' )
+                    .append( '<td>'+salaryAvg+'</td>' );
+            },
+            dataSrc: 0
+        }
+    } );
+    $('#example4').DataTable( {
+        order: [[0, 'asc']],
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      responsive: true,
+      'autoWidth'   : true,
+        rowsGroup:[0,14,3,2],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
+       
+    } );
+    $('#example1').DataTable( {
+        
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      responsive: true,
+      'autoWidth'   : true,
+        rowsGroup:[0,14,3,2],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
+       
+    } );
+
+    $('#example5').DataTable( {
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      responsive: true,
+      'autoWidth'   : true,
+        rowsGroup:[0,14,3,2],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
+       
+    } );
+
+} );
+</script>
 <script>
   
 $(document).ready(function () {
@@ -718,5 +1335,6 @@ $(document).ready(function () {
 });
 
 </script>
+
     </body>
 </html>

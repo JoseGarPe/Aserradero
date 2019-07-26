@@ -9,6 +9,7 @@ class Traslado extends conexion
     private $cantidad;
     private $bodega_destino;
     private $estado;
+    private $id_paquete;
 
     function __construct()
     {
@@ -19,6 +20,7 @@ class Traslado extends conexion
         $this->cantidad ="";
         $this->bodega_destino ="";
         $this->estado ="";
+        $this->id_paquete ="";
     }
 
     public function getId_traslado(){
@@ -70,10 +72,19 @@ class Traslado extends conexion
     }
 
 
+    public function getId_paquete(){
+        return $this->id_paquete;
+    }
+
+    public function setId_paquete($id_paquete){
+        $this->id_paquete= $id_paquete;
+    }
+
+
 
     public function save(){
 
-        $query="INSERT INTO traslado(id_traslado, bodega_origen, id_material, cantidad, bodega_destino, estado) values(NULL,'".$this->bodega_origen."','".$this->id_material."','".$this->cantidad."','".$this->bodega_destino."','No Confirmado')";
+        $query="INSERT INTO traslado(id_traslado, bodega_origen, id_material, cantidad, bodega_destino, estado,id_paquete) values(NULL,'".$this->bodega_origen."','".$this->id_material."','".$this->cantidad."','".$this->bodega_destino."','No Confirmado','".$this->id_paquete."')";
         $save=$this->db->query($query);
         if ($save==true) {
             return true;
