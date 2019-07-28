@@ -62,6 +62,8 @@ $id_paquete=$_POST['id_paquete'];
 		$detalle_bo->setId_material($Id_material);
 		$detalle_bo->setCantidad($nueva_cantidad);
 		$save1=$detalle_bo->updateC();
+
+				$updateP =$detalle_bo->updatePaquete_tras($id_paquete);
 		if ($save1 == true) {
 			header('Location: ../listas/DetalleBodegas.php?id='.$Bodega_origen.'&nombre='.$nombre_bodega.'');
 		}
@@ -118,6 +120,52 @@ elseif ($accion=="confirmar") {
 		# code...
 	}else{
 		header('Location: ../listas/DetalleBodegas.php?error=incorrecto');
+	}
+}
+elseif ($accion=="cancelar") 
+{
+	$Bodega_origen=$_POST['Bodega_origen'];
+$Id_material=$_POST['Id_material'];
+
+	$id_traslado =$_POST['id_traslado'];
+$id_paquete=$_POST['id_paquete'];
+	$Bodega_destino=$_POST['Bodega_destino'];
+	$cantidad=$_POST['cantidad'];
+	$nombre_bodega = $_POST['nombre_origen'];
+
+	# code...
+	$traslado = new Traslado();
+	$traslado->setBodega_origen($Bodega_destino);
+	$traslado->setId_material($Id_material);
+	$traslado->setCantidad($cantidad);
+	$traslado->setBodega_destino($Bodega_origen);
+	$traslado->setId_paquete($id_paquete);
+	$save=$traslado->save();
+	if ($save==true) {
+
+	/*	$detalle_bo = new DetalleBodega();
+		$bodega_Disponible=$detalle_bo->selectCantidad_material_bodega($Bodega_origen,$Id_material);
+		foreach ($bodega_Disponible as $key) {
+			$disponible = $key['cantidad'];
+		}
+		$nueva_cantidad=$disponible + $cantidad;
+		$detalle_bo->setId_bodega($Bodega_origen);
+		$detalle_bo->setId_material($Id_material);
+		$detalle_bo->setCantidad($nueva_cantidad);
+		$save1=$detalle_bo->updateC();
+		if ($save1 == true) {*/
+				//$updateP =$detalle_bo->updatePaquete($id_paquete);
+				$traslado->setId_traslado($id_traslado);
+				$traslado->setEstado('Cancelado');
+				$delete=$traslado->update();
+					
+			header('Location: ../listas/DetalleBodegas.php?id='.$Bodega_destino.'&nombre='.$nombre_bodega.'');
+		//}
+		
+		# code...
+	}
+	else{
+		header('Location: ../listas/Traslado.php?error=incorrecto');
 	}
 }
 

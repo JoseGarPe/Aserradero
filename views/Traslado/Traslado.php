@@ -129,6 +129,13 @@ class Traslado extends conexion
        $Listtraslado=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listtraslado;
     }
+     public function selectOneBodega($codigo)
+    {
+        $query="SELECT * FROM bodegas WHERE id_bodega='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $Listtraslado=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listtraslado;
+    }
 
 
 

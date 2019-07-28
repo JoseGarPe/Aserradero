@@ -244,7 +244,18 @@ public function updatePaquete($paquete){
             return false;
         }  
 
+    }public function updatePaquete_tras($paquete){
+
+        $query="UPDATE paquetes SET id_bodega=0 WHERE id_paquete='".$paquete."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+
     }
+
 
 
 

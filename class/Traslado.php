@@ -94,6 +94,18 @@ class Traslado extends conexion
 
 
     }
+    public function save1(){
+
+        $query="INSERT INTO traslado(id_traslado, bodega_origen, id_material, cantidad, bodega_destino, estado,id_paquete) values(NULL,'".$this->bodega_origen."','".$this->id_material."','".$this->cantidad."','".$this->bodega_destino."','Cancelado','".$this->id_paquete."')";
+        $save=$this->db->query($query);
+        if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+
+
+    }
     public function update(){
 
         $query="UPDATE traslado SET estado='".$this->estado."' WHERE id_traslado ='".$this->id_traslado."'";

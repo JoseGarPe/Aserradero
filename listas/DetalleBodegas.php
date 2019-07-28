@@ -235,12 +235,9 @@ session_start();
                   
                   </div>
                   <br>
-                  <br>
-                  <br>
-                  <br><br>
  <div class="x_panel">
                   <div class="x_title">
-                    <h2>Detalle Paquetes</h2>
+                    <h2>Detalle Paquetes Guardados</h2>
 
 
                     
@@ -417,7 +414,7 @@ session_start();
                        <table id="example3" class="table table-bordered">
                     <thead>
                             <tr>
-                            <th>N° Contenedor/Envio</th>
+                            <th>Etiqueta</th>
                             <th width="95">Grueso</th>
                             <th width="95">Ancho</th>
                             <th width="95">Largo</th>
@@ -583,6 +580,7 @@ session_start();
                          if ($ky['estado'] == "No Confirmado") {
                             echo '<td> 
                              <input type="button" name="view" value="Confirmar" id="'.$ky["id_traslado"].'" pl="'.$ky["bodega_destino"].'" nombre="'.$nombre.'" class="btn btn-warning confirm_data2"/> 
+                             <input type="button" name="view" value="Cancelar" id="'.$ky["id_traslado"].'" pl="'.$ky["bodega_destino"].'" nombre="'.$nombre.'" class="btn btn-danger cancel_data2"/> 
                                </td>';
                          }else{
                             echo '<td></td>';
@@ -601,7 +599,7 @@ session_start();
                    </div><br><br>
                         <div class="x_panel">
                   <div class="x_title">
-                    <h2>Productos</h2>
+                    <h2>Traslado de Productos</h2>
 
 
                     
@@ -624,7 +622,7 @@ session_start();
                   </div>
                   <div class="x_content">
                       <div id="employee_table">
-                    <table id="example3" class="table table-striped table-bordered" >
+                    <table id="examplePro" class="table table-striped table-bordered" >
                       <thead>
                        <tr>
                           <th>Producto</th>
@@ -978,7 +976,22 @@ ga('send', 'pageview');
                      }  
                 });  
            }   
-      }); 
+      });
+      $(document).on('click', '.cancel_data2', function(){  
+           var employee_traslado = $(this).attr("id");  
+           if(employee_traslado != '')  
+           {  
+                $.ajax({  
+                     url:"../views/Traslado/cancelarTraslado.php",  
+                     method:"POST",  
+                     data:{employee_traslado:employee_traslado},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
+      });  
      
       $(document).on('click', '.confirm_data2', function(){  
            var employee_id = $(this).attr("id");  
@@ -1126,6 +1139,37 @@ ga('send', 'pageview');
       'info'        : true,
       'autoWidth'   : false,
         rowsGroup:[12,3,9,1],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+    })
+
+    $('#examplePro').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
         dom: 'Bfrtip',
         buttons: [
             {
