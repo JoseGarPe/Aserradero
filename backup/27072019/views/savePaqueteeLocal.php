@@ -4,10 +4,10 @@
  ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head><meta http-equiv="Content-Type" content="text/html; charset=gb18030">
+    
     <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -27,19 +27,10 @@
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> 
-    <!-- SELECT WITH SEARCH-->
-    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css'>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-<!--SELECT WITH SEARCH 
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -122,7 +113,7 @@
                     <br><br>
                     <table class="table table-striped">
                       <thead>
-                        <tr><th>Orden</th><th>Contenedor</th><th>ID</th></tr>
+                        <tr><th>Orden</th><th>Envio</th><th>ID</th></tr>
                       </thead>
                       <tbody>
 
@@ -199,7 +190,7 @@
 
                   <div class="x_content">
                     <div class="row">
-                      <a href="../listas/IndexPackingList.php" class="btn btn-warning">Volver a Ingresos</a>
+                      <a href="../listas/IndexPackingList_Local.php" class="btn btn-warning">Volver a Ingresos</a>
                       <div class="col-xs-12 col-xs-12 col-md-12">
                         <?php 
                           require_once "../class/PackingList.php";                       
@@ -210,12 +201,12 @@
                            $material = new Contenedores();
                                   $catego1 = $material->selectOne($conten);
                                   foreach ($catego1 as $k) {
-                                  //  $fechaPaquete=$k['fecha_ingreso'];
-                               //     $bodegaPaquete=$k['id_bodega'];
-                             /*     $bodega = $material->selectBodega($bodegaPaquete);
+                                    $fechaPaquete=$k['fecha_ingreso'];
+                                    $bodegaPaquete=$k['id_bodega'];
+                                  $bodega = $material->selectBodega($bodegaPaquete);
                                   foreach ($bodega as $value) {
                                     $nombreBodega=$value['nombre'];
-                                    }*/
+                                    }
                                   }
 
                          foreach ($orden as $key) {
@@ -223,7 +214,7 @@
                          }
                          if ($estado != 'Cerrado') {
                         ?>
-                        <form action="../controllers/PaquetesControlador.php?accion=guardar" method="post"  role="form1">
+                        <form action="../controllers/PaquetesControlador.php?accion=guardarLocal" method="post"  role="form1">
                           <table  class="table table-bordered">
                             <thead>
                             <tr>
@@ -234,13 +225,13 @@
                             <th width="95">Largo</th>
                             <th width="95">Piezas</th>
                             <th>Multiplo</th>
-                           <!-- <th>Fecha Ingreso</th>
-                            <th>Bodega Destino</th>-->
+                            <th>Fecha Ingreso</th>
+                            <th>Bodega Destino</th>
                             </tr></thead>
                             <tbody>
                             <tr>
-                              <td><select class="selectpicker form-control" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --" autofocus="true">
-                      
+                              <td><select class="form-control" name="id_materiales" id="id_materiales">
+                          <option>Seleccione una opcion</option>
                           <?php 
                           require_once "../class/Materiales.php";
 
@@ -262,21 +253,17 @@
                               <td ><input type="number"  min="0.00" step="0.0000000001" id="largo" name="largo"  class="form-control col-sm-4"></td>
                               <td><input type="number" id="piezas" name="piezas" min="0.00" step="1"  class="form-control col-md-7"></td>
                               <td><input type="number" id="multiplo" name="multiplo"  min="0.00" step="0.00000000001"  class="form-control col-md-7"></td>
-                           <!--   <td> --> <?php 
-                            //  echo $fechaPaquete;
+                              <td>  <?php 
+                              echo $fechaPaquete;
                                ?>
-                          <!--    </td>
+                              </td>
                             <td>
-                                 <div id="datos3"></div> -->
+                                <!-- <div id="datos3"></div> -->
                                 <?php
-                            //     echo $nombreBodega;
-                     /*            echo '<input type="hidden" name="id_contenedor" value="'.$conten.'">
+                                 echo $nombreBodega;
+                                 echo '<input type="hidden" name="id_contenedor" value="'.$conten.'">
                                  <input type="hidden" id="id_bodega" name="id_bodega" value="'.$bodegaPaquete.'">
                                  <input type="hidden" class="form-control" name="fecha" id="fecha" value="'.$fechaPaquete.'"/>
-                                 <input type="hidden" id="etiquetaCoo" name="etiquetaCoo" value="'.$etic.'">'; */
-                                       echo '<input type="hidden" name="id_contenedor" value="'.$conten.'">
-                                 <input type="hidden" id="id_bodega" name="id_bodega" value="0">
-                                 <input type="hidden" class="form-control" name="fecha" id="fecha" value="0000-00-00"/>
                                  <input type="hidden" id="etiquetaCoo" name="etiquetaCoo" value="'.$etic.'">'; 
                                  ?>
                               </td>
@@ -351,7 +338,6 @@
                          $datos=1;
                          foreach ($paquetes as $key) {
 
-                            $dateIP=date_create($key['fecha_ingreso']);
                           echo '
                           <tr>
                           <td>'.$key['material'].'</td>';
@@ -371,21 +357,9 @@
                           <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['multiplo'].'</td>
-                          <td>'.date_format($dateIP, 'd/m/Y').'</td>';
-                        //  <td>'.$key['bodega'].'</td>
-                          if ($key['id_bodega']=='0') {
-                          echo '<td>Sin confirmar contenedor</td>';
-                          }else{
-                               require_once "../class/Bodega.php";
-            
-                             $bod = new Bodega();
-                             $datoBd = $bod->SelectOne($key['id_bodega']);
-                             foreach ($datoBd as $valor) {
-                              echo'<td>'.$valor['nombre'].'</td>';
-                               
-                             }
-                          }
-                        echo'  <td>'.$key['contenedor'].'</td>
+                          <td>'.$key['fecha_ingreso'].'</td>
+                          <td>'.$key['bodega'].'</td>
+                          <td>'.$key['contenedor'].'</td>
                           <td>'.$key['stock'].'</td>
                           <td>'.$key['estado'].'</td>';
                           if ($key['etiqueta']!=NULL) {

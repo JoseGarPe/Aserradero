@@ -345,6 +345,7 @@
                          $datos=1;
                          foreach ($paquetes as $key) {
 
+                            $dateIP=date_create($key['fecha_ingreso']);
                           echo '
                           <tr>
                           <td>'.$key['material'].'</td>';
@@ -364,7 +365,7 @@
                           <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['multiplo'].'</td>
-                          <td>'.$key['fecha_ingreso'].'</td>
+                          <td>'.date_format($dateIP, 'd/m/Y').'</td>
                           <td>'.$key['bodega'].'</td>
                           <td>'.$key['contenedor'].'</td>
                           <td>'.$key['stock'].'</td>

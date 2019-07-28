@@ -192,7 +192,7 @@ table {
                   <div class="x_content">
                
 
-        <label>Proyeccion local</label>
+        <label>TABLA PRUEBA</label>
         <div class="col-xs-12">
           <table id="example4" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
                   <thead>
@@ -230,11 +230,10 @@ table {
                              $totalMC = $key['metroCubic'];
                             }// consulta de total de paquetes
 
-                            $datePL=date_create($value['fecha']);
                             foreach ($paquetes as $a) {
                             
                               $contenedor = new  Contenedores();
-                              $tarimas= $a['metros_cubicos']/ $a['multiplo'] ;
+                              $tarimas= $a['multiplo'] * $a['metros_cubicos'];
                               $datosC = $contenedor->selectOne($a['id_contenedor']);
                                   foreach ($datosC as $b) {
                                    $madera =$b['tipo_ingreso']; 
@@ -245,7 +244,7 @@ table {
                             <td style="vertical-align:middle;">'.$value['id_packing_list'].'</td>
                             <td>'.$value['mes'].'</td>
                             <td style="vertical-align:middle;">'.$a['contenedor'].'</td>
-                            <td style="vertical-align:middle;">'.date_format($datePL, 'd/m/Y').'</td>
+                            <td style="vertical-align:middle;">'.$value['fecha'].'</td>
                             <td>'.$madera.'</td>
                             <td>'.$a['etiqueta'].'</td>
                             <td>'.$a['material'].'</td>
@@ -272,112 +271,7 @@ table {
                     
                   </div>
                 </div> <!--X PANEL 1 -->
-            <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Proyeccion Paquetes Locales</h2>
-
-
-                    
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                         <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione un estado<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control" onchange="mostrarInfo(this.value)" id="consulta_pa" name="consulta_pa">
-                          <option value="0">Seleccione una opcion</option>
-                          <option value="Confirmado">Existente</option>
-                          <option value="Sin confirmar">Ingresando</option>
-                          </select>
-                        </div>
-                      </div>
-                      <br><br>
-
-                  <div id="employee_table">
-                   <table id="examplePa" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
-                  <thead>
-                      <th>Bodega</th>
-                      <th>Fecha Ingreso</th>
-                      <th>Etiqueta</th>
-                      <th>Material</th>
-                      <th>Grosor</th>
-                      <th>Ancho</th>
-                      <th>Largo</th>
-                      <th>Piezas</th>
-                      <th>M<sup>3</sup></th>
-                      <th>Multiplo</th>
-                      <th>Tarima</th>
-                      <th>M<sup>3</sup> TOTAL</th>
-                      <th>Existente</th>
-                  </thead>
-                  <tbody id="consu">
-                    <?php 
-                      require_once "../class/PackingList.php";
-                         require_once "../class/Paquetes.php";
-                         require_once "../class/Contenedor.php";
-                         $misPacks = new Packing();
-                         $todos = $misPacks->selectALL_Local();
-                            $mss = new Paquetes();
-                            
-                           $dato =1;
-                           $paquetes = $mss->selectALLpack_Bodega_local();
-
-                            foreach ($paquetes as $a) {
-                            
-                           $TP = $mss->countPaquetesBodegaLocal($a['id_bodega']);
-                           foreach ($TP as $key) {
-                             $totalPaquetes = $key['total'];
-                             $totalMC = $key['metroCubic'];
-                            }// consulta de total de paquetes
-                            $tarimas= $a['metros_cubicos']/ $a['multiplo'] ;
-                                
-                            $datePL=date_create($a['fecha_ingreso']);
-                        echo '
-                         <tr>
-                            <td style="vertical-align:middle;">'.$a['bodega'].'</td>
-                            <td style="vertical-align:middle;">'.date_format($datePPL, 'd/m/Y').'</td>
-                            <td>'.$a['etiqueta'].'</td>
-                            <td>'.$a['material'].'</td>
-                            <td>'.$a['grueso'].'</td>
-                            <td>'.$a['ancho'].'</td>
-                            <td>'.$a['largo'].'</td>
-                            <td>'.$a['piezas'].'</td>
-                            <td>'.$a['metros_cubicos'].'</td>
-                            <td>'.$a['multiplo'].'</td>
-                            <td>'.round($tarimas).'</td>
-                            <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
-                            <td>'.$a['estado'].'</td>
-                        </tr> ';
-                                
-                                
-                              
-                          }
-
-                     ?>
-            </tbody>
-        </table>
-
-                  </div>
-
-                  <!--END X CONTENT-->
-                   </div>
-                   </div>
+            
               </div>
         </div>
         
@@ -631,39 +525,7 @@ ga('send', 'pageview');
   <script>
   $(function () {
     $('#example1').DataTable()
-
-    $('#examplePa').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false,
-        rowsGroup:[0,11,1,12],
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'copyHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                exportOptions: {
-                    columns: 'visible'
-                }
-            },
-            'colvis'
-        ]
-    });
-    });
+    
 </script>
 <script>
   $(document).ready(function() {
@@ -885,30 +747,6 @@ function myFunction3() {
      estadop.style.display = "none";
      
   }
-}
-</script>
-<script>
-   function mostrarInfo(cod){
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-    document.getElementById("consu").innerHTML=xmlhttp.responseText;
-    }else{ 
-  document.getElementById("consu").innerHTML='Cargando...';
-    }
-  }
-xmlhttp.open("POST","../views/consulta.php?accion=paquetesLocal",true);
-xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-xmlhttp.send("cod_banda="+cod);
 }
 </script>
     </body>

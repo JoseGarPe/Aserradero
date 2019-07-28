@@ -3,14 +3,14 @@
   ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head><meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+    
     <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Aserradero</title>
+    <title>Rio Blanco | Aserradero</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,17 +22,13 @@
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
         <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-     <!-- Datatables -->
+    <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-
-   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />  
-   <!-- <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">-->
+    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 
     <!-- Custom Theme Style -->
@@ -286,7 +282,7 @@
                       }
 
                      ?>
-                    <table id="example4" class="table table-bordered">
+                    <table id="example1" class="table table-bordered">
                     <thead>
                             <tr>
                             <th>Etiqueta</th>
@@ -309,8 +305,6 @@
                             $mss = new Paquetes();
                          $paquetes = $mss->selectALLpack_fechas($fecha1,$fecha2,$id_material);
                          foreach ($paquetes as $key) {
-
-                            $dateIP=date_create($key['fecha_ingreso']);
                           echo '
                           <tr>
                           <td>'.$key['etiqueta'].'</td>
@@ -319,7 +313,7 @@
                           <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['metros_cubicos'].'</td>
-                          <td>'.date_format($dateIP, 'd/m/Y').'</td>
+                          <td>'.$key['fecha_ingreso'].'</td>
                           <td>'.$key['bodega'].'</td>
                           <td>'.$key['estado'].'</td>
                           </tr>
@@ -335,8 +329,6 @@
                             $mss = new Paquetes();
                          $paquetes = $mss->selectALL_estado($estado,$id_material);
                           foreach ($paquetes as $key) {
-
-                            $dateIP=date_create($key['fecha_ingreso']);
                           echo '
                           <tr>
                           <td>'.$key['etiqueta'].'</td>
@@ -345,7 +337,7 @@
                           <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['metros_cubicos'].'</td>
-                          <td>'.date_format($dateIP, 'd/m/Y').'</td>
+                          <td>'.$key['fecha_ingreso'].'</td>
                           <td>'.$key['bodega'].'</td>
                           <td>'.$key['estado'].'</td>
                           </tr>
@@ -359,113 +351,6 @@
                   </div>
                   </div>
                 </div> <!--X PANEL 1 -->
-                   <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Proyeccion Paquetes</h2>
-
-
-                    
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                         <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione un estado<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control" onchange="mostrarInfo(this.value)" id="consulta_pa" name="consulta_pa">
-                          <option value="0">Seleccione una opcion</option>
-                          <option value="Confirmado">Existente</option>
-                          <option value="Sin confirmar">Ingresando</option>
-                          </select>
-                        </div>
-                      </div>
-                      <br><br>
-
-                  <div id="employee_table">
-                   <table id="examplePa" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
-                  <thead>
-                      <th>Bodega</th>
-                      <th>Fecha Ingreso</th>
-                      <th>Etiqueta</th>
-                      <th>Material</th>
-                      <th>Grosor</th>
-                      <th>Ancho</th>
-                      <th>Largo</th>
-                      <th>Piezas</th>
-                      <th>M<sup>3</sup></th>
-                      <th>Multiplo</th>
-                      <th>Tarima</th>
-                      <th>M<sup>3</sup> TOTAL</th>
-                      <th>Existente</th>
-                  </thead>
-                  <tbody id="consu">
-                    <?php 
-                      require_once "../class/PackingList.php";
-                         require_once "../class/Paquetes.php";
-                         require_once "../class/Contenedor.php";
-                         $misPacks = new Packing();
-                         $todos = $misPacks->selectALL_Local();
-                            $mss = new Paquetes();
-                            
-                           $dato =1;
-                           $paquetes = $mss->selectALLpack_Bodega();
-
-                            foreach ($paquetes as $a) {
-                            
-                           $TP = $mss->countPaquetesBodega($a['id_bodega']);
-                           foreach ($TP as $key) {
-                             $totalPaquetes = $key['total'];
-                             $totalMC = $key['metroCubic'];
-                            }// consulta de total de paquetes
-                            $tarimas= $a['metros_cubicos']/ $a['multiplo'] ;
-                                
-                            $datePP=date_create($a['fecha_ingreso']);
-                        echo '
-                         <tr>
-                            <td style="vertical-align:middle;">'.$a['bodega'].'</td>
-                            <td style="vertical-align:middle;">'.date_format($datePP, 'd/m/Y').'</td>
-                            <td>'.$a['etiqueta'].'</td>
-                            <td>'.$a['material'].'</td>
-                            <td>'.$a['grueso'].'</td>
-                            <td>'.$a['ancho'].'</td>
-                            <td>'.$a['largo'].'</td>
-                            <td>'.$a['piezas'].'</td>
-                            <td>'.$a['metros_cubicos'].'</td>
-                            <td>'.$a['multiplo'].'</td>
-                            <td>'.round($tarimas).'</td>
-                            <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
-                            <td>'.$a['estado'].'</td>
-                        </tr> ';
-                                
-                                
-                              
-                          }
-
-                     ?>
-            </tbody>
-        </table>
-
-                  </div>
-
-                  <!--END X CONTENT-->
-                   </div>
-                   </div>
-
                 <div class="x_panel">
                   <div class="x_title"> 
                   <h2>Proyecciones Generales</h2>                   
@@ -548,32 +433,34 @@
                     <?php
                     if (isset($_POST['myCheck2']) && isset($_POST['fecha_inicialp']) && isset($_POST['fecha_finalp']) && isset($_POST['estado_conp'])) {
                         $fecha3=$_POST['fecha_inicialp'];
+                        $FECHAINI = date_create($fecha3);
                         $fecha4=$_POST['fecha_finalp'];
+                        $FECHAFIN = date_create($fecha4);
 
                         $estado_pro=$_POST['estado_conp'];
-                        echo '<h2> <label> Proyeccion general Materia prima con estado '.$estado_pro.', desde '.$fecha3.' hasta '.$fecha4.'</label></h2>';
+                        echo '<h2> <label> Proyeccion general Materia prima con estado '.$estado_pro.', desde '.date_format($FECHAINI, 'd/m/Y').' hasta '.date_format($FECHAFIN, 'd/m/Y').'</label></h2>';
                       }elseif (isset($_POST['myCheck3'])&&isset($_POST['estado_conp'])) {
                         $estado_pro=$_POST['estado_conp'];
                         echo '<h2> <label> Proyeccion general Materia prima con estado '.$estado_pro.'</label></h2>';
                       }
                      ?>
                     <BR>
-                    <table id="example30" class="table table-bordered">
+                    <table id="example3" class="table table-bordered">
                     <thead>
                       <?php 
                        require_once "../class/Materiales.php";
                        require_once "../class/Paquetes.php";
                             $mms = new Materiales();
-                         $materialess = $mms->selectALL_CA(2);
+                         $materialess = $mms->selectALL_CA(1);
                           $pq = new Paquetes();
                           $shippers = $pq->selectALLShippers();
                           
                        ?>
                             <tr>
-                            <th>NÂ°</th>
+                            <th>N¡Æ</th>
                             <th>Proveedor</th>
                             <th>Rec</th>
-                            <th>NÂ° Con</th>
+                            <th>N¡Æ Con</th>
                             <?php
                              $numero = 1;
                              $columnas = 0;
@@ -767,7 +654,6 @@
                 </div><!-- X PANEL 2-->
 
               </div>
-        </div>
         
         
             </div>
@@ -870,32 +756,9 @@
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
     <!-- Datatables -->
-    <!--<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>-->
-
-    <!--<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>-->
-
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
-
-    <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
-
-
-   <!-- <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>-->
-   <!-- <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script> -->
-   <!-- <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
@@ -904,7 +767,7 @@
     <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>-->
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
@@ -1017,24 +880,10 @@ ga('send', 'pageview');
 </script>
   <script>
   $(function () {
-    $('#example10').DataTable()
-    $('#example30').DataTable({
-       'paging'      : true,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false,
-       dom: 'Bfrtip',
-        buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5'
-        ]
-  })
-    $('#example40').DataTable()
-    $('#example50').DataTable({
+    $('#example1').DataTable()
+    $('#example3').DataTable()
+    $('#example4').DataTable()
+    $('#example5').DataTable({
       'paging'      : true,
       'lengthChange': false,
       'searching'   : true,
@@ -1042,132 +891,8 @@ ga('send', 'pageview');
       'info'        : true,
       'autoWidth'   : false,
       'order'       : [[0, "desc"]]
-    }) 
-    $('#examplePa').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false,
-        rowsGroup:[0,11,1,12],
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'copyHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                exportOptions: {
-                    columns: 'visible'
-                }
-            },
-            'colvis'
-        ]
     })
   });
-</script>
-<script>
-  $(document).ready(function() {
-    $('#example3').DataTable( {
-
-      'order'       : [[0, "desc"]],
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'copyHtml5',
-                exportOptions: {
-                    columns: [ 0, ':visible' ]
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                exportOptions: {
-                    columns: 'visible'
-                }
-            },
-            'colvis'
-        ]
-    } );
-    $('#example2').DataTable( {
-        order: [[0, 'asc']],
-        rowGroup: {
-            startRender: null,
-            endRender: function ( rows, group ) {
-                var salaryAvg = rows
-                    .data()
-                    .pluck(11)
-                    .reduce( function (a, b) {
-                        return a + b.replace(/[^\d]/g, '')*1;
-                    }, 0) / rows.count();
-                salaryAvg = $.fn.dataTable.render.number(',', '.', 0, '$').display( salaryAvg );
- 
-                var ageAvg = rows
-                    .data()
-                    .pluck(11)
-                    .reduce( function (a, b) {
-                        return a + b*1;
-                    }, 0) / rows.count();
- 
-               return $('<tr/>')
-                    .append( '<td colspan="3">Total M<sup>3</sup> Orden'+group+'</td>' )
-                    .append( '<td></td>' )
-                    .append( '<td/>' )
-                    .append( '<td>'+salaryAvg+'</td>' );
-            },
-            dataSrc: 0
-        }
-    } );
-    $('#example4').DataTable( {
-      'lengthChange': true,
-      'searching'   : true,
-      'ordering'    : true,
-      'info'        : true,
-      responsive: true,
-      'autoWidth'   : true,
-        rowsGroup:[0,11,1],
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'copyHtml5',
-                exportOptions: {
-                    columns: [ 0, ':visible' ]
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                orientation: 'landscape',
-                pageSize: 'LEGAL',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            'colvis'
-        ]
-       
-    } );
-
 </script>
          <script>
     $('#myDatepicker').datetimepicker();
@@ -1177,9 +902,9 @@ ga('send', 'pageview');
     });
     
     $('#myDatepicker3').datetimepicker({
-          format: 'YYYY-MM-DD'
+          format: 'YYYY.MM.DD'
     });
-     $('#myDatepicker33').datetimepicker({
+      $('#myDatepicker33').datetimepicker({
           format: 'YYYY-MM-DD'
     });
       $('#myDatepicker34').datetimepicker({
@@ -1249,6 +974,7 @@ ga('send', 'pageview');
      
   }
 }
+
   function myFunction2() {
   var checkBox1 = document.getElementById("myCheck2");
   var fecha_ip = document.getElementById("fechaip");
@@ -1289,30 +1015,6 @@ function myFunction3() {
      estadop.style.display = "none";
      
   }
-}
-</script>
-<script>
-   function mostrarInfo(cod){
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-    document.getElementById("consu").innerHTML=xmlhttp.responseText;
-    }else{ 
-  document.getElementById("consu").innerHTML='Cargando...';
-    }
-  }
-xmlhttp.open("POST","../views/contenedor/consulta.php?accion=paquetes",true);
-xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-xmlhttp.send("cod_banda="+cod);
 }
 </script>
     </body>
