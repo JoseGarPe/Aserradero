@@ -12,44 +12,34 @@ require_once "../class/PackingList.php";
                            # code...
                          
                          foreach ((array)$catego as $row) {
-                     /*        $falla =$row["correlativo"];
+                           $falla =$row["correlativo"];
                            $array_falla = str_split($falla);
                            $falla_count = strlen($falla);
-                           $dia=$array_falla[0]."".$array_falla[1];
-                           $mes=$array_falla[3]."".$array_falla[4];
-                           $corre=$array_falla[6]."".$array_falla[7]."".$array_falla[8]."".$array_falla[9]."".$array_falla[10];
-                          echo '  <div class="col-md-12">
+                           $corre1=$array_falla[0]."".$array_falla[1];
+
+                           
+                           $anio=$array_falla[3]."".$array_falla[4];
+                      echo '  <div class="col-md-12">
                    <div class="row">
-                      <div class="form-group col-sm-4 col-sm-2">
-                        <label for="middle-name" class="control-label col-xs-8">Correlativo</label>
-                        <div class="col-xs-3 col-sm-3">
-                          <input id="dia"  type="number" min="1" max="31" value="'.$dia.'" step="1" name="dia">
+                      <div class="form-group ">
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Correlativo</label>
+                        <div class="col-md-4 col-sm-6 col-xs-10">
+                          <input id="correlativo"  type="number" min="1" max="999" value="'.$corre1.'" step="1" name="correlativo">
+                          -
+                          <input id="year"  type="number" name="year" value="'.$anio.'" step="1" min="1" max="99">
                         </div>
                       </div>
 
-                      <div class="form-group col-sm-4 col-sm-2">
-                        <label for="middle-name" class="control-label col-xs-2">/</label>
-                        <div class="col-xs-3">
-                          <input id="mes"  type="number" name="mes" value="'.$mes.'" step="1" min="1" max="12">
-                        </div>
-                      </div>
-
-                      <div class="form-group col-sm-4">
-                        <label for="middle-name" class="control-label col-xs-2">/</label>
-                        <div class="col-xs-3 col-sm-2">
-                          <input id="correlativo"  type="number" step="1" min="0" max="3000" value="'.$corre.'" name="correlativo">
-                        </div>
-                      </div>
-
-                   </div>
+                     
+                     </div>
                 </div>';
-                           */                          
+                                                  
                          		echo '
                             <div class="row">
           <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Correlativo</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12"></label>
                         <div class="col-md-8 col-sm-6 col-xs-12">
-                          <input id="correlativo"  type="text" class="form-control" name="correlativo" value="'.$row['correlativo'].'">
+                        <!--  <input id="correlativo"  type="text" class="form-control" name="correlativo" value="'.$row['correlativo'].'">-->
                         </div>
                       </div>
             

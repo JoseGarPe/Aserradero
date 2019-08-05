@@ -10,7 +10,8 @@
                           <input type="email" placeholder="example@email.com" name="correo" id="correo" class="form-control" />  
                           <br /> 
                           <label>Telefono</label>  
-                          <input type="tel" placeholder="Ej: 22222222" pattern="[2,7]{1}\d{7}" name="telefono" id="telefono" oninvalid="setCustomValidity('Ingresar Formato Correcto Telefono')" class="form-control" />  
+                        <!--  <input type="tel" placeholder="Ej: 22222222" pattern="[2,7]{1}\d{7}" name="telefono" id="telefono" oninvalid="setCustomValidity('Ingresar Formato Correcto Telefono')" class="form-control" />  -->
+                        <input type="tel" placeholder="Ej: 22222222"  name="telefono" id="telefono" class="form-control" />
                           <br />  
                           <label>Contraseña</label>  
                           <input type="password" name="contrasena" id="contrasena" class="form-control"

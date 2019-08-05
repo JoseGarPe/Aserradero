@@ -20,7 +20,7 @@
          		<thead>
                         <tr>
                           <th>Id</th>
-                          <th>Etiqueta</th>
+                          <th>N° Contenedor</th>
                           <th>Estado</th>
                           <th>Fecha Ingreso</th> 
                           <th>Bodega</th>  
@@ -53,7 +53,7 @@
                             }
                             if ($row['id_bodega']== NULL) {
                               echo '<td><select class="form-control" name="id_bodega'.$idf.'" id="id_bodega'.$idf.'" required>
-                          <option value="0">Seleccione una opcion</option>';
+                          <option value="">Seleccione una opcion</option>';
                           require_once "Bodega.php";
 
                         $mistipos = new Bodega();
@@ -146,7 +146,7 @@
 <form role="form1" action="../controllers/ContenedorControlador.php?accion=guardar" method="post">
     <div class="box-body">
       <?php 
-      if ($primerContenedor == 'Primer Contenedor') {
+   /*   if ($primerContenedor == 'Primer Contenedor') {
       echo '
       <label>Datos complementarios Packing List</label>
       <div class="row">
@@ -186,7 +186,7 @@
                       <br><br>
           </div>
       ';
-      }
+      }*/
        ?>
        <br><br>
        <?php 

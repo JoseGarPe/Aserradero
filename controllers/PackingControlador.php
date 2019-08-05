@@ -23,10 +23,20 @@ $estado=$_POST['comboestado'];
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
 	$id_Pack =$_POST['id'];
-	$correlativo=$_POST['correlativo'];
+	//$correlativo=$_POST['correlativo'];
 	$poliza=$_POST['poliza'];
+
+$year=$_POST['year'];
+	$co=$_POST['correlativo'];
+	
+		$corre=$co.'-'.$year;
+	
+	
+
+	$poliza=$_POST['poliza'];
+
 	$Pack = new Packing();
-	$Pack->setCorrelativo($nombre);
+	$Pack->setCorrelativo($corre);
 	$Pack->setPoliza($descripcion);
 	$Pack->setId_packing_list($Pack);
 	$update=$Pack->updatePC();
@@ -67,7 +77,7 @@ elseif ($accion=="guardar")
 	$paquetes=$_POST['packetes'];
 	$paquetes_fisicos=$_POST['packfisicos'];
 	$obervaciones=$_POST['observaciones'];
-	$Pack=$_POST['Pack'];
+	$Shipper=$_POST['shipper'];
 	$id_nave=$_POST['id_nave'];
 	$id_especificacion=$_POST['id_especificacion'];
 	//$estado=$_POST['comboestado'];
@@ -84,7 +94,7 @@ elseif ($accion=="guardar")
 	$Pack->setPaquetes($paquetes);
 	$Pack->setPaquetes_fisicos($paquetes_fisicos);
 	$Pack->setObervaciones($obervaciones);
-	$Pack->setPack($Pack);
+	$Pack->setShipper($Shipper);
 	$Pack->setId_nave($id_nave);
 	$Pack->setId_especificacion($id_especificacion);
 	$Pack->setEstado($estado);

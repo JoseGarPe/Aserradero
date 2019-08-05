@@ -61,7 +61,7 @@ elseif ($accion=="guardar")
 
 	$Contenedor = new Contenedores();
 	$primer_cont = $Contenedor->FstContenedor($id_packing_list);
-		if($primer_cont=='Primer Contenedor'){
+/*		if($primer_cont=='Primer Contenedor'){
 
 	$mes=$_POST['mes'];
 	$dia=$_POST['dia'];
@@ -70,23 +70,23 @@ elseif ($accion=="guardar")
 	$poliza=$_POST['poliza'];
 	$pac = new Packing();
 	  $updateC=$pac->updateCorrelativo($id_packing_list,$dia,$mes,$corre,$poliza);
-		}
+		}*/
 
 	$Contenedor->setEtiqueta($etiqueta);
 	$Contenedor->setId_packing_list($id_packing_list);
 	$Contenedor->setEstado("Sin Confirmar");
 	$save=$Contenedor->save();
 	if ($save==true) {
-		if ($primer_cont== "Primer Contenedor") {
+		/*if ($primer_cont== "Primer Contenedor") {
 			$estado="Abierto";
 			$pl= new Packing();
 			$pl->setEstado($estado);
 			$pl->setId_packing_list($id_packing_list);
 			$vari = 'Primero';
 			$update1=$pl->updateStatu($vari);
-			
 
-		}
+		}*/
+			
 		
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
 		# code...
@@ -163,6 +163,8 @@ elseif ($accion=="confirmar") {
 	$id_bodega =$_POST['id_bodega'];
 	$id_packing_list =$_POST['employee_packing'];
 	$Contenedor = new Contenedores();
+
+	$primer_cont = $Contenedor->selectFirst_C($id_packing_list);
 	$Contenedor->setId_contenedor($id_contenedor);
 	$Contenedor->setEstado($estado);
 	$Contenedor->setFecha_ingreso($fecha);
@@ -170,8 +172,22 @@ elseif ($accion=="confirmar") {
 	$delete=$Contenedor->confirm2();
 	if ($delete==true) {
 		if($estado=="Confirmado"){
+			foreach ($primer_cont as $datosC) {
+				$id_contenedor_p=$datosC['id_contenedor'];
+			}
+			
+			if ($id_contenedor == $id_contenedor_p) {
+				$estado="Abierto";
 			$pl= new Packing();
-		
+			$pl->setEstado($estado);
+			$pl->setId_packing_list($id_packing_list);
+			$vari = 'Primero';
+			$update1=$pl->updateStatu($vari);
+			}
+
+
+			
+		$pl= new Packing();
   	$listpl = $pl->selectOne($id_packing_list);
   	foreach ($listpl as $key) {
   		$cont_ingresados=$key['contenedores_ingresados'];

@@ -279,5 +279,13 @@ class Contenedores extends conexion
         return $ListContenedores;
     }
 
+             public function selectFirst_C($codigo)
+    {
+        $query="SELECT * FROM contenedores WHERE id_packing_list = '".$codigo."' ORDER BY id_contenedor ASC LIMIT 1";
+        $selectall=$this->db->query($query);
+        $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListClientes;
+    }
+
 }
 ?>

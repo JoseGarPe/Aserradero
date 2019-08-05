@@ -463,7 +463,7 @@ session_start();
     $('#myDatepicker').datetimepicker();
     
     $('#myDatepicker2').datetimepicker({
-        format: 'YYYY.MM.DD'
+        format: 'DD/MM/YYYY'
     });
     
     $('#myDatepicker3').datetimepicker({

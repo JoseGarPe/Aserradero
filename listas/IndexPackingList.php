@@ -221,7 +221,7 @@
                           <th>Contenedores</th>
                           <th>Recibidos</th> 
                           <th>Estado</th>
-                          <th>Total m<sub>3</sub></th>
+                          <th>Total m<sup>3</sup></th>
                           <th>Factura</th>
                           <th>Codigo Embarque</th> 
                           <th>Poliza</th>
@@ -270,7 +270,7 @@
                            <td>'.$row['total_contenedores'].'</td>
                            <td>'.$row['contenedores_ingresados'].'</td>
                            <td>'.$row['estado'].'</td>
-                          <td>'.$metro_cubico.' m<sub>3</sub></td>
+                          <td>'.$metro_cubico.' m<sup>3</sup></td>
                           <td>'.$row['numero_factura'].'</td>
                            <td>'.$row['codigo_embarque'].'</td>
                            <td>'.$row['poliza'].'</td>
