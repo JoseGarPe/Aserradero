@@ -53,7 +53,7 @@ $etiqueta = $_POST['etiqueta'];
 $estado="Confirmado";
 
 // segundo material saliente
-if (isset($_POST['id_materialsaliente2'])) {
+if ($_POST['id_materialsaliente2'] != null) {
 	$segundaOpcion = true;
 	$id_material_saliente2=$_POST['id_materialsaliente2'];
 $cantidad_saliente2=$_POST['cantidadsaliente2'];

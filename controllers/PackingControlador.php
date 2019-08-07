@@ -172,7 +172,7 @@ elseif ($accion=="guardarLocal")
 	$paquetes=NULL;
 	$paquetes_fisicos=NULL;
 	$obervaciones=$_POST['observaciones'];
-	$Pack=$_POST['Pack'];
+	$shipper=$_POST['shipper'];
 	$poliza=$_POST['poliza'];
 	$id_nave=NULL;
 	$id_especificacion=NULL;
@@ -190,7 +190,7 @@ elseif ($accion=="guardarLocal")
 	$Pack->setPaquetes(NULL);
 	$Pack->setPaquetes_fisicos(NULL);
 	$Pack->setObervaciones($obervaciones);
-	$Pack->setPack($Pack);
+	$Pack->setShipper($shipper);
 	$Pack->setId_nave($id_nave);
 	$Pack->setId_especificacion($id_especificacion);
 	$Pack->setEstado($estado);

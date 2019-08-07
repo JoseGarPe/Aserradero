@@ -3,10 +3,10 @@
  ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head><meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+    
     <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -215,13 +215,11 @@
                       </ul>
                         <form class="form-horizontal form-label-left" method="POST" action="../controllers/DeatalleProcesadoControlador.php?accion=guardar">
                       <div id="step-1">
-                      <p>
-                       <div class="form-group">
+                      <p> <div class="form-group">
                          <center>
-                          <div class="col-md-2">
-                          </div>
-                         <div class="col-md-8">
-                          <table id="example3" class="table table-bordered">
+                          
+                         <div class="col-xs-12">
+                          <table id="datatable-buttons" class="table table-bordered">
                       <thead>
                         <tr>
                           <th>Componente</th>
@@ -257,6 +255,7 @@
                      
                      
 ?>
+
                       </tbody>
                       </table>
                           </div>
@@ -290,17 +289,23 @@
                             <div id="datos1"></div>
                             <input type="hidden" id="id_m" name="id_m" value="">
                           </div>
-                          <div class="form-group">
+                     <!--     <div class="form-group">
                             <div id="datos99"></div>
-                          </div>
-                         <div class="form-group">
+                          </div>-->
+                        <!--  <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Usar <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="usar"  name="usar" class="form-control col-md-7 col-xs-12"  type="number">
+                            </div>
+                          </div>-->
+                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Etiqueta<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                              
                              <input id="etiqueta"  name="etiqueta" class="form-control col-md-7 col-xs-12"  type="text"></div>
-                          </div>
-                        </p>
+                          </div></p>
                         </div>
 
                       <div id="step-2">
@@ -454,21 +459,22 @@
                           </div>
                         
                       </div>
-</form>
+      </form>
                     </div>
-
+      
              </div>
+
 
 
            </div><!-- END PROCESAR -->
                   <div class="x_content">
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-                   <input type="button" name="accion" value="Procesar" id="accion" class="btn btn-success save_data" /> 
+                   
                     <br>
                     <br>
                     <div id="employee_table">
-                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="example5" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                         <tr>
                           <th>N° </th>
@@ -876,11 +882,11 @@ function myFunction() {
     })
      $('#example5').DataTable({
       'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : false,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : false,
+      'autoWidth'   : true,
       'order'       : [[0, "desc"]]
     })
   });

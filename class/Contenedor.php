@@ -148,10 +148,17 @@ class Contenedores extends conexion
 
     }
     public function delete(){
-    	$query="DELETE FROM contenedores WHERE id_contenedors='".$this->id_contenedor."'"; 
+    	$query="DELETE FROM contenedores WHERE id_contenedor='".$this->id_contenedor."'"; 
        $delete=$this->db->query($query);
        if ($delete == true) {
-        return true;
+        $query1="DELETE FROM paquetes WHERE id_contenedor='".$this->id_contenedor."'"; 
+       $delete2=$this->db->query($query1);
+               if ($delete2 == true) {
+                 return true;
+               }else{
+                return false;
+               }
+       
        }else{
         return false;
        }

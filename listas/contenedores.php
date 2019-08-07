@@ -202,9 +202,9 @@
                             <tr>
                             <th>Material</th>
                             <th>Etiqueta</th>
-                            <th width="95">Largo</th>
-                            <th width="95">Ancho</th>
                             <th width="95">Grueso</th>
+                            <th width="95">Ancho</th>
+                            <th width="95">Largo</th>
                             <th width="95">Piezas</th>
                             <th>Multiplo</th>
                             <th>Fecha Ingreso</th>
@@ -232,9 +232,9 @@
                           echo '<tr>
                           <td>'.$key['material'].'</td>
                           <td>'.$key['etiqueta'].'</td>
-                          <td>'.$key['largo'].'</td>
-                          <td>'.$key['ancho'].'</td>
                           <td>'.$key['grueso'].'</td>
+                          <td>'.$key['ancho'].'</td>
+                          <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['multiplo'].'</td>
                           <td>'.date_format($fecha_1,'d/m/y').'</td>
@@ -250,13 +250,13 @@
                             <td>
                                <!-- <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" factura="'.$factura.'" contenedorr="'.$contenedor.'" class="btn btn-info confirm_data"/> -->  
                                    
-                                     <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />
+                                  <!--   <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->
                             </td>';
                             }else{
                                echo'
                             <td>  
                                    
-                                     <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />
+                                    <!-- <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->
                             </td>';
 
                             }

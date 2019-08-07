@@ -134,7 +134,7 @@ class Paquetes extends conexion
 
     }
     public function delete(){
-    	$query="DELETE FROM Paquetes WHERE id_paquetes='".$this->id_paquete."'"; 
+    	$query="DELETE FROM paquetes WHERE id_paquetes='".$this->id_paquete."'"; 
        $delete=$this->db->query($query);
        if ($delete == true) {
         return true;
@@ -144,7 +144,7 @@ class Paquetes extends conexion
 
     }
     public function selectALL(){
-    	$query="SELECT * FROM Paquetes";
+    	$query="SELECT * FROM paquetes";
     	$selectall=$this->db->query($query);
     	
     	$ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -157,7 +157,7 @@ class Paquetes extends conexion
 
      public function selectOne($codigo)
     {
-        $query="SELECT * FROM Paquetes WHERE id_paquete='".$codigo."'";
+        $query="SELECT * FROM paquetes WHERE id_paquete='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;

@@ -1,5 +1,21 @@
 <?php 
 	$vari = $_GET['respuesta'];
+
+if (isset($_GET['bandera'])) {
+  $id_packing_list=$_GET['packing'];
+  $bandera= $_GET['bandera'];
+  $id_contenedor=$_GET['contenedor'];
+  $etiquetaCo=$_GET['etiquetaCo'];
+  if ($vari=="Disponible") {
+  header('Location: ../savePaquetee.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
+  }elseif ($vari=='No Disponible') {
+    
+  header('Location: ../savePaquetee.php?error=incorrecto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
+  }
+}else{
+  $bandera='NO';
+}
+
 	if ($vari== 'No Disponible') {
 		echo '<div class="alert alert-warning" role="alert">
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>

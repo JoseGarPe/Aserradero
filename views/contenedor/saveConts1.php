@@ -16,6 +16,9 @@
                          $primerContenedor= $packing->FstContenedor($codigo);
                        
    ?> <form></form>
+   <div id="employee_table1">
+     
+  
     				<table id="example1" class="table table-striped table-bordered" name="example1">
          		<thead>
                         <tr>
@@ -82,13 +85,13 @@
                                <a href="../views/savePaquetee.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>
 
                                 <input type="button" name="save" value="Confirmar" id="'.$row["id_contenedor"].'" packing="'.$codigo.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-success view_data2" />
-                                <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar" class="btn btn-danger">Eliminar</a>
+                                <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&id_packing_list='.$codigo.'" class="btn btn-danger">Eliminar</a>
 
                               </td>';
                             }else{
                               echo '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Sin Confirmar" class="btn btn-warning">Sin Confirmar</a>  -->
 
-                                <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />
+                             <!--   <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />-->
           <!--  <a href="../views/savePaquetee.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
             <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
 
@@ -108,31 +111,10 @@
                          
                 echo '<input type="hidden"  name="totaldatos" id="totaldatos" value="'.$idf.'">';
 
-                     /* echo'<select class="form-control col-md-7 col-xs-12" name="id_bodega1[]" id="id_bodega1[]">';     
-                      require_once "../class/Bodega.php";
-
-                          $mistipos1 = new Bodega();
-                         $catego1 = $mistipos1->selectALL();
-                          foreach ((array)$catego1 as $key) {
-                                if ($key['id_bodega']==$row['id_bodega']) {
-                            echo "<option selected value='".$key['id_bodega']."'>".$key['nombre']."</option>";
-                                                                
-                             }
-                             else{
-
-                            echo "<option value='".$key['id_bodega']."'>".$key['nombre']."</option>";
-                             }
-
-                          }
-                          echo'</select> </td>'; 
-                          */
-                              
-
-                         
-    	     
-    	      ?>
+           ?>
           		</tbody>
           			</table>
+                 </div>
 				</div>
         <br><br>
         <?php 
@@ -143,7 +125,7 @@
 <div class="form-group">
                         <div id="resultado"></div>
                       </div>
-<form role="form1" action="../controllers/ContenedorControlador.php?accion=guardar" method="post">
+<form role="form1" method="post" id="insert_form">
     <div class="box-body">
       <?php 
    /*   if ($primerContenedor == 'Primer Contenedor') {
@@ -277,7 +259,7 @@
     $("#datetimepicker7").on("dp.change", function(e) {
         $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
     });
-  
+
 </script>
 <script type="text/javascript">
    $(document).ready(function(){ 
@@ -290,19 +272,47 @@ $(document).on('click', '.view_data2', function(){
            var dato = $(this).attr("dato"); 
            var employee_fecha = $("#fecha"+dato).val();
            var id_bodega = $("#id_bodega"+dato).val();
-           if(employee_id != '')  
+           if (id_bodega == 0) {
+            alert('Campos Vacios');
+           }
+           else{
+            if(employee_id != '')  
            {  
                 $.ajax({  
                      url:"../controllers/ContenedorControlador.php?accion=confirmar2",  
                      method:"POST",
                      data:{employee_id:employee_id,employee_packing:employee_packing,employee_status:employee_status,employee_fecha:employee_fecha,id_bodega:id_bodega},  
                      success:function(data){  
-                          location.href = "../listas/IndexPackingList.php?success=correcto";
-                             n(); 
+                         // location.href = "../listas/IndexPackingList.php?success=correcto";
+                         //    n(); 
+
+                   //  $('#add_data_Modal').modal('hide');  
+                     $('#employee_table1').html(data);  
                      }  
                 });  
-           }            
+           } 
+         }
+                      
       });
+
+ $('#insert_form').on("submit", function(event){  
+  event.preventDefault();  
+   
+   $.ajax({  
+    url:"../controllers/ContenedorControlador.php?accion=guardar",  
+    method:"POST",  
+    data:$('#insert_form').serialize(),  
+    beforeSend:function(){  
+     $('#insert').val("Inserting");  
+    },  
+    success:function(data){  
+     $('#insert_form')[0].reset();  
+   //  $('#add_data_Modal').modal('hide');  
+     $('#employee_table1').html(data);  
+    }  
+   });  
+ });
+
  }); 
 
 </script>

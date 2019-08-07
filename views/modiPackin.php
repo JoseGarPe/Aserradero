@@ -12,7 +12,12 @@ require_once "../class/PackingList.php";
                            # code...
                          
                          foreach ((array)$catego as $row) {
-                           $falla =$row["correlativo"];
+                           $co =$row["correlativo"];
+                           if ($co==NULL) {
+                             $falla='00-00';
+                           }else{
+                            $falla = $co;
+                           }
                            $array_falla = str_split($falla);
                            $falla_count = strlen($falla);
                            $corre1=$array_falla[0]."".$array_falla[1];

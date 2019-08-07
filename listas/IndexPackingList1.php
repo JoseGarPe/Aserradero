@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Aserradero</title>
+    <title>DataTables |Ingresos por barco</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,6 +27,9 @@
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />  
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />  
+
         <!-- starrr -->
     <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
@@ -35,7 +38,6 @@
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
- 
 </head>
 <body class="nav-md">
         <div class="container body">
@@ -54,7 +56,6 @@
                     <img src="images/img.jpg" alt="..." class="img-circle profile_img">
                   </div>
                   <div class="profile_info">
-                    <span>Welcome,</span>
                     <h2><?php echo "".$_SESSION['nombre_usuario']; ?></h2>
                   </div>
                 </div>
@@ -111,7 +112,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Packing List - Local</h2>
+                    <h2>Packing List - Por Barco</h2>
 
 
                     
@@ -154,8 +155,32 @@
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
               <span class="sr-only">Incorecto:</span>
               
-                Error al guardar, verifique los datos ingresados.
-
+                Error al guardar, verifique los datos ingresados o existe estos datos ya.
+                </div>
+           
+                    ';
+                }
+               elseif ($_GET['error']=='incorrectoP') {
+                    
+                    echo '
+                <div class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Incorrecto:</span>
+              
+                Ya existe una poliza con estos datos.
+                </div>
+           
+                    ';
+                }
+               elseif ($_GET['error']=='incorrectoC') {
+                    
+                    echo '
+                <div class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Incorrecto:</span>
+              
+                Ya existe un Correlativo con estos datos.
+                </div>
            
                     ';
                 }
@@ -176,46 +201,59 @@
 
 
                   <div class="x_content">
-                    <a href="../views/Newpacking_local.php" class="btn btn-primary" role="button">Nueva Orden</a>
+                    <a href="../views/Newpacking.php" class="btn btn-primary" role="button">Nueva Orden</a>
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO--> 
                     <br>
                     <br>
                     <div id="employee_table">
-                    <table id="example5" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="example6" class="table table-striped table-bordered" name="datatable-buttons">
+                      <h1><caption>Segun Factura:</caption></h1>
                       <thead>
                         <tr>
                           <th>N° </th>
                           <th>Mes</th> 
-                          <th>Proveedor</th>
+                          <th>Shipper</th>
+                          <th>Correlativo</th>
+                          <th>Nave</th>
                           <th>F.Ingreso</th>
                           <th>F.Finalizado</th>
+                          <th>Especificacion</th>
+                          <th>Contenedores</th>
+                          <th>Recibidos</th> 
                           <th>Estado</th>
                           <th>Total m<sup>3</sup></th>
-                          <th>N° Envio</th>
-                          <th>INAB</th>
+                          <th>Factura</th>
+                          <th>Codigo Embarque</th> 
+                          <th>Poliza</th>
+                          <th>Razon Social</th>
                           <th>Opiones</th>                         
                         </tr>
                       </thead>
                       <tbody>
                         <?php 
                          require_once "../class/PackingList.php";
+                         require_once "../class/Contenedor.php";
                          $misPacks = new Packing();
-                         $todos = $misPacks->selectALL_Local();
+                         $todos = $misPacks->selectALL();
                         
                            # code...
                          
                          foreach ((array)$todos as $row) {
-                        //  $fecha1= date_create($row['fecha']);
-                        //  $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
-                      //    foreach ($sumCub as $key) {
-                          //  $metro_cubico = $key['metro_cubico'];
-                          $metro_cubico = 3;
-                        //  }
+                          $Contenedor = new Contenedores();
+                          $primer_cont = $Contenedor->FstContenedor($row['id_packing_list']);
+
+                          $fecha1= date_create($row['fecha']);
+                          $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
+                          foreach ($sumCub as $key) {
+                            $metro_cubico = $key['metro_cubico'];
+                          }
                          echo '
                           <tr>
                           <td>'.$row['id_packing_list'].'</td>
                            <td>'.$row['mes'].'</td>
-                           <td>'.$row['shipper'].'</td>';
+                           <td>'.$row['shipper'].'</td>
+                           <td>'.$row['correlativo'].'</td>
+                           <td>'.$row['nav'].'</td>';
                            if ($row['fecha_inicio']!=NULL) {
                             $date1=date_create($row['fecha_inicio']);
                              echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
@@ -228,10 +266,15 @@
                            }else{
                             echo '<td></td>';
                            }
-                    echo ' <td>'.$row['estado'].'</td>
+                    echo ' <td>'.$row['esp'].'</td>
+                           <td>'.$row['total_contenedores'].'</td>
+                           <td>'.$row['contenedores_ingresados'].'</td>
+                           <td>'.$row['estado'].'</td>
                           <td>'.$metro_cubico.' m<sup>3</sup></td>
                           <td>'.$row['numero_factura'].'</td>
-                           <td>'.$row['poliza'].'</td>';
+                           <td>'.$row['codigo_embarque'].'</td>
+                           <td>'.$row['poliza'].'</td>
+                           <td>'.$row['razon_social'].'</td>';
                            
                            echo '<td>
 <!-- <ul>
@@ -239,11 +282,23 @@
    <div class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-menu-hamburger"></i><b class="caret"></b></a>
         <ul class="dropdown-menu">
-            <li><input type="button" name="save" value="envio" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
+           ';
+       
+          if ($row['estado']== 'Cerrado') {
+            echo '
+         <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
+        <li><input type="button" name="observacion" value="Observacion" id="'.$row["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
+          }else{
+            echo ' <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
         <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
-        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>
+        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
+             if ($primer_cont!='Primer Contenedor') {
+        echo '<li><input type="button" name="save" value="Modificar" id="'.$row["id_packing_list"].'" class="btn btn-warning upd_pl" /></li>';
+        }
+          }
             
-        </ul>
+      echo '  </ul>
+          
     </div>    
    <!-- </li>
 </ul>-->
@@ -297,6 +352,21 @@
                                             </div>  
                                        </div>  
                                   </div>  
+  </div> 
+  <div id="dataModal00" class="modal fade">  
+                                  <div class="modal-dialog">  
+                                       <div class="modal-content">  
+                                            <div class="modal-header">  
+                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                                 <h4 class="modal-title">Packin List</h4>  
+                                            </div>  
+                                            <div class="modal-body" id="employee_forms00">  
+                                            </div>  
+                                            <div class="modal-footer">  
+                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                            </div>  
+                                       </div>  
+                                  </div>  
   </div>
      <div id="dataModal3" class="modal fade">  
                                   <div class="modal-dialog">  
@@ -333,7 +403,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Envios</h4>  
+                                                 <h4 class="modal-title">Contenedores</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms5">  
                                             </div>  
@@ -382,7 +452,11 @@
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
     <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
+
+    <!--<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>-->
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
@@ -452,17 +526,33 @@ ga('send', 'pageview');
            }   
       });  
      
-      $(document).on('click', '.view_data', function(){  
+      $(document).on('click', '.view_obs', function(){  
            var employee_id = $(this).attr("id");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/selectUsuario.php",  
+                     url:"../views/observacion.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
-                          $('#employee_forms2').html(data);  
-                          $('#dataModal2').modal('show');  
+                          $('#employee_forms00').html(data);  
+                          $('#dataModal00').modal('show');  
+                     }  
+                });  
+           }            
+      }); 
+     
+      $(document).on('click', '.upd_pl', function(){  
+           var employee_id = $(this).attr("id");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/modiPackin.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms00').html(data);  
+                          $('#dataModal00').modal('show');  
                      }  
                 });  
            }            
@@ -473,7 +563,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/contenedor/saveConts2.php",  
+                     url:"../views/contenedor/saveConts1.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -514,6 +604,20 @@ ga('send', 'pageview');
                      }  
                 });  
            }   
+      }); 
+      $(document).on('click', '.delete_data1', function(){  
+          var employee_id = $(this).attr("id");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../controllers/ContenedorControlador.php?accion=eliminar",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms4').html(data);  
+                     }  
+                });  
+           }   
       });
       $(document).on('click', '.finish_data', function(){  
           var employee_id = $(this).attr("id");  
@@ -550,6 +654,100 @@ ga('send', 'pageview');
     })
   })
 </script>
+<script>
+  $(document).ready(function() {
+    $('#example2').DataTable( {
+        order: [[12, 'asc']],
+        rowGroup: {
+            startRender: null,
+            endRender: function ( rows, group ) {
+                var salaryAvg = rows
+                    .data()
+                    .pluck(5)
+                    .reduce( function (a, b) {
+                        return a + b.replace(/[^\d]/g, '')*1;
+                    }, 0) / rows.count();
+                salaryAvg = $.fn.dataTable.render.number(',', '.', 0, '$').display( salaryAvg );
+ 
+                var ageAvg = rows
+                    .data()
+                    .pluck(3)
+                    .reduce( function (a, b) {
+                        return a + b*1;
+                    }, 0) / rows.count();
+ 
+               return $('<tr/>')
+                    .append( '<td colspan="3">Averages for '+group+'</td>' )
+                    .append( '<td>'+ageAvg.toFixed(0)+'</td>' )
+                    .append( '<td/>' )
+                    .append( '<td>'+salaryAvg+'</td>' );
+            },
+            dataSrc: 12
+        }
+    } );
 
+      $('#example6').DataTable( {
+        order: [[12, 'asc']],
+        rowGroup: {
+            endRender: function ( rows, group ) {
+                var avg = rows
+                    .data()
+                    .pluck(5)
+                    .reduce( function (a, b) {
+                        return a + b.replace(/[^\d]/g, 'Factura:')*1;
+                    }, 0) / rows.count();
+            },
+            dataSrc: 12
+        }
+    } );
+} );
+</script>
+            
+<script>
+  $(document).ready(function(){
+                         
+      var consulta;
+             
+      //hacemos focus
+      $("#correlativo").focus();
+                                                 
+      //comprobamos si se pulsa una tecla
+      $("#correlativo").keyup(function(e){
+             //obtenemos el texto introducido en el campo
+          consulta = $("#correlativo").val();  
+          var input = $(this).attr("id");  
+                                      
+             //hace la búsqueda
+             $("#resultado").delay(1000).queue(function(n) {      
+                                           
+                  $("#resultado").html('<img src="ajax-loader.gif" />');
+                                           
+                        $.ajax({
+                              type: "POST",
+                              url: "../views/existente.php",
+                              data: data:{consulta:consulta,input:input},
+                              error: function(){
+                                    alert("error petición ajax");
+                              },
+                              success: function(data){                                                      
+                                    $("#resultado").html(data);
+                                    n();
+                              }
+                  });
+                                           
+             });
+                                
+      });
+/*
+      $("#respuesta").focus();
+      var resp = $("#respuesta").val();
+      if (resp=="Disponible") {
+
+                                    location.reload();
+      }*/
+                          
+});
+
+</script>
     </body>
 </html>

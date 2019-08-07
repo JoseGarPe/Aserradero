@@ -59,7 +59,9 @@ elseif ($accion=="guardar")
   	$fecha_ingreso =$_POST['fecha'];
   	$estado =$_POST['estado'];
  
-
+  	$num_paque =$_POST['num_paque'];
+  	for ($i=0; $i < $num_paque; $i++) { 
+  		
 	$Paquetes = new Paquetes();
 	$Paquetes->setEtiqueta($etiqueta);
 	$Paquetes->setPiezas($piezas);
@@ -75,6 +77,8 @@ elseif ($accion=="guardar")
 	$Paquetes->setFecha_ingreso($fecha_ingreso);
 	$Paquetes->setEstado("Sin Confirmar");
 	$save=$Paquetes->save();
+  		
+  	}
 	if ($save==true) {
 		$detalle_bo= new DetalleBodega();
 		$detalle_bo->setId_bodega($id_bodega);
@@ -142,11 +146,21 @@ elseif ($accion=="etiqueta") {
 	$id_Paquetes =$_POST['employee_id'];
 	$etiqueta =$_POST['employee_etiqueta'];
 	$packing =$_POST['employee_packing'];
+
+	
 	$Paquetes = new Paquetes();
 	$Paquetes->setId_paquete($id_Paquetes);
 	$Paquetes->setEtiqueta($etiqueta);
 	$delete=$Paquetes->updateEtiqueta();
+	if (isset($_POST['employee_flag'])) {
+		
+	$contenedor =$_POST['employee_contenedor'];
+	$etiquetaCo =$_POST['employee_etiquetaCo'];
+	header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'&bandera='.$_POST['employee_flag'].'&contenedor='.$contenedor.'&etiquetaCo='.$etiquetaCo.'&packing='.$packing.'');
+	}else{
+
 	header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'');
+	}
 	/*if ($delete==true) {
 		header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'');
 		# code...
