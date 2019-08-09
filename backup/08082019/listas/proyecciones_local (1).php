@@ -3,10 +3,10 @@
   ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
     <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -196,7 +196,7 @@ table {
         <div class="col-xs-12">
           <table id="example4" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
                   <thead>
-                      <th>NÂ°</th>
+                      <th>N°</th>
                       <th>Mes</th>
                       <th>Envio</th>
                       <th>Fecha</th>
@@ -347,7 +347,7 @@ table {
                             }// consulta de total de paquetes
                             $tarimas= $a['metros_cubicos']/ $a['multiplo'] ;
                                 
-                            $datePPL=date_create($a['fecha_ingreso']);
+                            $datePL=date_create($a['fecha_ingreso']);
                         echo '
                          <tr>
                             <td style="vertical-align:middle;">'.$a['bodega'].'</td>

@@ -206,12 +206,6 @@ public function getPoliza() {
 //---------------------------
 function save()
     {
-        $query1="SELECT * FROM packing_list WHERE id_especificacion='".$this->id_especificacion."' AND numero_factura='".$this->numerofactura."'";
-        $selectall=$this->db->query($query1);
-        $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
-
-        if ($selectall->num_rows==0) {
-
     	$query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`,`tipo_ingreso`)
     			values(NULL,
     			'".$this->numero_factura."',
@@ -235,9 +229,7 @@ function save()
             return true;
         }else {
             return false;
-        }   }else{
-            return false;
-        }
+        }   
     }
 public function saveLocal()
     {
@@ -250,7 +242,7 @@ public function saveLocal()
                 '0000-00-00',
                 NULL,
                 NULL,
-                 '".$this->paquetes."',
+                NULL,
                 NULL,
                 '".$this->obervaciones."',
                 '".$this->shipper."',
@@ -351,20 +343,7 @@ public function saveLocal()
         }else {
             return false;
         }  
-    }
-public function updateIngresosL()
-    {
-        $query="UPDATE packing_list SET 
-        paquetes_fisicos='".$this->paquetes_fisicos."'
-         WHERE id_packing_list='".$this->id_packing_list."'";
-        $update=$this->db->query($query);
-        if ($update==true) {
-            return true;
-        }else {
-            return false;
-        }  
-    }
-     public function updateObservacion()
+    } public function updateObservacion()
     {
         $query="UPDATE packing_list SET 
        obervaciones='".$this->obervaciones."'
@@ -543,14 +522,6 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
             return 'No Disponible';
         }
  
-    }
-
-            public function selectLast()
-    {
-        $query="SELECT * FROM packing_list ORDER BY id_packing_list DESC LIMIT 1";
-        $selectall=$this->db->query($query);
-        $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
-        return $ListClientes;
     }
 
 }

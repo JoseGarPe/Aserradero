@@ -1,19 +1,13 @@
 <?php 
   session_start();
-
-                              if (isset($_GET["conten"])) {
-
-                        $contenedor=$_GET["conten"];
-                       }else{
-                        $contenedor = 0;
-                      }
+   $conten=$_GET['contenedor'];
  ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head><meta http-equiv="Content-Type" content="text/html; charset=gb18030">
+    
     <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -33,8 +27,19 @@
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> 
+    <!-- SELECT WITH SEARCH-->
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css'>
+
+    <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+<!--SELECT WITH SEARCH 
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -45,7 +50,7 @@
             <div class="col-md-3 left_col">
               <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                  <a href="indexUs.php" class="site_title"><i class="fa fa-paw"></i> <span>Aserradero</span></a>
+                  <a href="indexUs.php" class="site_title"><i class="fa fa-paw"></i> <span>Rio Blanco</span></a>
                 </div>
     
                 <div class="clearfix"></div>
@@ -57,7 +62,7 @@
                   </div>
                   <div class="profile_info">
                     <span>Welcome,</span>
-                    <h2><?php echo ''.$_SESSION['nombre_usuario']; ?></h2>
+                    <h2><?php echo "".$_SESSION['nombre_usuario']; ?></h2>
                   </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -66,7 +71,7 @@
     
                 <!-- sidebar menu -->
                  <?php
-                 require_once "menuAdmin.php";
+                 require_once "../listas/menuAdmin.php";
                   ?>
                 <!-- /sidebar menu -->
     
@@ -81,7 +86,7 @@
                   <a data-toggle="tooltip" data-placement="top" title="Lock">
                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                   </a>
-                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="../ontrollers/LoginControlador.php?accion=logout">
+                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="../controllers/LoginControlador.php?accion=logout">
                     <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                   </a>
                 </div>
@@ -113,39 +118,23 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de Paquetes</h2>
-                     <table class="table table-striped">
+                    <h2>Lista de Paquetes: </h2>
+                    <br><br>
+                    <table class="table table-striped">
                       <thead>
                         <tr><th>Orden</th><th>Contenedor</th><th>ID</th></tr>
                       </thead>
                       <tbody>
 
                     <?php 
-                    if (isset($_GET['id'])) {
-                        $codigo=$_GET['id'];
+                    $codigo=$_GET['id'];
                     $etic=$_GET['etiquetaCo'];
-                    }else{
-                      $codigo=0;
-                           $factura ='####';
-                           $fecha_inicio ='';
-                           $fecha_cierre ='';
-                      $etic ='####';
-                    }
-                  
-                        require_once "../class/PackingList.php";
-                           $nave = new Packing();
-                         $catego = $nave->selectOne($codigo);
-                         foreach ($catego as $datoPL) {
-                           $factura =$datoPL['numero_factura'];
-                           $fecha_inicio =$datoPL['fecha_inicio'];
-                           $fecha_cierre =$datoPL['fecha_cierre'];
-                         }
-                    echo '<tr><td><strong>'.$codigo.'</strong></td><td>'.$etic.'</td><td>'.$contenedor.'</td></tr>';
+                    echo '<tr><td><strong>'.$codigo.'</strong></td><td>'.$etic.'</td><td>'.$conten.'</td></tr>';
                      ?>
                         <tr></tr>
                       </tbody>
                     </table>
-
+                    
 
                     
                     <ul class="nav navbar-right panel_toolbox">
@@ -206,35 +195,137 @@
                 }
             }
              ?></div>
+
+
                   <div class="x_content">
-                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
+                    <div class="row">
+                      <a href="../listas/IndexPackingList.php" class="btn btn-warning">Volver a Ingresos</a>
+                      <div class="col-xs-12 col-xs-12 col-md-12">
+                        <?php 
+                          require_once "../class/PackingList.php";                       
+                          require_once "../class/Contenedor.php";
 
-                   <input type="button" name="accion" value="Ingresos por Barco" id="accion" class="btn btn-primary view_data1" /> 
-                   <?php 
-                   if (isset($_GET["id"])) {
-                        $codigo=$_GET["id"];
+                          $packing = new Packing();
+                          $orden = $packing->SelectOne($codigo);
+                           $material = new Contenedores();
+                                  $catego1 = $material->selectOne($conten);
+                                  foreach ($catego1 as $k) {
+                                  //  $fechaPaquete=$k['fecha_ingreso'];
+                               //     $bodegaPaquete=$k['id_bodega'];
+                             /*     $bodega = $material->selectBodega($bodegaPaquete);
+                                  foreach ($bodega as $value) {
+                                    $nombreBodega=$value['nombre'];
+                                    }*/
+                                  }
+
+                         foreach ($orden as $key) {
+                           $estado = $key['estado'];
+                         }
+                         if ($estado != 'Cerrado') {
+                        ?>
+                        <form action="../controllers/PaquetesControlador.php?accion=guardar" method="post"  role="form1">
+                          <table  class="table table-bordered">
+                            <thead>
+                            <tr>
+                            <th>Material</th>
+                            <th>Etiqueta</th>
+                            <th width="95">Grueso</th>
+                            <th width="95">Ancho</th>
+                            <th width="95">Largo</th>
+                            <th width="95">Piezas</th>
+                            <th>Multiplo</th>
+                           <!-- <th>Fecha Ingreso</th>
+                            <th>Bodega Destino</th>-->
+                            </tr></thead>
+                            <tbody>
+                            <tr>
+                              <td><select class="selectpicker form-control" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --" autofocus="true">
                       
-                    echo '
-                   <input type="button" name="accion" value="Contenedores" id="'.$codigo.'" factura="'.$factura.'" class="btn btn-success view_data3" /> 
-                   <br></br>
-                   <h1><label>Factura de Ingreso:</label> <strong>'.$factura.'</strong></h1> ';
-                          }else{
-                            $codigo=0;
-                          }
-                       
-                         echo ' <h2><label>Fecha Inicio: <strong> '.$fecha_inicio.' </strong></label> - <label>Fecha Cierre: <strong> '.$fecha_cierre.' </strong></label></h2>';
-                        
-                    ?>
-                    <br>
-                    <br>
+                          <?php 
+                          require_once "../class/Materiales.php";
 
+                          $mistipos = new Materiales();
+                         $catego = $mistipos->selectMateria_Prima();
+                          foreach ((array)$catego as $row) {
+
+                            echo "<option value='".$row['id_material']."'>".$row['nombre']."</option>";
+
+                          } 
+
+
+                    
+                          ?>
+                          </select></td>
+                              <td><input type="text" id="etiqueta" name="etiqueta"  class="form-control col-md-7"></td>
+                              <td><input type="number" id="grueso" name="grueso" min="0.00" step="0.00000000001"  class="form-control col-sm-7"></td>
+                              <td><input type="number" id="ancho" name="ancho" min="0.00" step="0.00000000001"   class="form-control col-sm-7"></td>
+                              <td ><input type="number"  min="0.00" step="0.0000000001" id="largo" name="largo"  class="form-control col-sm-4"></td>
+                              <td><input type="number" id="piezas" name="piezas" min="0.00" step="1"  class="form-control col-md-7"></td>
+                              <td><input type="number" id="multiplo" name="multiplo"  min="0.00" step="0.00000000001"  class="form-control col-md-7"></td>
+                           <!--   <td> --> <?php 
+                            //  echo $fechaPaquete;
+                               ?>
+                          <!--    </td>
+                            <td>
+                                 <div id="datos3"></div> -->
+                                <?php
+                            //     echo $nombreBodega;
+                     /*            echo '<input type="hidden" name="id_contenedor" value="'.$conten.'">
+                                 <input type="hidden" id="id_bodega" name="id_bodega" value="'.$bodegaPaquete.'">
+                                 <input type="hidden" class="form-control" name="fecha" id="fecha" value="'.$fechaPaquete.'"/>
+                                 <input type="hidden" id="etiquetaCoo" name="etiquetaCoo" value="'.$etic.'">'; */
+                                       echo '<input type="hidden" name="id_contenedor" value="'.$conten.'">
+                                 <input type="hidden" id="id_bodega" name="id_bodega" value="0">
+                                 <input type="hidden" class="form-control" name="fecha" id="fecha" value="0000-00-00"/>
+                                 <input type="hidden" id="etiquetaCoo" name="etiquetaCoo" value="'.$etic.'">'; 
+                                 ?>
+                              </td>
+                              <!--  <td><select class="form-control" onchange="mostrarInfo(this.value)" name="id_contenedor" id="id_contenedor">
+                          <option>Seleccione una opcion</option>
+                          <?php 
+                      /*   require_once "../class/Contenedor.php";
+
+                        /$mistipo2s = new Contenedores();
+                         $catego = $mistipo2s->selectALLpack($codigo);
+                          //foreach ((array)$catego as $rowss) {
+                            echo "<option value='".$rowss['id_contenedor']."'>".$rowss['etiqueta']."</option>";
+                          } */
+                              ?>
+                          </select></td> -->
+                            </tr>
+                            </tbody>
+                          </table>
+                          <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Metros Cubicos totales<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                       <?php 
+                        echo '<input type="hidden" readonly="true" id="id_packing_list" name="id_packing_list" value="'.$codigo.'">';
+                        ?> 
+                          <input type="text" readonly="true" id="metros_cubicos" name="metros_cubicos"  class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div><BR><br><br>
                       <div class="form-group">
                         <div id="resultado"></div>
                       </div>
+                            <div class="box-footer">
 
-                    <div id="employee_table">
-                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
-                       <thead>
+                
+                <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
+   </div><br><br>
+                        </form>
+                        <?php 
+}
+                         ?>
+                      </div>
+                      <br>
+                      <br>
+
+
+                      <div class="col-xs-12 col-sm-6 col-md-12">
+                        <h1>Paquetes Ingresados</h1>
+                        <table id="example1" class="table table-bordered">
+                            <thead>
                             <tr>
                             <th>Material</th>
                             <th>Etiqueta</th>
@@ -249,18 +340,20 @@
                             <th>Stock</th>
                             <th>Estado</th>
                             <th>Opcion</th>
-
                             </tr></thead>
-                      <tbody>
-                          <?php 
-                          require_once "../class/Paquetes.php";
+                            <tbody>
+                              
+                            <?php 
+
+            require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
-                         $paquetes = $mss->selectALLpack11($codigo,$contenedor);
+                         $paquetes = $mss->selectALLpack4($codigo,$conten);
                          $datos=1;
                          foreach ($paquetes as $key) {
-                          $fecha_1= date_create($key['fecha_ingreso']);
 
-                          echo '<tr>
+                            $dateIP=date_create($key['fecha_ingreso']);
+                          echo '
+                          <tr>
                           <td>'.$key['material'].'</td>';
                           if ($key['etiqueta']==NULL) {
                           echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
@@ -278,86 +371,69 @@
                           <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['multiplo'].'</td>
-                          <td>'.date_format($fecha_1,'d/m/y').'</td>
-                          <td>'.$key['bodega'].'</td>
-                          <td>'.$key['contenedor'].'</td>
+                          <td>'.date_format($dateIP, 'd/m/Y').'</td>';
+                        //  <td>'.$key['bodega'].'</td>
+                          if ($key['id_bodega']=='0') {
+                          echo '<td>Sin confirmar contenedor</td>';
+                          }else{
+                               require_once "../class/Bodega.php";
+            
+                             $bod = new Bodega();
+                             $datoBd = $bod->SelectOne($key['id_bodega']);
+                             foreach ($datoBd as $valor) {
+                              echo'<td>'.$valor['nombre'].'</td>';
+                               
+                             }
+                          }
+                        echo'  <td>'.$key['contenedor'].'</td>
                           <td>'.$key['stock'].'</td>
-                          <td>'.$key['estado'].'</td>
-
-                          ';
-
-                            if ($key['estado']== 'Sin Confirmar') {
-                             echo'
-                            <td>
-                               <!-- <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" factura="'.$factura.'" contenedorr="'.$contenedor.'" class="btn btn-info confirm_data"/> -->  
-                                   
-                                  <!--   <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
-
+                          <td>'.$key['estado'].'</td>';
                           if ($key['etiqueta']!=NULL) {
-                            echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
+                            echo '<td></td>';
                           }else{
                             echo '
-                          <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
+                          <td><input type="button" name="save" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" /></td>';
 
                           }
-                          echo '
-                            </td>';
-                            }else{
-                               echo'
-                            <td>  
-                                   
-                                    <!-- <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
-                          if ($key['etiqueta']!=NULL) {
-                            echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
-                          }else{
-                            echo '
-                          <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
-
-                          }
-                          echo '
-                            </td>';
-
-                            }
-
-                            
-                            echo'
-                          </tr>';
-                          $datos =$datos+1;
+                          echo '</tr>
+                           ';
+                          $datos=$datos+1;
                          }
-           
-            ?>
-                         
-                      </tbody>
-                    </table>
-                  </div>
-                  </div>
-                </div>
+
+                          ?>
+                            </tbody>
+                        </table>
+                      </div>
+                      
+                    </div>
+                  </div> <!-- end x content-->
+                </div><!-- end x panel -->
               </div>
         
         
         
             </div>
- <div id="dataModal1" class="modal fade">  
+ <div id="dataModal" class="modal fade">  
                                   <div class="modal-dialog">  
-                                       <div class="modal-content modal-lg">  
+                                       <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Ingresos por Barcos</h4>  
+                                                 <h4 class="modal-title">Detalle Packing</h4>  
                                             </div>  
-                                            <div class="modal-body" id="employee_forms1">  
+                                            <div class="modal-body" id="employee_detail">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
                                             </div>  
                                        </div>  
-                                  </div>    
-</div>  
- <div id="dataModal2" class="modal fade">  
+                                  </div>  
+  </div>  
+   <div id="dataModal2" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalles Contenedor</h4>  
+                                                 <h4 class="modal-title">Detalle Packing</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -365,14 +441,14 @@
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
                                             </div>  
                                        </div>  
-                                  </div>    
-</div>  
-        <div id="dataModal3" class="modal fade">  
+                                  </div>  
+  </div>
+     <div id="dataModal3" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Nuevo Material</h4>  
+                                                 <h4 class="modal-title">Agregar Orden</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -387,7 +463,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Material</h4>  
+                                                 <h4 class="modal-title">Eliminar Packing</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
                                             </div>  
@@ -397,12 +473,12 @@
                                        </div>  
                                   </div>  
   </div>
-       <div id="dataModal5" class="modal fade">  
-                                  <div class="modal-dialog">  
+  <div id="dataModal5" class="modal fade">  
+                                  <div class="modal-dialog modal-lg">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Material</h4>  
+                                                 <h4 class="modal-title">Contenedores</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms5">  
                                             </div>  
@@ -418,7 +494,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nuevo Material</h4>  
+                     <h4 class="modal-title">Agregar Nueva Orden</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -466,6 +542,11 @@
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+        <!-- bootstrap-daterangepicker -->
+    <script src="../vendors/moment/min/moment.min.js"></script>
+    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-datetimepicker -->    
+    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
@@ -500,91 +581,125 @@ ga('send', 'pageview');
 
       
 
-      $(document).on('click', '.view_data1', function(){  
-          var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/contenedor/listPacking.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms1').html(data);  
-                          $('#dataModal1').modal('show');  
-                     }  
-                });  
-           }   
-      });  
-     
-      $(document).on('click', '.confirm_data', function(){  
-           var employee_id = $(this).attr("id");  
-           var employee_pl = $(this).attr("pl"); 
-           var employee_fac = $(this).attr("factura"); 
-           var employee_contenedor = $(this).attr("contenedorr"); 
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/contenedor/confirmContenedor.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id,employee_pl:employee_pl,employee_fac:employee_fac,employee_contenedor:employee_fcontenedor},  
-                     success:function(data){  
-                          $('#employee_forms2').html(data);  
-                          $('#dataModal2').modal('show');  
-                     }  
-                });  
-           }            
-      });  
+ });  
 
-        $(document).on('click', '.save_data', function(){  
-           var employee_action = $(this).attr("accion");  
-           if(employee_action != '')  
-           {  
-                $.ajax({  
-                     url:"../views/Materiales/saveMateriales.php",  
-                     method:"POST",  
-                     data:{employee_action:employee_action},  
-                     success:function(data){  
-                          $('#employee_forms3').html(data);  
-                          $('#dataModal3').modal('show');  
-                     }  
-                });  
-           }            
+</script>
+        <script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example3').DataTable()
+    $('#example4').DataTable()
+    $('#example5').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+      'order'       : [[0, "desc"]]
+    })
+  });
+    $(document).ready(function () {
+    $("#multiplo").keyup(function () {
+
+        var piezas = $("#piezas").val();
+
+        var multiplo = $(this).val();
+        var largo = $("#largo").val();
+
+        var ancho = $("#ancho").val();
+        var grueso = $("#grueso").val();
+        var metro_cubico = (piezas * largo * ancho * grueso)/1000000000;
+       
+        $("#metros_cubicos").val(metro_cubico);
+    });
+});
+</script>
+    <script src="../build/js/custom.min.js"></script>
+
+    <script>
+    $('#myDatepicker').datetimepicker();
+    
+    $('#myDatepicker2').datetimepicker({
+        format: 'YYYY.MM.DD'
+    });
+    
+    $('#myDatepicker3').datetimepicker({
+        format: 'hh:mm A'
+    });
+    
+    $('#myDatepicker4').datetimepicker({
+        ignoreReadonly: true,
+        allowInputToggle: true
+    });
+
+    $('#datetimepicker6').datetimepicker();
+    
+    $('#datetimepicker7').datetimepicker({
+        useCurrent: false
+    });
+    
+    $("#datetimepicker6").on("dp.change", function(e) {
+        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    });
+    
+    $("#datetimepicker7").on("dp.change", function(e) {
+        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    });
+
+ 
+  
+</script>
+<script>
+  $(document).ready(function(){
+                         
+      var consulta;
+             
+      //hacemos focus
+      $("#etiqueta").focus();
+                                                 
+      //comprobamos si se pulsa una tecla
+      $("#etiqueta").keyup(function(e){
+             //obtenemos el texto introducido en el campo
+             consulta = $("#etiqueta").val();
+                                      
+             //hace la búsqueda
+             $("#resultado").delay(1000).queue(function(n) {      
+                                           
+                  $("#resultado").html('<img src="ajax-loader.gif" />');
+                                           
+                        $.ajax({
+                              type: "POST",
+                              url: "../views/paquetes/comprobar.php",
+                              data: "b="+consulta,
+                              dataType: "html",
+                              error: function(){
+                                    alert("error petición ajax");
+                              },
+                              success: function(data){                                                      
+                                    $("#resultado").html(data);
+                                    n();
+                              }
+                  });
+                                           
+             });
+                                
       });
 
+/*
+      $("#respuesta").focus();
+      var resp = $("#respuesta").val();
+      if (resp=="Disponible") {
 
-      $(document).on('click', '.delete_data', function(){  
-          var employee_id = $(this).attr("id");
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/contenedor/deleteContenedor.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms4').html(data);  
-                          $('#dataModal4').modal('show');  
-                     }  
-                });  
-           }   
-      });
-         $(document).on('click', '.view_data3', function(){  
-          var employee_id = $(this).attr("id"); 
-          var employee_factura = $(this).attr("factura");   
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/contenedor/listPackingContenedor.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id,employee_factura:employee_factura},  
-                     success:function(data){  
-                          $('#employee_forms1').html(data);  
-                          $('#dataModal1').modal('show');  
-                     }  
-                });  
-           }   
-      });  
+                                    location.reload();
+      }*/
+                          
+});
 
-         $(document).on('click', '.view_data2', function(){  
+</script>
+<script type="text/javascript">
+   $(document).ready(function(){ 
+$(document).on('click', '.view_data2', function(){  
 
            var employee_id = $(this).attr("id"); 
            var employee_packing = $(this).attr("packing");  
@@ -604,37 +719,47 @@ ga('send', 'pageview');
                 });  
            }            
       });
-$(document).on('click', '.modi_data', function(){  
-           var employee_id = $(this).attr("id");  
-           var employee_packing = $(this).attr("packing");  
-           var employee_contenedor = $(this).attr("contenedor");  
-           var employee_etiquetaCo = $(this).attr("etiquetaCo");  
-           var employee_flag = $(this).attr("flag");  
-
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/paquetes/modiPaquete.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_contenedor:employee_contenedor,employee_etiquetaCo:employee_etiquetaCo,employee_flag:employee_flag},  
-                     success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
-                     }  
-                });  
-           }            
-      });
-
- });  
-
-</script>
-<script type="text/javascript">
-   $(document).ready(function(){ 
-
-
  }); 
 
 </script>
-        
+<script>
+   function mostrarInfo(cod){
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+   xmlhttp2=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("datos2").innerHTML=xmlhttp.responseText;
+    }else{ 
+  document.getElementById("datos2").innerHTML='Cargando...';
+    }
+  }
+  xmlhttp2.onreadystatechange=function()
+  {
+  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
+    {
+    document.getElementById("datos3").innerHTML=xmlhttp2.responseText;
+    }else{ 
+  document.getElementById("datos3").innerHTML='Cargando...';
+    }
+  }
+xmlhttp.open("POST","../views/paquetes/fechaPaquete.php",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("cod_banda="+cod);
+
+xmlhttp2.open("POST","../views/paquetes/bodegaPaquete.php",true);
+xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp2.send("cod_banda="+cod);
+}
+</script>
     </body>
 </html>
