@@ -104,7 +104,7 @@ elseif ($accion=="guardar")
   	$id_material =$_POST['id_materiales'];
   	$id_bodega =$_POST['id_bodega'];
   	$id_contenedor =$_POST['id_contenedor'];
-  	$etiquetaCooo =$_POST['etiquetaCoo'];
+ // 	$etiquetaCooo =$_POST['etiquetaCoo'];
   	$largo =$_POST['largo'];
   	$ancho =$_POST['ancho'];
   	$grueso =$_POST['grueso'];
@@ -112,6 +112,11 @@ elseif ($accion=="guardar")
   	$metros_cubicos =$_POST['metros_cubicos'];
   	$fecha_ingreso =$_POST['fecha'];
   	$estado =$_POST['estado'];
+ 	
+
+  	$factura =$_POST['factura'];
+  	$inab =$_POST['inab'];
+ 
  
 
 	$Paquetes = new Paquetes();
@@ -135,7 +140,18 @@ elseif ($accion=="guardar")
 		$detalle_bo->setId_material($id_material);
 		$detalle_bo->setCantidad($piezas);
 		$save1=$detalle_bo->save();
-		header('Location: ../views/savePaqueteeLocal.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCooo.'');
+
+		$pl= new Packing();
+  	$listpl = $pl->selectOne($id_packing_list);
+  	foreach ($listpl as $key) {
+  		$paquetes_ingresados=$key['paquetes_fisicos'];
+  	}
+  	$new_pan_ing=$paquetes_ingresados + 1;
+  		$pl->setPaquetes_fisicos($new_pan_ing);
+		$pl->setId_packing_list($id_packing_list);
+		$update1=$pl->updateIngresosL();
+
+		header('Location: ../views/savePaqueteeLocal.php?success=correcto&id='.$id_packing_list.'&factura='.$factura.'&inab='.$inab.'');
 		# code...
 	}
 	else{
@@ -153,11 +169,22 @@ elseif ($accion=="etiqueta") {
 	$Paquetes->setEtiqueta($etiqueta);
 	$delete=$Paquetes->updateEtiqueta();
 	if (isset($_POST['employee_flag'])) {
+		$bandera=$_POST['employee_flag'];
+	}else{
+		$bandera='Normal';
+	}
+	if ($bandera=='modificar') {
 		
 	$contenedor =$_POST['employee_contenedor'];
 	$etiquetaCo =$_POST['employee_etiquetaCo'];
 	header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'&bandera='.$_POST['employee_flag'].'&contenedor='.$contenedor.'&etiquetaCo='.$etiquetaCo.'&packing='.$packing.'');
-	}else{
+	}
+	elseif ($bandera=='modificar_c') {
+	$contenedor =$_POST['employee_contenedor'];
+	$etiquetaCo =$_POST['employee_etiquetaCo'];
+	header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'&bandera='.$bandera.'&contenedor='.$contenedor.'&etiquetaCo='.$etiquetaCo.'&packing='.$packing.'');
+	}
+	else{
 
 	header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'');
 	}

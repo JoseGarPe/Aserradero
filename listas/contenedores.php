@@ -1,5 +1,12 @@
 <?php 
   session_start();
+
+                              if (isset($_GET["conten"])) {
+
+                        $contenedor=$_GET["conten"];
+                       }else{
+                        $contenedor = 0;
+                      }
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,6 +114,28 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Pagina de Paquetes</h2>
+                     <table class="table table-striped">
+                      <thead>
+                        <tr><th>Orden</th><th>Contenedor</th><th>ID</th></tr>
+                      </thead>
+                      <tbody>
+
+                    <?php 
+                    $codigo=$_GET['id'];
+                        require_once "../class/PackingList.php";
+                           $nave = new Packing();
+                         $catego = $nave->selectOne($codigo);
+                         foreach ($catego as $datoPL) {
+                           $factura =$datoPL['numero_factura'];
+                           $fecha_inicio =$datoPL['fecha_inicio'];
+                           $fecha_cierre =$datoPL['fecha_cierre'];
+                         }
+                    $etic=$_GET['etiquetaCo'];
+                    echo '<tr><td><strong>'.$codigo.'</strong></td><td>'.$etic.'</td><td>'.$contenedor.'</td></tr>';
+                     ?>
+                        <tr></tr>
+                      </tbody>
+                    </table>
 
 
                     
@@ -175,12 +204,7 @@
                    <?php 
                    if (isset($_GET["id"])) {
                         $codigo=$_GET["id"];
-                        if (isset($_GET["factura"])) {
-                          
-                        $factura=$_GET["factura"];
-                        }else{
-                          $factura = 0;
-                        }
+                      
                     echo '
                    <input type="button" name="accion" value="Contenedores" id="'.$codigo.'" factura="'.$factura.'" class="btn btn-success view_data3" /> 
                    <br></br>
@@ -188,14 +212,17 @@
                           }else{
                             $codigo=0;
                           }
-                          if (isset($_GET['inicio'])) {
-                            $fecha_inicio = $_GET['inicio'];
-                            $fecha_cierre = $_GET['final'];
+                       
                          echo ' <h2><label>Fecha Inicio: <strong> '.$fecha_inicio.' </strong></label> - <label>Fecha Cierre: <strong> '.$fecha_cierre.' </strong></label></h2>';
-                          }
+                        
                     ?>
                     <br>
                     <br>
+
+                      <div class="form-group">
+                        <div id="resultado"></div>
+                      </div>
+
                     <div id="employee_table">
                     <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
                        <thead>
@@ -217,21 +244,26 @@
                             </tr></thead>
                       <tbody>
                           <?php 
-                              if (isset($_GET["contenedor"])) {
-
-                        $contenedor=$_GET["contenedor"];
-                      }else{
-                        $contenedor = 0;
-                      }
                           require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
                          $paquetes = $mss->selectALLpack11($codigo,$contenedor);
+                         $datos=1;
                          foreach ($paquetes as $key) {
                           $fecha_1= date_create($key['fecha_ingreso']);
 
                           echo '<tr>
-                          <td>'.$key['material'].'</td>
-                          <td>'.$key['etiqueta'].'</td>
+                          <td>'.$key['material'].'</td>';
+                          if ($key['etiqueta']==NULL) {
+                          echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
+                          }
+                          else{
+                            echo '<td>'.$key['etiqueta'].'</td>
+
+                            <input type="hidden" name="eti'.$datos.'" id="eti'.$datos.'" value ="POSEE">
+                            ';
+                          }
+                          
+                          echo '
                           <td>'.$key['grueso'].'</td>
                           <td>'.$key['ancho'].'</td>
                           <td>'.$key['largo'].'</td>
@@ -250,13 +282,30 @@
                             <td>
                                <!-- <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" factura="'.$factura.'" contenedorr="'.$contenedor.'" class="btn btn-info confirm_data"/> -->  
                                    
-                                  <!--   <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->
+                                  <!--   <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
+
+                          if ($key['etiqueta']!=NULL) {
+                            echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
+                          }else{
+                            echo '
+                          <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
+
+                          }
+                          echo '
                             </td>';
                             }else{
                                echo'
                             <td>  
                                    
-                                    <!-- <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->
+                                    <!-- <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
+                          if ($key['etiqueta']!=NULL) {
+                            echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
+                          }else{
+                            echo '
+                          <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
+
+                          }
+                          echo '
                             </td>';
 
                             }
@@ -264,6 +313,7 @@
                             
                             echo'
                           </tr>';
+                          $datos =$datos+1;
                          }
            
             ?>
@@ -331,6 +381,21 @@
                                                  <h4 class="modal-title">Eliminar Material</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
+                                            </div>  
+                                            <div class="modal-footer">  
+                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                            </div>  
+                                       </div>  
+                                  </div>  
+  </div>
+       <div id="dataModal5" class="modal fade">  
+                                  <div class="modal-dialog">  
+                                       <div class="modal-content">  
+                                            <div class="modal-header">  
+                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                                 <h4 class="modal-title">Eliminar Material</h4>  
+                                            </div>  
+                                            <div class="modal-body" id="employee_forms5">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -510,7 +575,55 @@ ga('send', 'pageview');
            }   
       });  
 
+         $(document).on('click', '.view_data2', function(){  
+
+           var employee_id = $(this).attr("id"); 
+           var employee_packing = $(this).attr("packing");  
+           var dato = $(this).attr("dato"); 
+           var employee_etiqueta = $("#eti"+dato).val();
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../controllers/PaquetesControlador.php?accion=etiqueta",  
+                     method:"POST",
+                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_etiqueta:employee_etiqueta},  
+                     success:function(data){    
+
+                                    $("#resultado").html(data);  
+                             n(); 
+                     }  
+                });  
+           }            
+      });
+$(document).on('click', '.modi_data', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_packing = $(this).attr("packing");  
+           var employee_contenedor = $(this).attr("contenedor");  
+           var employee_etiquetaCo = $(this).attr("etiquetaCo");  
+           var employee_flag = $(this).attr("flag");  
+
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/paquetes/modiPaquete.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_contenedor:employee_contenedor,employee_etiquetaCo:employee_etiquetaCo,employee_flag:employee_flag},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
+      });
+
  });  
+
+</script>
+<script type="text/javascript">
+   $(document).ready(function(){ 
+
+
+ }); 
 
 </script>
         

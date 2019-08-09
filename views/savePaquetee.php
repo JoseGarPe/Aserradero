@@ -241,8 +241,8 @@
                             </tr></thead>
                             <tbody>
                             <tr>
-                              <td><select class="selectpicker form-control" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --" autofocus="true">
-                      
+                              <td><select class="selectpicker form-control" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --" autofocus="true" required="true">
+                      <option value="">Seleccione un material</option>
                           <?php 
                           require_once "../class/Materiales.php";
 
@@ -394,7 +394,7 @@
                           <td>'.$key['stock'].'</td>
                           <td>'.$key['estado'].'</td>';
                           if ($key['etiqueta']!=NULL) {
-                            echo '<td><input type="button" name="save" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$conten.'" etiquetaCo="'.$etic.'" class="btn btn-warning modi_data" /></td>';
+                            echo '<td><input type="button" name="save" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$conten.'" etiquetaCo="'.$etic.'" flag="modificar" class="btn btn-warning modi_data" /></td>';
                           }else{
                             echo '
                           <td><input type="button" name="save" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" /></td>';

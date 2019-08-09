@@ -242,7 +242,7 @@ public function saveLocal()
                 '0000-00-00',
                 NULL,
                 NULL,
-                NULL,
+                 '".$this->paquetes."',
                 NULL,
                 '".$this->obervaciones."',
                 '".$this->shipper."',
@@ -343,7 +343,20 @@ public function saveLocal()
         }else {
             return false;
         }  
-    } public function updateObservacion()
+    }
+public function updateIngresosL()
+    {
+        $query="UPDATE packing_list SET 
+        paquetes_fisicos='".$this->paquetes_fisicos."'
+         WHERE id_packing_list='".$this->id_packing_list."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+    }
+     public function updateObservacion()
     {
         $query="UPDATE packing_list SET 
        obervaciones='".$this->obervaciones."'
@@ -522,6 +535,14 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
             return 'No Disponible';
         }
  
+    }
+
+            public function selectLast()
+    {
+        $query="SELECT * FROM packing_list ORDER BY id_packing_list DESC LIMIT 1";
+        $selectall=$this->db->query($query);
+        $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListClientes;
     }
 
 }

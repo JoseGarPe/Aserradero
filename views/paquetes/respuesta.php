@@ -1,7 +1,11 @@
 <?php 
 	$vari = $_GET['respuesta'];
-
 if (isset($_GET['bandera'])) {
+$bandera=$_GET['bandera'];
+}else{
+  $bandera='Normal';
+}
+if ($bandera=='modificar') {
   $id_packing_list=$_GET['packing'];
   $bandera= $_GET['bandera'];
   $id_contenedor=$_GET['contenedor'];
@@ -12,7 +16,20 @@ if (isset($_GET['bandera'])) {
     
   header('Location: ../savePaquetee.php?error=incorrecto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
   }
-}else{
+}
+elseif ($bandera=='modificar_c') {
+  $id_packing_list=$_GET['packing'];
+  $bandera= $_GET['bandera'];
+  $id_contenedor=$_GET['contenedor'];
+  $etiquetaCo=$_GET['etiquetaCo'];
+  if ($vari=="Disponible") {
+  header('Location: ../../listas/contenedores.php?success=correcto&id='.$id_packing_list.'&conten='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
+  }elseif ($vari=='No Disponible') {
+    
+  header('Location: ../../listas/contenedores.php?error=incorrecto&id='.$id_packing_list.'&conten='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
+  }
+}
+else{
   $bandera='NO';
 }
 

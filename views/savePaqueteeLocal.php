@@ -1,6 +1,5 @@
 <?php 
   session_start();
-   $conten=$_GET['contenedor'];
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,14 +119,15 @@
                     <br><br>
                     <table class="table table-striped">
                       <thead>
-                        <tr><th>Orden</th><th>Envio</th><th>ID</th></tr>
+                        <tr><th>Orden</th><th>N° Factura</th><th>INAB</th></tr>
                       </thead>
                       <tbody>
 
                     <?php 
                     $codigo=$_GET['id'];
-                    $etic=$_GET['etiquetaCo'];
-                    echo '<tr><td><strong>'.$codigo.'</strong></td><td>'.$etic.'</td><td>'.$conten.'</td></tr>';
+                    $etic=$_GET['factura'];
+                    $inab=$_GET['inab'];
+                    echo '<tr><td><strong>'.$codigo.'</strong></td><td>'.$etic.'</td><td>'.$inab.'</td></tr>';
                      ?>
                         <tr></tr>
                       </tbody>
@@ -197,7 +197,7 @@
 
                   <div class="x_content">
                     <div class="row">
-                      <a href="../listas/IndexPackingList.php" class="btn btn-warning">Volver a Ingresos</a>
+                      <a href="../listas/IndexPackingList_Local.php" class="btn btn-warning">Volver a Ingresos</a>
                       <div class="col-xs-12 col-xs-12 col-md-12">
                         <?php 
                           require_once "../class/PackingList.php";                       
@@ -206,8 +206,9 @@
                           $packing = new Packing();
                           $orden = $packing->SelectOne($codigo);
                            $material = new Contenedores();
-                                  $catego1 = $material->selectOne($conten);
+                                  $catego1 = $material->selectOneL($codigo);
                                   foreach ($catego1 as $k) {
+                                    $conten=$k['id_contenedor'];
                                     $fechaPaquete=$k['fecha_ingreso'];
                                     $bodegaPaquete=$k['id_bodega'];
                                   $bodega = $material->selectBodega($bodegaPaquete);
@@ -218,8 +219,10 @@
 
                          foreach ($orden as $key) {
                            $estado = $key['estado'];
+                           $paquetes = $key['paquetes'];
+                           $paquetes_fisicos = $key['paquetes_fisicos'];
                          }
-                         if ($estado != 'Cerrado') {
+                         if ($paquetes_fisicos<$paquetes) {
                         ?>
                         <form action="../controllers/PaquetesControlador.php?accion=guardarLocal" method="post"  role="form1">
                           <table  class="table table-bordered">
@@ -271,7 +274,8 @@
                                  echo '<input type="hidden" name="id_contenedor" value="'.$conten.'">
                                  <input type="hidden" id="id_bodega" name="id_bodega" value="'.$bodegaPaquete.'">
                                  <input type="hidden" class="form-control" name="fecha" id="fecha" value="'.$fechaPaquete.'"/>
-                                 <input type="hidden" id="etiquetaCoo" name="etiquetaCoo" value="'.$etic.'">'; 
+                                 <input type="hidden" id="factura" name="factura" value="'.$etic.'">
+                                 <input type="hidden" id="inab" name="inab" value="'.$inab.'">'; 
                                  ?>
                               </td>
                               <!--  <td><select class="form-control" onchange="mostrarInfo(this.value)" name="id_contenedor" id="id_contenedor">
@@ -330,7 +334,6 @@
                             <th>Multiplo</th>
                             <th>Fecha Ingreso</th>
                             <th>Bodega Destino</th>
-                            <th>Contendor</th>
                             <th>Stock</th>
                             <th>Estado</th>
                             <th>Opcion</th>
@@ -365,10 +368,21 @@
                           <td>'.$key['largo'].'</td>
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['multiplo'].'</td>
-                          <td>'.date_format($dateIP, 'd/m/Y').'</td>
-                          <td>'.$key['bodega'].'</td>
-                          <td>'.$key['contenedor'].'</td>
-                          <td>'.$key['stock'].'</td>
+                          <td>'.date_format($dateIP, 'd/m/Y').'</td>';
+                        //  <td>'.$key['bodega'].'</td>
+                          if ($key['id_bodega']=='0') {
+                          echo '<td>Sin confirmar contenedor</td>';
+                          }else{
+                               require_once "../class/Bodega.php";
+            
+                             $bod = new Bodega();
+                             $datoBd = $bod->SelectOne($key['id_bodega']);
+                             foreach ($datoBd as $valor) {
+                              echo'<td>'.$valor['nombre'].'</td>';
+                               
+                             }
+                          }
+                        echo' <td>'.$key['stock'].'</td>
                           <td>'.$key['estado'].'</td>';
                           if ($key['etiqueta']!=NULL) {
                             echo '<td></td>';
@@ -567,8 +581,11 @@ ga('send', 'pageview');
 
 </script>
         <script>
-  $(function () {
-    $('#example1').DataTable()
+  $(function () { 
+
+   $('#example1').dataTable( {
+  "pageLength": 75
+} );
     $('#example3').DataTable()
     $('#example4').DataTable()
     $('#example5').DataTable({

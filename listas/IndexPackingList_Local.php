@@ -239,9 +239,10 @@
    <div class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-menu-hamburger"></i><b class="caret"></b></a>
         <ul class="dropdown-menu">
-            <li><input type="button" name="save" value="envio" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
+        <!--  <li><input type="button" name="save" value="envio" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>-->
+       <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>
         <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
-        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>
+      <!--  <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li> -->
             
         </ul>
     </div>    

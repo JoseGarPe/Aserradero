@@ -296,9 +296,9 @@ elseif ($accion=="confirmar") {
 			}
 			
 			if ($id_contenedor == $id_contenedor_p) {
-				$estado="Abierto";
+				$estado1="Abierto";
 			$pl= new Packing();
-			$pl->setEstado($estado);
+			$pl->setEstado($estado1);
 			$pl->setId_packing_list($id_packing_list);
 			$vari = 'Primero';
 			$update1=$pl->updateStatu($vari);

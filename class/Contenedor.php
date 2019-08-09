@@ -90,7 +90,7 @@ class Contenedores extends conexion
     }
     public function saveEnvio(){
 
-        $query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado,tipo_ingreso) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."','".$this->tipo_ingreso."')";
+        $query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado,tipo_ingreso,fecha_ingreso,id_bodega) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."','".$this->tipo_ingreso."','".$this->fecha_ingreso."','".$this->id_bodega."')";
         $save=$this->db->query($query);
         if ($save==true) {
             return true;
@@ -179,6 +179,13 @@ class Contenedores extends conexion
      public function selectOne($codigo)
     {
         $query="SELECT * FROM contenedores WHERE id_contenedor='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListContenedores;
+    }
+    public function selectOneL($codigo)
+    {
+        $query="SELECT * FROM contenedores WHERE id_packing_list='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListContenedores=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListContenedores;

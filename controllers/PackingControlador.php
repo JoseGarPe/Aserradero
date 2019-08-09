@@ -1,7 +1,7 @@
 <?php  
 
 require_once "../class/PackingList.php";
-
+require_once "../class/Contenedor.php";
 /*
 $numero_factura=$_POST['numfac'];
 $codigo_embarque=$_POST['codembarque'];
@@ -29,7 +29,7 @@ if ($accion=="modificar") {
 $year=$_POST['year'];
 	$co=$_POST['correlativo'];
 	
-		$corre=$co.'-'.$year;
+		$corre=$co.'-'.$year.'';
 	
 	
 
@@ -178,6 +178,8 @@ elseif ($accion=="guardarLocal")
 	$id_especificacion=NULL;
 	//$estado=$_POST['comboestado'];
 	$estado="Pendiente";
+	$id_bodega=$_POST['id_bodega'];
+	$paquetes=$_POST['paquetes'];
 
 	$Pack = new Packing();
 	$Pack->setNumero_factura($numero_factura);
@@ -195,8 +197,24 @@ elseif ($accion=="guardarLocal")
 	$Pack->setId_especificacion($id_especificacion);
 	$Pack->setEstado($estado);
 	$Pack->setPoliza($poliza);
+	$Pack->setPaquetes($paquetes);
 	$save=$Pack->saveLocal();
 	if ($save==true) {
+
+		$lastPL=$Pack->selectLast();
+		foreach ($lastPL as $datosPL) {
+			$id_packing_list=$datosPL["id_packing_list"];
+		}
+
+	$Contenedor = new Contenedores();
+	$Contenedor->setEtiqueta($numero_factura);
+	$Contenedor->setId_packing_list($id_packing_list);
+	$Contenedor->setEstado("Confirmado");
+	$Contenedor->setTipo_ingreso('Local');
+	$Contenedor->setFecha_ingreso($fecha);
+	$Contenedor->setId_bodega($id_bodega);
+	$save1=$Contenedor->saveEnvio();
+
 		header('Location: ../listas/IndexPackingList_Local.php?success=correcto');
 		# code...
 	}

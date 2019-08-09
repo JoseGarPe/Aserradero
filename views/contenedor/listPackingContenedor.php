@@ -55,7 +55,7 @@
                            } else{
                 echo '
                            <td>
-                         <a href="../listas/contenedores.php?id='.$codigo.'&factura='.$factura.'&contenedor='.$row['id_contenedor'].'" class="btn btn-primary">Seleccionar</a>
+                         <a href="../listas/contenedores.php?id='.$codigo.'&factura='.$factura.'&conten='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-primary">Seleccionar</a>
                          </td>
                           </tr>
                          ';
