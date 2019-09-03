@@ -385,11 +385,11 @@ public function updateIngresosL()
     } 
     
 
-    public function updateStatu($vari)
+    public function updateStatu($vari,$fecha)
     {
     if ($vari == 'Primero') {
          $query="UPDATE packing_list SET 
-       estado='".$this->estado."', fecha_inicio = CURDATE() WHERE id_packing_list='".$this->id_packing_list."'";
+       estado='".$this->estado."', fecha_inicio ='".$fecha."' WHERE id_packing_list='".$this->id_packing_list."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;

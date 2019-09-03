@@ -210,7 +210,114 @@ elseif ($accion=="guardar")
 		# code...
 	}
 	else{
-		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+			$packing = new Packing();
+		  $orden = $packing->SelectOne($id_packing_list);
+                         foreach ($orden as $key) {
+                           $estado = $key['estado'];
+                           $numero_factura = $key['numero_factura'];
+                           $fecha_inicio = $key['fecha_inicio'];
+                           $fecha_cierre = $key['fecha_cierre'];
+                           $cont_previstos = $key['total_contenedores'];
+                           $cont_ingresados = $key['contenedores_ingresados'];
+                         }
+ $output = '';	
+  $output.= '<label class="text-warning">ERROR: Datos erroneos o ya supero el limite de contenedores</label>';
+  $output.= '<table id="example1" class="table table-striped table-bordered" name="example1">
+         		<thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>N° Contenedor</th>
+                          <th>Estado</th>
+                          <th>Fecha Ingreso</th> 
+                          <th>Bodega</th>  
+                          <th>Opcion</th>                            
+                        </tr>
+          		</thead>
+          		<tbody>';
+
+                         $ms = new Contenedores();
+                         $contacto = $ms->selectALLpack($id_packing_list);
+                         $idf=1;
+                         foreach ($contacto as $row) {
+                         $output.= '<tr>
+                          <td>'.$row['id_contenedor'].'</td>
+                           <td>'.$row['etiqueta'].'</td>
+                           <td>'.$row['estado'].'</td>
+                          ';
+
+                            if ($row['fecha_ingreso'] == NULL && $row['estado']!= 'Confirmado' || $row['fecha_ingreso']== '0000-00-00' && $row['estado']!= 'Confirmado' || $row['fecha_ingreso']== '00/00/0000' && $row['estado']!= 'Confirmado') {
+                              $output.= '<td>
+                             <input type="date" class="form-control" name="fecha'.$idf.'" id="fecha'.$idf.'" required> 
+                              
+                              </td>';
+                            }else{
+                              $date = date_create($row['fecha_ingreso']);
+                              $output.= '<td>'.date_format($date, 'd/m/Y').'</td>';
+                            }
+                             if ($row['id_bodega']== NULL) {
+                              $output.= '<td><select class="form-control" name="id_bodega'.$idf.'" id="id_bodega'.$idf.'" required>
+                          <option value="">Seleccione una opcion</option>';
+                          require_once "../class/Bodega.php";
+
+                        $mistipos = new Bodega();
+                         $catego = $mistipos->selectALL();
+                          foreach ((array)$catego as $rows1) {
+
+                            $output.= "<option value='".$rows1['id_bodega']."'>".$rows1['nombre']."</option>";
+
+                          } 
+                         $output.= '  </select></td>';
+                            }
+                            else{
+                              require_once "../class/Bodega.php";
+            
+                             $bod = new Bodega();
+                             $datoBd = $bod->SelectOne($row['id_bodega']);
+                             foreach ($datoBd as $valor) {
+                              $output.='<td>'.$valor['nombre'].'</td>';
+                               
+                             }
+                            }
+
+                          if ($estado != "Cerrado") {
+                             
+                            if ($row['estado']=='Sin Confirmar') {
+                              $output.= '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Confirmado&id_packing_list='.$id_packing_list.'" class="btn btn-success">Confirmar</a> -->
+                               <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>
+
+                                <input type="button" name="save" value="Confirmar" id="'.$row["id_contenedor"].'" packing="'.$id_packing_list.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-success view_data2" />
+                                <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar" class="btn btn-danger">Eliminar</a>
+
+                              </td>';
+                            }else{
+                              $output.= '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Sin Confirmar" class="btn btn-warning">Sin Confirmar</a>  -->
+
+                                <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />
+          <!--  <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
+            <a href="../listas/contenedores.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
+
+                              </td>
+
+                              ';
+                            }
+                          }else{
+                            $output.= '<td>
+            <a href="../listas/contenedores.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  </td>';
+                          }
+                          $idf+=1;
+                      
+                          
+                           $output.='
+                          </tr>';
+                         
+                $output.= '<input type="hidden"  name="totaldatos" id="totaldatos" value="'.$idf.'">';
+
+                         }//end foreach mayor
+                      $output.= '
+          		</tbody>
+          			</table>';
+          			echo $output; 
+		//header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
 
@@ -302,7 +409,7 @@ elseif ($accion=="confirmar") {
 			$pl->setEstado($estado1);
 			$pl->setId_packing_list($id_packing_list);
 			$vari = 'Primero';
-			$update1=$pl->updateStatu($vari);
+			$update1=$pl->updateStatu($vari,$fecha);
 			}
 
 

@@ -30,6 +30,8 @@ require_once "../class/PackingList.php";
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Correlativo</label>
                         <div class="col-md-4 col-sm-6 col-xs-10">
                           <input id="correlativo"  type="number" min="1" max="999" value="'.$corre1.'" step="1" name="correlativo">
+                          </div>
+                         <div class="col-md-4 col-sm-6 col-xs-10">
                           -
                           <input id="year"  type="number" name="year" value="'.$anio.'" step="1" min="1" max="99">
                         </div>

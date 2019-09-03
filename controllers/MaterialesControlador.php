@@ -31,7 +31,7 @@ if ($accion=="modificar") {
 
 }
 elseif ($accion=="eliminar") {
-	$id_categoria =$_POST['id'];
+	$id_material =$_POST['id'];
 	$Materiales = new Materiales();
 	$Materiales->setId_materiales($id_material);
 	$delete=$Materiales->delete();

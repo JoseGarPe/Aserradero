@@ -42,7 +42,7 @@ $year=$_POST['year'];
 	$update=$Pack->updatePC();
 	if ($update=='Datos guardado') {
 
-		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		header('Location: ../listas/IndexPackingList.php?success=correcto&'.$year.'');
 		# code...
 	}elseif($update=='Poliza'){
 		header('Location: ../listas/IndexPackingList.php?error=incorrectoP');
@@ -141,8 +141,10 @@ elseif($accion=="updatePC") {
 	$id_Pack =$_POST['id'];
 	$correlativo=$_POST['correlativo'];
 	$poliza=$_POST['poliza'];
+	$year=$_POST['year'];
+	$corre=$correlativo.'-'.$year.'';
 	$Pack = new Packing();
-	$Pack->setCorrelativo($correlativo);
+	$Pack->setCorrelativo($corre);
 	$Pack->setPoliza($poliza);
 	$Pack->setId_packing_list($id_Pack);
 	$update=$Pack->updatePC();

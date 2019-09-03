@@ -77,14 +77,31 @@ class Contenedores extends conexion
 
 
     public function save(){
+             $query1="SELECT COUNT(id_contenedor) as inscritos FROM contenedores WHERE id_packing_list='".$this->id_packing_list."'";
+        $selectall=$this->db->query($query1);
+        $ListContenedor=$selectall->fetch_all(MYSQLI_ASSOC);
+            foreach ($ListContenedor as $key) {
+                $cont_inscritos = $key['inscritos'];
+            }
+         $query2="SELECT * FROM packing_list WHERE id_packing_list='".$this->id_packing_list."'";
+        $selectall=$this->db->query($query2);
+        $ListPL=$selectall->fetch_all(MYSQLI_ASSOC);
+        foreach ($ListPL as $value) {
+            $total_contenedores = $value['total_contenedores'];
+        }
 
-    	$query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."')";
-    	$save=$this->db->query($query);
-    	if ($save==true) {
-            return true;
-        }else {
+        if($cont_inscritos<$total_contenedores){
+
+            $query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."')";
+            $save=$this->db->query($query);
+            if ($save==true) {
+                return true;
+            }else {
+                return false;
+            }   
+        }else{
             return false;
-        }   
+        }
 
 
     }

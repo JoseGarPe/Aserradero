@@ -127,52 +127,11 @@
                       </div>
 <form role="form1" method="post" id="insert_form">
     <div class="box-body">
-      <?php 
-   /*   if ($primerContenedor == 'Primer Contenedor') {
-      echo '
-      <label>Datos complementarios Packing List</label>
-      <div class="row">
-              <div class="col-md-12">
-                   <div class="row">
-                      <div class="form-group col-sm-4 col-sm-2">
-                        <label for="middle-name" class="control-label col-xs-8">Correlativo</label>
-                        <div class="col-xs-3 col-sm-3">
-                          <input id="dia"  type="number" min="1" max="31" step="1" name="dia" required>
-                        </div>
-                      </div>
-
-                      <div class="form-group col-sm-4 col-sm-2">
-                        <label for="middle-name" class="control-label col-xs-2">/</label>
-                        <div class="col-xs-3">
-                          <input id="mes"  type="number" name="mes" step="1" min="1" max="12" required>
-                        </div>
-                      </div>
-
-                      <div class="form-group col-sm-4">
-                        <label for="middle-name" class="control-label col-xs-2">-</label>
-                        <div class="col-xs-3 col-sm-2">
-                          <input id="correlativo"  type="number" step="1" min="0" max="3000" name="correlativo" required>
-                        </div>
-                      </div>
-
-                   </div>
-                </div>
-          </div>
-          <div class="row">
-          <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-1 col-sm-3 col-xs-12">Poliza</label>
-                        <div class="col-md-5 col-sm-6 col-xs-12">
-                          <input id="poliza"  type="text" class="form-control" name="poliza" required>
-                        </div>
-                      </div>
-                      <br><br>
-          </div>
-      ';
-      }*/
-       ?>
+   
        <br><br>
+       <div id="feedback">
        <?php 
-       if($cont_ingresados< $cont_previstos){
+       if($cont_ingresados< $cont_previstos || $idf<$cont_previstos ){
         ?>
     	<div class="row">
 
@@ -198,7 +157,7 @@
     		</div>
     	</div><!--END ROW-->
     <?php } ?>
-
+          </div><!-- END DIV CONTROL-->
     </div>
     <div class="box-footer">
                 <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
@@ -314,5 +273,13 @@ $(document).on('click', '.view_data2', function(){
  });
 
  }); 
+
+</script>
+<script>
+$(document).ready(function() {
+      var refreshId =  setInterval( function(){
+    $('#feedback').load('saveConts1.php');//actualizas el div
+   }, 1000 );
+});
 
 </script>
