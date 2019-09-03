@@ -37,6 +37,7 @@ if ($accion=="modificar") {
 
 }
 elseif ($accion=="eliminar") {
+	
 	$id_packing_list =$_GET['packing'];
 	$id_contenedor =$_GET['id'];
 	$Contenedor = new Contenedores();

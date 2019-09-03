@@ -93,7 +93,8 @@ class Usuario extends conexion
     }
     public function update(){
 
-    	$query="UPDATE usuarios SET nombre='".$this->nombre."', apellido='".$this->apellido."', correo='".$this->correo."', telefono='".$this->telefono."', contrasena='".$this->contrasena."', id_tipo_usuario='".$this->id_tipo_usuario."' WHERE id_usuarios='".$this->id_usuario."'";
+         $password = hash('sha256', $this->contrasena);
+    	$query="UPDATE usuarios SET nombre='".$this->nombre."', apellido='".$this->apellido."', correo='".$this->correo."', telefono='".$this->telefono."', contrasena='".$password."', id_tipo_usuario='".$this->id_tipo_usuario."' WHERE id_usuarios='".$this->id_usuario."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;
@@ -135,7 +136,7 @@ class Usuario extends conexion
     public function login(){
 
         $pass = hash("sha256", $this->contrasena);
-        $query1="SELECT * FROM usuarios WHERE correo='".$this->correo."' AND contrasena='".$pass."'";
+        $query1="SELECT u.*, tu.nombre as tipo_usuario FROM usuarios u INNER JOIN tipo_usuario tu ON tu.id_tipo_usuario=u.id_tipo_usuario WHERE u.correo='".$this->correo."' AND u.contrasena='".$pass."'";
         $selectall1=$this->db->query($query1);
         $ListUsuario=$selectall1->fetch_all(MYSQLI_ASSOC);
 
@@ -149,6 +150,7 @@ class Usuario extends conexion
                 $_SESSION['id_usuario']=$key['id_usuarios'];
                 $_SESSION['nombre_usuario']=$key['nombre'] ." ".$key['apellido'];
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
+                $_SESSION['tipo_usuario']=$key['tipo_usuario'];
                 return 1;
             }
             elseif($key["id_tipo_usuario"]!=1){
@@ -158,6 +160,8 @@ class Usuario extends conexion
                 $_SESSION['nombre_usuario']=$key['nombre'] ." ".$key['apellido'];
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
                 $_SESSION['id_usuario']=$key['id_usuarios'];
+                $_SESSION['tipo_usuario']=$key['tipo_usuario'];
+
 
                 return 2;
             }

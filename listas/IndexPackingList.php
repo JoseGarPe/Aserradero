@@ -1,5 +1,6 @@
 <?php 
   session_start();
+  $tipo_usuario = $_SESSION['tipo_usuario'];
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -290,8 +291,11 @@
         <li><input type="button" name="observacion" value="Observacion" id="'.$row["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
           }else{
             echo ' <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
-        <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>
         <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
+        if ($tipo_usuario=='Administrador') {
+          echo '
+        <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>';
+        }
              if ($primer_cont!='Primer Contenedor') {
         echo '<li><input type="button" name="save" value="Modificar" id="'.$row["id_packing_list"].'" class="btn btn-warning upd_pl" /></li>';
         }
