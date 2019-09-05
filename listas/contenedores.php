@@ -236,6 +236,7 @@
                     <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
                        <thead>
                             <tr>
+                           <th>N°</th>
                             <th>Material</th>
                             <th>Etiqueta</th>
                             <th width="95">Grueso</th>
@@ -261,6 +262,7 @@
                           $fecha_1= date_create($key['fecha_ingreso']);
 
                           echo '<tr>
+                          <td>'.$datos.'</td>
                           <td>'.$key['material'].'</td>';
                           if ($key['etiqueta']==NULL) {
                           echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';

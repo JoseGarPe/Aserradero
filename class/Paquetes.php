@@ -167,6 +167,50 @@ class Paquetes extends conexion
             return false;
         }   
     }
+    //-------------------------------------------------------------------------------------------------------temporal----------------------------------------------------------------------------------------------------//
+      public function saveTemporal($cantidad){
+
+        $query="INSERT INTO paquetes_temporal(id_paquete, piezas,id_packing_list,id_material,largo, ancho, grueso, metros_cubicos,multiplo,fecha_ingreso,id_bodega,id_contenedor,stock,cantidad) values(NULL,'".$this->piezas."','".$this->id_packing_list."','".$this->id_material."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->metros_cubicos."','".$this->multiplo."','".$this->fecha_ingreso."','".$this->id_bodega."','".$this->id_contenedor."','".$this->piezas."','".$cantidad."')";
+        $save=$this->db->query($query);
+        if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+    }
+      public function modiTemporal($cantidad){
+        
+
+        $query="UPDATE `paquetes_temporal` SET `piezas`='".$this->piezas."',`largo`='".$this->largo."',`ancho`='".$this->ancho."',`grueso`='".$this->grueso."',`metros_cubicos`='".$this->metros_cubicos."',`multiplo`='".$this->multiplo."',`stock`='".$this->piezas."',`cantidad`='".$cantidad."',`id_material`='".$this->id_material."' WHERE id_paquete='".$this->id_paquete."'";
+        $save=$this->db->query($query);
+        if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+    }
+
+    public function selectALL_TEMPORAL($pl,$contenedor){
+        $query="SELECT con.*, m.nombre as material, c.etiqueta as contenedor FROM paquetes_temporal con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_packing_list='".$pl."' AND con.id_contenedor='".$contenedor."' AND con.generado ='No'";
+        $selectall=$this->db->query($query);
+        
+        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $ListPaquetes;
+    }
+    public function modiTemporal_G($generado){
+        
+
+        $query="UPDATE `paquetes_temporal` SET `generado`='".$generado."' WHERE id_paquete='".$this->id_paquete."'";
+        $save=$this->db->query($query);
+        if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+    }
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     public function update(){
 
     	$query="UPDATE paquetes SET etiqueta='".$this->etiqueta."', piezas='".$this->piezas."', multiplo='".$this->multiplo."', metros_cubicos='".$this->metros_cubicos."', tarimas='".$this->tarimas."', id_packing_list='".$this->id_packing_list."', n_paquetes='".$this->n_paquetes."', id_material='".$this->id_material."', bodega_pendiente='".$this->id_bodega."' WHERE id_paquete='".$this->id_paquete."'";

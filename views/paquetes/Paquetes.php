@@ -187,6 +187,21 @@ class Paquetes extends conexion
         }
     }
 
+      public function selectOne_T($codigo)
+    {
+        $query="SELECT * FROM paquetes_temporal WHERE id_paquete='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
+     public function selectMateria_Prima()
+    {
+        $query="SELECT * FROM materiales WHERE id_categoria=2";
+        $selectall=$this->db->query($query);
+       $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listmateriales;
+    }
+
 
 
 }

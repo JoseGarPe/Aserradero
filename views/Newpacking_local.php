@@ -268,7 +268,9 @@ session_start();
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <center><div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="button">Cancelar</button>
+
+                      <a href="../listas/IndexPackingList_Local.php" class="btn btn-primary">Cancelar</a>
+                         <!-- <button class="btn btn-" type="button">Cancelar</button>-->
                           <button type="submit" class="btn btn-success">Guardar Ingreso</button>
                         </div></center>
                       </div>
@@ -339,7 +341,7 @@ session_start();
     $('#myDatepicker').datetimepicker();
     
     $('#myDatepicker2').datetimepicker({
-        format: 'YYYY-MM-DD'
+        format: 'DD/MM/YYYY'
     });
     
     $('#myDatepicker3').datetimepicker({

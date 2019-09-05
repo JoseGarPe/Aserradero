@@ -216,8 +216,8 @@
                           <td>'.$row['id_packing_list'].'</td>
                            <td>'.$row['mes'].'</td>
                            <td>'.$row['shipper'].'</td>';
-                           if ($row['fecha_inicio']!=NULL) {
-                            $date1=date_create($row['fecha_inicio']);
+                           if ($row['fecha']!=NULL) {
+                            $date1=date_create($row['fecha']);
                              echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
                            }else{
                             echo '<td></td>';

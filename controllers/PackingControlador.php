@@ -170,6 +170,8 @@ elseif ($accion=="guardarLocal")
 	$razon_social=NULL;
 	$mes=$_POST['combomes'];
 	$fecha=$_POST['fecha'];
+
+    $date1=date_create($fecha);
 	$contenedores_ingresados=NULL;
 	$paquetes=NULL;
 	$paquetes_fisicos=NULL;
@@ -181,14 +183,14 @@ elseif ($accion=="guardarLocal")
 	//$estado=$_POST['comboestado'];
 	$estado="Pendiente";
 	$id_bodega=$_POST['id_bodega'];
-	$paquetes=$_POST['paquetes'];
+	$paquetes=$_POST['packetes'];
 
 	$Pack = new Packing();
 	$Pack->setNumero_factura($numero_factura);
 	$Pack->setCodigo_embarque($codigo_embarque);
 	$Pack->setRazon_social($razon_social);
 	$Pack->setMes($mes);
-	$Pack->setFecha($fecha);
+	$Pack->setFecha(date_format($date1,'Y-m-d'));
 	$Pack->setTotal_contenedores(NULL);
 	$Pack->setContenedores_ingresados(NULL);
 	$Pack->setPaquetes(NULL);
@@ -217,7 +219,7 @@ elseif ($accion=="guardarLocal")
 	$Contenedor->setId_bodega($id_bodega);
 	$save1=$Contenedor->saveEnvio();
 
-		header('Location: ../listas/IndexPackingList_Local.php?success=correcto');
+		header('Location: ../listas/IndexPackingList_Local.php?success=correcto&fecha='.date_format($date1,'Y-m-d').'');
 		# code...
 	}
 	else{

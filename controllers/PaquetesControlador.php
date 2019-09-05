@@ -37,6 +37,7 @@ elseif ($accion=="eliminar") {
 		header('Location: ../listas/Paquetes.php?error=incorrecto');
 	}
 }
+// modificados---------------
 elseif ($accion=="guardar") 
 {
 	if (isset($_POST['etiqueta'])) {
@@ -60,10 +61,10 @@ elseif ($accion=="guardar")
   	$estado =$_POST['estado'];
  
   	$num_paque =$_POST['num_paque'];
-  	for ($i=0; $i < $num_paque; $i++) { 
+  //	for ($i=0; $i < $num_paque; $i++) { 
   		
 	$Paquetes = new Paquetes();
-	$Paquetes->setEtiqueta($etiqueta);
+	//$Paquetes->setEtiqueta($etiqueta);
 	$Paquetes->setPiezas($piezas);
 	$Paquetes->setId_packing_list($id_packing_list);
 	$Paquetes->setId_material($id_material);
@@ -75,23 +76,124 @@ elseif ($accion=="guardar")
 	$Paquetes->setMultiplo($multiplo);
 	$Paquetes->setMetros_cubicos($metros_cubicos);
 	$Paquetes->setFecha_ingreso($fecha_ingreso);
-	$Paquetes->setEstado("Sin Confirmar");
-	$save=$Paquetes->save();
+	//$Paquetes->setEstado("Sin Confirmar");
+	//$save=$Paquetes->save();
+	$save=$Paquetes->saveTemporal($num_paque);	
+
   		
-  	}
+  //	}
+
 	if ($save==true) {
-		$detalle_bo= new DetalleBodega();
-		$detalle_bo->setId_bodega($id_bodega);
-		$detalle_bo->setId_material($id_material);
-		$detalle_bo->setCantidad($piezas);
-		$save1=$detalle_bo->save();
 		header('Location: ../views/savePaquetee.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCooo.'');
 		# code...
 	}
 	else{
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
-}elseif ($accion=="guardarLocal") 
+}
+
+elseif ($accion=="modi_temp") 
+{
+	
+	$piezas=$_POST['piezas_t'];
+  	$id_packing_list =$_POST['employee_packing'];
+  	$id_paquete =$_POST['employee_id'];
+  	$id_material =$_POST['id_materiales'];
+  	$id_bodega =$_POST['id_bodega'];
+  	$id_contenedor =$_POST['employee_contenedor'];
+  	$etiquetaCooo =$_POST['employee_etiquetaCo'];
+  	$largo =$_POST['largo_t'];
+  	$ancho =$_POST['ancho_t'];
+  	$grueso =$_POST['grueso_t'];
+  	$multiplo=$_POST['multiplo_t'];
+  	$metros_cubicos =$_POST['metros_cubicos_t'];
+ 
+  	$num_paque =$_POST['cantidad_t'];
+  //	for ($i=0; $i < $num_paque; $i++) { 
+  		
+	$Paquetes = new Paquetes();
+	//$Paquetes->setEtiqueta($etiqueta);
+	$Paquetes->setPiezas($piezas);
+	$Paquetes->setId_packing_list($id_packing_list);
+	$Paquetes->setId_material($id_material);
+	$Paquetes->setId_bodega($id_bodega);
+	$Paquetes->setId_contenedor($id_contenedor);
+	$Paquetes->setLargo($largo);
+	$Paquetes->setAncho($ancho);
+	$Paquetes->setGrueso($grueso);
+	$Paquetes->setMultiplo($multiplo);
+	$Paquetes->setMetros_cubicos($metros_cubicos);
+	$Paquetes->setFecha_ingreso($fecha_ingreso);
+	$Paquetes->setId_paquete($id_paquete);
+	//$Paquetes->setEstado("Sin Confirmar");
+	//$save=$Paquetes->save();
+	$save=$Paquetes->modiTemporal($num_paque);	
+
+  		
+  //	}
+
+	if ($save==true) {
+		header('Location: ../views/savePaquetee.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCooo.'');
+		# code...
+	}
+	else{
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+	}
+}
+elseif ($accion=="generar") 
+{
+	$id_paquete_t= $_GET['id;'];
+  	$id_packing_list =$_GET['packing'];
+  	$id_contenedor =$_GET['id_contenedor'];
+  	$etiquetaCooo =$_GET['etiquetaCoo'];
+  
+ 
+  //	for ($i=0; $i < $num_paque; $i++) { 
+  		
+	$Paquetes = new Paquetes();
+	$paquete_temporal= $Paquetes->selectALL_TEMPORAL($id_packing_list,$id_contenedor);
+	foreach ($paquete_temporal as $key) {
+	$num_paque = $key['cantidad'];
+	for ($i=0; $i < $num_paque; $i++) { 
+	$Paquetes->setEtiqueta(NULL);
+	$Paquetes->setPiezas($key['piezas']);
+	$Paquetes->setId_packing_list($id_packing_list);
+	$Paquetes->setId_material($key['id_material']);
+	$Paquetes->setId_bodega($key['id_bodega']);
+	$Paquetes->setId_contenedor($id_contenedor);
+	$Paquetes->setLargo($key['largo']);
+	$Paquetes->setAncho($key['ancho']);
+	$Paquetes->setGrueso($key['grueso']);
+	$Paquetes->setMultiplo($key['multiplo']);
+	$Paquetes->setMetros_cubicos($key['metros_cubicos']);
+	$Paquetes->setFecha_ingreso('0000-00-00');
+	$Paquetes->setEstado("Sin Confirmar");
+	$save=$Paquetes->save();
+	if ($save==true) {
+			$detalle_bo= new DetalleBodega();
+		$detalle_bo->setId_bodega($key['id_bodega']);
+		$detalle_bo->setId_material($key['id_material']);
+		$detalle_bo->setCantidad($key['piezas']);
+		$save1=$detalle_bo->save();
+	}
+
+		}
+	}
+	
+
+	if ($save==true) {
+		$cambio = $Paquetes->modiTemporal_G('Si');
+
+	
+		header('Location: ../views/savePaquetee.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCooo.'');
+		# code...
+	}
+	else{
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+	}
+}
+//----------------------------------------------------------------------//
+elseif ($accion=="guardarLocal") 
 {
 	if (isset($_POST['etiqueta'])) {
 		$etiqueta=$_POST['etiqueta'];
