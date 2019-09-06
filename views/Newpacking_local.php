@@ -247,10 +247,22 @@ session_start();
                         </div>
                       </div>
                         <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Total Paquetes <span class="required"></span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Total Paquetes Esperados <span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="packetes" name="packetes"  class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Tipo Ingreso<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" id="ingreso_local" name="ingreso_local">
+                          <option value="Local">Local</option>
+                          <option value="Importada">Importada</option>
+                          </select>
                         </div>
                       </div>
                                           

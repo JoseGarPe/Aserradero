@@ -150,9 +150,9 @@ public function save()
         $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_bodega;
     }
-    public function selectC_MP($codigo)
+    public function selectC_MP($codigo,$bodega)
     {
-        $query="SELECT * FROM detalle_bodega WHERE id_material='".$codigo."'";
+        $query="SELECT * FROM detalle_bodega WHERE id_material='".$codigo."' AND id_bodega='".$bodega."'";
         $selectall=$this->db->query($query);
        $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_bodega;

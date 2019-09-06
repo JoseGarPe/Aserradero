@@ -17,3 +17,5 @@ CREATE TABLE `paquetes_temporal` (
   `stock` int(11) DEFAULT NULL,
   `cantidad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci
+
+ALTER TABLE `packing_list` ADD `ingreso_local` VARCHAR(230) NULL DEFAULT 'Local' AFTER `correlativo`; 

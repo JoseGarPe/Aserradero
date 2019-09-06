@@ -184,6 +184,7 @@ elseif ($accion=="guardarLocal")
 	$estado="Pendiente";
 	$id_bodega=$_POST['id_bodega'];
 	$paquetes=$_POST['packetes'];
+	$ingreso_local=$_POST['ingreso_local'];
 
 	$Pack = new Packing();
 	$Pack->setNumero_factura($numero_factura);
@@ -202,7 +203,7 @@ elseif ($accion=="guardarLocal")
 	$Pack->setEstado($estado);
 	$Pack->setPoliza($poliza);
 	$Pack->setPaquetes($paquetes);
-	$save=$Pack->saveLocal();
+	$save=$Pack->saveLocal($ingreso_local);
 	if ($save==true) {
 
 		$lastPL=$Pack->selectLast();
@@ -214,8 +215,8 @@ elseif ($accion=="guardarLocal")
 	$Contenedor->setEtiqueta($numero_factura);
 	$Contenedor->setId_packing_list($id_packing_list);
 	$Contenedor->setEstado("Confirmado");
-	$Contenedor->setTipo_ingreso('Local');
-	$Contenedor->setFecha_ingreso($fecha);
+	$Contenedor->setTipo_ingreso($ingreso_local);
+	$Contenedor->setFecha_ingreso(date_format($date1,'Y-m-d'));
 	$Contenedor->setId_bodega($id_bodega);
 	$save1=$Contenedor->saveEnvio();
 

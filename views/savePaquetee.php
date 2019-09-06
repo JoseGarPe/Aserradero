@@ -1,6 +1,13 @@
 <?php 
   session_start();
    $conten=$_GET['contenedor'];
+
+                                if (isset($_SESSION['modificando'])) {
+                                  $modificando = $_SESSION['modificando'];
+                                }else{
+                                  $modificando ='nel';
+                                }
+
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -241,7 +248,17 @@
                             </tr></thead>
                             <tbody>
                             <tr>
-                              <td><select class="selectpicker form-control" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --" autofocus="true" required="true">
+                              <td>
+                                <?php 
+                                if ($modificando=='nel') {
+                                  echo '   <select class="selectpicker form-control" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --" autofocus="true" required="true">';
+                                }else{
+
+                                  echo '   <select class="selectpicker form-control" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --"  required="true">';
+                                }
+                                 ?>
+                                
+                             
                       <option value="">Seleccione un material</option>
                           <?php 
                           require_once "../class/Materiales.php";
@@ -385,7 +402,7 @@
                           <td>
                           <input type="button" name="save2" value="Modificar" id="'.$key_t["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$conten.'" etiquetaCo="'.$etic.'" flag="modificar" class="btn btn-warning modi_data2" />
 
-                                <a href="../controllers/PaquetesControlador.php?id='.$key_t["id_contenedor"].'&accion=generar&packing='.$codigo.'&id_contenedor='.$conten.'&etiquetaCoo='.$etic.'" class="btn btn-success">Generar</a>                          
+                                <a href="../controllers/PaquetesControlador.php?id='.$key_t["id_paquete"].'&accion=generar&packing='.$codigo.'&id_contenedor='.$conten.'&etiquetaCoo='.$etic.'" class="btn btn-success">Generar</a>                          
                           </td>
                           ';
                           
@@ -437,7 +454,13 @@
                           <td>'.$key['id_paquete'].'</td>
                           <td>'.$key['material'].'</td>';
                           if ($key['etiqueta']==NULL) {
+                            if ($modificando=='Si') {
+                              
+                          echo '<td><input type="text" class="form-control" name="eti'.$datos.'"  autofocus="true" id="eti'.$datos.'"> </td>';
+                            }else{
+
                           echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
+                            }
                           }
                           else{
                             echo '<td>'.$key['etiqueta'].'</td>

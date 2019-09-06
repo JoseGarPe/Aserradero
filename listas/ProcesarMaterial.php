@@ -802,7 +802,7 @@ xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 xmlhttp2.send("cod_banda="+cod);
 }
 
-           function mostrarInfo1(cod){
+           function mostrarInfo1(cod,bod){
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
@@ -824,7 +824,7 @@ xmlhttp.onreadystatechange=function()
   }
 xmlhttp.open("POST","../views/procesar/cantidad_material.php",true);
 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-xmlhttp.send("cod_banda="+cod);
+xmlhttp.send("cod_banda="+cod+"&bod="+bod);
 
 }
   $(document).ready(function () {

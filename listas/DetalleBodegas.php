@@ -195,14 +195,15 @@ session_start();
 
                    <h1>Materiales Guardados</h1>
                     <div id="employee_table">
-                    <table id="example4" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="example40" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                        <tr>
                           <th>Id</th>
                           <th>Material</th>
                           <th>Dimensiones</th>
                           <th>Categoria</th> 
-                          <th>Cantidad de Piezas</th>                                 
+                          <th>Cantidad de Piezas</th>   
+                          <th>M<sup>3</sup></th>                                
                         </tr>
                       </thead>
                       <tbody>
@@ -211,12 +212,17 @@ session_start();
                          $ms = new DetalleBodega();
                          $contacto = $ms->selectALLP($codigo);
                          foreach ($contacto as $row) {
+                          $metrosC = $ms->selectM_CUBICOS($codigo,$row['id_material']);
+                          foreach ($metrosC as $key) {
+                            $metroCubicos_m = $key['m_cubicos'];
+                          }
                           echo '<tr>
                           <td>'.$row['id_material'].'</td>
                           <td>'.$row['material'].'</td>
                            <td>'.$row['largo'].'x'.$row['ancho'].'x'.$row['grueso'].'</td>
                            <td>'.$row['categoria'].'</td>
                            <td>'.$row['cantidad'].'</td>
+                           <td>'.$metroCubicos_m.'m<sup>3</sup></td>
                            
                           ';
                             
@@ -1121,7 +1127,30 @@ ga('send', 'pageview');
             'pdfHtml5'
         ]
   })
-    $('#example40').DataTable()
+    $('#example40').DataTable({
+       dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+    })
     $('#example50').DataTable({
       'paging'      : true,
       'lengthChange': false,
@@ -1260,7 +1289,7 @@ ga('send', 'pageview');
       'info'        : true,
       responsive: true,
       'autoWidth'   : true,
-        rowsGroup:[0,14,3,2],
+       rowsGroup:[0,14,3,2],
         dom: 'Bfrtip',
         buttons: [
             {

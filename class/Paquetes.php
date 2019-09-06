@@ -198,10 +198,18 @@ class Paquetes extends conexion
 
         return $ListPaquetes;
     }
-    public function modiTemporal_G($generado){
+      public function selectALL_TEMPORAL_1($p){
+        $query="SELECT * FROM paquetes_temporal WHERE id_paquete='".$p."'";
+        $selectall=$this->db->query($query);
+        
+        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $ListPaquetes;
+    }
+    public function modiTemporal_G($generado,$codigo){
         
 
-        $query="UPDATE `paquetes_temporal` SET `generado`='".$generado."' WHERE id_paquete='".$this->id_paquete."'";
+        $query="UPDATE `paquetes_temporal` SET `generado`='".$generado."' WHERE id_paquete='".$codigo."'";
         $save=$this->db->query($query);
         if ($save==true) {
             return true;

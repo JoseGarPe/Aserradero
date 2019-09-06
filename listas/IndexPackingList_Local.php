@@ -185,9 +185,11 @@
                     <table id="example5" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                         <tr>
-                          <th>N° </th>
+                          <th>No</th>
+                          <th>ID </th>
                           <th>Mes</th> 
                           <th>Proveedor</th>
+                          <th>Tipo</th>
                           <th>F.Ingreso</th>
                           <th>Estado</th>
                           <th>Total m<sup>3</sup></th>
@@ -203,19 +205,21 @@
                          $todos = $misPacks->selectALL_Local();
                         
                            # code...
-                         
+                         $contador= 1;
                          foreach ((array)$todos as $row) {
                         //  $fecha1= date_create($row['fecha']);
-                        //  $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
-                      //    foreach ($sumCub as $key) {
-                          //  $metro_cubico = $key['metro_cubico'];
-                          $metro_cubico = 3;
-                        //  }
+                         $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
+                         foreach ($sumCub as $key) {
+                           $metro_cubico = $key['metro_cubico'];
+                          //$metro_cubico = 3;
+                         }
                          echo '
                           <tr>
+                          <td>'.$contador.'</td>
                           <td>'.$row['id_packing_list'].'</td>
                            <td>'.$row['mes'].'</td>
-                           <td>'.$row['shipper'].'</td>';
+                           <td>'.$row['shipper'].'</td>
+                           <td>'.$row['ingreso_local'].'</td>';
                            if ($row['fecha']!=NULL) {
                             $date1=date_create($row['fecha']);
                              echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
@@ -259,6 +263,7 @@
                            </td>
                           </tr>
                          ';
+                      $contador = $contador+1;
                        }
                      
                      

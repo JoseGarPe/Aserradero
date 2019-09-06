@@ -239,9 +239,9 @@ function save()
             return false;
         }
     }
-public function saveLocal()
+public function saveLocal($til)
     {
-        $query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`, `poliza`,`tipo_ingreso`)
+        $query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`, `poliza`,`tipo_ingreso`,`ingreso_local`)
                 values(NULL,
                 '".$this->numero_factura."',
                 NULL,
@@ -258,7 +258,7 @@ public function saveLocal()
                 NULL,
                 '".$this->estado."',
                 '".$this->poliza."',
-                'Local');
+                'Local','".$til."');
                 ";
         $save=$this->db->query($query);
         if ($save==true) {
@@ -319,7 +319,7 @@ public function saveLocal()
         return $ListPacking;
     }*/
      public function selectALL_Local(){
-        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre,packing_list.poliza,packing_list.tipo_ingreso from packing_list WHERE tipo_ingreso='Local'";
+        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre,packing_list.poliza,packing_list.tipo_ingreso,packing_list.ingreso_local  from packing_list WHERE tipo_ingreso='Local'";
         $selectall=$this->db->query($query);
         
         $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);

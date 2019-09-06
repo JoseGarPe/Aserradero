@@ -229,7 +229,6 @@
                             <thead>
                             <tr>
                             <th>Material</th>
-                            <th>Etiqueta</th>
                             <th width="95">Grueso</th>
                             <th width="95">Ancho</th>
                             <th width="95">Largo</th>
@@ -237,6 +236,7 @@
                             <th>Multiplo</th>
                             <th>Fecha Ingreso</th>
                             <th>Bodega Destino</th>
+                            <th>C. a Generar</th>
                             </tr></thead>
                             <tbody>
                             <tr>
@@ -257,7 +257,7 @@
                     
                           ?>
                           </select></td>
-                              <td><input type="text" id="etiqueta" name="etiqueta"  class="form-control col-md-7"></td>
+                             <!-- <td><input type="text" id="etiqueta" name="etiqueta"  class="form-control col-md-7"></td>-->
                               <td><input type="number" id="grueso" name="grueso" min="0.00" step="0.00000000001"  class="form-control col-sm-7"></td>
                               <td><input type="number" id="ancho" name="ancho" min="0.00" step="0.00000000001"   class="form-control col-sm-7"></td>
                               <td ><input type="number"  min="0.00" step="0.0000000001" id="largo" name="largo"  class="form-control col-sm-4"></td>
@@ -278,6 +278,7 @@
                                  <input type="hidden" id="inab" name="inab" value="'.$inab.'">'; 
                                  ?>
                               </td>
+                              <td><input type="number" id="num_paque" name="num_paque" min="0" step="1"  class="form-control col-md-7"></td>
                               <!--  <td><select class="form-control" onchange="mostrarInfo(this.value)" name="id_contenedor" id="id_contenedor">
                           <option>Seleccione una opcion</option>
                           <?php 
@@ -318,6 +319,81 @@
                       </div>
                       <br>
                       <br>
+                        <div class="col-xs-12 col-sm-6 col-md-12">
+                         <table id="example1" class="table table-bordered">
+                          <caption>DATOS PREVIOS A GENERAR</caption>
+                            <thead>
+                            <tr>
+                              <th>N°</th>
+                            <th>Id</th>
+                            <th>Material</th>
+                            <th width="95">Grueso</th>
+                            <th width="95">Ancho</th>
+                            <th width="95">Largo</th>
+                            <th width="95">Piezas</th>
+                            <th>Multiplo</th>
+                            <th>Fecha Ingreso</th>
+                            <th>Bodega Destino</th>
+                            <th>Contendor</th>
+                            <th>Stock</th>
+                            <th>Cantidad</th>
+                            <th>Opcion</th>
+                            </tr>
+                          </thead>
+                            <tbody>
+                              <?php 
+                                require_once "../class/Paquetes.php";
+                            $mss1 = new Paquetes();
+                         $paquetes_temp = $mss1->selectALL_TEMPORAL($codigo,$conten);
+                         $datos2=1;
+                         foreach ($paquetes_temp as $key_t) {
+                            
+                            $dateIP=date_create($key_t['fecha_ingreso']);
+                          echo '
+                          <tr>
+                          <td>'.$datos2.'</td>
+                          <td>'.$key_t['id_paquete'].'</td>
+                          <td>'.$key_t['material'].'</td>';
+                          
+                          echo '
+                          <td>'.$key_t['grueso'].'</td>
+                          <td>'.$key_t['ancho'].'</td>
+                          <td>'.$key_t['largo'].'</td>
+                          <td>'.$key_t['piezas'].'</td>
+                          <td>'.$key_t['multiplo'].'</td>
+                          <td>'.date_format($dateIP, 'd/m/Y').'</td>';
+                        //  <td>'.$key['bodega'].'</td>
+                          if ($key_t['id_bodega']=='0') {
+                          echo '<td>Sin confirmar contenedor</td>';
+                          }else{
+                               require_once "../class/Bodega.php";
+            
+                             $bod = new Bodega();
+                             $datoBd = $bod->SelectOne($key_t['id_bodega']);
+                             foreach ($datoBd as $valor) {
+                              echo'<td>'.$valor['nombre'].'</td>';
+                               
+                             }
+                          }
+                        echo'  <td>'.$key_t['contenedor'].'</td>
+                          <td>'.$key_t['stock'].'</td>
+                          <td>'.$key_t['cantidad'].'</td>
+                          <td>
+                          <input type="button" name="save2" value="Modificar" id="'.$key_t["id_paquete"].'" packing="'.$codigo.'" inab="'.$inab.'" factura="'.$etic.'" flag="modificar" class="btn btn-warning modi_data2" />
+
+                                <a href="../controllers/PaquetesControlador.php?id='.$key_t["id_paquete"].'&accion=generarLocal&packing='.$codigo.'&factura='.$etic.'&inab='.$inab.'" class="btn btn-success">Generar</a>                          
+                          </td>
+                          ';
+                          
+                          echo '</tr>
+                           ';
+                          $datos2=$datos2+1;
+
+                         }
+                               ?>                              
+                            </tbody>
+                          </table>
+                       </div>
 
 
                       <div class="col-xs-12 col-sm-6 col-md-12">
@@ -714,6 +790,26 @@ $(document).on('click', '.view_data2', function(){
 
                                     $("#resultado").html(data);  
                              n(); 
+                     }  
+                });  
+           }            
+      });
+
+$(document).on('click', '.modi_data2', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_packing = $(this).attr("packing");  
+           var inab = $(this).attr("inab");  
+           var factura = $(this).attr("factura");  
+
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/paquetes/modi_tempL.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_packing:employee_packing,inab:inab,factura:factura},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
                      }  
                 });  
            }            
