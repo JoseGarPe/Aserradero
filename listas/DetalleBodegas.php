@@ -265,7 +265,21 @@ session_start();
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                       
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-left top_search">
+                      <label>Etiqueta</label>
+                  <div class="input-group">
+                    <?php 
+                     echo '<input type="text" class="form-control" id="txtbusca" name="txtbusca" bodega="'.$codigo.'" nombre="'.$nombre.'" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2">';
+                      ?> 
+                    <span class="input-group-btn"> 
+                     <?php 
+                        echo '<input type="button" name="view" value="Reiniciar" bodega="'.$codigo.'" nombre="'.$nombre.'" class="btn btn-info search_data"/> ';
+                         ?>
+                    </span>
+                  </div>
+                </div>
+                      
+                
                       <br><br>
 
                   <div id="employee_table">
@@ -312,7 +326,7 @@ session_start();
                              $totalMateriales = $material['total'];
                              $totalMCM = $material['metroCubic'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['metros_cubicos']/ $a['multiplo'] ;
+                            $tarimas= $a['piezas']*$a['multiplo'] ;
                                 
                         echo '
                          <tr>
@@ -1406,6 +1420,49 @@ $(document).ready(function () {
         }
         });
 });
+</script>
+<script>
+  
+$(document).ready(function(){
+       
+    $("#txtbusca").keyup(function () { 
+
+              var parametros=$("#txtbusca").val();
+              var employee_bodega = $(this).attr("bodega");  
+              var employee_nombre = $(this).attr("nombre");  
+              $.ajax({
+                   data:{parametros:parametros,employee_bodega:employee_bodega,employee_nombre:employee_nombre},
+                  url:   'salida.php?accion=etiquetaDB',
+                  method:  'POST',
+                    success:  function (data) {                 
+                        $("#consu").html(data);
+                        
+                  },
+                  error:function(){
+                       alert("error")
+                    }
+               });
+         });
+$(document).on('click', '.search_data', function(){  
+
+              var employee_bodega = $(this).attr("bodega");  
+              var employee_nombre = $(this).attr("nombre");  
+              $.ajax({
+                   data:{employee_bodega:employee_bodega,employee_nombre:employee_nombre},
+                  url:   'salida.php?accion=reiniciarDB',
+                  method:  'POST',
+                    success:  function (data) {                 
+                        $("#consu").html(data);
+                        
+                  },
+                  error:function(){
+                       alert("error")
+                    }
+               });
+         });
+    
+});
+
 
 </script>
 

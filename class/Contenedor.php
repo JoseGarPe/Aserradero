@@ -165,6 +165,23 @@ class Contenedores extends conexion
 
     }
     public function delete(){
+        $query3="SELECT * FROM contenedores WHERE id_contenedor='".$this->id_contenedor."'";
+        $selectall=$this->db->query($query3);
+        $ListContenedor=$selectall->fetch_all(MYSQLI_ASSOC);
+        foreach ($ListContenedor as $value) {
+            $id_pl=$value['id_packing_list'];
+        }
+              $query4="SELECT * FROM packing_list WHERE id_packing_list='".$id_pl."'";
+        $selectall1=$this->db->query($query4);
+       $ListPacking=$selectall1->fetch_all(MYSQLI_ASSOC);
+       foreach ($ListPacking as $value1) {
+            $recibidos=$value1['contenedores_ingresados'];
+        }
+        $new_recibidos=$recibidos-1;
+             $query00="UPDATE packing_list SET contenedores_ingresados='".$new_recibidos."' WHERE id_packing_list='".$id_pl."'";
+        $update=$this->db->query($query00);
+
+
     	$query="DELETE FROM contenedores WHERE id_contenedor='".$this->id_contenedor."'"; 
        $delete=$this->db->query($query);
        if ($delete == true) {

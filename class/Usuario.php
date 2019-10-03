@@ -141,6 +141,7 @@ class Usuario extends conexion
         $ListUsuario=$selectall1->fetch_all(MYSQLI_ASSOC);
 
         if ($selectall1->num_rows!=0) {
+
             foreach ($ListUsuario as $key) {
             if ($key["id_tipo_usuario"]==1) {
                 session_start();
@@ -151,6 +152,10 @@ class Usuario extends conexion
                 $_SESSION['nombre_usuario']=$key['nombre'] ." ".$key['apellido'];
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
                 $_SESSION['tipo_usuario']=$key['tipo_usuario'];
+
+        $query1="INSERT INTO bitacora(id_bitacora,id_usuario, fecha,hora_ingreso,descripcion) values(NULL,'".$key['id_usuarios']."',CURDATE(),TIME(NOW()),'Ingreso al sistema')";
+        $save=$this->db->query($query1);
+
                 return 1;
             }
             elseif($key["id_tipo_usuario"]!=1){
@@ -161,7 +166,8 @@ class Usuario extends conexion
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
                 $_SESSION['id_usuario']=$key['id_usuarios'];
                 $_SESSION['tipo_usuario']=$key['tipo_usuario'];
-
+                $query1="INSERT INTO bitacora(id_bitacora,id_usuario, fecha,hora_ingreso) values(NULL,'".$key['id_usuarios']."',CURDATE(),TIME(NOW()),'Ingreso al sistema')";
+        $save=$this->db->query($query1);
 
                 return 2;
             }
@@ -174,6 +180,27 @@ class Usuario extends conexion
         }
 
     }
+
+     public function LOGOUT($usua){
+       $query1="INSERT INTO bitacora(id_bitacora,id_usuario,fecha,hora_ingreso,descripcion) values(NULL,'".$usua."',CURDATE(),TIME(NOW()),'Salio al sistema')";
+        $save=$this->db->query($query1);
+        if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+
+
+    }
+      public function selectALL_BITACORAS()
+    {
+        $query="SELECT b.*,u.nombre FROM bitacora b INNER JOIN usuarios u ON u.id_usuarios = b.id_usuario";
+        $selectall=$this->db->query($query);
+        $ListCategoria=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListCategoria;
+    }
+
+
 
 
 

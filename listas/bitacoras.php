@@ -1,7 +1,6 @@
-<?php 
+<?php
   session_start();
-  $tipo_usuario = $_SESSION['tipo_usuario'];
- ?>
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables |Ingresos por barco</title>
+    <title>DataTables | Aserradero</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,23 +20,20 @@
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-    <!-- Datatables -->
+        <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+     <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />  
+   <!-- <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">-->
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />  
-    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />  
-
-        <!-- starrr -->
-    <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet"> 
-    <!-- bootstrap-daterangepicker -->
-    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-           
-<script src="http://code.jquery.com/jquery-latest.js"></script>
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -59,6 +55,7 @@
                     <img src="images/img.jpg" alt="..." class="img-circle profile_img">
                   </div>
                   <div class="profile_info">
+                    <span>Welcome,</span>
                     <h2><?php echo "".$_SESSION['nombre_usuario']; ?></h2>
                   </div>
                 </div>
@@ -115,7 +112,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Packing List - Por Barco</h2>
+                    <h2>Proyecciones Por componente</h2>
 
 
                     
@@ -158,32 +155,8 @@
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
               <span class="sr-only">Incorecto:</span>
               
-                Error al guardar, verifique los datos ingresados o existe estos datos ya.
-                </div>
-           
-                    ';
-                }
-               elseif ($_GET['error']=='incorrectoP') {
-                    
-                    echo '
-                <div class="alert alert-danger" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-              <span class="sr-only">Incorrecto:</span>
-              
-                Ya existe una poliza con estos datos.
-                </div>
-           
-                    ';
-                }
-               elseif ($_GET['error']=='incorrectoC') {
-                    
-                    echo '
-                <div class="alert alert-danger" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-              <span class="sr-only">Incorrecto:</span>
-              
-                Ya existe un Correlativo con estos datos.
-                </div>
+                Error al guardar, verifique los datos ingresados.
+
            
                     ';
                 }
@@ -200,119 +173,38 @@
                     ';
                 }
             }
-             ?></div>
-
-
+             ?>
                   <div class="x_content">
-                    <a href="../views/Newpacking.php" class="btn btn-primary" role="button">Nueva Orden</a>
-                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO--> 
-                    <br>
-                    <br>
+                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
+           <br>
                     <div id="employee_table">
-                    <table id="example6" class="table table-striped table-bordered" name="datatable-buttons">
-                      <h1><caption>Segun Factura:</caption></h1>
+                      <table id="examplePa" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                         <tr>
                           <th>N° </th>
-                          <th>Mes</th> 
-                          <th>Shipper</th>
-                          <th>Correlativo</th>
-                          <th>Nave</th>
-                          <th>F.Ingreso</th>
-                          <th>F.Finalizado</th>
-                          <th>Especificacion</th>
-                          <th>Contenedores</th>
-                          <th>Recibidos</th> 
-                          <th>Estado</th>
-                          <th>Total m<sup>3</sup></th>
-                          <th>Factura</th>
-                          <th>Codigo Embarque</th> 
-                          <th>Poliza</th>
-                          <th>Razon Social</th>
-                          <th>Opiones</th>                         
+                          <th>Usuario</th>
+                          <th>Descripcion</th>
+                          <th>Fecha</th> 
+                          <th>Hora</th>                            
                         </tr>
                       </thead>
                       <tbody>
                         <?php 
-                         require_once "../class/PackingList.php";
-                         require_once "../class/Contenedor.php";
-                         $misPacks = new Packing();
-                         $todos = $misPacks->selectALL();
+                         require_once "../class/Usuario.php";
+                       $misUsuarios = new Usuario();
+                         $catego = $misUsuarios->selectALL_BITACORAS();
                         
                            # code...
                          
-                         foreach ((array)$todos as $row) {
-                          $Contenedor = new Contenedores();
-                          $primer_cont = $Contenedor->FstContenedor($row['id_packing_list']);
-
-                          $fecha1= date_create($row['fecha']);
-                          $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
-                          foreach ($sumCub as $key) {
-                            $metro_cubico = $key['metro_cubico'];
-                          }
+                         foreach ((array)$catego as $row) {
                          echo '
                           <tr>
-                          <td>'.$row['id_packing_list'].'</td>
-                           <td>'.$row['mes'].'</td>
-                           <td>'.$row['shipper'].'</td>
-                           <td>'.$row['correlativo'].'</td>
-                           <td>'.$row['nav'].'</td>';
-                           if ($row['fecha_inicio']!=NULL) {
-                            $date1=date_create($row['fecha_inicio']);
-                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
-                           }else{
-                            echo '<td></td>';
-                           }
-                           if ($row['fecha_cierre']!=NULL) {
-                            $date1=date_create($row['fecha_cierre']);
-                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
-                           }else{
-                            echo '<td></td>';
-                           }
-                    echo ' <td>'.$row['esp'].'</td>
-                           <td>'.$row['total_contenedores'].'</td>
-                           <td>'.$row['contenedores_ingresados'].'</td>
-                           <td>'.$row['estado'].'</td>
-                          <td>'.$metro_cubico.' m<sup>3</sup></td>
-                          <td>'.$row['numero_factura'].'</td>
-                           <td>'.$row['codigo_embarque'].'</td>
-                           <td>'.$row['poliza'].'</td>
-                           <td>'.$row['razon_social'].'</td>';
-                           
-                           echo '<td>
-<!-- <ul>
-   <li class="dropdown">-->
-   <div class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-menu-hamburger"></i><b class="caret"></b></a>
-        <ul class="dropdown-menu">
-           ';
-       
-          if ($row['estado']== 'Cerrado') {
-            echo '
-         <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
-        <li><input type="button" name="observacion" value="Observacion" id="'.$row["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
-          }else{
-            echo ' <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
-        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
-        if ($tipo_usuario=='Administrador') {
-          echo '
-        <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>';
-        }
-             if ($primer_cont!='Primer Contenedor') {
-        echo '<li><input type="button" name="save" value="Modificar" id="'.$row["id_packing_list"].'" class="btn btn-warning upd_pl" /></li>';
-        }
-          }
-            
-      echo '  </ul>
-          
-    </div>    
-   <!-- </li>
-</ul>-->
-
-
-
-
-                           </td>
+                           <td>'.$row['id_bitacora'].'</td>
+                           <td>'.$row['nombre'].'</td>
+                           <td>'.$row["descripcion"].'</td>
+                           <td>'.$row["fecha"].'</td>
+                           <td>'.$row["hora_ingreso"].'</td>
+                         
                           </tr>
                          ';
                        }
@@ -323,9 +215,13 @@
                     </table>
                   </div>
                   </div>
-                </div>
+                </div> <!--X PANEL 1 -->
+
+           
+
+
               </div>
-        
+        </div>
         
         
             </div>
@@ -334,7 +230,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
+                                                 <h4 class="modal-title">Detalle Usuario</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_detail">  
                                             </div>  
@@ -349,24 +245,9 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
+                                                 <h4 class="modal-title">Detalle Nave</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>  
-  </div> 
-  <div id="dataModal00" class="modal fade">  
-                                  <div class="modal-dialog">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Packin List</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_forms00">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -379,7 +260,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Orden</h4>  
+                                                 <h4 class="modal-title">Agregar Nueva Nave</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -394,24 +275,9 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Packing</h4>  
+                                                 <h4 class="modal-title">Eliminar Nave</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>  
-  </div>
-  <div id="dataModal5" class="modal fade">  
-                                  <div class="modal-dialog modal-lg">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Contenedores</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_forms5">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -425,7 +291,7 @@
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nueva Orden</h4>  
+                     <h4 class="modal-title">Agregar Nueva Nave</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -458,13 +324,32 @@
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
     <!-- Datatables -->
+    <!--<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>-->
+
+    <!--<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>-->
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/v/dt/dt-1.10.12/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
+
     <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
 
-    <!--<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>-->
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+
+   <!-- <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>-->
+   <!-- <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script> -->
+   <!-- <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
@@ -473,11 +358,11 @@
     <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
     <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>-->
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
-      <!-- bootstrap-daterangepicker -->
+     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
     <!-- bootstrap-datetimepicker -->    
@@ -532,64 +417,33 @@ ga('send', 'pageview');
            }   
       });  
      
-      $(document).on('click', '.view_obs', function(){  
+      $(document).on('click', '.view_data', function(){  
            var employee_id = $(this).attr("id");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/observacion.php",  
+                     url:"../views/selectUsuario.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
-                          $('#employee_forms00').html(data);  
-                          $('#dataModal00').modal('show');  
-                     }  
-                });  
-           }            
-      }); 
-     
-      $(document).on('click', '.upd_pl', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/modiPackin.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms00').html(data);  
-                          $('#dataModal00').modal('show');  
+                          $('#employee_forms2').html(data);  
+                          $('#dataModal2').modal('show');  
                      }  
                 });  
            }            
       });  
 
         $(document).on('click', '.save_data', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
+           var employee_action = $(this).attr("accion");  
+           if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/contenedor/saveConts1.php",  
+                     url:"../views/naves/saveNaves.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id},  
+                     data:{employee_action:employee_action},  
                      success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
-                     }  
-                });  
-           }            
-      });
-         $(document).on('click', '.save_data1', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/contenedor/savePaquetes.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
+                          $('#employee_forms3').html(data);  
+                          $('#dataModal3').modal('show');  
                      }  
                 });  
            }            
@@ -601,36 +455,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/deletePacking.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms4').html(data);  
-                          $('#dataModal4').modal('show');  
-                     }  
-                });  
-           }   
-      }); 
-      $(document).on('click', '.delete_data1', function(){  
-          var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../controllers/ContenedorControlador.php?accion=eliminar",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms4').html(data);  
-                     }  
-                });  
-           }   
-      });
-      $(document).on('click', '.finish_data', function(){  
-          var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/cerrarPackingList.php",  
+                     url:"../views/naves/deleteNave.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -644,32 +469,134 @@ ga('send', 'pageview');
  });  
 
 </script>
-        <script>
+  <script>
   $(function () {
-    $('#example1').DataTable()
-    $('#example3').DataTable()
-    $('#example4').DataTable()
-    $('#example5').DataTable({
-      'paging'      : true,
-      'lengthChange': true,
-      'searching'   : false,
+    $('#example10').DataTable()
+    $('#example30').DataTable({
+       'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : true,
-      'order'       : [[0, "desc"]]
-    })
+      'autoWidth'   : false,
+       dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
   })
+    $('#example40').DataTable()
+    $('#example50').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+      'order'       : [[0, "desc"]]
+    }) 
+    $('#examplePa').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+        rowsGroup:[0,12,11,1,13],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+    });
+    $('#examplePa1').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+        rowsGroup:[0,12,11,1,3,13,14],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+    })
+  });
 </script>
 <script>
   $(document).ready(function() {
+    $('#example3').DataTable( {
+
+      'order'       : [[0, "desc"]],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+    } );
     $('#example2').DataTable( {
-        order: [[12, 'asc']],
+        order: [[0, 'asc']],
         rowGroup: {
             startRender: null,
             endRender: function ( rows, group ) {
                 var salaryAvg = rows
                     .data()
-                    .pluck(5)
+                    .pluck(11)
                     .reduce( function (a, b) {
                         return a + b.replace(/[^\d]/g, '')*1;
                     }, 0) / rows.count();
@@ -677,83 +604,223 @@ ga('send', 'pageview');
  
                 var ageAvg = rows
                     .data()
-                    .pluck(3)
+                    .pluck(11)
                     .reduce( function (a, b) {
                         return a + b*1;
                     }, 0) / rows.count();
  
                return $('<tr/>')
-                    .append( '<td colspan="3">Averages for '+group+'</td>' )
-                    .append( '<td>'+ageAvg.toFixed(0)+'</td>' )
+                    .append( '<td colspan="3">Total M<sup>3</sup> Orden'+group+'</td>' )
+                    .append( '<td></td>' )
                     .append( '<td/>' )
                     .append( '<td>'+salaryAvg+'</td>' );
             },
-            dataSrc: 12
+            dataSrc: 0
         }
     } );
-
-      $('#example6').DataTable( {
-        order: [[12, 'asc']],
-        rowGroup: {
-            endRender: function ( rows, group ) {
-                var avg = rows
-                    .data()
-                    .pluck(5)
-                    .reduce( function (a, b) {
-                        return a + b.replace(/[^\d]/g, 'Factura:')*1;
-                    }, 0) / rows.count();
+    $('#example4').DataTable( {
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      responsive: true,
+      'autoWidth'   : true,
+        rowsGroup:[0,11,1],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
             },
-            dataSrc: 12
-        }
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
+       
     } );
-} );
+
 </script>
-            
+         <script>
+    $('#myDatepicker').datetimepicker();
+    
+    $('#myDatepicker2').datetimepicker({
+        format: 'YYYY.MM.DD'
+    });
+    
+    $('#myDatepicker3').datetimepicker({
+          format: 'YYYY-MM-DD'
+    });
+     $('#myDatepicker33').datetimepicker({
+          format: 'YYYY-MM-DD'
+    });
+      $('#myDatepicker34').datetimepicker({
+          format: 'YYYY-MM-DD'
+    });
+    
+    $('#myDatepicker4').datetimepicker({
+        ignoreReadonly: true,
+        allowInputToggle: true
+    });
+
+    $('#datetimepicker6').datetimepicker();
+    
+    $('#datetimepicker7').datetimepicker({
+        useCurrent: false
+    });
+    
+    $("#datetimepicker6").on("dp.change", function(e) {
+        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    });
+    
+    $("#datetimepicker7").on("dp.change", function(e) {
+        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    });
+
+  
+</script>
+<script >
+  
+  function myFunction() {
+  var checkBox = document.getElementById("myCheck");
+  var fecha_i = document.getElementById("fechai");
+  var fecha_f = document.getElementById("fechaf");
+  var checkBox2 = document.getElementById("myCheck1");
+  var estado = document.getElementById("estado");
+  if (checkBox.checked == true){
+    fecha_i.style.display = "block";
+    fecha_f.style.display = "block";
+    checkBox2.checked=false;
+     estado.style.display = "none";
+     
+    
+  } else {
+     fecha_i.style.display = "none";
+     fecha_f.style.display = "none";
+     estado.style.display = "none";
+     
+  }
+}function myFunction1() {
+  var checkBox = document.getElementById("myCheck");
+  var fecha_i = document.getElementById("fechai");
+  var fecha_f = document.getElementById("fechaf");
+  var checkBox2 = document.getElementById("myCheck1");
+  var estado = document.getElementById("estado");
+  
+
+  if(checkBox2.checked == true){
+    estado.style.display = "block";
+    checkBox.checked=false;
+     fecha_i.style.display = "none";
+     fecha_f.style.display = "none";
+    
+  } else {
+     fecha_i.style.display = "none";
+     fecha_f.style.display = "none";
+     estado.style.display = "none";
+     
+  }
+}
+  function myFunction2() {
+  var checkBox1 = document.getElementById("myCheck2");
+  var fecha_ip = document.getElementById("fechaip");
+  var fecha_fp = document.getElementById("fechafp");
+  var checkBox3 = document.getElementById("myCheck3");
+  var estadop = document.getElementById("estadop");
+  if (checkBox1.checked == true){
+    fecha_ip.style.display = "block";
+    fecha_fp.style.display = "block";
+    checkBox3.checked=false;
+     estadop.style.display = "block";
+     
+    
+  } else {
+     fecha_ip.style.display = "none";
+     fecha_fp.style.display = "none";
+     estadop.style.display = "none";
+     
+  }
+}
+function myFunction3() {
+  var checkBox1 = document.getElementById("myCheck2");
+  var fecha_ip = document.getElementById("fechaip");
+  var fecha_fp = document.getElementById("fechafp");
+  var checkBox3 = document.getElementById("myCheck3");
+  var estadop = document.getElementById("estadop");
+  
+
+  if(checkBox3.checked == true){
+    estadop.style.display = "block";
+    checkBox1.checked=false;
+     fecha_ip.style.display = "none";
+     fecha_fp.style.display = "none";
+    
+  } else {
+     fecha_ip.style.display = "none";
+     fecha_fp.style.display = "none";
+     estadop.style.display = "none";
+     
+  }
+}
+</script>
 <script>
-  $(document).ready(function(){
-                         
-      var consulta;
-             
-      //hacemos focus
-      $("#correlativo").focus();
-                                                 
-      //comprobamos si se pulsa una tecla
-      $("#correlativo").keyup(function(e){
-             //obtenemos el texto introducido en el campo
-          consulta = $("#correlativo").val();  
-          var input = $(this).attr("id");  
-                                      
-             //hace la búsqueda
-             $("#resultado").delay(1000).queue(function(n) {      
-                                           
-                  $("#resultado").html('<img src="ajax-loader.gif" />');
-                                           
-                        $.ajax({
-                              type: "POST",
-                              url: "../views/existente.php",
-                              data: data:{consulta:consulta,input:input},
-                              error: function(){
-                                    alert("error petición ajax");
-                              },
-                              success: function(data){                                                      
-                                    $("#resultado").html(data);
-                                    n();
-                              }
-                  });
-                                           
-             });
-                                
-      });
-/*
-      $("#respuesta").focus();
-      var resp = $("#respuesta").val();
-      if (resp=="Disponible") {
-
-                                    location.reload();
-      }*/
-                          
-});
-
+   function mostrarInfo(cod){
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("consu").innerHTML=xmlhttp.responseText;
+    }else{ 
+  document.getElementById("consu").innerHTML='Cargando...';
+    }
+  }
+xmlhttp.open("POST","../views/contenedor/consulta.php?accion=paquetes",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("cod_banda="+cod);
+};
+ function mostrarInfo2(cod){
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("consu1").innerHTML=xmlhttp.responseText;
+    }else{ 
+  document.getElementById("consu1").innerHTML='Cargando...';
+    }
+  }
+xmlhttp.open("POST","../views/contenedor/consulta.php?accion=bodegas",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("cod_banda="+cod);
+}
 </script>
     </body>
 </html>

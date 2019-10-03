@@ -46,8 +46,9 @@ if ($accion=='etiqueta') {
                            foreach ($TP as $key) {
                              $totalPaquetes = $key['total'];
                              $totalMC = $key['metroCubic'];
+                             $totalPiezas = $key['piezas_totales'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['metros_cubicos']/ $a['multiplo'] ;
+                            $tarimas= $a['piezas']* $a['multiplo'] ;
                                 
                         echo '
                          <tr>
@@ -63,6 +64,65 @@ if ($accion=='etiqueta') {
                             <td>'.$a['multiplo'].'</td>
                             <td>'.round($tarimas).'</td>
                             <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
+                            <td style="vertical-align:middle;">'.$totalPiezas.'</td>
+                            <td>'.$a['estado'].'</td>
+                        </tr> ';
+                                
+                                
+                              
+                          }
+}
+elseif ($accion=='bodegas') {
+    $estadoo1 = $_POST['cod_banda1'];
+             require_once "PackingList.php";
+                         require_once "Paquetes.php";
+                         require_once "Contenedor.php";
+                         $misPacks = new Packing();
+                            $mss = new Paquetes();
+                            
+                           $dato =1;
+                           if ($estadoo1==0) {
+                            
+                           $paquetes = $mss->selectALLpack_BodegaEsB_CERO($estadoo1);
+                           }else{
+                           $paquetes = $mss->selectALLpack_BodegaEsB($estadoo1);
+                         }
+                            foreach ($paquetes as $a) {
+                            
+                           $TPM = $mss->countPaquetesBodega_Material($estadoo1,$a['id_material']);
+                           $TP = $mss->countPaquetesBodegaBB($estadoo1);
+                           foreach ($TP as $key) {
+                             $totalPaquetes = $key['total'];
+                             $totalMC = $key['metroCubic'];
+                             $totalPiezas = $key['piezas_totales'];
+                            }// consulta de total de paquetes
+                            $tarimas= $a['piezas']* $a['multiplo'] ;
+                              foreach ($TPM as $key1) {
+                             $totalPiezasM = $key1['piezas_totales'];
+                              }
+                                
+                        echo '
+                         <tr>';
+                         if ($a['id_bodega']==0) {
+                           echo ' <td style="vertical-align:middle;">PENDIENTE</td>';
+                         }else{
+                          echo ' <td style="vertical-align:middle;">'.$a['bodega'].'</td>';
+                         }
+                           
+                          echo' 
+                            <td style="vertical-align:middle;">'.$a['fecha_ingreso'].'</td>
+                            <td>'.$a['etiqueta'].'</td>
+                            <td>'.$a['material'].'</td>
+                            <td>'.$a['grueso'].'</td>
+                            <td>'.$a['ancho'].'</td>
+                            <td>'.$a['largo'].'</td>
+                            <td>'.$a['piezas'].'</td>
+                            <td>'.$a['metros_cubicos'].'</td>
+                            <td>'.$a['multiplo'].'</td>
+                            <td>'.round($tarimas).'</td>
+                            <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
+                            <td style="vertical-align:middle;">'.$totalPiezasM.'</td>
+                            <td style="vertical-align:middle;">'.$totalPiezas.'</td>
                             <td>'.$a['estado'].'</td>
                         </tr> ';
                                 

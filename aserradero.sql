@@ -6,6 +6,14 @@ nombre varchar(250),
 descripcion varchar(500)
 );
 
+create table bitacora(
+id_bitacora int(11) not null AUTO_INCREMENT PRIMARY KEY,
+id_usuario int(11) null,
+fecha date null, 
+hora_ingreso time null,
+descripcion varchar(250) null
+);
+
 create table usuarios(
 id_usuarios int not null AUTO_INCREMENT PRIMARY KEY,
 nombre varchar(250),

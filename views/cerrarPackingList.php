@@ -36,6 +36,19 @@ require_once "../class/Contenedor.php";
                          foreach ((array)$catego as $row) {
                             echo '
 
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Fecha Cierre<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div class="input-group date" id="myDatepicker2">
+                            <input type="text" class="form-control" name="fecha" id="fecha" required/>
+                            <span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                           </div>
+                        </div>
+                      </div>
+
                             <label>¿Desea Finalizar esta orden por barco '.$row['numero_factura'].'?</label>
                           <input type="hidden" name="id" id="id" value="'.$row['id_packing_list'].'"/>
                             <input type="hidden" name="estado" id="estado" value="Cerrado"/>  
@@ -53,4 +66,36 @@ require_once "../class/Contenedor.php";
 
 
  ?>
-   
+    <script>
+    $('#myDatepicker').datetimepicker();
+    
+    $('#myDatepicker2').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+    
+    $('#myDatepicker3').datetimepicker({
+        format: 'hh:mm A'
+    });
+    
+    $('#myDatepicker4').datetimepicker({
+        ignoreReadonly: true,
+        allowInputToggle: true
+    });
+
+    $('#datetimepicker6').datetimepicker();
+    
+    $('#datetimepicker7').datetimepicker({
+        useCurrent: false
+    });
+    
+    $("#datetimepicker6").on("dp.change", function(e) {
+        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    });
+    
+    $("#datetimepicker7").on("dp.change", function(e) {
+        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    });
+
+  
+</script>
+  

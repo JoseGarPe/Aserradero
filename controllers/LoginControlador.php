@@ -23,6 +23,9 @@ if ($accion=="login") {
 }
 elseif ($accion=="logout") {
 	session_start();
+	$usuario=$_SESSION['id_usuario'];
+	$usua = new Usuario();
+	$cerrar=$usua->LOGOUT($usuario);
 	session_unset();
 			session_destroy();
 			

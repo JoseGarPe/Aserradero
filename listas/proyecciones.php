@@ -199,6 +199,27 @@
                           </select>
                         </div>
                       </div>
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione una Bodega<span class="required"></span>
+                        </label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <select class="form-control" id="bod" name="bod">
+                          <option value="">SELECCIONE UNA OPCION</option>
+                          <option value="0">Entrante</option>
+                          <?php 
+                           require_once "../class/Bodega.php";
+                         $misBodegas = new Bodega();
+                         $catego = $misBodegas->selectALL();
+                            foreach ((array)$catego as $row) {
+                                echo '
+                          <option value="'.$row['id_bodega'].'">'.$row['nombre'].'</option>';
+
+                            }
+                           ?>
+                          </select>
+                        </div>
+                      </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione una opcion<span class="required"></span>
                         </label>
@@ -259,9 +280,10 @@
                         $fecha1=$_POST['fecha_inicial'];
                         $fecha2=$_POST['fecha_final'];
                         $id_material=$_POST['id_material'];
+                        $bodega=$_POST['bod'];
                          require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
-                         $paquetes1 = $mss->selectALLpack_fechas_metros($fecha1,$fecha2,$id_material);
+                         $paquetes1 = $mss->selectALLpack_fechas_metros($fecha1,$fecha2,$id_material,$bodega);
                          foreach ($paquetes1 as $key1) {
                           echo '
                             <h2>Material seleccionado: <strong>'.$key1['material'].'</strong></h2><br>
@@ -273,10 +295,11 @@
                       }elseif (isset($_POST['myCheck1'])&&isset($_POST['estado_con'])) {
                         $estado=$_POST['estado_con'];
                         $id_material=$_POST['id_material'];
+                        $bodega=$_POST['bod'];
 
                          require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
-                         $paquetes2 = $mss->selectALL_estado_metros($estado,$id_material);
+                         $paquetes2 = $mss->selectALL_estado_metros($estado,$id_material,$bodega);
                           foreach ($paquetes2 as $key2) {
                           echo '
                             <h2>Material seleccionado: <strong>'.$key2['material'].'</strong></h2><br>
@@ -286,7 +309,7 @@
                       }
 
                      ?>
-                    <table id="example4" class="table table-bordered">
+                    <table id="example40" class="table table-bordered">
                     <thead>
                             <tr>
                             <th>Etiqueta</th>
@@ -307,7 +330,7 @@
                         $id_material=$_POST['id_material'];
                          require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
-                         $paquetes = $mss->selectALLpack_fechas($fecha1,$fecha2,$id_material);
+                         $paquetes = $mss->selectALLpack_fechas($fecha1,$fecha2,$id_material,$bodega);
                          foreach ($paquetes as $key) {
 
                             $dateIP=date_create($key['fecha_ingreso']);
@@ -333,7 +356,7 @@
 
                          require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
-                         $paquetes = $mss->selectALL_estado($estado,$id_material);
+                         $paquetes = $mss->selectALL_estado($estado,$id_material,$bodega);
                           foreach ($paquetes as $key) {
 
                             $dateIP=date_create($key['fecha_ingreso']);
@@ -411,6 +434,7 @@
                       <th>Multiplo</th>
                       <th>Tarima</th>
                       <th>M<sup>3</sup> TOTAL</th>
+                      <th>Piezas TOTAL</th>
                       <th>Existente</th>
                   </thead>
                   <tbody id="consu">
@@ -431,8 +455,9 @@
                            foreach ($TP as $key) {
                              $totalPaquetes = $key['total'];
                              $totalMC = $key['metroCubic'];
+                             $totalPiezas = $key['piezas_totales'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['metros_cubicos']/ $a['multiplo'] ;
+                            $tarimas= $a['piezas']*$a['multiplo'] ;
                                 
                             $datePP=date_create($a['fecha_ingreso']);
                         echo '
@@ -449,6 +474,7 @@
                             <td>'.$a['multiplo'].'</td>
                             <td>'.round($tarimas).'</td>
                             <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
+                            <td style="vertical-align:middle;">'.$totalPiezas.'</td>
                             <td>'.$a['estado'].'</td>
                         </tr> ';
                                 
@@ -465,6 +491,188 @@
                   <!--END X CONTENT-->
                    </div>
                    </div>
+
+<!-- PROYECCIONES POR BODEGA-->
+ <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Proyeccion Paquetes</h2>
+
+
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione una Bodega<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" onchange="mostrarInfo2(this.value)" id="bod" name="bod">
+                          <option value="">SELECCIONE UNA OPCION</option>
+                          <option value="0">Entrante</option>
+                          <?php 
+                           require_once "../class/Bodega.php";
+                         $misBodegas = new Bodega();
+                         $catego = $misBodegas->selectALL();
+                            foreach ((array)$catego as $row) {
+                                echo '
+                          <option value="'.$row['id_bodega'].'">'.$row['nombre'].'</option>';
+
+                            }
+                           ?>
+                          </select>
+                        </div>
+                      </div>
+                      <br><br>
+
+                  <div id="employee_table">
+                   <table id="examplePa1" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
+                  <thead>
+                      <th>Bodega</th>
+                      <th>Fecha Ingreso</th>
+                      <th>Etiqueta</th>
+                      <th>Material</th>
+                      <th>Grosor</th>
+                      <th>Ancho</th>
+                      <th>Largo</th>
+                      <th>Piezas</th>
+                      <th>M<sup>3</sup></th>
+                      <th>Multiplo</th>
+                      <th>Tarima</th>
+                      <th>M<sup>3</sup> TOTAL</th>
+                      <th>Piezas Material</th>
+                      <th>Piezas TOTAL</th>
+                      <th>Existente</th>
+                  </thead>
+                  <tbody id="consu1">
+                    <?php 
+                      require_once "../class/PackingList.php";
+                         require_once "../class/Paquetes.php";
+                         require_once "../class/Contenedor.php";
+                         $misPacks = new Packing();
+                         $todos = $misPacks->selectALL_Local();
+                            $mss = new Paquetes();
+                            
+                           $dato =1;
+
+                           $paquetes1 = $mss->selectALLpack_Bodega_CERO();
+                           $paquetes = $mss->selectALLpack_Bodega();
+
+                            foreach ($paquetes as $a) {
+                            
+                           $TP = $mss->countPaquetesBodega($a['id_bodega']);
+                           $TPM = $mss->countPaquetesBodega_Material($a['id_bodega'],$a['id_material']);
+                           foreach ($TP as $key) {
+                             $totalPaquetes = $key['total'];
+                             $totalMC = $key['metroCubic'];
+                             $totalPiezas = $key['piezas_totales'];
+                            }// consulta de total de paquetes
+                            $tarimas= $a['piezas']*$a['multiplo'] ;
+                                
+                            $datePP=date_create($a['fecha_ingreso']);
+
+                              foreach ($TPM as $key1) {
+
+                             $totalPiezasM = $key1['piezas_totales'];
+
+                              }
+                        echo '
+                         <tr>';
+                         if ($a['bodega']==NULL) {
+                           echo ' <td style="vertical-align:middle;">PENDIENTE</td>';
+                         }else{
+                          echo ' <td style="vertical-align:middle;">'.$a['bodega'].'</td>';
+                         }
+                           
+                          echo'  <td style="vertical-align:middle;">'.date_format($datePP, 'd/m/Y').'</td>
+                            <td>'.$a['etiqueta'].'</td>
+                            <td>'.$a['material'].'</td>
+                            <td>'.$a['grueso'].'</td>
+                            <td>'.$a['ancho'].'</td>
+                            <td>'.$a['largo'].'</td>
+                            <td>'.$a['piezas'].'</td>
+                            <td>'.$a['metros_cubicos'].'</td>
+                            <td>'.$a['multiplo'].'</td>
+                            <td>'.round($tarimas).'</td>
+                            <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
+                            <td style="vertical-align:middle;">'.$totalPiezasM.'</td>
+                            <td style="vertical-align:middle;">'.$totalPiezas.'</td>
+                            <td>'.$a['estado'].'</td>
+                        </tr> ';
+                                
+                                
+                              
+                          }
+                          foreach ($paquetes1 as $a) {
+                            
+                           $TP = $mss->countPaquetesBodega($a['id_bodega']);
+                           $TPM = $mss->countPaquetesBodega_Material($a['id_bodega'],$a['id_material']);
+                           foreach ($TP as $key) {
+                             $totalPaquetes = $key['total'];
+                             $totalMC = $key['metroCubic'];
+                             $totalPiezas = $key['piezas_totales'];
+                            }// consulta de total de paquetes
+                            $tarimas= $a['piezas']*$a['multiplo'] ;
+                                
+                            $datePP=date_create($a['fecha_ingreso']);
+
+                              foreach ($TPM as $key1) {
+
+                             $totalPiezasM = $key1['piezas_totales'];
+
+                              }
+                        echo '
+                         <tr>';
+                         if ($a['id_bodega']==0) {
+                           echo ' <td style="vertical-align:middle;">PENDIENTE</td>';
+                         }else{
+                          echo ' <td style="vertical-align:middle;">'.$a['bodega'].'</td>';
+                         }
+                           
+                          echo'  <td style="vertical-align:middle;">'.date_format($datePP, 'd/m/Y').'</td>
+                            <td>'.$a['etiqueta'].'</td>
+                            <td>'.$a['material'].'</td>
+                            <td>'.$a['grueso'].'</td>
+                            <td>'.$a['ancho'].'</td>
+                            <td>'.$a['largo'].'</td>
+                            <td>'.$a['piezas'].'</td>
+                            <td>'.$a['metros_cubicos'].'</td>
+                            <td>'.$a['multiplo'].'</td>
+                            <td>'.round($tarimas).'</td>
+                            <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
+                            <td style="vertical-align:middle;">'.$totalPiezasM.'</td>
+                            <td style="vertical-align:middle;">'.$totalPiezas.'</td>
+                            <td>'.$a['estado'].'</td>
+                        </tr> ';
+                                
+                                
+                              
+                          }
+
+                     ?>
+            </tbody>
+        </table>
+
+                  </div>
+
+                  <!--END X CONTENT-->
+                   </div>
+                   </div>
+
 
                 <div class="x_panel">
                   <div class="x_title"> 
@@ -1033,7 +1241,31 @@ ga('send', 'pageview');
             'pdfHtml5'
         ]
   })
-    $('#example40').DataTable()
+    $('#example40').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+
+    })
     $('#example50').DataTable({
       'paging'      : true,
       'lengthChange': false,
@@ -1050,7 +1282,38 @@ ga('send', 'pageview');
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : false,
-        rowsGroup:[0,11,1,12],
+        rowsGroup:[0,12,11,1,13],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+    });
+    $('#examplePa1').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false,
+        rowsGroup:[0,12,11,1,3,13,14],
         dom: 'Bfrtip',
         buttons: [
             {
@@ -1313,6 +1576,28 @@ xmlhttp.onreadystatechange=function()
 xmlhttp.open("POST","../views/contenedor/consulta.php?accion=paquetes",true);
 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 xmlhttp.send("cod_banda="+cod);
+};
+ function mostrarInfo2(cod){
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("consu1").innerHTML=xmlhttp.responseText;
+    }else{ 
+  document.getElementById("consu1").innerHTML='Cargando...';
+    }
+  }
+xmlhttp.open("POST","../views/contenedor/consulta.php?accion=bodegas",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("cod_banda1="+cod);
 }
 </script>
     </body>

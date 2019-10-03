@@ -110,17 +110,33 @@ elseif ($accion=="guardar")
 elseif ($accion=="Cerrar") {
 	$id_packing_list =$_POST['id'];
 	$estado =$_POST['estado'];
+	$fecha =$_POST['fecha'];
+	if ($fecha=='') {
+		
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+	}
+	else{
+		/*setlocale(LC_TIME, 'es_SV');
+		$date1=date_create($fecha);
+		date_format($date1,'Y-m-d')*/
+		$fecha_nueva='';
+
+                           $array_falla = str_split($fecha);
+                           $falla_count = strlen($fecha);
+                           $fecha_nueva = "".$array_falla[6]."".$array_falla[7]."".$array_falla[8]."".$array_falla[9]."-".$array_falla[3]."".$array_falla[4]."-".$array_falla[0]."".$array_falla[1]."";
+                         
 	$pl= new Packing();
 			$pl->setEstado($estado);
 			$pl->setId_packing_list($id_packing_list);
 			$vari = 'Ultimo';
-			$update=$pl->updateStatu($vari);
+			$update=$pl->updateStatu($vari,$fecha_nueva);
 
 	if ($update==true) {
-		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		header('Location: ../listas/IndexPackingList.php?success=correcto&fecha='.$fecha.'');
 		# code...
 	}else{
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+	}
 	}
 }elseif ($accion=="observacion") {
 	$id_packing_list =$_POST['id'];
@@ -137,6 +153,7 @@ elseif ($accion=="Cerrar") {
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 }
+
 elseif($accion=="updatePC") {
 	$id_Pack =$_POST['id'];
 	$correlativo=$_POST['correlativo'];
@@ -181,7 +198,7 @@ elseif ($accion=="guardarLocal")
 	$id_nave=NULL;
 	$id_especificacion=NULL;
 	//$estado=$_POST['comboestado'];
-	$estado="Pendiente";
+	$estado="Cerrado";
 	$id_bodega=$_POST['id_bodega'];
 	$paquetes=$_POST['packetes'];
 	$ingreso_local=$_POST['ingreso_local'];

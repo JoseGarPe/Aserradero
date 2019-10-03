@@ -392,7 +392,7 @@ session_start();
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <center><div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="button">Cancelar</button>
+                      <a href="../listas/IndexPackingList.php" class="btn btn-primary">Cancelar</a>
                           <button type="submit" class="btn btn-success">Guardar Ingreso</button>
                         </div></center>
                       </div>
