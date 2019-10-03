@@ -51,6 +51,7 @@ $disponibles=$_POST['c_disponible'];
 $id_bodega_mp=$_POST['id_bodega'];
 $etiqueta = $_POST['etiqueta'];
 $estado="Sin Confirmar";
+$multiplo = $_POST['multiplo'];
 
 		$pack = new Paquetes();
 		$paquete= $pack->selectOneM($etiqueta);
@@ -70,6 +71,7 @@ $nueva_cantidad = $disponibles - $cantidadPiezas;
 	$Detalle_procesado->setRendimiento_esperado($rendimiento_esperado);
 	$Detalle_procesado->setId_bodega($id_bodega);
 	$Detalle_procesado->setEstado($estado);
+	$Detalle_procesado->setEstado($multiplo);
 	$save=$Detalle_procesado->save();
 	if ($save==true) {
 

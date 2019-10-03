@@ -50,6 +50,7 @@ $disponibles=$_POST['c_disponible'];
 
 $id_bodega_mp=$_POST['id_bodega'];
 $etiqueta = $_POST['etiqueta'];
+$multiplo = $_POST['multiplo'];
 $estado="Confirmado";
 
 // segundo material saliente
@@ -59,6 +60,7 @@ if ($_POST['id_materialsaliente2'] != null) {
 $cantidad_saliente2=$_POST['cantidadsaliente2'];
 $rendimiento_esperado2=$_POST['resperado2'];
 $id_bodega2=$_POST['id_bodegag2'];
+$multiplo2 = $_POST['multiplo2'];
 }else{
 	$segundaOpcion=false;
 }
@@ -81,6 +83,7 @@ $nueva_cantidad = $disponibles - $cantidadPiezas;
 	$Detalle_procesado->setRendimiento_esperado($rendimiento_esperado);
 	$Detalle_procesado->setId_bodega($id_bodega);
 	$Detalle_procesado->setEstado($estado);
+	$Detalle_procesado->setMultiplo($multiplo);
 	$save=$Detalle_procesado->save();
 	if ($save==true) {
 
@@ -110,6 +113,7 @@ $nueva_cantidad = $disponibles - $cantidadPiezas;
 		$Detalle_procesado->setRendimiento_esperado($rendimiento_esperado);
 		$Detalle_procesado->setId_bodega($id_bodega2);
 		$Detalle_procesado->setEstado($estado);
+		$Detalle_procesado->setMultiplo($multiplo2);
 		$save=$Detalle_procesado->save();
 
 		$detalle_bo->setId_bodega($id_bodega2);

@@ -11,6 +11,7 @@ private $cantidad_saliente;
 private $rendimiento_esperado;
 private $id_bodega;
 private $estado;
+private $multiplo;
 
 public function __construct()
 {
@@ -25,6 +26,7 @@ public function __construct()
         $this->rendimiento_esperado = "";
         $this->id_bodega = "";
         $this->estado = "";
+        $this->multiplo = "";
 
 }
 
@@ -97,12 +99,19 @@ public function __construct()
         $this->estado = $estado;
     }
 
+    public function getMultiplo() {
+        return $this->estado;
+    }
+
+    public function setMultiplo($estado) {
+        $this->estado = $estado;
+    }
 
       
 //---------------------------
 public function save()
     {
-    	$query="INSERT INTO `detalle_procesado` (`id_detalle_procesado`, `id_materia_prima`, `cantidad_materia_prima`, `id_maquina`, `id_material_saliente`, `cantidad_saliente`, `rendimiento_esperado`, `id_bodega`,estado) VALUES (NULL,
+    	$query="INSERT INTO `detalle_procesado` (`id_detalle_procesado`, `id_materia_prima`, `cantidad_materia_prima`, `id_maquina`, `id_material_saliente`, `cantidad_saliente`, `rendimiento_esperado`, `id_bodega`,estado,multiplo) VALUES (NULL,
     			'".$this->id_materia_prima."',
     			'".$this->cantidad_materia_prima."',
                 '".$this->id_maquina."',
@@ -110,7 +119,8 @@ public function save()
                 '".$this->cantidad_saliente."',
                 '".$this->rendimiento_esperado."',
                 '".$this->id_bodega."',
-                '".$this->estado."'
+                '".$this->estado."',
+                '".$this->multiplo."'
             );";
     	$save=$this->db->query($query);
     	if ($save==true) {
@@ -173,6 +183,15 @@ public function save()
         $Listcantidad_materia_prima=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listcantidad_materia_prima;
     }
+
+         public function selectALL_Bodega($codigo)
+    {
+        $query="SELECT dp.*, m.nombre as material, m.ancho,m.largo,m.grueso FROM detalle_procesado dp WHERE id_bodega='".$codigo."'";
+        $selectall=$this->db->query($query);
+        $Listcantidad_materia_prima=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listcantidad_materia_prima;
+    }
+
 
     
 

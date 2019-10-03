@@ -468,6 +468,84 @@ session_start();
 
                 <div class="x_panel">
                   <div class="x_title">
+                    <h2>Naterial Procesado</h2>
+
+
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+           
+                  <div class="x_content">
+                  
+                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
+
+                   <h1>Materiales Guardados</h1>
+                    <div id="employee_table">
+                    <table id="example40" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                       <tr>
+                          <th>Id</th>
+                          <th>Material</th>
+                          <th>Dimensiones</th>
+                          <th>M <sup>3</sup></th> 
+                          <th>Cantidad de Piezas</th>   
+                          <th>Tarimas</th>                                
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <?php 
+            require_once "../class/DetalleProcesado.php";
+                         $ms = new DetalleProcesado();
+                         $contacto = $ms->selectALL_Bodega($codigo);
+                         foreach ($contacto as $row) {
+                          $metros_cubicos_proc=($row['grueso']*$row['ancho']*$row['largo']*$row['cantidad_saliente'])/1000000000;
+                          $tarimas_proc=$['cantidad_saliente']*$row['multiplo'];
+                          //$metrosC = $ms->selectM_CUBICOS($codigo,$row['id_material']);
+                          /*foreach ($metrosC as $key) {
+                            $metroCubicos_m = $key['m_cubicos'];
+                          */}
+                          echo '<tr>
+                          <td>'.$row['id_detalle_procesado'].'</td>
+                          <td>'.$row['material'].'</td>
+                           <td>'.$row['grueso'].'x'.$row['ancho'].'x'.$row['largo'].'</td>
+                           <td>'.$metros_cubicos_proc.'m<sup>3</sup></td>
+                           <td>'.$row['cantidad_saliente'].'</td>
+                           <td>'.$tarimas_proc.'</td>
+                           
+                          ';
+                            
+                            echo'
+                          </tr>';
+                         }
+           
+            ?>
+                         
+                      </tbody>
+                    </table>
+
+                  <!--END X CONTENT-->
+                   </div>
+                   </div>
+                  
+                  </div>
+
+                <div class="x_panel">
+                  <div class="x_title">
                     <h2>Productos Guardados</h2>
 
 

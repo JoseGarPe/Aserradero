@@ -183,8 +183,8 @@
                           <a href="#step-1">
                             <span class="step_no">1</span>
                             <span class="step_descr">
-                                              Step 1<br />
-                                              <small>Step 1 description</small>
+                                              Paso 1<br />
+                                              <small>Seleccione: BODEGA, MATERIAL y ETIQUETA para procesar el paquete seleccionado</small>
                                           </span>
                           </a>
                         </li>
@@ -193,7 +193,7 @@
                             <span class="step_no">2</span>
                             <span class="step_descr">
                                               Step 2<br />
-                                              <small>Step 2 description</small>
+                                              <small>Seleccio</small>
                                           </span>
                           </a>
                         </li>
@@ -386,6 +386,14 @@
                               <input id="cantidadsaliente" name="cantidadsaliente" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
                             </div>
                           </div>
+
+                           <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Multiplo<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="multiplo" name="multiplo" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                            </div>
+                          </div>
                            <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Rendimiento Esperado<span class="required">*</span>
                             </label>
@@ -399,6 +407,13 @@
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                               <input id="cantidadsaliente2" name="cantidadsaliente2" class="date-picker form-control col-md-7 col-xs-12" type="text">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Multiplo 2do material<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="multiplo2" name="multiplo2" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
                             </div>
                           </div>
 

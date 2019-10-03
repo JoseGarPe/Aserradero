@@ -19,3 +19,6 @@ CREATE TABLE `paquetes_temporal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci
 
 ALTER TABLE `packing_list` ADD `ingreso_local` VARCHAR(230) NULL DEFAULT 'Local' AFTER `correlativo`; 
+---------------------------------
+ALTER TABLE `detalle_procesado` ADD `multiplo` INT(11) NULL AFTER `estado`;
+ALTER TABLE `detalle_procesado` ADD CONSTRAINT `FK_material_procesado` FOREIGN KEY (`id_material_saliente`) REFERENCES `materiales`(`id_material`) ON DELETE CASCADE ON UPDATE CASCADE;
