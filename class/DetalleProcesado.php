@@ -186,7 +186,7 @@ public function save()
 
          public function selectALL_Bodega($codigo)
     {
-        $query="SELECT dp.*, m.nombre as material, m.ancho,m.largo,m.grueso FROM detalle_procesado dp WHERE id_bodega='".$codigo."'";
+        $query="SELECT dp.*, m.nombre as material, m.ancho,m.largo,m.grueso FROM detalle_procesado dp  INNER JOIN materiales m ON m.id_material= dp.id_material_saliente WHERE id_bodega='".$codigo."'";
         $selectall=$this->db->query($query);
         $Listcantidad_materia_prima=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listcantidad_materia_prima;

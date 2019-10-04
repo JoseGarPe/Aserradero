@@ -202,13 +202,18 @@ elseif ($accion=="guardarLocal")
 	$id_bodega=$_POST['id_bodega'];
 	$paquetes=$_POST['packetes'];
 	$ingreso_local=$_POST['ingreso_local'];
+		$fecha_nueva='';
+
+                           $array_falla = str_split($fecha);
+                           $falla_count = strlen($fecha);
+                           $fecha_nueva = "".$array_falla[6]."".$array_falla[7]."".$array_falla[8]."".$array_falla[9]."-".$array_falla[3]."".$array_falla[4]."-".$array_falla[0]."".$array_falla[1]."";
 
 	$Pack = new Packing();
 	$Pack->setNumero_factura($numero_factura);
 	$Pack->setCodigo_embarque($codigo_embarque);
 	$Pack->setRazon_social($razon_social);
 	$Pack->setMes($mes);
-	$Pack->setFecha(date_format($date1,'Y-m-d'));
+	$Pack->setFecha($fecha_nueva);
 	$Pack->setTotal_contenedores(NULL);
 	$Pack->setContenedores_ingresados(NULL);
 	$Pack->setPaquetes(NULL);

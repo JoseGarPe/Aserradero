@@ -216,21 +216,35 @@ session_start();
                           foreach ($metrosC as $key) {
                             $metroCubicos_m = $key['m_cubicos'];
                           }
+                          $metros_cubicos_proc=0;
+                           $contacto1 = $ms->selectALL_Bodega_PROCESADO($codigo);
+                         foreach ($contacto1 as $row1) {
+                          $metros_cubicos_proc1= ( $row1['grueso'] * $row1['ancho'] * $row1['largo'] * $row1['cantidad_saliente'] )/1000000000;
+                          $metros_cubicos_proc=$metros_cubicos_proc+$metros_cubicos_proc1;
+                         }
+
                           echo '<tr>
                           <td>'.$row['id_material'].'</td>
                           <td>'.$row['material'].'</td>
-                           <td>'.$row['largo'].'x'.$row['ancho'].'x'.$row['grueso'].'</td>
+                           <td>'.$row['grueso'].'x'.$row['ancho'].'x'.$row['largo'].'</td>
                            <td>'.$row['categoria'].'</td>
-                           <td>'.$row['cantidad'].'</td>
-                           <td>'.$metroCubicos_m.'m<sup>3</sup></td>
-                           
-                          ';
+                           <td>'.$row['cantidad'].'</td>';
+                           if ($metroCubicos_m==0 || $metroCubicos_m==NULL) {
+                             echo '
+                           <td>'.$metros_cubicos_proc.'m<sup>3</sup></td>';
+                           }else{
+                            echo '
+                           <td>'.$metroCubicos_m.'m<sup>3</sup></td>';
+                           }
+                          
                             
                             echo'
                           </tr>';
                          }
-           
+                       
+                        
             ?>
+
                          
                       </tbody>
                     </table>
@@ -468,7 +482,7 @@ session_start();
 
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Naterial Procesado</h2>
+                    <h2>Material Procesado</h2>
 
 
                     
@@ -494,9 +508,9 @@ session_start();
                   
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-                   <h1>Materiales Guardados</h1>
+                   <h1>Materiales Procesados Guardados</h1>
                     <div id="employee_table">
-                    <table id="example40" class="table table-striped table-bordered" name="datatable-buttons">
+                    <table id="exampleMPG" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                        <tr>
                           <th>Id</th>
@@ -513,12 +527,12 @@ session_start();
                          $ms = new DetalleProcesado();
                          $contacto = $ms->selectALL_Bodega($codigo);
                          foreach ($contacto as $row) {
-                          $metros_cubicos_proc=($row['grueso']*$row['ancho']*$row['largo']*$row['cantidad_saliente'])/1000000000;
-                          $tarimas_proc=$['cantidad_saliente']*$row['multiplo'];
+                          $metros_cubicos_proc= ( $row['grueso'] * $row['ancho'] * $row['largo'] * $row['cantidad_saliente'] )/1000000000;
+                          $tarimas_proc=$row['cantidad_saliente']*$row['multiplo'];
                           //$metrosC = $ms->selectM_CUBICOS($codigo,$row['id_material']);
                           /*foreach ($metrosC as $key) {
                             $metroCubicos_m = $key['m_cubicos'];
-                          */}
+                          }*/
                           echo '<tr>
                           <td>'.$row['id_detalle_procesado'].'</td>
                           <td>'.$row['material'].'</td>
@@ -1218,7 +1232,7 @@ ga('send', 'pageview');
             'csvHtml5',
             'pdfHtml5'
         ]
-  })
+  });
     $('#example40').DataTable({
        dom: 'Bfrtip',
         buttons: [
@@ -1242,7 +1256,31 @@ ga('send', 'pageview');
             },
             'colvis'
         ]
-    })
+    });
+    $('#exampleMPG').DataTable({
+       dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+    });
     $('#example50').DataTable({
       'paging'      : true,
       'lengthChange': false,
@@ -1251,7 +1289,7 @@ ga('send', 'pageview');
       'info'        : true,
       'autoWidth'   : false,
       'order'       : [[0, "desc"]]
-    })
+    });
     $('#examplePa2').DataTable({
       'paging'      : true,
       'lengthChange': false,
@@ -1282,7 +1320,7 @@ ga('send', 'pageview');
             },
             'colvis'
         ]
-    })
+    });
 
     $('#examplePro').DataTable({
       'paging'      : true,

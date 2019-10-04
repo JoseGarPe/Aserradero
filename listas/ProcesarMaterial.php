@@ -184,7 +184,7 @@
                             <span class="step_no">1</span>
                             <span class="step_descr">
                                               Paso 1<br />
-                                              <small>Seleccione: BODEGA, MATERIAL y ETIQUETA para procesar el paquete seleccionado</small>
+                                              <small>o</small>
                                           </span>
                           </a>
                         </li>
@@ -222,7 +222,7 @@
                          <center>
                           
                          <div class="col-xs-12">
-                          <table id="datatable-buttons" class="table table-bordered">
+                          <table id="example1" class="table table-bordered">
                       <thead>
                         <tr>
                           <th>Componente</th>

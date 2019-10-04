@@ -276,9 +276,19 @@
                                  <input type="hidden" class="form-control" name="fecha" id="fecha" value="'.$fechaPaquete.'"/>
                                  <input type="hidden" id="factura" name="factura" value="'.$etic.'">
                                  <input type="hidden" id="inab" name="inab" value="'.$inab.'">'; 
+                                 $maximo = $paquetes-$paquetes_fisicos;
                                  ?>
                               </td>
-                              <td><input type="number" id="num_paque" name="num_paque" min="0" step="1"  class="form-control col-md-7"></td>
+                              <?php 
+                              echo '<td><input type="number" id="num_paque" name="num_paque" min="0" step="1" max="'.$maximo.'" list="lista_maximo" class="form-control col-md-7"></td>
+                                  <datalist id="lista_maximo">
+
+                                  <option value="Valor maximo : '.$maximo.'">
+
+                                </datalist>
+                              ';
+
+                               ?>
                               <!--  <td><select class="form-control" onchange="mostrarInfo(this.value)" name="id_contenedor" id="id_contenedor">
                           <option>Seleccione una opcion</option>
                           <?php 

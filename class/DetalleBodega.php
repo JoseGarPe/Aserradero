@@ -148,6 +148,14 @@ public function save()
         return $Listdetalle_bodega;
     }
 
+         public function selectALL_Bodega_PROCESADO($codigo)
+    {
+        $query="SELECT dp.*, m.nombre as material, m.ancho,m.largo,m.grueso, m.id_categoria, c.nombre as categoria FROM detalle_procesado dp  INNER JOIN materiales m ON m.id_material= dp.id_material_saliente INNER JOIN categorias c ON c.id_categoria= m.id_categoria WHERE id_bodega='".$codigo."'";
+        $selectall=$this->db->query($query);
+        $Listcantidad_materia_prima=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listcantidad_materia_prima;
+    }
+
        public function selectALLPRO($codigo)
     {
         $query="SELECT db.*, b.nombre as bodega,m.nombre as material,m.largo,m.ancho,m.grueso,m.id_categoria,c.nombre as categoria FROM detalle_bodega db INNER JOIN bodegas b ON b.id_bodega = db.id_bodega INNER JOIN materiales m ON m.id_material = db.id_material INNER JOIN categorias c ON c.id_categoria = m.id_categoria WHERE db.id_bodega='".$codigo."' AND c.nombre='Procesado'";

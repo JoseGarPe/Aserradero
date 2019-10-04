@@ -336,8 +336,8 @@ elseif ($accion=="generarLocal")
 
 		$pl= new Packing();
   	$listpl = $pl->selectOne($id_packing_list);
-  	foreach ($listpl as $key) {
-  		$paquetes_ingresados=$key['paquetes_fisicos'];
+  	foreach ($listpl as $key1) {
+  		$paquetes_ingresados=$key1['paquetes_fisicos'];
   	}
   	$new_pan_ing=$paquetes_ingresados + 1;
   		$pl->setPaquetes_fisicos($new_pan_ing);
