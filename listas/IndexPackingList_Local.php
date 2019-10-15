@@ -243,14 +243,25 @@
    <div class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-menu-hamburger"></i><b class="caret"></b></a>
         <ul class="dropdown-menu">
-        <!--  <li><input type="button" name="save" value="envio" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>-->
+        <!--  <li><input type="button" name="save" value="envio" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>-->';
+         if ($row['estado']== 'Cerrado') {
+          echo '
        <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>';
-        if ($tipo_usuario=='Administrador') {
+         }else{
+  echo '
+       <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>';
+        
+          if ($tipo_usuario=='Administrador') {
           echo '
         <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>';
         }
+        if ($row['paquetes']==$row['paquetes_fisicos']) {
+          # code...
+        echo '  <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" bandera="local" class="btn btn-warning finish_data" /></li> ';
+        }
+         }
         echo'
-      <!--  <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li> -->
+     
             
         </ul>
     </div>    
@@ -526,13 +537,15 @@ ga('send', 'pageview');
            }   
       });
       $(document).on('click', '.finish_data', function(){  
-          var employee_id = $(this).attr("id");  
+          var employee_id = $(this).attr("id");
+
+          var employee_flag = $(this).attr("bandera");   
            if(employee_id != '')  
            {  
                 $.ajax({  
                      url:"../views/cerrarPackingList.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id},  
+                     data:{employee_id:employee_id,employee_flag:employee_flag},  
                      success:function(data){  
                           $('#employee_forms4').html(data);  
                           $('#dataModal4').modal('show');  

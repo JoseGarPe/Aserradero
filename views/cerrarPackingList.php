@@ -50,8 +50,12 @@ require_once "../class/Contenedor.php";
                       </div>
 
                             <label>¿Desea Finalizar esta orden por barco '.$row['numero_factura'].'?</label>
-                          <input type="hidden" name="id" id="id" value="'.$row['id_packing_list'].'"/>
-                            <input type="hidden" name="estado" id="estado" value="Cerrado"/>  
+                          <input type="hidden" name="id" id="id" value="'.$row['id_packing_list'].'"/>';
+                          if (isset($_POST['employee_flag'])) {
+                          echo ' <input type="hidden" name="bandera" id="bandera" value="Local"/>  
+                          '.$_POST['employee_flag'].'';
+                          }
+                           echo ' <input type="hidden" name="estado" id="estado" value="Cerrado"/>  
                              </div>
               <div class="box-footer">
                 <input type="submit" class="btn btn-primary" name="submit" value="Confirmar" >

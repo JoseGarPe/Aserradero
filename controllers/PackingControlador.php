@@ -111,6 +111,11 @@ elseif ($accion=="Cerrar") {
 	$id_packing_list =$_POST['id'];
 	$estado =$_POST['estado'];
 	$fecha =$_POST['fecha'];
+	if (isset($_POST['bandera'])) {
+		$bandera=$_POST['bandera'];
+	}else{
+		$bandera='importada';
+	}
 	if ($fecha=='') {
 		
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
@@ -132,7 +137,12 @@ elseif ($accion=="Cerrar") {
 			$update=$pl->updateStatu($vari,$fecha_nueva);
 
 	if ($update==true) {
-		header('Location: ../listas/IndexPackingList.php?success=correcto&fecha='.$fecha.'');
+		if ($bandera=='Local') {
+		header('Location: ../listas/IndexPackingList_Local.php?success=correcto&fecha='.$fecha.'');
+		}else{
+			header('Location: ../listas/IndexPackingList.php?success=correcto&fecha='.$fecha.'');
+		}
+		
 		# code...
 	}else{
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
@@ -198,7 +208,7 @@ elseif ($accion=="guardarLocal")
 	$id_nave=NULL;
 	$id_especificacion=NULL;
 	//$estado=$_POST['comboestado'];
-	$estado="Cerrado";
+	$estado="Abierto";
 	$id_bodega=$_POST['id_bodega'];
 	$paquetes=$_POST['packetes'];
 	$ingreso_local=$_POST['ingreso_local'];
