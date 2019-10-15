@@ -27,6 +27,17 @@ require_once "../class/Contenedor.php";
             </form>  
            ';
                }else{
+                if (isset($_POST['employee_flag'])) {
+              $badnera=$_POST['employee_flag'];
+                
+                $packin = new Packing();
+
+                         $paquetess = $packin->selectEtiquetas_null($codigo);
+                         foreach ($paquetess as $keys) {
+                           $etiquetaS_null=$keys['etiquetaS_null']M
+                         }
+                         if ($etiquetaS_null==0) {
+                           
                 $packin = new Packing();
 
                          $catego = $packin->selectOne($codigo);
@@ -63,6 +74,23 @@ require_once "../class/Contenedor.php";
             </form>         
                 
                 ';}
+                         }else{
+                             echo '<div class="alert alert-warning" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">ERROR:</span>
+              No es posible finalizar este proceso, pues posee paquetes sin etiquetas de esta orden.
+           </diV>
+
+              </div>
+              <div class="box-footer">
+                
+               
+              </div>
+            </form>  
+           ';
+                         }
+                }
+
                }
                
 
