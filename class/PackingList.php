@@ -489,7 +489,7 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
      public function updatePC()
     {  
         //--------------------------------------------------------------------//
-         $query1="SELECT * FROM packing_list WHERE correlativo='".$this->correlativo."' AND  id_packing_list='".$this->id_packing_list."'";
+         $query1="SELECT * FROM packing_list WHERE correlativo='".$this->correlativo."' AND  id_packing_list='".$this->id_packing_list."' AND  shipper='".$this->shipper."'";
         $selectall1=$this->db->query($query1);
         if ($selectall1->num_rows==0) {
             $correla="Disponible";
@@ -500,7 +500,7 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
         }
 
         //----------------------------------------------------------------//
-           $query2="SELECT * FROM packing_list WHERE poliza='".$this->poliza."' AND  id_packing_list='".$this->id_packing_list."'";
+           $query2="SELECT * FROM packing_list WHERE poliza='".$this->poliza."' AND  id_packing_list='".$this->id_packing_list."' AND  shipper='".$this->shipper."'";
         $selectall2=$this->db->query($query2);
         if ($selectall2->num_rows==0) {
             $poliz="Disponible";

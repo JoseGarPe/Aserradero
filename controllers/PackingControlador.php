@@ -238,7 +238,7 @@ elseif ($accion=="guardarLocal")
 	$Contenedor->setId_packing_list($id_packing_list);
 	$Contenedor->setEstado("Confirmado");
 	$Contenedor->setTipo_ingreso($ingreso_local);
-	$Contenedor->setFecha_ingreso(date_format($date1,'Y-m-d'));
+	$Contenedor->setFecha_ingreso($fecha_nueva);
 	$Contenedor->setId_bodega($id_bodega);
 	$save1=$Contenedor->saveEnvio();
 

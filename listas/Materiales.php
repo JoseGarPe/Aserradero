@@ -180,8 +180,10 @@
                         <tr>
                           <th>#</th>
                           <th>Nombre</th>
-                          <th>Dimenciones</th>
                           <th>Grosor</th>
+                          <th>Ancho</th>
+                          <th>Largo</th>
+                          
                           <th>m<sup>3</sup></th>
                           <th>Categoria</th> 
                           <th>Opciones</th>                            
@@ -200,8 +202,10 @@
                           <tr>
                            <td>'.$row['id_material'].'</td>
                            <td>'.$row['nombre']. '</td>
-                           <td>'.$row['largo'].'m X ' .$row['ancho'].'m</td>
                            <td>'.$row['grueso'].'</td>
+                           <td>' .$row['ancho'].'</td>
+                           
+                           <td>'.$row['largo'].'</td>
                            <td>'.$row['m_cuadrados'].'</td>
                            <td>'.$row['categoria'].'</td>
                            <td>
