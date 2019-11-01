@@ -270,22 +270,8 @@ function save()
 
     }
 
-      public function selectEtiquetas_null($codigo)
-    {
-        $query="SELECT COUNT(id_paquete) as etiquetas_null FROM paquetes WHERE etiqueta ='' AND id_packing_list ='".$codigo."' ORDER BY id_packing_list DESC LIMIT 1";
-        $selectall=$this->db->query($query);
-        $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
-        return $ListClientes;
-    }
-    //SELECT COUNT(id_paquete) FROM `paquetes` WHERE etiqueta = "" AND id_packing_list = 26
+    
 
 
-      public function selectEtiquetas_nullC($codigo)
-    {
-        $query="SELECT COUNT(id_paquete) as etiquetas_null FROM paquetes WHERE etiqueta ='' AND id_contenedor ='".$codigo."' ORDER BY id_packing_list DESC LIMIT 1";
-        $selectall=$this->db->query($query);
-        $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
-        return $ListClientes;
-    }
 }
 ?>

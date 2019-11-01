@@ -168,13 +168,11 @@ elseif($accion=="updatePC") {
 	$id_Pack =$_POST['id'];
 	$correlativo=$_POST['correlativo'];
 	$poliza=$_POST['poliza'];
-	$shipper=$_POST['shipper'];
 	$year=$_POST['year'];
 	$corre=$correlativo.'-'.$year.'';
 	$Pack = new Packing();
 	$Pack->setCorrelativo($corre);
 	$Pack->setPoliza($poliza);
-	$Pack->setShipper($shipper);
 	$Pack->setId_packing_list($id_Pack);
 	$update=$Pack->updatePC();
 	if ($update=='Datos guardado') {

@@ -489,33 +489,22 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
      public function updatePC()
     {  
         //--------------------------------------------------------------------//
-         $query1="SELECT COUNT(id_packing_list) as cont_correlativo FROM packing_list WHERE correlativo='".$this->correlativo."'   AND  shipper='".$this->shipper."'";
+         $query1="SELECT * FROM packing_list WHERE correlativo='".$this->correlativo."' AND  id_packing_list='".$this->id_packing_list."' AND  shipper='".$this->shipper."'";
         $selectall1=$this->db->query($query1);
-
-       $ListPacking1=$selectall1->fetch_all(MYSQLI_ASSOC);
-       foreach ($ListPacking1 as $key) {
-          $cant_correlativo = $key['cont_correlativo'];
-       }
-
-        if ( $cant_correlativo=="0") {
-            $correla='Disponible';
-        }elseif( $cant_correlativo!="0"){
-            $correla='Existe Uno';
+        if ($selectall1->num_rows==0) {
+            $correla="Disponible";
+        }elseif($selectall1->num_rows==1){
+            $correla="Existe Uno";
         }else{
-            $correla='No Disponible';
+            $correla="No Disponible";
         }
 
         //----------------------------------------------------------------//
-           $query2="SELECT COUNT(id_packing_list) as cont_poliza FROM packing_list WHERE poliza='".$this->poliza."'  AND shipper='".$this->shipper."'";
+           $query2="SELECT * FROM packing_list WHERE poliza='".$this->poliza."' AND  id_packing_list='".$this->id_packing_list."' AND  shipper='".$this->shipper."'";
         $selectall2=$this->db->query($query2);
-
-       $ListPacking2=$selectall2->fetch_all(MYSQLI_ASSOC);
-        foreach ($ListPacking2 as $key2) {
-          $cant_poliza = $key2['cont_poliza'];
-       }
-        if ($cant_poliza=="0") {
+        if ($selectall2->num_rows==0) {
             $poliz="Disponible";
-        }elseif($cant_poliza!="0"){
+        }elseif($selectall2->num_rows==1){
             $poliz="Existe Uno";
         }else{
             $poliz="No Disponible";
@@ -572,13 +561,7 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
         return $ListClientes;
     }
     //SELECT COUNT(id_paquete) FROM `paquetes` WHERE etiqueta = "" AND id_packing_list = 26
-      public function selectEtiquetas_nullC($codigo)
-    {
-        $query="SELECT COUNT(id_paquete) as etiquetas_null FROM paquetes WHERE etiqueta ='' AND id_contenedor ='".$codigo."' ORDER BY id_packing_list DESC LIMIT 1";
-        $selectall=$this->db->query($query);
-        $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
-        return $ListClientes;
-    }
+    
 
 }
 ?>
