@@ -26,7 +26,8 @@
                           <th>N° Contenedor</th>
                           <th>Estado</th>
                           <th>Fecha Ingreso</th> 
-                          <th>Bodega</th>  
+                          <th>Bodega</th> 
+                          <th>Info. Paquetes</th>  
                           <th>Opcion</th>                            
                         </tr>
           		</thead>
@@ -78,7 +79,16 @@
                                
                              }
                             }
-                          if ($estado != "Cerrado") {
+require_once "PackingList.php";
+                $packin = new Packing();
+
+                         $paquetess = $packin->selectEtiquetas_nullC($row['id_contenedor']);
+                         foreach ($paquetess as $keys) {
+                           $etiquetaS_null=$keys['etiquetas_null'];
+                         }
+                         if ($etiquetaS_null==0) {
+                       echo '<td>Info. Completa</td>';
+                           if ($estado != "Cerrado") {
                              
                             if ($row['estado']=='Sin Confirmar') {
                               echo '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Confirmado&id_packing_list='.$codigo.'" class="btn btn-success">Confirmar</a> -->
@@ -104,6 +114,40 @@
                             echo '<td>
             <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  </td>';
                           }
+
+                         }else{
+
+                       echo '<td>Info. Incompleta</td>';
+                           if ($estado != "Cerrado") {
+                             
+                            if ($row['estado']=='Sin Confirmar') {
+                              echo '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Confirmado&id_packing_list='.$codigo.'" class="btn btn-success">Confirmar</a> -->
+                               <a href="../views/savePaquetee.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>
+
+                               <!-- <input type="button" name="save" value="Confirmar" id="'.$row["id_contenedor"].'" packing="'.$codigo.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-success view_data2" />-->
+                                <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&id_packing_list='.$codigo.'" class="btn btn-danger">Eliminar</a>
+
+                              </td>';
+                            }else{
+                              echo '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Sin Confirmar" class="btn btn-warning">Sin Confirmar</a>  -->
+
+                             <!--   <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />-->
+                             <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar" class="btn btn-danger">Eliminar</a>
+          <!--  <a href="../views/savePaquetee.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
+            <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
+
+                              </td>
+
+                              ';
+                            }
+                          }else{
+                            echo '<td>
+            <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  </td>';
+                          }
+                         }
+
+
+                      
                           $idf+=1;
                       
                           } 
