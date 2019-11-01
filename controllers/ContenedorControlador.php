@@ -263,7 +263,7 @@ elseif ($accion=="guardar")
                            $cont_ingresados = $key['contenedores_ingresados'];
                          }
  $output = '';	
-  $output.= '<label class="text-warning">ERROR: Datos erroneos o ya supero el limite de contenedores</label>';
+  $output.= '<label class="text-warning">ERROR: Datos erroneos, ya supero el limite de contenedores o datos ya ingresados</label>';
   $output.= '<table id="example1" class="table table-striped table-bordered" name="example1">
          		<thead>
                         <tr>

@@ -90,15 +90,25 @@ class Contenedores extends conexion
             $total_contenedores = $value['total_contenedores'];
         }
 
+        $query_vli="SELECT COUNT(id_contenedor) as existen FROM contenedores WHERE id_packing_list='".$this->id_packing_list."' AND etiqueta ='".$this->etiqueta."'";
+        $selectall3=$this->db->query($query_vli);
+        $ListPL1=$selectall3->fetch_all(MYSQLI_ASSOC);
+        foreach ($ListPL1 as $value2) {
+            $existen = $value2['existen'];
+        }
         if($cont_inscritos<$total_contenedores){
-
-            $query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."')";
+                if ($existen==0) {
+                     $query="INSERT INTO contenedores(id_contenedor,id_packing_list,etiqueta,estado) values(NULL,'".$this->id_packing_list."','".$this->etiqueta."','".$this->estado."')";
             $save=$this->db->query($query);
             if ($save==true) {
                 return true;
             }else {
                 return false;
-            }   
+            }  
+                }else{
+                    return false;                
+                }
+            
         }else{
             return false;
         }
