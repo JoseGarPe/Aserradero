@@ -34,7 +34,7 @@ require_once "../class/Contenedor.php";
 
                          $paquetess = $packin->selectEtiquetas_null($codigo);
                          foreach ($paquetess as $keys) {
-                           $etiquetaS_null=$keys['etiquetas_null'];
+                           $etiquetaS_null=$keys['etiquetaS_null']M
                          }
                          if ($etiquetaS_null==0) {
                            
@@ -60,12 +60,13 @@ require_once "../class/Contenedor.php";
                         </div>
                       </div>
 
-                            <label>¿Desea Finalizar esta orden '.$row['numero_factura'].'?</label>
+                            <label>¿Desea Finalizar esta orden por barco '.$row['numero_factura'].'?</label>
                           <input type="hidden" name="id" id="id" value="'.$row['id_packing_list'].'"/>';
-                         
+                          if (isset($_POST['employee_flag'])) {
                           echo ' <input type="hidden" name="bandera" id="bandera" value="Local"/>  
-                          '.$_POST['employee_flag'].'
-                           <input type="hidden" name="estado" id="estado" value="Cerrado"/>  
+                          '.$_POST['employee_flag'].'';
+                          }
+                           echo ' <input type="hidden" name="estado" id="estado" value="Cerrado"/>  
                              </div>
               <div class="box-footer">
                 <input type="submit" class="btn btn-primary" name="submit" value="Confirmar" >
@@ -88,43 +89,6 @@ require_once "../class/Contenedor.php";
             </form>  
            ';
                          }
-                }else{
-
-                $packin = new Packing();
-
-                         $catego = $packin->selectOne($codigo);
-                        
-                           # code...
-                         
-                         foreach ((array)$catego as $row) {
-                            echo '
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Fecha Cierre<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div class="input-group date" id="myDatepicker2">
-                            <input type="text" class="form-control" name="fecha" id="fecha" required/>
-                            <span class="input-group-addon">
-                               <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                           </div>
-                        </div>
-                      </div>
-
-                            <label>¿Desea Finalizar esta orden '.$row['numero_factura'].'?</label>
-                          <input type="hidden" name="id" id="id" value="'.$row['id_packing_list'].'"/>';
-                         
-                          echo ' 
-                           <input type="hidden" name="estado" id="estado" value="Cerrado"/>  
-                             </div>
-              <div class="box-footer">
-                <input type="submit" class="btn btn-primary" name="submit" value="Confirmar" >
-              </div>
-            </form>         
-                
-                ';}
-
                 }
 
                }
