@@ -272,6 +272,7 @@ elseif ($accion=="guardar")
                           <th>Estado</th>
                           <th>Fecha Ingreso</th> 
                           <th>Bodega</th>  
+                          <th>Info. Paquetes</th>   
                           <th>Opcion</th>                            
                         </tr>
           		</thead>
@@ -548,6 +549,7 @@ elseif ($accion=="confirmar") {
                           <th>Estado</th>
                           <th>Fecha Ingreso</th> 
                           <th>Bodega</th>  
+                          <th>Info. Paquetes</th>   
                           <th>Opcion</th>                            
                         </tr>
           		</thead>

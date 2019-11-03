@@ -1,8 +1,13 @@
 <?php 
   session_start();
+
+                                if (isset($_SESSION['modificando'])) {
+                                  $modificando = $_SESSION['modificando'];
+                                }else{
+                                  $modificando ='nel';
+                                }
  ?>
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -474,7 +479,7 @@
                             echo '<td></td>';
                           }else{
                             echo '
-                          <td><input type="button" name="save" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" /></td>';
+                          <td><input type="button" name="save" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" local="si" factura="'.$etic.'" inab="'.$inab.'" class="btn btn-success view_data2" /></td>';
 
                           }
                           echo '</tr>
@@ -790,16 +795,19 @@ $(document).on('click', '.view_data2', function(){
            var employee_packing = $(this).attr("packing");  
            var dato = $(this).attr("dato"); 
            var employee_etiqueta = $("#eti"+dato).val();
+           var type_local = $(this).attr("local");  
+           var factura = $(this).attr("factura"); 
+           var inab = $(this).attr("inab"); 
            if(employee_id != '')  
            {  
                 $.ajax({  
                      url:"../controllers/PaquetesControlador.php?accion=etiqueta",  
                      method:"POST",
-                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_etiqueta:employee_etiqueta},  
+                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_etiqueta:employee_etiqueta,type_local:type_local,factura:factura,inab:inab},  
                      success:function(data){    
-
-                                    $("#resultado").html(data);  
-                             n(); 
+                            setTimeout(location.reload(), 5000);
+                            //        $("#resultado").html(data);  
+                            // n(); 
                      }  
                 });  
            }            
