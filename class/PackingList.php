@@ -342,8 +342,22 @@ public function saveLocal($til)
     } 
      public function updateIngresos()
     {
+          $query1="SELECT COUNT(id_contenedor) as inscritos FROM contenedores WHERE id_packing_list='".$this->id_packing_list."' AND estado='Confirmado'";
+        $selectall=$this->db->query($query1);
+        $ListContenedor=$selectall->fetch_all(MYSQLI_ASSOC);
+            foreach ($ListContenedor as $key) {
+                $cont_inscritos = $key['inscritos'];
+            }
+            $contenedoresIng=$this->contenedores_ingresados;
+            if ($contenedoresIng == $cont_inscritos) {
+                $inscritosCon=$this->contenedores_ingresados;
+            }elseif ($contenedoresIng < $cont_inscritos) {
+                $inscritosCon=$cont_inscritos;
+            }else{
+                 $inscritosCon=$cont_inscritos;
+            }
         $query="UPDATE packing_list SET 
-        contenedores_ingresados='".$this->contenedores_ingresados."'
+        contenedores_ingresados='".$inscritosCon."'
          WHERE id_packing_list='".$this->id_packing_list."'";
         $update=$this->db->query($query);
         if ($update==true) {

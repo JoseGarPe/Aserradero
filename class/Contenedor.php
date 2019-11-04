@@ -187,7 +187,10 @@ class Contenedores extends conexion
        foreach ($ListPacking as $value1) {
             $recibidos=$value1['contenedores_ingresados'];
         }
-        $new_recibidos=$recibidos-1;
+        $new_recibidos=(int)$recibidos-1;
+        if ($new_recibidos<0) {
+           $new_recibidos=0;
+        }
              $query00="UPDATE packing_list SET contenedores_ingresados='".$new_recibidos."' WHERE id_packing_list='".$id_pl."'";
         $update=$this->db->query($query00);
 

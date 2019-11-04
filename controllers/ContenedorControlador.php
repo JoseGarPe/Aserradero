@@ -494,15 +494,12 @@ elseif ($accion=="confirmar") {
 			$vari = 'Primero';
 			$update1=$pl->updateStatu($vari,$fecha);
 			}
-
-
-			
-		$pl= new Packing();
+      	$pl= new Packing();
   	$listpl = $pl->selectOne($id_packing_list);
   	foreach ($listpl as $key) {
   		$cont_ingresados=$key['contenedores_ingresados'];
   	}
-  	$new_con_ing=$cont_ingresados + 1;
+  	$new_con_ing=(int)$cont_ingresados + 1;
   		$pl->setContenedores_ingresados($new_con_ing);
 		$pl->setId_packing_list($id_packing_list);
 		$update1=$pl->updateIngresos();

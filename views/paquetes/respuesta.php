@@ -63,5 +63,5 @@ else{
 	}
  ?>
  <script type="text/javascript">
- //	setTimeout(location.reload(), 5000);
+ 	setTimeout(location.reload(), 5000);
  </script>

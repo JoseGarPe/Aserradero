@@ -372,6 +372,9 @@ elseif ($accion=="etiqueta") {
 	$Paquetes->setEtiqueta($etiqueta);
 	$delete=$Paquetes->updateEtiqueta();
 	
+			session_start();
+	unset($_SESSION['modificando']);
+	$_SESSION['modificando']='Si';
 
 	if (isset($_POST['employee_flag'])) {
 		$bandera=$_POST['employee_flag'];
@@ -392,18 +395,15 @@ elseif ($accion=="etiqueta") {
 	header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'&bandera='.$bandera.'&contenedor='.$contenedor.'&etiquetaCo='.$etiquetaCo.'&packing='.$packing.'');
 	}
 	else{
-		if (isset($_POST['type_local'])) {
+		//if (isset($_POST['type_local'])) {
 
         header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'');
 		//header('Location: ../views/savePaqueteeLocal.php?success=correcto&id='.$packing.'&factura='.$_POST['factura'].'&inab='.$_POST['inab'].'');	
-		}else{
-			session_start();
-	unset($_SESSION['modificando']);
-	$_SESSION['modificando']='Si';
+	/*	}else{
 
         header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'');
 
-		}
+		}*/
 	}
 	/*if ($delete==true) {
 		header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'');
