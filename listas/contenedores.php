@@ -256,7 +256,13 @@
                           <?php 
                           require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
+                            if (isset($_GET['Confirmado'])) {
+                              
+                         $paquetes = $mss->selectALLpack11_NB($codigo,$contenedor);
+                            }else{
+
                          $paquetes = $mss->selectALLpack11($codigo,$contenedor);
+                       }
                          $datos=1;
                          foreach ($paquetes as $key) {
                           $fecha_1= date_create($key['fecha_ingreso']);
@@ -273,7 +279,11 @@
                             <input type="hidden" name="eti'.$datos.'" id="eti'.$datos.'" value ="POSEE">
                             ';
                           }
-                          
+                          if (isset($_GET['Confirmado'])) {
+                           $bodega_s='No Definido';
+                          }else{
+                            $bodega_s=$key['bodega'];
+                          }
                           echo '
                           <td>'.$key['grueso'].'</td>
                           <td>'.$key['ancho'].'</td>
@@ -281,7 +291,7 @@
                           <td>'.$key['piezas'].'</td>
                           <td>'.$key['multiplo'].'</td>
                           <td>'.date_format($fecha_1,'d/m/y').'</td>
-                          <td>'.$key['bodega'].'</td>
+                          <td>'.$bodega_s.'</td>
                           <td>'.$key['contenedor'].'</td>
                           <td>'.$key['stock'].'</td>
                           <td>'.$key['estado'].'</td>
@@ -592,7 +602,7 @@ ga('send', 'pageview');
            var employee_packing = $(this).attr("packing");  
            var dato = $(this).attr("dato"); 
            var employee_etiqueta = $("#eti"+dato).val();
-           if(employee_id != '')  
+           if(employee_etiqueta != '')  
            {  
                 $.ajax({  
                      url:"../controllers/PaquetesControlador.php?accion=etiqueta",  
@@ -604,7 +614,9 @@ ga('send', 'pageview');
                              n(); 
                      }  
                 });  
-           }            
+           }  else{
+            confirm("ERROR: Campo vacio!");
+           }          
       });
 $(document).on('click', '.modi_data', function(){  
            var employee_id = $(this).attr("id");  

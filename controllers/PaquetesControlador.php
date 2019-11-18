@@ -388,6 +388,13 @@ elseif ($accion=="etiqueta") {
 
 	header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'&bandera='.$_POST['employee_flag'].'&contenedor='.$contenedor.'&etiquetaCo='.$etiquetaCo.'&packing='.$packing.'');
 
+	}elseif ($bandera=='modificar_local') {
+		
+	$contenedor =$_POST['employee_contenedor'];
+	$etiquetaCo =$_POST['employee_etiquetaCo'];	
+
+	header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'&bandera='.$_POST['employee_flag'].'&contenedor='.$contenedor.'&etiquetaCo='.$etiquetaCo.'&packing='.$packing.'');
+
 	}
 	elseif ($bandera=='modificar_c') {
 	$contenedor =$_POST['employee_contenedor'];

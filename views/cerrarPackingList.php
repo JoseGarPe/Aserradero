@@ -34,7 +34,7 @@ require_once "../class/Contenedor.php";
 
                          $paquetess = $packin->selectEtiquetas_null($codigo);
                          foreach ($paquetess as $keys) {
-                           $etiquetaS_null=$keys['etiquetaS_null'];
+                           $etiquetaS_null=$keys['etiquetas_null'];
                          }
                          if ($etiquetaS_null==0) {
                            

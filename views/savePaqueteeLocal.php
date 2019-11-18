@@ -476,7 +476,7 @@
                         echo' <td>'.$key['stock'].'</td>
                           <td>'.$key['estado'].'</td>';
                           if ($key['etiqueta']!=NULL) {
-                            echo '<td></td>';
+                            echo '<td><input type="button" name="save1" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$inab.'" etiquetaCo="'.$etic.'" flag="modificar_local" class="btn btn-warning modi_data" /></td>';
                           }else{
                             echo '
                           <td><input type="button" name="save" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" local="si" factura="'.$etic.'" inab="'.$inab.'" class="btn btn-success view_data2" /></td>';
@@ -831,8 +831,29 @@ $(document).on('click', '.modi_data2', function(){
                      }  
                 });  
            }            
+      }); 
+
+$(document).on('click', '.modi_data', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_packing = $(this).attr("packing");  
+           var employee_contenedor = $(this).attr("contenedor");  
+           var employee_etiquetaCo = $(this).attr("etiquetaCo"); 
+           var employee_flag = $(this).attr("flag");  
+
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/paquetes/modiPaquete.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_contenedor:employee_contenedor,employee_etiquetaCo:employee_etiquetaCo,employee_flag:employee_flag},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
       });
- }); 
+ });
 
 </script>
 <script>

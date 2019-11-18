@@ -16,6 +16,17 @@ if ($bandera=='modificar') {
     
   header('Location: ../savePaquetee.php?error=incorrecto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
   }
+}elseif ($bandera=='modificar_local') {
+  $id_packing_list=$_GET['packing'];
+  $bandera= $_GET['bandera'];
+  $id_contenedor=$_GET['contenedor'];
+  $etiquetaCo=$_GET['etiquetaCo'];
+  if ($vari=="Disponible") {
+  header('Location: ../savePaqueteeLocal.php?success=correcto&id='.$id_packing_list.'&inab='.$id_contenedor.'&factura='.$etiquetaCo.'');
+  }elseif ($vari=='No Disponible') {
+    
+  header('Location: ../savePaqueteeLocal.php?error=incorrecto&id='.$id_packing_list.'&inab='.$id_contenedor.'&factura='.$etiquetaCo.'');
+  }
 }
 elseif ($bandera=='modificar_c') {
   $id_packing_list=$_GET['packing'];

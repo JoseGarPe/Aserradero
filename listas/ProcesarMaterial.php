@@ -398,7 +398,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Rendimiento Esperado<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="resperado" name="resperado" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                              <input id="resperado" name="resperado" class=" form-control col-md-7 col-xs-12" required="required" type="text">
                             </div>
                           </div>
                          <mark><center> <label><spam> <small>*Si Selecciono un segundo componente saliente, por favor complete el siguiente campo</small></spam></label></center></mark>
@@ -472,7 +472,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                             <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
+                             <input type="submit" class="btn btn-primary" value="Guardar" >
                             </div>
                           </div>
                         
