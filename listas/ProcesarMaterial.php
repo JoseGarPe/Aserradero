@@ -143,6 +143,7 @@
               <span class="sr-only">Correcto:</span>
                 Los datos han sido guardados exitosamente.
            
+            </div>
                     ';
                 }
             }elseif (isset($_GET['error'])) {
@@ -157,6 +158,7 @@
                 Error al guardar, verifique los datos ingresados.
 
            
+            </div>
                     ';
                 }
             }elseif (isset($_GET['seleccion'])) {
@@ -168,7 +170,7 @@
               <span class="sr-only">Atencion:</span>
               
                 Ingrese todos los datos.
-            
+            </div>
                     ';
                 }
             }
@@ -413,7 +415,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Multiplo 2do material<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input id="multiplo2" name="multiplo2" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                              <input id="multiplo2" name="multiplo2" class="date-picker form-control col-md-7 col-xs-12"  type="text">
                             </div>
                           </div>
 
@@ -502,6 +504,7 @@
                           <th>Componente</th>
                           <th>Procesar</th>
                           <th>Cantidad</th>
+                          <th>Tarimas Aproximado</th>    
                           <th>Bodega</th>    
 
                           <th>Opciones</th>                        
@@ -516,6 +519,8 @@
                          $catego = $misUsuarios->selectALL();
                          
                          foreach ((array)$catego as $row) {
+                           $metros_cubicos_proc= ( $row['grueso'] * $row['ancho'] * $row['largo'] * $row['cantidad_saliente'] )/1000000000;
+                          $tarimas_proc=$row['cantidad_saliente']*$row['multiplo'];
                          echo '
                           <tr>
                            <td>'.$row['id_detalle_procesado'].'</td>';
@@ -529,7 +534,8 @@
                              echo ' <td>'.$key1['nombre']. '</td>';
                            }
                            echo'
-                           <td>'.$row['cantidad_saliente'].'</td>';
+                           <td>'.$row['cantidad_saliente'].'</td>
+                           <td>'.$tarimas_proc.'</td>';
                            $misBodegas = new Bodega();
                          $bodga = $misBodegas->selectOne($row['id_bodega']);
                           foreach ($bodga as $value) {

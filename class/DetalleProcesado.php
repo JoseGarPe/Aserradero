@@ -153,7 +153,7 @@ public function save()
     }
      public function selectALL()
     {
-        $query="SELECT * FROM detalle_procesado";
+        $query="SELECT dp.*, m.nombre as material, m.ancho,m.largo,m.grueso FROM detalle_procesado dp  INNER JOIN materiales m ON m.id_material= dp.id_material_saliente";
         $selectall=$this->db->query($query);
         $Listcantidad_materia_prima=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listcantidad_materia_prima;
