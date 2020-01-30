@@ -151,7 +151,7 @@ elseif ($accion=="generar")
   
  
   //	for ($i=0; $i < $num_paque; $i++) { 
-  		
+  		//ALTER TABLE `paquetes` ADD `cantidad` INT(11) NULL AFTER `stock`;
 	$Paquetes = new Paquetes();
 	$paquete_temporal= $Paquetes->selectALL_TEMPORAL_1($id_paquete_t);
 	foreach ($paquete_temporal as $key) {
@@ -170,7 +170,7 @@ elseif ($accion=="generar")
 	$Paquetes->setMetros_cubicos($key['metros_cubicos']);
 	$Paquetes->setFecha_ingreso('0000-00-00');
 	$Paquetes->setEstado("Sin Confirmar");
-	$save=$Paquetes->save();
+	$save=$Paquetes->save($key['cantidad']);
 	if ($save==true) {
 			$detalle_bo= new DetalleBodega();
 		$detalle_bo->setId_bodega($key['id_bodega']);
@@ -213,7 +213,7 @@ elseif ($accion=="guardarLocal")
   	$ancho =$_POST['ancho'];
   	$grueso =$_POST['grueso'];
   	$multiplo=$_POST['multiplo'];
-  	$metros_cubicos =round($_POST['metros_cubicos'], 2);
+  	$metros_cubicos =$_POST['metros_cubicos'];
   	$fecha_ingreso =$_POST['fecha'];
   	$estado =$_POST['estado'];
  	$num_paque=$_POST['num_paque'];
@@ -326,7 +326,7 @@ elseif ($accion=="generarLocal")
 	$Paquetes->setMetros_cubicos($key['metros_cubicos']);
 	$Paquetes->setFecha_ingreso($key['fecha_ingreso']);
 	$Paquetes->setEstado("Confirmado");
-	$save=$Paquetes->save();
+	$save=$Paquetes->save( $key['cantidad']);
 		if ($save == true) {
 				$detalle_bo= new DetalleBodega();
 		$detalle_bo->setId_bodega($key['id_bodega']);

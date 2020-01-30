@@ -15,8 +15,9 @@
                          
                           <br />
                      
-                          <label>Metros <sup>3</sup></label>  
-                          <input type="number" min="0.00" step="0.01" name="m_cuadrados" id="m_cuadrados" class="form-control" /> 
+                          <!--<label>Metros <sup>3</sup></label>  -->
+                          <label>Factor Tarimas</label>
+                          <input type="number" min="0.00" step="1" name="m_cuadrados" id="m_cuadrados" class="form-control" /> 
                           <br />
                      
                            

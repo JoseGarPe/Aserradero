@@ -157,9 +157,9 @@ class Paquetes extends conexion
         $this-$stock = $stock;
     }
 
-    public function save(){
+    public function save($cantidad){
 
-    	$query="INSERT INTO paquetes(id_paquete, etiqueta, piezas,id_packing_list,id_material,largo, ancho, grueso, metros_cubicos,multiplo,fecha_ingreso,estado,id_bodega,id_contenedor,stock) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->id_packing_list."','".$this->id_material."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->metros_cubicos."','".$this->multiplo."','".$this->fecha_ingreso."','".$this->estado."','".$this->id_bodega."','".$this->id_contenedor."','".$this->piezas."')";
+    	$query="INSERT INTO paquetes(id_paquete, etiqueta, piezas,id_packing_list,id_material,largo, ancho, grueso, metros_cubicos,multiplo,fecha_ingreso,estado,id_bodega,id_contenedor,stock,cantidad) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->id_packing_list."','".$this->id_material."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->metros_cubicos."','".$this->multiplo."','".$this->fecha_ingreso."','".$this->estado."','".$this->id_bodega."','".$this->id_contenedor."','".$this->piezas."','".$cantidad."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -408,7 +408,7 @@ class Paquetes extends conexion
    //pAQUETES POR BODEGA
     public function selectALLpack_Bodega_general($bodega)
     {
-        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE con.id_bodega ='".$bodega."' AND con.stock > 0 ORDER BY con.id_material";
+        $query="SELECT con.*, m.nombre as material,m.m_cuadrados as factor, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE con.id_bodega ='".$bodega."' AND con.stock > 0 ORDER BY con.id_material";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;

@@ -700,7 +700,7 @@ ga('send', 'pageview');
         var ancho = $("#ancho").val();
         var grueso = $("#grueso").val();
         var num_paque = $("#num_paque").val();
-        var metro_cubico = (piezas * largo * ancho * grueso*num_paque)/1000000000;
+        var metro_cubico = (piezas * largo * ancho * grueso)/1000000000;
        
         $("#metros_cubicos").val(metro_cubico);
     });

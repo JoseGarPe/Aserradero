@@ -184,7 +184,7 @@
                           <th>Ancho</th>
                           <th>Largo</th>
                           
-                          <th>m<sup>3</sup></th>
+                          <th>Factor Tarima</th>
                           <th>Categoria</th> 
                           <th>Opciones</th>                            
                         </tr>

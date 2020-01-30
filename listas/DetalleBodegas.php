@@ -340,7 +340,7 @@ session_start();
                              $totalMateriales = $material['total'];
                              $totalMCM = $material['metroCubic'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['piezas']*$a['multiplo'] ;
+                            $tarimas= ($a['piezas']*$a['multiplo'] *$a['cantidad'])/$a['factor'] ;
                                 
                         echo '
                          <tr>
@@ -352,7 +352,7 @@ session_start();
                             <td>'.$a['ancho'].'</td>
                             <td>'.$a['largo'].'</td>
                             <td>'.$a['piezas'].'</td>
-                            <td>'.$a['metros_cubicos'].'</td>
+                            <td style="vertical-align:middle;">'.round($a['metros_cubicos']*$a['cantidad'],2).'</td>
                             <td style="vertical-align:middle;">'.$totalMCM.' m<sup>3</sup></td>
                             <td>'.$a['multiplo'].'</td>
                             <td>'.round($tarimas).'</td>
@@ -1297,7 +1297,7 @@ ga('send', 'pageview');
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : false,
-        rowsGroup:[12,3,9,1],
+        rowsGroup:[12,8,3,9,1],
         dom: 'Bfrtip',
         buttons: [
             {

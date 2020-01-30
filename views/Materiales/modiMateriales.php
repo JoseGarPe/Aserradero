@@ -36,7 +36,7 @@ require_once "Materiales.php";
                           <input type="number" min="0.00" step="0.01" name="grueso" id="grueso" value="'.$row["grueso"].'"class="form-control" /> 
                           </div>
                    <div class="form-group">
-                          <label>Metro Cuadrado</label>  
+                          <label>Factor Tarima</label>  
                           <input type="number" min="0.00" step="0.01" name="m_cuadrados" id="m_cuadrados" class="form-control" value="'.$row["m_cuadrados"].'" /> 
                           
                       </div>
