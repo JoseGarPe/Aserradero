@@ -497,7 +497,7 @@
                   <div class="x_title">
                     <h2>Proyeccion Paquetes</h2>
 
-
+                    
                     
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>

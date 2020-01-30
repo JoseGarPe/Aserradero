@@ -56,7 +56,7 @@ elseif ($accion=="guardar")
   	$ancho =$_POST['ancho'];
   	$grueso =$_POST['grueso'];
   	$multiplo=$_POST['multiplo'];
-  	$metros_cubicos =$_POST['metros_cubicos'];
+  	$metros_cubicos = round($_POST['metros_cubicos'], 2);
   	$fecha_ingreso =$_POST['fecha'];
   	$estado =$_POST['estado'];
  
@@ -213,7 +213,7 @@ elseif ($accion=="guardarLocal")
   	$ancho =$_POST['ancho'];
   	$grueso =$_POST['grueso'];
   	$multiplo=$_POST['multiplo'];
-  	$metros_cubicos =$_POST['metros_cubicos'];
+  	$metros_cubicos =round($_POST['metros_cubicos'], 2);
   	$fecha_ingreso =$_POST['fecha'];
   	$estado =$_POST['estado'];
  	$num_paque=$_POST['num_paque'];
