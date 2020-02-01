@@ -276,25 +276,37 @@ $(document).on('click', '.view_data2', function(){
            var dato = $(this).attr("dato"); 
            var employee_fecha = $("#fecha"+dato).val();
            var id_bodega = $("#id_bodega"+dato).val();
-           if (id_bodega == 0) {
-            alert('Campos Vacios');
+           if (id_bodega == 0 && employee_fecha === "") {
+             
+           
+               alert('Campos Vacios');
            }
            else{
-            if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../controllers/ContenedorControlador.php?accion=confirmar2",  
-                     method:"POST",
-                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_status:employee_status,employee_fecha:employee_fecha,id_bodega:id_bodega},  
-                     success:function(data){  
-                         // location.href = "../listas/IndexPackingList.php?success=correcto";
-                         //    n(); 
+             if(id_bodega == 0){
+               alert('Campos Vacios');
+              }else{
+                 if(employee_fecha === ''){
 
-                   //  $('#add_data_Modal').modal('hide');  
-                     $('#employee_table1').html(data);  
-                     }  
-                });  
-           } 
+               alert('Campos Vacios');
+                  }else{
+                              if(employee_id != '')  
+                     {  
+                          $.ajax({  
+                               url:"../controllers/ContenedorControlador.php?accion=confirmar2",  
+                               method:"POST",
+                               data:{employee_id:employee_id,employee_packing:employee_packing,employee_status:employee_status,employee_fecha:employee_fecha,id_bodega:id_bodega},  
+                               success:function(data){  
+                                   // location.href = "../listas/IndexPackingList.php?success=correcto";
+                                   //    n(); 
+
+                             //  $('#add_data_Modal').modal('hide');  
+                               $('#employee_table1').html(data);  
+                               }  
+                          });  
+                     }
+                  }
+              }
+             
          }
                       
       });

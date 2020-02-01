@@ -494,11 +494,21 @@ elseif ($accion=="confirmar") {
 			$vari = 'Primero';
 			$update1=$pl->updateStatu($vari,$fecha);
 			}
+
       	$pl= new Packing();
   	$listpl = $pl->selectOne($id_packing_list);
   	foreach ($listpl as $key) {
   		$cont_ingresados=$key['contenedores_ingresados'];
+      $fecha_ingresado=$key['fecha_inicio'];
   	}
+    if ($fecha < $fecha_ingresado) {
+          $estado1="Abierto";
+      $pl->setEstado($estado1);
+      $pl->setId_packing_list($id_packing_list);
+      $vari = 'Primero';
+      $update1=$pl->updateStatu($vari,$fecha);
+    }
+    
   	$new_con_ing=(int)$cont_ingresados + 1;
   		$pl->setContenedores_ingresados($new_con_ing);
 		$pl->setId_packing_list($id_packing_list);

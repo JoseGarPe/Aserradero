@@ -123,8 +123,12 @@ require_once "../class/Contenedor.php";
                             <label>¿Desea Finalizar esta orden '.$row['numero_factura'].'?</label>
                           <input type="hidden" name="id" id="id" value="'.$row['id_packing_list'].'"/>';
                          
+                          if (isset($_POST['employee_flag'])) {
                           echo ' <input type="hidden" name="bandera" id="bandera" value="Local"/>  
-                          '.$_POST['employee_flag'].'
+                          '.$_POST['employee_flag'].'';
+                          }
+                          echo '
+                      
                            <input type="hidden" name="estado" id="estado" value="Cerrado"/>  
                              </div>
               <div class="box-footer">
