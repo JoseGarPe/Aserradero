@@ -403,8 +403,10 @@ elseif ($accion=="etiqueta") {
 	}
 	else{
 		//if (isset($_POST['type_local'])) {
+	$contenedor =$_POST['employee_contenedor'];
+	$etiquetaCo =$_POST['employee_etiquetaCo'];
 
-        header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'');
+        header('Location: ../views/paquetes/respuesta.php?respuesta='.$delete.'&contenedor='.$contenedor.'&etiquetaCo='.$etiquetaCo.'&packing='.$packing.'');
 		//header('Location: ../views/savePaqueteeLocal.php?success=correcto&id='.$packing.'&factura='.$_POST['factura'].'&inab='.$_POST['inab'].'');	
 	/*	}else{
 

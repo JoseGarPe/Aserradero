@@ -45,6 +45,17 @@ else{
 }
 
 	if ($vari== 'No Disponible') {
+      
+      $id_packing_list=$_GET['packing'];
+  $bandera= $_GET['bandera'];
+  $id_contenedor=$_GET['contenedor'];
+  $etiquetaCo=$_GET['etiquetaCo'];
+  if ($vari=="Disponible") {
+  header('Location: ../savePaquetee.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
+  }elseif ($vari=='No Disponible') {
+    
+  header('Location: ../savePaquetee.php?error=incorrecto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
+  }
 		echo '<div class="alert alert-warning" role="alert">
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
               <span class="sr-only">No Disponible:</span>
@@ -53,6 +64,18 @@ else{
               <input type="hidden" name=respuesta id=respuesta value="NoDisponible">
               </div>';
 	}elseif ($vari== 'Disponible') {
+
+      $id_packing_list=$_GET['packing'];
+  $bandera= $_GET['bandera'];
+  $id_contenedor=$_GET['contenedor'];
+  $etiquetaCo=$_GET['etiquetaCo'];
+  if ($vari=="Disponible") {
+  header('Location: ../savePaquetee.php?success=correcto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
+  }elseif ($vari=='No Disponible') {
+    
+  header('Location: ../savePaquetee.php?error=incorrecto&id='.$id_packing_list.'&contenedor='.$id_contenedor.'&etiquetaCo='.$etiquetaCo.'');
+  }
+
 		 echo '
                   <div class="alert alert-success" role="alert">
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -74,5 +97,5 @@ else{
 	}
  ?>
  <script type="text/javascript">
- 	setTimeout(location.reload(), 5000);
+ //	setTimeout(location.reload(), 5000);
  </script>

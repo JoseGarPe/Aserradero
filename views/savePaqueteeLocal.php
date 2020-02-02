@@ -245,7 +245,18 @@
                             </tr></thead>
                             <tbody>
                             <tr>
-                              <td><select class="form-control selectpicker" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --" autofocus="true">
+                              <td>
+
+                                 <?php 
+                                if ($modificando=='nel') {
+                                  echo '    <select class="form-control selectpicker" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --" autofocus="true">';
+                                }else{
+
+                                  echo '  <select class="form-control selectpicker" name="id_materiales" id="id_materiales" data-live-search="true" title="-- SELECCIONA UNA OPCION --">';
+                                }
+                                 ?>
+
+                               
                           <option>Seleccione una opcion</option>
                           <?php 
                           require_once "../class/Materiales.php";
@@ -444,7 +455,12 @@
                           <tr>
                           <td>'.$key['material'].'</td>';
                           if ($key['etiqueta']==NULL) {
-                          echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
+                            if ($modificando=='Si') {
+                               echo '<td><input type="text" class="form-control" autofocus="true" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
+                            }else{
+                              echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
+                            }
+                         
                           }
                           else{
                             echo '<td>'.$key['etiqueta'].'</td>
