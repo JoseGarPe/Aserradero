@@ -785,7 +785,6 @@ ga('send', 'pageview');
                               },
                               success: function(data){                                                      
                                     $("#resultado").html(data);
-                                    n();
                               }
                   });
                                            
@@ -820,8 +819,7 @@ $(document).on('click', '.view_data2', function(){
                      data:{employee_id:employee_id,employee_packing:employee_packing,employee_etiqueta:employee_etiqueta},  
                      success:function(data){    
 
-                                    $("#resultado").html(data);  
-                             n(); 
+  setTimeout(location.reload(), 5000);
                      }  
                 });  
            }            
