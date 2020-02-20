@@ -593,6 +593,12 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
         $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListClientes;
     }
-
+        public function selectPaquetes_cero($codigo)
+    {
+        $query="SELECT COUNT(id_paquete) as paquetes_c FROM paquetes WHERE id_contenedor ='".$codigo."' ORDER BY id_packing_list DESC LIMIT 1";
+        $selectall=$this->db->query($query);
+        $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListClientes;
+    }
 }
 ?>

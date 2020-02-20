@@ -85,8 +85,12 @@ require_once "PackingList.php";
                          $paquetess = $packin->selectEtiquetas_nullC($row['id_contenedor']);
                          foreach ($paquetess as $keys) {
                            $etiquetaS_null=$keys['etiquetas_null'];
+                         } 
+                         $paquetess1 = $packin->selectPaquetes_cero($row['id_contenedor']);
+                         foreach ($paquetess1 as $keys) {
+                           $etiqueta_cero=$keys['paquetes_c'];
                          }
-                         if ($etiquetaS_null==0) {
+                         if ($etiquetaS_null==0 && $etiqueta_cero >0 ) {
                        echo '<td>Info. Completa</td>';
                            if ($estado != "Cerrado") {
                              

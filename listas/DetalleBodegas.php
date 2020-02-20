@@ -340,7 +340,14 @@ session_start();
                              $totalMateriales = $material['total'];
                              $totalMCM = $material['metroCubic'];
                             }// consulta de total de paquetes
+                            if ($a['material']=='BK') {
+                            $tarimas = ($a['piezas']*$a['cantidad']*$a['largo'])/1481;
+                             } elseif ($a['material']=='BK EU') {
+                            $tarimas = ($a['piezas']*$a['cantidad']*$a['largo'])/1295;
+                             }else{
+                              
                             $tarimas= ($a['piezas']*$a['multiplo'] *$a['cantidad'])/$a['factor'] ;
+                             }
                                 
                         echo '
                          <tr>
