@@ -226,14 +226,24 @@
                            }else{
                             echo '<td></td>';
                            }
+                               if ($row['estado']== 'Abierto') {
+                            echo '<td>ABIERTO</td>';
+                           }elseif ($row['estado']== 'Cerrado') {
+                             
+                            echo '<td>CERRADO</td>';
+                           }else {
+                             
+                            echo '<td>PENDIENTE</td>';
+                           }      
+
+                         
                         /*   if ($row['fecha_cierre']!=NULL) {
                             $date1=date_create($row['fecha_cierre']);
                              echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
                            }else{
                             echo '<td></td>';
                            }*/
-                    echo ' <td>'.$row['estado'].'</td>
-                          <td>'.$metro_cubico.' m<sup>3</sup></td>
+                    echo '<td>'.$metro_cubico.' m<sup>3</sup></td>
                           <td>'.$row['numero_factura'].'</td>
                            <td>'.$row['poliza'].'</td>';
                            

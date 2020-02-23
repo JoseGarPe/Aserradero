@@ -364,7 +364,7 @@ session_start();
                             <td>'.$a['largo'].'</td>
                             <td>'.$a['piezas'].'</td>
                             <td style="vertical-align:middle;">'.round($a['metros_cubicos']*$a['cantidad'],2).'</td>
-                            <td style="vertical-align:middle;">'.$totalMCM.' m<sup>3</sup></td>
+                            <td style="vertical-align:middle;">'.round($totalMCM,2).' m<sup>3</sup></td>
                             <td>'.$a['multiplo'].'</td>
                             <td>'.round($tarimas).'</td>
                             <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
