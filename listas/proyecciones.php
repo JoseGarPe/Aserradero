@@ -419,7 +419,7 @@
                       </div>
                       <br><br>
 
-                  <div id="employee_table">
+                  <div id="employee_table" class="table-responsive">
                    <table id="examplePa" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
                   <thead>
                       <th>Bodega</th>
@@ -539,7 +539,7 @@
                       </div>
                       <br><br>
 
-                  <div id="employee_table">
+                  <div id="employee_table" class="table-responsive">
                    <table id="examplePa1" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
                   <thead>
                       <th>Bodega</th>
@@ -1277,11 +1277,12 @@ ga('send', 'pageview');
     }) 
     $('#examplePa').DataTable({
       'paging'      : true,
-      'lengthChange': false,
+      'lengthChange': true,
       'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : false,
+      'autoWidth'   : true,
+      responsive: true,
         rowsGroup:[0,12,11,1,13],
         dom: 'Bfrtip',
         buttons: [
@@ -1308,11 +1309,12 @@ ga('send', 'pageview');
     });
     $('#examplePa1').DataTable({
       'paging'      : true,
-      'lengthChange': false,
+      'lengthChange': true,
       'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : false,
+      'autoWidth'   : true,
+      responsive: true,
         rowsGroup:[0,12,11,1,3,13,14],
         dom: 'Bfrtip',
         buttons: [

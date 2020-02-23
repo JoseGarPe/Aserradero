@@ -208,6 +208,7 @@ session_start();
                       </thead>
                       <tbody>
                           <?php 
+                          $total_m3=0;
             require_once "../class/DetalleBodega.php";
                          $ms = new DetalleBodega();
                          $contacto = $ms->selectALLP($codigo);
@@ -232,9 +233,11 @@ session_start();
                            if ($metroCubicos_m==0 || $metroCubicos_m==NULL) {
                              echo '
                            <td>'.$metros_cubicos_proc.'m<sup>3</sup></td>';
+                           $total_m3 = $total_m3 +$metros_cubicos_proc;
                            }else{
                             echo '
                            <td>'.$metroCubicos_m.'m<sup>3</sup></td>';
+                           $total_m3 = $total_m3 +$metroCubicos_m;
                            }
                           
                             
@@ -248,7 +251,7 @@ session_start();
                          
                       </tbody>
                     </table>
-
+<label><center><h2>SUMA TOTAL de M<SUP>3</SUP>:  <?php echo $total_m3; ?>m<sup>3</sup></h2></center></label>
                   <!--END X CONTENT-->
                    </div>
                    </div>
@@ -294,9 +297,10 @@ session_start();
                 </div>
                       
                 
-                      <br><br>
+                      <br><br><br><br>
+                      <br><br><br><br>
 
-                  <div id="employee_table">
+                  <div id="employee_table " class="table-responsive">
                    <table id="examplePa2" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
                   <thead>
                       <th>N°</th>
@@ -1299,11 +1303,12 @@ ga('send', 'pageview');
     });
     $('#examplePa2').DataTable({
       'paging'      : true,
-      'lengthChange': false,
+      'lengthChange': true,
       'searching'   : true,
       'ordering'    : true,
       'info'        : true,
-      'autoWidth'   : false,
+      'autoWidth'   : true,
+      responsive: true,
         rowsGroup:[12,8,3,9,1],
         dom: 'Bfrtip',
         buttons: [
