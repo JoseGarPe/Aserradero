@@ -258,18 +258,18 @@ session_start();
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select class="form-control" id="combomes" name="combomes">
-                          <option value="enero">Enero</option>
-                          <option value="febrero">Febrero</option>
-                          <option value="marzo">Marzo</option>
-                          <option value="abril">Abril</option>
-                          <option value="mayo">Mayo</option>
-                          <option value="junio">Junio</option>
-                          <option value="julio">Julio</option>
-                          <option value="agosto">Agosto</option>
-                          <option value="septiembre">Septiembre</option>
-                          <option value="octubre">Octubre</option>
-                          <option value="noviembre">Noviembre</option>
-                          <option value="diciembre">Diciembre</option>
+                          <option value="ENERO">ENERO</option>
+                          <option value="FEBRERO">FEBRERO</option>
+                          <option value="MARZO">MARZO</option>
+                          <option value="ABRIL">ABRIL</option>
+                          <option value="MAYO">MAYO</option>
+                          <option value="JUNIO">JUNIO</option>
+                          <option value="JULIO">JULIO</option>
+                          <option value="AGOSTO">AGOSTO</option>
+                          <option value="SEPTIEMBRE">SEPTIEMBRE</option>
+                          <option value="OCTUBRE">OCTUBRE</option>
+                          <option value="NOVIEMBRE">NOVIEMBRE</option>
+                          <option value="DICIEMBRE">DICIEMBRE</option>
                           </select>
                         </div>
                       </div>

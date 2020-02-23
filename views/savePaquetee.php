@@ -206,7 +206,11 @@
 
                   <div class="x_content">
                     <div class="row">
-                      <a href="../listas/IndexPackingList.php" class="btn btn-warning">Volver a Ingresos</a>
+                      <?php 
+                      echo '
+                      <a href="../listas/IndexPackingList.php?regresa=si&id_packing_list='.$codigo.'" class="btn btn-warning">Volver a Ingresos</a>
+                      ';
+                       ?>
                       <div class="col-xs-12 col-xs-12 col-md-12">
                         <?php 
                           require_once "../class/PackingList.php";                       
@@ -865,6 +869,8 @@ $(document).on('click', '.modi_data', function(){
                 });  
            }            
       });
+
+
 
  }); 
 

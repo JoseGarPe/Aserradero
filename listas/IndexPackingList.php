@@ -271,9 +271,19 @@
                            }
                     echo ' <td>'.$row['esp'].'</td>
                            <td>'.$row['total_contenedores'].'</td>
-                           <td>'.$row['contenedores_ingresados'].'</td>
-                           <td>'.$row['estado'].'</td>
-                          <td>'.$metro_cubico.' m<sup>3</sup></td>
+                           <td>'.$row['contenedores_ingresados'].'</td>';
+                           if ($row['estado']== 'Abierto') {
+                            echo '<td>ABIERTO</td>';
+                           }elseif ($row['estado']== 'Cerrado') {
+                             
+                            echo '<td>CERRADO</td>';
+                           }else {
+                             
+                            echo '<td>PENDIENTE</td>';
+                           }      
+
+                         
+                         echo ' <td>'.$metro_cubico.' m<sup>3</sup></td>
                           <td>'.$row['numero_factura'].'</td>
                            <td>'.$row['codigo_embarque'].'</td>
                            <td>'.$row['poliza'].'</td>
@@ -643,6 +653,37 @@ ga('send', 'pageview');
 
  });  
 
+
+      function obtenerValorParametro(sParametroNombre) {
+var sPaginaURL = window.location.search.substring(1);
+ var sURLVariables = sPaginaURL.split('&');
+  for (var i = 0; i < sURLVariables.length; i++) {
+    var sParametro = sURLVariables[i].split('=');
+    if (sParametro[0] == sParametroNombre) {
+      return sParametro[1];
+    }
+  }
+ return null;
+}
+var valor = obtenerValorParametro('id_packing_list');
+  if (valor){
+   /* alert(valor);*/
+     var employee_id = valor;  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/contenedor/saveConts1.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('toggle');  
+                     }  
+                });  
+           }            
+  }else{
+    /*alert('El parámetro no existe en la URL');*/
+  }
 </script>
         <script>
   $(function () {
