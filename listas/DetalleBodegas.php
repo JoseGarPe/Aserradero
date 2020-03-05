@@ -232,11 +232,11 @@ session_start();
                            <td>'.$row['cantidad'].'</td>';
                            if ($metroCubicos_m==0 || $metroCubicos_m==NULL) {
                              echo '
-                           <td>'.$metros_cubicos_proc.'m<sup>3</sup></td>';
+                           <td>'.round($metros_cubicos_proc,2).'m<sup>3</sup></td>';
                            $total_m3 = $total_m3 +$metros_cubicos_proc;
                            }else{
                             echo '
-                           <td>'.$metroCubicos_m.'m<sup>3</sup></td>';
+                           <td>'.round($metroCubicos_m,2).'m<sup>3</sup></td>';
                            $total_m3 = $total_m3 +$metroCubicos_m;
                            }
                           
@@ -251,7 +251,7 @@ session_start();
                          
                       </tbody>
                     </table>
-<label><center><h2>SUMA TOTAL de M<SUP>3</SUP>:  <?php echo $total_m3; ?>m<sup>3</sup></h2></center></label>
+<label><center><h2>SUMA TOTAL de M<SUP>3</SUP>:  <?php echo round($total_m3,2); ?>m<sup>3</sup></h2></center></label>
                   <!--END X CONTENT-->
                    </div>
                    </div>
