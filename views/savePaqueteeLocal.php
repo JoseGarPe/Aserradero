@@ -321,7 +321,7 @@
                             </tbody>
                           </table>
                           <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Metros Cubicos totales<span class="required"></span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Metros Cubicos Paquete<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                        <?php 
@@ -329,7 +329,18 @@
                         ?> 
                           <input type="text" readonly="true" id="metros_cubicos" name="metros_cubicos"  class="form-control col-md-7 col-xs-12">
                         </div>
-                      </div><BR><br><br>
+                      </div>
+
+                      <br>
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Metros Cubicos TOTALES<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" readonly="true" id="metros_cubicos_total" name="metros_cubicos_total">
+                        </div>
+                      </div>
+
+                      <BR><br><br>
                       <div class="form-group">
                         <div id="resultado"></div>
                       </div>
@@ -405,7 +416,7 @@
                         echo'  <td>'.$key_t['contenedor'].'</td>
                           <td>'.$key_t['stock'].'</td>
                           <td>'.$key_t['cantidad'].'</td>
-                          <td>'.$key_t['cantidad']*$key['metros_cubicos'].'</td>
+                          <td>'.round($key_t['cantidad']*$key_t['metros_cubicos'],2).'</td>
                           <td>
                           <input type="button" name="save2" value="Modificar" id="'.$key_t["id_paquete"].'" packing="'.$codigo.'" inab="'.$inab.'" factura="'.$etic.'" flag="modificar" class="btn btn-warning modi_data2" />
 
@@ -721,6 +732,7 @@ ga('send', 'pageview');
         var metro_cubico = (piezas * largo * ancho * grueso)/1000000000;
        
         $("#metros_cubicos").val(metro_cubico);
+        $("#metros_cubicos_total").val(metro_cubico*num_paque);
     });
 });
 </script>

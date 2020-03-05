@@ -249,7 +249,7 @@
                            }else{
                             echo '<td></td>';
                            }*/
-                    echo '<td>'.$metro_cubico.' m<sup>3</sup></td>
+                    echo '<td>'.round($metro_cubico,2).' m<sup>3</sup></td>
                           <td>'.$row['numero_factura'].'</td>
                            <td>'.$row['poliza'].'</td>';
                            

@@ -248,7 +248,8 @@ public function saveLocal($til)
         $query2="SELECT * FROM packing_list WHERE numero_factura='".$this->numerofactura."'";
         $selectall1=$this->db->query($query1);
         $Listdetalle_bodega2=$selectall1->fetch_all(MYSQLI_ASSOC);
-          if ($selectall->num_rows!=0 && $selectall1->num_rows!=0) {
+        
+          if ($selectall->num_rows==0 && $selectall1->num_rows==0 ) {
         $query="INSERT INTO `packing_list` (`id_packing_list`, `numero_factura`, `codigo_embarque`, `razon_social`, `mes`, `fecha`, `total_contenedores`, `contenedores_ingresados`, `paquetes`, `paquetes_fisicos`, `obervaciones`, `shipper`, `id_nave`, `id_especificacion`, `estado`, `poliza`,`tipo_ingreso`,`ingreso_local`)
                 values(NULL,
                 '".$this->numero_factura."',

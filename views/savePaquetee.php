@@ -416,7 +416,7 @@
                         echo'  <td>'.$key_t['contenedor'].'</td>
                           <td>'.$key_t['stock'].'</td>
                           <td>'.$key_t['cantidad'].'</td>
-                          <td>'.$key_t['cantidad']*$key_t['metros_cubicos'].'</td>
+                          <td>'.round($key_t['cantidad']*$key_t['metros_cubicos'],2).'</td>
                           <td>
                           <input type="button" name="save2" value="Modificar" id="'.$key_t["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$conten.'" etiquetaCo="'.$etic.'" flag="modificar" class="btn btn-warning modi_data2" />
 
