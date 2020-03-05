@@ -418,7 +418,7 @@
                                   <div class="modal-dialog modal-lg">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                                 <button type="button" onclick="javascript:window.location.reload()" class="close" data-dismiss="modal">&times;</button>  
                                                  <h4 class="modal-title">Contenedores</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms5">  
@@ -585,6 +585,7 @@ ga('send', 'pageview');
                      success:function(data){  
                           $('#employee_forms5').html(data);  
                           $('#dataModal5').modal('show');  
+                        
                      }  
                 });  
            }            
@@ -604,7 +605,7 @@ ga('send', 'pageview');
                 });  
            }            
       });
-
+       /* $('#dataModal5') .on('hidden.bs.modal', function () { location.reload(); })*/
 
       $(document).on('click', '.delete_data', function(){  
           var employee_id = $(this).attr("id");  
@@ -684,6 +685,7 @@ var valor = obtenerValorParametro('id_packing_list');
   }else{
     /*alert('El parámetro no existe en la URL');*/
   }
+
 </script>
         <script>
   $(function () {

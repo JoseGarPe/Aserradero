@@ -258,7 +258,7 @@ elseif ($accion=="guardarLocal")
 		# code...
 	}
 	else{
-		header('Location: ../listas/IndexPackingList_Local.php?error=incorrecto');
+		header('Location: ../views/Newpacking_local.php?error=incorrecto');
 	}
 }
 

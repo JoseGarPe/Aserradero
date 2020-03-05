@@ -194,7 +194,8 @@ table {
 
         <label>Proyeccion local</label>
         <div class="col-xs-12">
-          <table id="example4" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
+          <div class="table-responsive">
+          <table id="example4" class="table table-striped table-bordered table-responsive"> <!-- Lo cambiaremos por CSS -->
                   <thead>
                       <th>N°</th>
                       <th>Mes</th>
@@ -253,10 +254,10 @@ table {
                             <td>'.$a['ancho'].'</td>
                             <td>'.$a['largo'].'</td>
                             <td>'.$a['piezas'].'</td>
-                            <td>'.$a['metros_cubicos'].'</td>
+                            <td style="vertical-align:middle;">'.round($a['metros_cubicos']*$a['cantidad'],2).'</td>
                             <td>'.$a['multiplo'].'</td>
                             <td>'.round($tarimas).'</td>
-                            <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
+                            <td style="vertical-align:middle;">'.round($totalMC,2).' m<sup>3</sup></td>
                         </tr> ';
                                 
                                 
@@ -268,6 +269,8 @@ table {
                      ?>
             </tbody>
         </table>
+            
+          </div>
       </div>
                     
                   </div>
@@ -309,7 +312,7 @@ table {
                       </div>
                       <br><br>
 
-                  <div id="employee_table">
+                  <div id="employee_table" class="table-responsive">
                    <table id="examplePa" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
                   <thead>
                       <th>Bodega</th>
@@ -358,10 +361,10 @@ table {
                             <td>'.$a['ancho'].'</td>
                             <td>'.$a['largo'].'</td>
                             <td>'.$a['piezas'].'</td>
-                            <td>'.$a['metros_cubicos'].'</td>
+                            <td style="vertical-align:middle;">'.round($a['metros_cubicos']*$a['cantidad'],2).'</td>
                             <td>'.$a['multiplo'].'</td>
                             <td>'.round($tarimas).'</td>
-                            <td style="vertical-align:middle;">'.$totalMC.' m<sup>3</sup></td>
+                            <td style="vertical-align:middle;">'.round($totalMC,2).' m<sup>3</sup></td>
                             <td>'.$a['estado'].'</td>
                         </tr> ';
                                 
@@ -639,7 +642,7 @@ ga('send', 'pageview');
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : false,
-        rowsGroup:[0,11,1,12],
+        rowsGroup:[0,11,1,12,8],
         dom: 'Bfrtip',
         buttons: [
             {
@@ -735,7 +738,7 @@ ga('send', 'pageview');
       'info'        : true,
       responsive: true,
       'autoWidth'   : true,
-        rowsGroup:[0,14,3,2],
+        rowsGroup:[0,14,11,3,2],
         dom: 'Bfrtip',
         buttons: [
             {

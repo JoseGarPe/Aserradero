@@ -218,8 +218,14 @@
                           <td>'.$contador.'</td>
                           <td>'.$row['id_packing_list'].'</td>
                            <td>'.$row['mes'].'</td>
-                           <td>'.$row['shipper'].'</td>
-                           <td>'.$row['ingreso_local'].'</td>';
+                           <td>'.$row['shipper'].'</td>';
+                           if ($row['ingreso_local']=='Importada') {
+                             echo '<td>IMPORTADA</td>';
+                           }else{
+                            echo '<td>LOCAL</td>';
+                           }
+
+                           
                            if ($row['fecha']!=NULL) {
                             $date1=date_create($row['fecha']);
                              echo '<td>'.date_format($date1, 'd/m/Y').'</td>';

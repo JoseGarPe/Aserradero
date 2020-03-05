@@ -509,7 +509,7 @@ elseif ($accion=="confirmar") {
       	$pl= new Packing();
   	$listpl = $pl->selectOne($id_packing_list);
   	foreach ($listpl as $key) {
-  		$cont_ingresados=$key['contenedores_ingresados'];
+  		$cont_ingresados=$key['contenedores_ingresados']; 
       $fecha_ingresado=$key['fecha_inicio'];
   	}
     if ($fecha < $fecha_ingresado) {

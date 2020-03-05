@@ -363,6 +363,7 @@
                             <th>Contendor</th>
                             <th>Stock</th>
                             <th>Cantidad</th>
+                            <th>M <sup>3</sup></th>
                             <th>Opcion</th>
                             </tr>
                           </thead>
@@ -404,6 +405,7 @@
                         echo'  <td>'.$key_t['contenedor'].'</td>
                           <td>'.$key_t['stock'].'</td>
                           <td>'.$key_t['cantidad'].'</td>
+                          <td>'.$key_t['cantidad']*$key['metros_cubicos'].'</td>
                           <td>
                           <input type="button" name="save2" value="Modificar" id="'.$key_t["id_paquete"].'" packing="'.$codigo.'" inab="'.$inab.'" factura="'.$etic.'" flag="modificar" class="btn btn-warning modi_data2" />
 

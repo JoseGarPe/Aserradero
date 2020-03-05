@@ -118,7 +118,7 @@ session_start();
           </div>
         </div>
         <!-- /top navigation -->
-
+         
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
@@ -126,6 +126,7 @@ session_start();
               <div class="title_left">
                 <h3>Ingreso Por Barco</h3>
               </div>
+
 
               <div class="title_right">
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -138,6 +139,7 @@ session_start();
                 </div>
               </div>
             </div>
+
             <div class="clearfix"></div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -159,7 +161,49 @@ session_start();
                       <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
                     </ul>
-                    <div class="clearfix"></div>
+                    <div class="clearfix">
+                       <?php 
+            if (isset($_GET['success'])) {
+                
+                if ($_GET['success']=='correcto') {
+                    
+                    echo '
+              <div class="alert alert-success" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Correcto:</span>
+                Los datos han sido guardados exitosamente.
+           </div>
+                    ';
+                }
+            }elseif (isset($_GET['error'])) {
+           
+               if ($_GET['error']=='incorrecto') {
+                    
+                    echo '
+                <div class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Incorecto:</span>
+              
+                Error al guardar, verifique los datos ingresados.
+ </div>
+           
+                    ';
+                }
+            }elseif (isset($_GET['seleccion'])) {
+               if ($_GET['seleccion']=='nuevo') {
+                    
+                    echo '
+                 <div class="alert alert-primary" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Atencion:</span>
+              
+                Ingrese todos los datos.
+             </div>
+                    ';
+                }
+            }
+             ?>
+                    </div>
                   </div>
                   <div class="x_content">
                     <br />
