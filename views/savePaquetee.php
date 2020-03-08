@@ -384,8 +384,10 @@
                             $mss1 = new Paquetes();
                          $paquetes_temp = $mss1->selectALL_TEMPORAL($codigo,$conten);
                          $datos2=1;
+                         $metros_generando=0;
                          foreach ($paquetes_temp as $key_t) {
-                            
+                            $m3=round($key_t['cantidad']*$key_t['metros_cubicos'],2);
+                            $metros_generando = $metros_generando +$m3;
                             $dateIP=date_create($key_t['fecha_ingreso']);
                           echo '
                           <tr>
@@ -419,7 +421,7 @@
                           <td>'.round($key_t['cantidad']*$key_t['metros_cubicos'],2).'</td>
                           <td>
                           <input type="button" name="save2" value="Modificar" id="'.$key_t["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$conten.'" etiquetaCo="'.$etic.'" flag="modificar" class="btn btn-warning modi_data2" />
-
+                          <input type="button" name="save2" value="Eliminar" id="'.$key_t["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$conten.'" etiquetaCo="'.$etic.'" flag="eliminar" class="btn btn-danger delete_data2" />
                                 <a href="../controllers/PaquetesControlador.php?id='.$key_t["id_paquete"].'&accion=generar&packing='.$codigo.'&id_contenedor='.$conten.'&etiquetaCoo='.$etic.'" class="btn btn-success">Generar</a>                          
                           </td>
                           ';
@@ -432,6 +434,8 @@
                                ?>                              
                             </tbody>
                           </table>
+                        
+<center><h2 style="color: #000;">SUMA TOTAL de M<SUP>3</SUP>:  <?php echo round($metros_generando,2); ?>m<sup>3</sup></h2></center>
                        </div>
 
                       <div class="col-xs-12 col-sm-6 col-md-12">
@@ -863,6 +867,26 @@ $(document).on('click', '.modi_data2', function(){
            }            
       });
 
+
+$(document).on('click', '.delete_data2', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_packing = $(this).attr("packing");  
+           var employee_contenedor = $(this).attr("contenedor");  
+           var employee_etiquetaCo = $(this).attr("etiquetaCo");  
+
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/paquetes/delete_temp.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_contenedor:employee_contenedor,employee_etiquetaCo:employee_etiquetaCo},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
+      });
 
 
 $(document).on('click', '.modi_data', function(){  

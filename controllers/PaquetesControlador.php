@@ -25,7 +25,7 @@ if ($accion=="modificar") {
 	}
 
 }
-elseif ($accion=="eliminar") {
+/*elseif ($accion=="eliminar") {
 	$id_Paquetes =$_POST['id'];
 	$Paquetes = new Paquetes();
 	$Paquetes->setId_paquete($id_Paquetes);
@@ -36,7 +36,7 @@ elseif ($accion=="eliminar") {
 	}else{
 		header('Location: ../listas/Paquetes.php?error=incorrecto');
 	}
-}
+}*/
 // modificados---------------
 elseif ($accion=="guardar") 
 {
@@ -467,5 +467,20 @@ elseif ($accion=="etiquetaLocal") {
 	}else{
 		header('Location: ../views/savePaquetee.php?error=incorrecto&id='.$id_Paquetes.'');
 	}*/
+}
+elseif ($accion=="eliminar") {
+	$Id_paquete =$_POST['id'];
+	$packing =$_POST['employee_packing'];
+	$contenedor =$_POST['employee_contenedor'];
+	$etiquetaCo =$_POST['employee_etiquetaCo'];	
+	$nave = new Paquetes();
+	$nave->setId_paquete($Id_paquete);
+	$delete=$nave->delete();
+	if ($delete==true) {
+		header('Location: ../views/savePaquetee.php?success=correcto&id='.$packing.'&contenedor='.$contenedor.'&etiquetaCo='.$etiquetaCo.'');
+		# code...
+	}else{
+		header('Location: ../listas/Categorias.php?error=incorrecto');
+	}
 }
  ?>

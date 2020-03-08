@@ -133,6 +133,13 @@ class Paquetes extends conexion
         }  
 
     }
+    public function selectOneTemp($codigo)
+    {
+        $query="SELECT * FROM paquetes_temporal WHERE id_paquete='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
     public function delete(){
     	$query="DELETE FROM paquetes WHERE id_paquetes='".$this->id_paquete."'"; 
        $delete=$this->db->query($query);
