@@ -483,4 +483,20 @@ elseif ($accion=="eliminar") {
 		header('Location: ../listas/Categorias.php?error=incorrecto');
 	}
 }
+
+elseif ($accion=="eliminarlocal") {
+	$Id_paquete =$_POST['id'];
+	$packing =$_POST['employee_packing'];
+	$inab =$_POST['inab'];
+	$factura =$_POST['factura'];	
+	$nave = new Paquetes();
+	$nave->setId_paquete($Id_paquete);
+	$delete=$nave->delete();
+	if ($delete==true) {
+		header('Location: ../views/savePaqueteeLocal.php?success=correcto&id='.$packing.'&inab='.$inab.'&factura='.$factura.'');
+		# code...
+	}else{
+		header('Location: ../listas/Categorias.php?error=incorrecto');
+	}
+}
  ?>

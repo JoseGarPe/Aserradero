@@ -327,10 +327,11 @@
                        <?php 
                         echo '<input type="hidden" readonly="true" id="id_packing_list" name="id_packing_list" value="'.$codigo.'">';
                         ?> 
-                          <input type="text" readonly="true" id="metros_cubicos" name="metros_cubicos"  class="form-control col-md-7 col-xs-12">
+                          <input type="text" readonly="true" id="metros_cubicos" name="metros_cubicos">
                         </div>
                       </div>
-
+                      <br>
+                      <br>
                       <br>
                         <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Metros Cubicos TOTALES<span class="required"></span>
@@ -384,8 +385,10 @@
                             $mss1 = new Paquetes();
                          $paquetes_temp = $mss1->selectALL_TEMPORAL($codigo,$conten);
                          $datos2=1;
+                         $metros_generando=0;
                          foreach ($paquetes_temp as $key_t) {
-                            
+                            $m3=round($key_t['cantidad']*$key_t['metros_cubicos'],2);
+                            $metros_generando = $metros_generando +$m3;
                             $dateIP=date_create($key_t['fecha_ingreso']);
                           echo '
                           <tr>
@@ -419,7 +422,7 @@
                           <td>'.round($key_t['cantidad']*$key_t['metros_cubicos'],2).'</td>
                           <td>
                           <input type="button" name="save2" value="Modificar" id="'.$key_t["id_paquete"].'" packing="'.$codigo.'" inab="'.$inab.'" factura="'.$etic.'" flag="modificar" class="btn btn-warning modi_data2" />
-
+                           <input type="button" name="save2" value="Eliminar" id="'.$key_t["id_paquete"].'" packing="'.$codigo.'" inab="'.$inab.'" factura="'.$etic.'" flag="modificar" class="btn btn-warning delete_data2" />
                                 <a href="../controllers/PaquetesControlador.php?id='.$key_t["id_paquete"].'&accion=generarLocal&packing='.$codigo.'&factura='.$etic.'&inab='.$inab.'" class="btn btn-success">Generar</a>                          
                           </td>
                           ';
@@ -432,6 +435,7 @@
                                ?>                              
                             </tbody>
                           </table>
+                          <center><h2 style="color: #000;">SUMA TOTAL de M<SUP>3</SUP>:  <?php echo round($metros_generando,2); ?>m<sup>3</sup></h2></center>
                        </div>
 
 
@@ -864,6 +868,26 @@ $(document).on('click', '.modi_data2', function(){
            }            
       }); 
 
+
+$(document).on('click', '.delete_data2', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_packing = $(this).attr("packing");  
+           var inab = $(this).attr("inab");  
+           var factura = $(this).attr("factura");  
+
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/paquetes/delete_tempL.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_packing:employee_packing,inab:inab,factura:factura},  
+                     success:function(data){  
+                          $('#employee_forms5').html(data);  
+                          $('#dataModal5').modal('show');  
+                     }  
+                });  
+           }            
+      }); 
 $(document).on('click', '.modi_data', function(){  
            var employee_id = $(this).attr("id");  
            var employee_packing = $(this).attr("packing");  
