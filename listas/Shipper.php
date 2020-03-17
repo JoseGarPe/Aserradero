@@ -171,7 +171,7 @@ session_start();
                   <div class="x_content">
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-                   <input type="button" name="accion" value="Nueva Nave" id="accion" class="btn btn-success save_data" /> 
+                   <input type="button" name="accion" value="Nueva Shipper" id="accion" class="btn btn-success save_data" /> 
                     <br>
                     <br>
                     <div id="employee_table">

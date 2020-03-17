@@ -511,7 +511,7 @@ elseif ($accion=="confirmar") {
   	foreach ($listpl as $key) {
   		$cont_ingresados=$key['contenedores_ingresados']; 
       $fecha_ingresado=$key['fecha_inicio'];
-            if ($fecha_ingresado==NULL || $fecha_ingresado=="") {
+       if ($fecha_ingresado==NULL || $fecha_ingresado=="") {
               
                 $estado1="Abierto";
             $pl->setEstado($estado1);
@@ -632,7 +632,11 @@ elseif ($accion=="confirmar") {
                          foreach ($paquetess as $keys) {
                            $etiquetaS_null=$keys['etiquetas_null'];
                          }
-                         if ($etiquetaS_null==0) {
+                         $paquetess1 = $packin->selectPaquetes_cero($row['id_contenedor']);
+                         foreach ($paquetess1 as $keys) {
+                           $etiqueta_cero=$keys['paquetes_c'];
+                         }
+                         if ($etiquetaS_null==0 && $etiqueta_cero > 0 ) {
                        $output.= '<td>Info. Completa</td>';
                            if ($estado != "Cerrado") {
                              
@@ -641,14 +645,14 @@ elseif ($accion=="confirmar") {
                                <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>
 
                                 <input type="button" name="save" value="Confirmar" id="'.$row["id_contenedor"].'" packing="'.$id_packing_list.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-success view_data2" />
-                                <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&id_packing_list='.$id_packing_list.'" class="btn btn-danger">Eliminar</a>
+                                <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&packing='.$id_packing_list.'" class="btn btn-danger">Eliminar</a>
 
                               </td>';
                             }else{
                               $output.=  '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Sin Confirmar" class="btn btn-warning">Sin Confirmar</a>  -->
 
                              <!--   <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />-->
-                             <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar" class="btn btn-danger">Eliminar</a>
+                             <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&packing='.$id_packing_list.'" class="btn btn-danger">Eliminar</a>
           <!--  <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
             <a href="../listas/contenedores.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
 
@@ -663,7 +667,7 @@ elseif ($accion=="confirmar") {
 
                          }else{
 
-                     $output.=  '<td>Info. Incompleta</td>';
+                     $output.=  '<td>Info. Pendiente</td>';
                            if ($estado != "Cerrado") {
                              
                             if ($row['estado']=='Sin Confirmar') {
@@ -671,14 +675,14 @@ elseif ($accion=="confirmar") {
                                <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>
 
                                <!-- <input type="button" name="save" value="Confirmar" id="'.$row["id_contenedor"].'" packing="'.$id_packing_list.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-success view_data2" />-->
-                                <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&id_packing_list='.$id_packing_list.'" class="btn btn-danger">Eliminar</a>
+                                <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&packing='.$id_packing_list.'" class="btn btn-danger">Eliminar</a>
 
                               </td>';
                             }else{
                             $output.=  '<td> <!-- <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=confirmar2&estado=Sin Confirmar" class="btn btn-warning">Sin Confirmar</a>  -->
 
                              <!--   <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />-->
-                             <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar" class="btn btn-danger">Eliminar</a>
+                             <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&packing='.$id_packing_list.'" class="btn btn-danger">Eliminar</a>
           <!--  <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
             <a href="../listas/contenedores.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
 

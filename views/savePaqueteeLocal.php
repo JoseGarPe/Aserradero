@@ -241,7 +241,7 @@
                             <th>Multiplo</th>
                             <th>Fecha Ingreso</th>
                             <th>Bodega Destino</th>
-                            <th>C. a Generar</th>
+                            <th>No. Paquetes</th>
                             </tr></thead>
                             <tbody>
                             <tr>
@@ -274,9 +274,9 @@
                           ?>
                           </select></td>
                              <!-- <td><input type="text" id="etiqueta" name="etiqueta"  class="form-control col-md-7"></td>-->
-                              <td><input type="number" id="grueso" name="grueso" min="0.00" step="0.00000000001"  class="form-control col-sm-7"></td>
-                              <td><input type="number" id="ancho" name="ancho" min="0.00" step="0.00000000001"   class="form-control col-sm-7"></td>
-                              <td ><input type="number"  min="0.00" step="0.0000000001" id="largo" name="largo"  class="form-control col-sm-4"></td>
+                              <td><input type="number" id="grueso" name="grueso" min="0.00" step="0.01"  class="form-control col-sm-7"></td>
+                              <td><input type="number" id="ancho" name="ancho" min="0.00" step="0.01"   class="form-control col-sm-7"></td>
+                              <td ><input type="number"  min="0.00" step="0.01" id="largo" name="largo"  class="form-control col-sm-4"></td>
                               <td><input type="number" id="piezas" name="piezas" min="0.00" step="1"  class="form-control col-md-7"></td>
                               <td><input type="number" id="multiplo" name="multiplo"  min="0.00" step="0.00000000001"  class="form-control col-md-7"></td>
                               <td>  <?php 
@@ -723,7 +723,7 @@ ga('send', 'pageview');
     })
   });
     $(document).ready(function () {
-    $("#multiplo").keyup(function () {
+    $("#num_paque").keyup(function () {
 
         var piezas = $("#piezas").val();
 
@@ -734,9 +734,9 @@ ga('send', 'pageview');
         var grueso = $("#grueso").val();
         var num_paque = $("#num_paque").val();
         var metro_cubico = (piezas * largo * ancho * grueso)/1000000000;
-       
+        var m3_totales = metro_cubico* num_paque;
         $("#metros_cubicos").val(metro_cubico);
-        $("#metros_cubicos_total").val(metro_cubico*num_paque);
+        $("#metros_cubicos_total").val(m3_totales);
     });
 });
 </script>
