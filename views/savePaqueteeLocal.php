@@ -1,10 +1,12 @@
 <?php 
   session_start();
 
-                                if (isset($_SESSION['modificando'])) {
+                                if (isset($_SESSION['modificando']) && isset($_SESSION['dato'])) {
                                   $modificando = $_SESSION['modificando'];
+                                  $num_dato = $_SESSION['dato'];
                                 }else{
                                   $modificando ='nel';
+                                  $num_dato=0;
                                 }
  ?>
 <!DOCTYPE html>
@@ -472,7 +474,7 @@
                           <tr>
                           <td>'.$key['material'].'</td>';
                           if ($key['etiqueta']==NULL) {
-                            if ($modificando=='Si') {
+                            if ($modificando=='Si' && $datos==($num_dato+1)) {
                                echo '<td><input type="text" class="form-control" autofocus="true" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
                             }else{
                               echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
@@ -838,7 +840,7 @@ $(document).on('click', '.view_data2', function(){
                 $.ajax({  
                      url:"../controllers/PaquetesControlador.php?accion=etiqueta",  
                      method:"POST",
-                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_etiqueta:employee_etiqueta,type_local:type_local,factura:factura,inab:inab},  
+                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_etiqueta:employee_etiqueta,type_local:type_local,factura:factura,inab:inab,dato:dato},  
                      success:function(data){    
                             setTimeout(location.reload(), 5000);
                             //        $("#resultado").html(data);  

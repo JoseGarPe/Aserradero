@@ -6,8 +6,15 @@ require_once "../class/PackingList.php";
 
          
 							$codigo=$_POST["employee_id"];
+              if (isset($_POST['employee_bandera'])) {
+                $bandera=$_POST['employee_bandera'];
+                echo '
+                          <input type="hidden" name="bandera" id="bandera" value="'.$bandera.'"/> ';
+
+           }
               $Pack = new Packing();
                          $catego = $Pack->selectOne($codigo);
+
                         
                          
                          foreach ((array)$catego as $row) {

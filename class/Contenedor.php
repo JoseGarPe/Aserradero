@@ -175,6 +175,24 @@ class Contenedores extends conexion
 
     }
     public function delete(){
+
+
+              $query_piezas="SELECT * FROM paquetes WHERE id_contenedor='".$this->id_contenedor."'";
+        $selectall_piezas=$this->db->query($query_piezas);
+       $ListPacking_piezas=$selectall_piezas->fetch_all(MYSQLI_ASSOC);
+       foreach ($ListPacking_piezas as $value1) {
+                        $query_dp="SELECT * FROM detalle_bodega WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
+                        $selectall_dp=$this->db->query($query_dp);
+                       $ListPacking_dp=$selectall_dp->fetch_all(MYSQLI_ASSOC);
+                       foreach ($ListPacking_dp as $dp) {
+                           $nueva_piezas=$dp['cantidad']-$value1['piezas'];
+                             $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
+                                $updatedp=$this->db->query($query_dp1);
+                       }
+
+        }
+
+        //-------------------------------
         $query3="SELECT * FROM contenedores WHERE id_contenedor='".$this->id_contenedor."'";
         $selectall=$this->db->query($query3);
         $ListContenedor=$selectall->fetch_all(MYSQLI_ASSOC);

@@ -2,10 +2,12 @@
   session_start();
    $conten=$_GET['contenedor'];
 
-                                if (isset($_SESSION['modificando'])) {
+                                if (isset($_SESSION['modificando']) && isset($_SESSION['dato'])) {
                                   $modificando = $_SESSION['modificando'];
+                                  $num_dato=$_SESSION['dato'];
                                 }else{
                                   $modificando ='nel';
+                                  $num_dato=0;
                                 }
 
  ?>
@@ -476,7 +478,7 @@
                           <td>'.$key['id_paquete'].'</td>
                           <td>'.$key['material'].'</td>';
                           if ($key['etiqueta']==NULL) {
-                            if ($modificando=='Si') {
+                            if ($modificando=='Si' && $datos==($num_dato+1)) {
                               
                           echo '<td><input type="text" class="form-control" name="eti'.$datos.'"  autofocus="true" id="eti'.$datos.'"> </td>';
                             }else{
@@ -839,7 +841,7 @@ $(document).on('click', '.view_data2', function(){
                 $.ajax({  
                      url:"../controllers/PaquetesControlador.php?accion=etiqueta",  
                      method:"POST",
-                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_etiqueta:employee_etiqueta},  
+                     data:{employee_id:employee_id,employee_packing:employee_packing,employee_etiqueta:employee_etiqueta,dato:dato},  
                      success:function(data){    
 
   setTimeout(location.reload(), 5000);

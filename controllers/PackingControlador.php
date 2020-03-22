@@ -55,14 +55,38 @@ $year=$_POST['year'];
 }
 elseif ($accion=="eliminar") {
 	$id_packing_list =$_POST['id'];
+
+	if (isset($_POST['bandera'])) {
+
+		  				$contenedor = new Contenedores();
+                        $conte = $contenedor->selectALLpack($id_packing_list);
+                        foreach ($conte as $key) {
+                          $cont_local = $key['id_contenedor'];
+                        }
+                        $contenedor->setId_contenedor($cont_local);
+                        $delete=$contenedor->delete();
+
+	}
 	$Pack = new Packing();
 	$Pack->setId_packing_list($id_packing_list);
 	$delete=$Pack->delete();
 	if ($delete==true) {
+		if (isset($_POST['bandera'])) {
+			
+		header('Location: ../listas/IndexPackingList_Local.php?success=correcto');
+		}else{
+
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		}
 		# code...
 	}else{
+		if (isset($_POST['bandera'])) {
+			
+		header('Location: ../listas/IndexPackingList_Local.php?error=incorrecto');
+		}else{
+			
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+		}
 	}
 }
 elseif ($accion=="guardar") 

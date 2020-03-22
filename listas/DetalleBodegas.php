@@ -218,7 +218,7 @@ session_start();
                             $metroCubicos_m = $key['m_cubicos'];
                           }
                           $metros_cubicos_proc=0;
-                           $contacto1 = $ms->selectALL_Bodega_PROCESADO($codigo);
+                           $contacto1 = $ms->selectALL_Bodega_PROCESADO($codigo,$row['id_material']);
                          foreach ($contacto1 as $row1) {
                           $metros_cubicos_proc1= ( $row1['grueso'] * $row1['ancho'] * $row1['largo'] * $row1['cantidad_saliente'] )/1000000000;
                           $metros_cubicos_proc=$metros_cubicos_proc+$metros_cubicos_proc1;
@@ -236,7 +236,7 @@ session_start();
                            $total_m3 = $total_m3 +$metros_cubicos_proc;
                            }else{
                             echo '
-                           <td>'.round($metroCubicos_m,2).'m<sup>3</sup></td>';
+                           <td>'.round($metroCubicos_m,2).'m<sup>3</sup> </td>';
                            $total_m3 = $total_m3 +$metroCubicos_m;
                            }
                           

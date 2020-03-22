@@ -269,7 +269,7 @@
         
           if ($tipo_usuario=='Administrador') {
           echo '
-        <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>';
+        <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" bandera="local" class="btn btn-danger delete_data" /></li>';
         }
         if ($row['paquetes']==$row['paquetes_fisicos']) {
           # code...
@@ -539,12 +539,13 @@ ga('send', 'pageview');
 
       $(document).on('click', '.delete_data', function(){  
           var employee_id = $(this).attr("id");  
+          var employee_bandera = $(this).attr("bandera");  
            if(employee_id != '')  
            {  
                 $.ajax({  
                      url:"../views/deletePacking.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id},  
+                     data:{employee_id:employee_id,employee_bandera:employee_bandera},  
                      success:function(data){  
                           $('#employee_forms4').html(data);  
                           $('#dataModal4').modal('show');  

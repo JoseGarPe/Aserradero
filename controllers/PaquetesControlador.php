@@ -374,7 +374,9 @@ elseif ($accion=="etiqueta") {
 	
 			session_start();
 	unset($_SESSION['modificando']);
+	unset($_SESSION['dato']);
 	$_SESSION['modificando']='Si';
+	$_SESSION['dato']=$_POST['dato'];
 
 	if (isset($_POST['employee_flag'])) {
 		$bandera=$_POST['employee_flag'];
