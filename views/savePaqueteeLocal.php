@@ -348,7 +348,7 @@
                         <div id="resultado"></div>
                       </div>
                             <div class="box-footer">
-
+                              <input type="hidden" name="paquete_local" value="true">
                 
                 <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
    </div><br><br>

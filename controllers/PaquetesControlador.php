@@ -246,7 +246,7 @@ elseif ($accion=="guardarLocal")
 		# code...
 	}
 	else{
-		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+		header('Location: ../listas/savePaqueteeLocal.php?error=incorrecto&id='.$id_packing_list.'&factura='.$factura.'&inab='.$inab.'');
 	}
 }
 elseif ($accion=="modi_tempL") 
