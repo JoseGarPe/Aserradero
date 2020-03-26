@@ -66,6 +66,14 @@ elseif ($accion=="eliminar") {
                         $contenedor->setId_contenedor($cont_local);
                         $delete=$contenedor->delete();
 
+	}else{
+		  				$contenedor = new Contenedores();
+                        $conte = $contenedor->selectALLpack($id_packing_list);
+                        foreach ($conte as $key) {
+                          $cont_local = $key['id_contenedor'];
+                        $contenedor->setId_contenedor($cont_local);
+                        $delete=$contenedor->delete();
+                        }
 	}
 	$Pack = new Packing();
 	$Pack->setId_packing_list($id_packing_list);
