@@ -174,6 +174,50 @@ class Contenedores extends conexion
         }  
 
     }
+    public function updateCont(){
+
+        $query="UPDATE contenedores SET fecha_ingreso='".$this->fecha_ingreso."', id_bodega='".$this->id_bodega."' WHERE id_contenedor='".$this->id_contenedor."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            // Verificar si la nueva fecha es menor a la que esta registrada en el ingreso 
+           $query_packing="SELECT * FROM packing_list WHERE id_packing_list='".$this->id_packing_list."'";
+            $selectall_packing=$this->db->query($query_packing);
+           $ListPacking_packing=$selectall_packing->fetch_all(MYSQLI_ASSOC);
+            foreach ($ListPacking_packing as $key) {
+                $fecha_packing=$key['fecha_inicio'];
+                if ($this->fecha_ingreso < $fecha_packing) {
+                 $query_pa="UPDATE packing_list SET fecha_inicio ='".$this->fecha_ingreso."' WHERE id_packing_list='".$this->id_packing_list."'";
+                     $update_pa=$this->db->query($query_pa);
+                }
+            }
+
+
+            //Actualizar la tabla de detalle de bodegas 
+                  $query_piezas="SELECT * FROM paquetes WHERE id_contenedor='".$this->id_contenedor."'";
+            $selectall_piezas=$this->db->query($query_piezas);
+           $ListPacking_piezas=$selectall_piezas->fetch_all(MYSQLI_ASSOC);
+           foreach ($ListPacking_piezas as $value1) {
+                            $query_dp="SELECT * FROM detalle_bodega WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
+                            $selectall_dp=$this->db->query($query_dp);
+                           $ListPacking_dp=$selectall_dp->fetch_all(MYSQLI_ASSOC);
+                           foreach ($ListPacking_dp as $dp) {
+                               $nueva_piezas=$dp['cantidad']-$value1['piezas'];
+                                 $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
+                                    $updatedp=$this->db->query($query_dp1);
+                           }
+
+            }
+
+             $query_paquete="UPDATE paquetes SET fecha_ingreso='".$this->fecha_ingreso."', id_bodega='".$this->id_bodega."' WHERE id_contenedor='".$this->id_contenedor."'";
+        $update_paquete=$this->db->query($quer_paquete);
+
+
+            return true;
+        }else {
+            return false;
+        }  
+
+    }
     public function delete(){
 
 
