@@ -241,11 +241,11 @@ function save()
     }
 public function saveLocal($til)
     {   
-        $query1="SELECT * FROM packing_list WHERE poliza='".$this->poliza."'";
+        $query1="SELECT * FROM packing_list WHERE poliza='".$this->poliza."' AND tipo_ingreso='Local'";
         $selectall=$this->db->query($query1);
         $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
 
-        $query2="SELECT * FROM packing_list WHERE numero_factura='".$this->numero_factura."'";
+        $query2="SELECT * FROM packing_list WHERE numero_factura='".$this->numero_factura."'  AND tipo_ingreso='Local'";
         $selectall1=$this->db->query($query2);
         $Listdetalle_bodega2=$selectall1->fetch_all(MYSQLI_ASSOC);    
         

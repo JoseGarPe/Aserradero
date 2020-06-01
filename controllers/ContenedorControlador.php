@@ -141,7 +141,10 @@ elseif ($accion=="guardar")
                               </td>';
                             }else{
                               $date = date_create($row['fecha_ingreso']);
-                              $output.= '<td>'.date_format($date, 'd/m/Y').'</td>';
+                             // $output.= '<td>'.date_format($date, 'd/m/Y').'</td>';
+                             // $output.= $date = date_create($row['fecha_ingreso']);
+                              //date_format($date, 'd/m/Y')
+                               $output .='<td>  <input type="date" class="form-control" name="fecha'.$idf.'" id="fecha'.$idf.'" value="'.$row['fecha_ingreso'].'"></td>';
                             }
                              if ($row['id_bodega']== NULL) {
                               $output.= '<td><select class="form-control" name="id_bodega'.$idf.'" id="id_bodega'.$idf.'" required>
@@ -196,6 +199,7 @@ elseif ($accion=="guardar")
 
                              <!--   <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />-->
                              <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&packing='.$id_packing_list.'" class="btn btn-danger">Eliminar</a>
+                             <input type="button" name="save" value="Modificar" id="'.$row["id_contenedor"].'" packing="'.$id_packing_list.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-primary modi_data2" />
           <!--  <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
             <a href="../listas/contenedores.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
 
@@ -320,12 +324,25 @@ elseif ($accion=="guardar")
                             else{
                               require_once "../class/Bodega.php";
             
-                             $bod = new Bodega();
+                             /*   $bod = new Bodega();
                              $datoBd = $bod->SelectOne($row['id_bodega']);
                              foreach ($datoBd as $valor) {
                               $output.='<td>'.$valor['nombre'].'</td>';
-                               
-                             }
+                              }*/
+
+
+                               $output.= '<td><select class="form-control" name="id_bodega'.$idf.'" id="id_bodega'.$idf.'" required>';
+                                $mistipos = new Bodega();
+                         $catego = $mistipos->selectALL();
+                          foreach ((array)$catego as $rows1) {
+                            if ($rows1['id_bodega'] != $row['id_bodega']) {
+                               $output.= "<option value='".$rows1['id_bodega']."'>".$rows1['nombre']."</option>";
+                            }else{
+                             $output.= "<option value='".$rows1['id_bodega']."' selected>".$rows1['nombre']."</option>";
+                            }
+                          } 
+                                $output.= '  </select></td>';
+
                             }
 
                 $packin = new Packing();
@@ -356,6 +373,7 @@ elseif ($accion=="guardar")
 
                              <!--   <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />-->
                              <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&packing='.$codigo.'" class="btn btn-danger">Eliminar</a>
+                             <input type="button" name="save" value="Modificar" id="'.$row["id_contenedor"].'" packing="'.$id_packing_list.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-primary modi_data2" />
           <!--  <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
             <a href="../listas/contenedores.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
 
@@ -497,14 +515,14 @@ elseif ($accion=="confirmar") {
 				$id_contenedor_p=$datosC['id_contenedor'];
 			}
 			
-			if ($id_contenedor == $id_contenedor_p) {
+		/*	if ($id_contenedor == $id_contenedor_p) {
 				$estado1="Abierto";
 			$pl= new Packing();
 			$pl->setEstado($estado1);
 			$pl->setId_packing_list($id_packing_list);
 			$vari = 'Primero';
 			$update1=$pl->updateStatu($vari,$fecha);
-			}
+			}*/
 
       	$pl= new Packing();
   	$listpl = $pl->selectOne($id_packing_list);
@@ -598,7 +616,10 @@ elseif ($accion=="confirmar") {
                               </td>';
                             }else{
                               $date = date_create($row['fecha_ingreso']);
-                              $output.= '<td>'.date_format($date, 'd/m/Y').'</td>';
+                             // $output.= '<td>'.date_format($date, 'd/m/Y').'</td>';
+                             // $output.= $date = date_create($row['fecha_ingreso']);
+                              //date_format($date, 'd/m/Y')
+                               $output .='<td>  <input type="date" class="form-control" name="fecha'.$idf.'" id="fecha'.$idf.'" value="'.$row['fecha_ingreso'].'"></td>';
                             }
                              if ($row['id_bodega']== NULL) {
                               $output.= '<td><select class="form-control" name="id_bodega'.$idf.'" id="id_bodega'.$idf.'" required>
@@ -615,14 +636,26 @@ elseif ($accion=="confirmar") {
                          $output.= '  </select></td>';
                             }
                             else{
-                              require_once "../class/Bodega.php";
-            
-                             $bod = new Bodega();
+                             require_once "../class/Bodega.php";
+                             /*   $bod = new Bodega();
                              $datoBd = $bod->SelectOne($row['id_bodega']);
                              foreach ($datoBd as $valor) {
                               $output.='<td>'.$valor['nombre'].'</td>';
-                               
-                             }
+                              }*/
+
+
+                               $output.= '<td><select class="form-control" name="id_bodega'.$idf.'" id="id_bodega'.$idf.'" required>';
+                                $mistipos = new Bodega();
+                         $catego = $mistipos->selectALL();
+                          foreach ((array)$catego as $rows1) {
+                            if ($rows1['id_bodega'] != $row['id_bodega']) {
+                               $output.= "<option value='".$rows1['id_bodega']."'>".$rows1['nombre']."</option>";
+                            }else{
+                             $output.= "<option value='".$rows1['id_bodega']."' selected>".$rows1['nombre']."</option>";
+                            }
+                          } 
+                                $output.= '  </select></td>';
+
                             }
 
                           
@@ -653,6 +686,7 @@ elseif ($accion=="confirmar") {
 
                              <!--   <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />-->
                              <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&packing='.$id_packing_list.'" class="btn btn-danger">Eliminar</a>
+                             <input type="button" name="save" value="Modificar" id="'.$row["id_contenedor"].'" packing="'.$id_packing_list.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-primary modi_data2" />
           <!--  <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
             <a href="../listas/contenedores.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
 
@@ -683,6 +717,8 @@ elseif ($accion=="confirmar") {
 
                              <!--   <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />-->
                              <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&packing='.$id_packing_list.'" class="btn btn-danger">Eliminar</a>
+
+
           <!--  <a href="../views/savePaquetee.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
             <a href="../listas/contenedores.php?id='.$id_packing_list.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
 
@@ -784,6 +820,36 @@ elseif ($accion=="guardar1")
 	else{
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
+}
+
+elseif ($accion=="modificar_contenedor") {
+  
+  $id_packing_list =$_POST['employee_packing'];
+  $id_contenedor =$_POST['employee_id'];
+  $fecha_ingreso =$_POST['employee_fecha'];
+  $id_bodega =$_POST['id_bodega'];
+  $Contenedor = new Contenedores();
+  $Contenedor->setId_contenedor($id_contenedor);
+  $Contenedor->setId_packing_list($id_packing_list);
+  $Contenedor->setFecha_ingreso($fecha_ingreso);
+  $Contenedor->setId_bodega($id_bodega);
+  $delete=$Contenedor->updateCont();
+  if ($delete==true) {
+/*        $pl= new Packing();
+    $listpl = $pl->selectOne($id_packing_list);
+    foreach ($listpl as $key) {
+      $cont_ingresados=$key['contenedores_ingresados'];
+    }
+    $new_con_ing=$cont_ingresados - 1;
+      $pl->setContenedores_ingresados($new_con_ing);
+    $pl->setId_packing_list($id_packing_list);
+    $update1=$pl->updateIngresos();
+*/
+    header('Location: ../listas/IndexPackingList.php?success=correcto&id_packing_list='.$id_packing_list.'');
+    # code...
+  }else{
+    header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+  }
 }
 
  ?>

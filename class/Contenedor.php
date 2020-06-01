@@ -209,7 +209,7 @@ class Contenedores extends conexion
             }
 
              $query_paquete="UPDATE paquetes SET fecha_ingreso='".$this->fecha_ingreso."', id_bodega='".$this->id_bodega."' WHERE id_contenedor='".$this->id_contenedor."'";
-        $update_paquete=$this->db->query($quer_paquete);
+        $update_paquete=$this->db->query($query_paquete);
 
 
             return true;
