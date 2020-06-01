@@ -185,10 +185,40 @@ class Contenedores extends conexion
            $ListPacking_packing=$selectall_packing->fetch_all(MYSQLI_ASSOC);
             foreach ($ListPacking_packing as $key) {
                 $fecha_packing=$key['fecha_inicio'];
+
+            // Verificar si la nueva fecha es menor a la que esta registrada en las bodegas 
+           $query_cont="SELECT * FROM contenedores WHERE fecha_ingreso='". $fecha_packing."' AND id_packing_list='".$this->id_packing_list."'";
+            $selectall_conte=$this->db->query($query_cont);
+           $ListPacking_conte=$selectall_conte->fetch_all(MYSQLI_ASSOC);
+            if($selectall_conte->num_rows >0){
                 if ($this->fecha_ingreso < $fecha_packing) {
                  $query_pa="UPDATE packing_list SET fecha_inicio ='".$this->fecha_ingreso."' WHERE id_packing_list='".$this->id_packing_list."'";
                      $update_pa=$this->db->query($query_pa);
                 }
+            }else{
+                  // Verificar si la nueva fecha es menor a la que esta registrada en las bodegas 
+           $query_cont1="SELECT MIN(fecha_ingreso) as fecha_menor FROM contenedores WHERE id_packing_list='". $this->id_packing_list."'";
+            $selectall_conte1=$this->db->query($query_cont1);
+           $ListPacking_conte1=$selectall_conte1->fetch_all(MYSQLI_ASSOC);
+                       /*  $fechas = array_column($ListPacking_conte1, 'fecha_ingreso');
+                
+                          $fecha_menor= min($fechas);*/
+
+                        //  if ($fecha_menor!=NULL || $fecha_menor != '0000-00-00' || $fecha_menor !='') {
+                          if ($selectall_conte1->num_rows !=0) {
+                            foreach ($ListPacking_conte1 as $conte_menor) {
+                                $fecha_menor= $conte_menor['fecha_menor'];
+                            }
+                         $query_pa="UPDATE packing_list SET fecha_inicio ='".$fecha_menor."' WHERE id_packing_list='".$this->id_packing_list."'";
+                         $update_pa=$this->db->query($query_pa);
+                          }else{
+                         $query_pa="UPDATE packing_list SET fecha_inicio ='".$this->fecha_ingreso."' WHERE id_packing_list='".$this->id_packing_list."'";
+                         $update_pa=$this->db->query($query_pa);
+
+                          }
+                }
+
+                
             }
 
 

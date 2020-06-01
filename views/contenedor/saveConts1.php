@@ -40,8 +40,8 @@
                          $ms = new Contenedores();
                          $contacto = $ms->selectALLpack($codigo);
                          $idf=1;
+                        
                          foreach ($contacto as $row) {
-                          
                          	echo '<tr>
                           <td>'.$row['id_contenedor'].'</td>
                            <td>'.$row['etiqueta'].'</td>
@@ -361,13 +361,14 @@ $(document).on('click', '.modi_data2', function(){
                                method:"POST",
                                data:{employee_id:employee_id,employee_packing:employee_packing,employee_fecha:employee_fecha,id_bodega:id_bodega},  
                                success:function(data){  
-                                   // location.href = "../listas/IndexPackingList.php?success=correcto";
+                                   location.href = "../listas/IndexPackingList.php?success=correcto&id_packing_list="+employee_packing;
                                    //    n(); 
 
                              //  $('#add_data_Modal').modal('hide');  
                               // $('#employee_table1').html(data);  
                               //setTimeout(location.reload(), 5000);
-                               location.reload();
+                               //location.reload();
+                               // $('#resultado').html(' Actualizado');  
                                }  
                           });  
                      }
