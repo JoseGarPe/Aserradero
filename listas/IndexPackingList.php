@@ -229,6 +229,7 @@
                           <th>Codigo Embarque</th> 
                           <th>Poliza</th>
                           <th>Razon Social</th>
+                          <th>Observacion</th>
                           <th>Opiones</th>                         
                         </tr>
                       </thead>
@@ -237,11 +238,14 @@
                          require_once "../class/PackingList.php";
                          require_once "../class/Contenedor.php";
                          $misPacks = new Packing();
-                         $todos = $misPacks->selectALL();
+                       //  $todos = $misPacks->selectALL();
+                        $Cerrados = $misPacks->selectALL_Cerrados();
+                        $Abiertos = $misPacks->selectALL_Abiertos();
+                        $Pendientes = $misPacks->selectALL_Pendientes();
                         
                            # code...
                          
-                         foreach ((array)$todos as $row) {
+                         foreach ((array)$Cerrados as $row) {
                           $Contenedor = new Contenedores();
                           $primer_cont = $Contenedor->FstContenedor($row['id_packing_list']);
 
@@ -289,6 +293,8 @@
                            <td>'.$row['poliza'].'</td>
                            <td>'.$row['razon_social'].'</td>';
                            
+                             echo'<td> <input type="button" name="observacion" value="Ver" id="'.$row["id_packing_list"].'" class="btn btn-primary view_obs"/></td>';
+                        
                            echo '<td>
 <!-- <ul>
    <li class="dropdown">-->
@@ -300,7 +306,7 @@
           if ($row['estado']== 'Cerrado') {
             echo '
          <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
-        <li><input type="button" name="observacion" value="Observacion" id="'.$row["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
+       ';
           }else{
             echo ' <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
         <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
@@ -326,7 +332,182 @@
                           </tr>
                          ';
                        }
-                     
+                       //------------------------------------------------//
+                          # code...
+                         
+                         foreach ((array)$Abiertos as $row1) {
+                          $Contenedor = new Contenedores();
+                          $primer_cont = $Contenedor->FstContenedor($row1['id_packing_list']);
+
+                          $fecha1= date_create($row1['fecha']);
+                          $sumCub = $misPacks->selectTotalMetrosCubicos($row1['id_packing_list']);
+                          foreach ($sumCub as $key) {
+                            $metro_cubico = $key['metro_cubico'];
+                          }
+                         echo '
+                          <tr>
+                          <td>'.$row1['id_packing_list'].'</td>
+                           <td>'.$row1['mes'].'</td>
+                           <td>'.$row1['shipper'].'</td>
+                           <td>'.$row1['correlativo'].'</td>
+                           <td>'.$row1['nav'].'</td>';
+                           if ($row1['fecha_inicio']!=NULL) {
+                            $date1=date_create($row1['fecha_inicio']);
+                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
+                           }else{
+                            echo '<td></td>';
+                           }
+                           if ($row1['fecha_cierre']!=NULL) {
+                            $date1=date_create($row['fecha_cierre']);
+                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
+                           }else{
+                            echo '<td></td>';
+                           }
+                    echo ' <td>'.$row1['esp'].'</td>
+                           <td>'.$row1['total_contenedores'].'</td>
+                           <td>'.$row1['contenedores_ingresados'].'</td>';
+                           if ($row1['estado']== 'Abierto') {
+                            echo '<td>ABIERTO</td>';
+                           }elseif ($row1['estado']== 'Cerrado') {
+                             
+                            echo '<td>CERRADO</td>';
+                           }else {
+                             
+                            echo '<td>PENDIENTE</td>';
+                           }      
+
+                         
+                         echo ' <td>'.$metro_cubico.' m<sup>3</sup></td>
+                          <td>'.$row1['numero_factura'].'</td>
+                           <td>'.$row1['codigo_embarque'].'</td>
+                           <td>'.$row1['poliza'].'</td>
+                           <td>'.$row1['razon_social'].'</td>
+                           <td>N/A</td>';
+                           
+                           echo '<td>
+<!-- <ul>
+   <li class="dropdown">-->
+   <div class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-menu-hamburger"></i><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+           ';
+       
+          if ($row1['estado']== 'Cerrado') {
+            echo '
+         <li><input type="button" name="save" value="Contendor" id="'.$row1["id_packing_list"].'" class="btn btn-success save_data" /></li>
+      <!--  <li><input type="button" name="observacion" value="Observacion" id="'.$row1["id_packing_list"].'" class="btn btn-primary view_obs" /></li>-->';
+          }else{
+            echo ' <li><input type="button" name="save" value="Contendor" id="'.$row1["id_packing_list"].'" class="btn btn-success save_data" /></li>
+        <li><input type="button" name="save" value="Finalizar" id="'.$row1["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
+        if ($tipo_usuario=='Administrador') {
+          echo '
+        <li><input type="button" name="delete" value="Eliminar" id="'.$row1["id_packing_list"].'" class="btn btn-danger delete_data" /></li>';
+        }
+             if ($primer_cont!='Primer Contenedor') {
+        echo '<li><input type="button" name="save" value="Modificar" id="'.$row1["id_packing_list"].'" class="btn btn-warning upd_pl" /></li>';
+        }
+          }
+            
+      echo '  </ul>
+          
+    </div>    
+   <!-- </li>
+</ul>-->
+
+
+
+
+                           </td>
+                          </tr>
+                         ';
+                       }
+//---------------------------------------------------------------------------------------------------------------//
+                         
+                         foreach ((array)$Pendientes as $row2) {
+                          $Contenedor = new Contenedores();
+                          $primer_cont = $Contenedor->FstContenedor($row2['id_packing_list']);
+
+                          $fecha1= date_create($row2['fecha']);
+                          $sumCub = $misPacks->selectTotalMetrosCubicos($row2['id_packing_list']);
+                          foreach ($sumCub as $key) {
+                            $metro_cubico = $key['metro_cubico'];
+                          }
+                         echo '
+                          <tr>
+                          <td>'.$row2['id_packing_list'].'</td>
+                           <td>'.$row2['mes'].'</td>
+                           <td>'.$row2['shipper'].'</td>
+                           <td>'.$row2['correlativo'].'</td>
+                           <td>'.$row2['nav'].'</td>';
+                           if ($row2['fecha_inicio']!=NULL) {
+                            $date1=date_create($row2['fecha_inicio']);
+                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
+                           }else{
+                            echo '<td></td>';
+                           }
+                           if ($row2['fecha_cierre']!=NULL) {
+                            $date1=date_create($row2['fecha_cierre']);
+                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
+                           }else{
+                            echo '<td></td>';
+                           }
+                    echo ' <td>'.$row2['esp'].'</td>
+                           <td>'.$row2['total_contenedores'].'</td>
+                           <td>'.$row2['contenedores_ingresados'].'</td>';
+                           if ($row2['estado']== 'Abierto') {
+                            echo '<td>ABIERTO</td>';
+                           }elseif ($row2['estado']== 'Cerrado') {
+                             
+                            echo '<td>CERRADO</td>';
+                           }else {
+                             
+                            echo '<td>PENDIENTE</td>';
+                           }      
+
+                         
+                         echo ' <td>'.$metro_cubico.' m<sup>3</sup></td>
+                          <td>'.$row2['numero_factura'].'</td>
+                           <td>'.$row2['codigo_embarque'].'</td>
+                           <td>'.$row2['poliza'].'</td>
+                           <td>'.$row2['razon_social'].'</td>
+                           <td>N/A</td>';
+                           echo '<td>
+<!-- <ul>
+   <li class="dropdown">-->
+   <div class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-menu-hamburger"></i><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+           ';
+       
+          if ($row2['estado']== 'Cerrado') {
+            echo '
+         <li><input type="button" name="save" value="Contendor" id="'.$row2["id_packing_list"].'" class="btn btn-success save_data" /></li>
+        <li><input type="button" name="observacion" value="Observacion" id="'.$row2["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
+          }else{
+            echo ' <li><input type="button" name="save" value="Contendor" id="'.$row2["id_packing_list"].'" class="btn btn-success save_data" /></li>
+        <li><input type="button" name="save" value="Finalizar" id="'.$row2["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
+        if ($tipo_usuario=='Administrador') {
+          echo '
+        <li><input type="button" name="delete" value="Eliminar" id="'.$row2["id_packing_list"].'" class="btn btn-danger delete_data" /></li>';
+        }
+             if ($primer_cont!='Primer Contenedor') {
+        echo '<li><input type="button" name="save" value="Modificar" id="'.$row2["id_packing_list"].'" class="btn btn-warning upd_pl" /></li>';
+        }
+          }
+            
+      echo '  </ul>
+          
+    </div>    
+   <!-- </li>
+</ul>-->
+
+
+
+
+                           </td>
+                          </tr>
+                         ';
+                       }
                      
                          ?>
                       </tbody>
