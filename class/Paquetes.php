@@ -159,7 +159,8 @@ class Paquetes extends conexion
 
     public function save($cantidad){
 
-    	$query="INSERT INTO paquetes(id_paquete, etiqueta, piezas,id_packing_list,id_material,largo, ancho, grueso, metros_cubicos,multiplo,fecha_ingreso,estado,id_bodega,id_contenedor,stock,cantidad) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->id_packing_list."','".$this->id_material."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->metros_cubicos."','".$this->multiplo."','".$this->fecha_ingreso."','".$this->estado."','".$this->id_bodega."','".$this->id_contenedor."','".$this->piezas."','".$cantidad."')";
+$dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
+    	$query="INSERT INTO paquetes(id_paquete, etiqueta, piezas,id_packing_list,id_material,largo, ancho, grueso, metros_cubicos,multiplo,fecha_ingreso,estado,id_bodega,id_contenedor,stock,cantidad,dimensiones) values(NULL,'".$this->etiqueta."','".$this->piezas."','".$this->id_packing_list."','".$this->id_material."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->metros_cubicos."','".$this->multiplo."','".$this->fecha_ingreso."','".$this->estado."','".$this->id_bodega."','".$this->id_contenedor."','".$this->piezas."','".$cantidad."','".$dimensiones."')";
     	$save=$this->db->query($query);
     	if ($save==true) {
             return true;
@@ -169,8 +170,8 @@ class Paquetes extends conexion
     }
     //-------------------------------------------------------------------------------------------------------temporal----------------------------------------------------------------------------------------------------//
       public function saveTemporal($cantidad){
-
-        $query="INSERT INTO paquetes_temporal(id_paquete, piezas,id_packing_list,id_material,largo, ancho, grueso, metros_cubicos,multiplo,fecha_ingreso,id_bodega,id_contenedor,stock,cantidad) values(NULL,'".$this->piezas."','".$this->id_packing_list."','".$this->id_material."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->metros_cubicos."','".$this->multiplo."','".$this->fecha_ingreso."','".$this->id_bodega."','".$this->id_contenedor."','".$this->piezas."','".$cantidad."')";
+$dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
+        $query="INSERT INTO paquetes_temporal(id_paquete, piezas,id_packing_list,id_material,largo, ancho, grueso, metros_cubicos,multiplo,fecha_ingreso,id_bodega,id_contenedor,stock,cantidad,dimensiones) values(NULL,'".$this->piezas."','".$this->id_packing_list."','".$this->id_material."','".$this->largo."','".$this->ancho."','".$this->grueso."','".$this->metros_cubicos."','".$this->multiplo."','".$this->fecha_ingreso."','".$this->id_bodega."','".$this->id_contenedor."','".$this->piezas."','".$cantidad."','".$dimensiones."')";
         $save=$this->db->query($query);
         if ($save==true) {
             return true;
@@ -217,7 +218,16 @@ class Paquetes extends conexion
             return false;
         }   
     }
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
+    public function selectALL_dimensiones($bodega){
+        $query="SELECT dimensiones, COUNT( dimensiones ) AS total FROM paquetes  WHERE id_bodega='".$bodega."' AND stock >0  GROUP BY dimensiones ORDER BY total DESC ";
+        $selectall=$this->db->query($query);
+        
+        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $ListPaquetes;
+    }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     public function update(){
 
