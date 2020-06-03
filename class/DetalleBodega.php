@@ -142,7 +142,7 @@ public function save()
 
          public function selectALLP($codigo)
     {
-        $query="SELECT db.*, b.nombre as bodega,m.nombre as material,m.largo,m.ancho,m.grueso,m.id_categoria,c.nombre as categoria FROM detalle_bodega db INNER JOIN bodegas b ON b.id_bodega = db.id_bodega INNER JOIN materiales m ON m.id_material = db.id_material INNER JOIN categorias c ON c.id_categoria = m.id_categoria WHERE db.id_bodega='".$codigo."'";
+        $query="SELECT db.*, b.nombre as bodega,m.nombre as material,m.m_cuadrados as factor,m.largo,m.ancho,m.grueso,m.id_categoria,c.nombre as categoria FROM detalle_bodega db INNER JOIN bodegas b ON b.id_bodega = db.id_bodega INNER JOIN materiales m ON m.id_material = db.id_material INNER JOIN categorias c ON c.id_categoria = m.id_categoria WHERE db.id_bodega='".$codigo."'";
         $selectall=$this->db->query($query);
         $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_bodega;
@@ -150,7 +150,7 @@ public function save()
 
          public function selectALL_Bodega_PROCESADO($codigo,$material_p)
     {
-        $query="SELECT dp.*, m.nombre as material, m.ancho,m.largo,m.grueso, m.id_categoria, c.nombre as categoria FROM detalle_procesado dp  INNER JOIN materiales m ON m.id_material= dp.id_material_saliente INNER JOIN categorias c ON c.id_categoria= m.id_categoria WHERE id_bodega='".$codigo."' AND id_material='".$material_p."'";
+        $query="SELECT dp.*, m.nombre as material, m.ancho,m.largo,m.grueso,m.m_cuadrados as factor, m.id_categoria, c.nombre as categoria FROM detalle_procesado dp  INNER JOIN materiales m ON m.id_material= dp.id_material_saliente INNER JOIN categorias c ON c.id_categoria= m.id_categoria WHERE id_bodega='".$codigo."' AND id_material='".$material_p."'";
         $selectall=$this->db->query($query);
         $Listcantidad_materia_prima=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listcantidad_materia_prima;

@@ -203,17 +203,35 @@ session_start();
                           <th>Dimensiones</th>
                           <th>Categoria</th> 
                           <th>Cantidad de Piezas</th>   
-                          <th>M<sup>3</sup></th>                                
+                          <th>M<sup>3</sup></th> 
+                          <th>Tarimas Aprox></th>                                
                         </tr>
                       </thead>
                       <tbody>
                           <?php 
                           $total_m3=0;
+                          $total_tarimas=0;
             require_once "../class/DetalleBodega.php";
+                         require_once "../class/Paquetes.php";
                          $ms = new DetalleBodega();
+                         $pacDime= new Paquetes();
                          $contacto = $ms->selectALLP($codigo);
+
                          foreach ($contacto as $row) {
-                          $metrosC = $ms->selectM_CUBICOS($codigo,$row['id_material']);
+                         $dim_material=$pacDime->selectALL_dimensiones($codigo,$row['id_material']);
+                          foreach ($dim_material as $dimension) {
+                            //---------- TARIMAS POR MATERIAL DE LA BODEGA-------//
+                            if ($row['material']=='BK') {
+                            $tarimas = ($dimension['cant_piezas']*$dimension['largo'])/1481;
+                             } elseif ($row['material']=='BK EU') {
+                            $tarimas = ($dimension['cant_piezas']*$dimension['largo'])/1295;
+                             }else{
+                              
+                            $tarimas= ($dimension['cant_piezas']*$dimension['multiplo'])/$row['factor'] ;
+                             }
+                             //--------------------------------------------------//
+
+                          $metrosC = $ms->selectM_CUBICOS($codigo,$row['id_material'],$dimension['dimensiones']);
                           foreach ($metrosC as $key) {
                             $metroCubicos_m = $key['m_cubicos'];
                           }
@@ -222,14 +240,16 @@ session_start();
                          foreach ($contacto1 as $row1) {
                           $metros_cubicos_proc1= ( $row1['grueso'] * $row1['ancho'] * $row1['largo'] * $row1['cantidad_saliente'] )/1000000000;
                           $metros_cubicos_proc=$metros_cubicos_proc+$metros_cubicos_proc1;
+                          $tarimas_procs= ($row1['cantidad_saliente']*$row1['multiplo'])/$row1['factor'];
                          }
 
                           echo '<tr>
-                          <td>'.$row['id_material'].'</td>
-                          <td>'.$row['material'].'</td>
-                           <td>'.$row['grueso'].'x'.$row['ancho'].'x'.$row['largo'].'</td>
+                          <td style="vertical-align:middle;">'.$row['id_material'].'</td>
+                          <td style="vertical-align:middle;">'.$row['material'].'</td>
+                         <!--  <td>'.$row['grueso'].'x'.$row['ancho'].'x'.$row['largo'].'</td>-->
+                         <td>'.$dimension['dimensiones'].'</td>
                            <td>'.$row['categoria'].'</td>
-                           <td>'.$row['cantidad'].'</td>';
+                           <td>'.$dimension['cant_piezas'].'</td>';
                            if ($metroCubicos_m==0 || $metroCubicos_m==NULL) {
                              echo '
                            <td>'.round($metros_cubicos_proc,2).'m<sup>3</sup></td>';
@@ -242,8 +262,10 @@ session_start();
                           
                             
                             echo'
+                            <td>'.round($tarimas).'</td>
                           </tr>';
-                         }
+                          } // foreach dimensiones del material
+                         }// for each materiales de la bodega
                        
                         
             ?>
@@ -323,7 +345,6 @@ session_start();
                   <tbody id="consu">
                     <?php 
                       require_once "../class/PackingList.php";
-                         require_once "../class/Paquetes.php";
                          require_once "../class/Contenedor.php";
                          $misPacks = new Packing();
                          $todos = $misPacks->selectALL_Local();
@@ -1245,7 +1266,8 @@ ga('send', 'pageview');
         ]
   });
     $('#example40').DataTable({
-       dom: 'Bfrtip',
+        rowsGroup:[0,1],
+        dom: 'Bfrtip',
         buttons: [
             {
                 extend: 'copyHtml5',

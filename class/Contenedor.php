@@ -231,9 +231,24 @@ class Contenedores extends conexion
                             $selectall_dp=$this->db->query($query_dp);
                            $ListPacking_dp=$selectall_dp->fetch_all(MYSQLI_ASSOC);
                            foreach ($ListPacking_dp as $dp) {
+                           /* do{
+                                
                                $nueva_piezas=$dp['cantidad']-$value1['piezas'];
                                  $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
                                     $updatedp=$this->db->query($query_dp1);
+
+                            }while ($dp['cantidad'] >0) */
+                          if ($dp['cantidad'] >=$value1['piezas']) {
+                                
+                               $nueva_piezas=$dp['cantidad']-$value1['piezas'];
+                                 $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
+                                    $updatedp=$this->db->query($query_dp1);
+                            }else{
+
+                               $nueva_piezas=$dp['cantidad'];
+                                 $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
+                                    $updatedp=$this->db->query($query_dp1);
+                            }
                            }
 
             }

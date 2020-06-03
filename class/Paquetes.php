@@ -220,8 +220,8 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
     }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-    public function selectALL_dimensiones($bodega){
-        $query="SELECT dimensiones, COUNT( dimensiones ) AS total FROM paquetes  WHERE id_bodega='".$bodega."' AND stock >0  GROUP BY dimensiones ORDER BY total DESC ";
+    public function selectALL_dimensiones($bodega,$materia){
+        $query="SELECT dimensiones, SUM(piezas) as cant_piezas,multiplo,largo, COUNT( dimensiones ) AS total FROM paquetes  WHERE id_bodega='".$bodega."' AND stock >0 AND id_material='".$materia."' GROUP BY dimensiones ORDER BY total DESC ";
         $selectall=$this->db->query($query);
         
         $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
