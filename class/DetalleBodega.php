@@ -264,9 +264,9 @@ public function updatePaquete($paquete){
 
     }
     // CONSULTAS METROS CUBICOS//
-     public function selectM_CUBICOS($codigo,$material)
+     public function selectM_CUBICOS($codigo,$material,$dimensiones)
     {
-        $query="SELECT SUM(metros_cubicos) as m_cubicos FROM paquetes WHERE id_bodega = '".$codigo."' AND id_material = '".$material."' AND stock !=0";
+        $query="SELECT SUM(metros_cubicos) as m_cubicos FROM paquetes WHERE id_bodega = '".$codigo."' AND id_material = '".$material."' AND stock !=0  AND dimensiones = '".$dimensiones."'";
         $selectall=$this->db->query($query);
         $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_bodega;
