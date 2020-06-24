@@ -287,7 +287,7 @@
                            }      
 
                          
-                         echo ' <td>'.$metro_cubico.' m<sup>3</sup></td>
+                         echo ' <td>'.round($metro_cubico,2).' m<sup>3</sup></td>
                           <td>'.$row['numero_factura'].'</td>
                            <td>'.$row['codigo_embarque'].'</td>
                            <td>'.$row['poliza'].'</td>
@@ -305,10 +305,10 @@
        
           if ($row['estado']== 'Cerrado') {
             echo '
-         <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
+         <li><input type="button" name="save" value="Contenedores" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
        ';
           }else{
-            echo ' <li><input type="button" name="save" value="Contendor" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
+            echo ' <li><input type="button" name="save" value="Contenedores" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
         <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
         if ($tipo_usuario=='Administrador') {
           echo '
@@ -394,10 +394,10 @@
        
           if ($row1['estado']== 'Cerrado') {
             echo '
-         <li><input type="button" name="save" value="Contendor" id="'.$row1["id_packing_list"].'" class="btn btn-success save_data" /></li>
+         <li><input type="button" name="save" value="Contenedores" id="'.$row1["id_packing_list"].'" class="btn btn-success save_data" /></li>
       <!--  <li><input type="button" name="observacion" value="Observacion" id="'.$row1["id_packing_list"].'" class="btn btn-primary view_obs" /></li>-->';
           }else{
-            echo ' <li><input type="button" name="save" value="Contendor" id="'.$row1["id_packing_list"].'" class="btn btn-success save_data" /></li>
+            echo ' <li><input type="button" name="save" value="Contenedores" id="'.$row1["id_packing_list"].'" class="btn btn-success save_data" /></li>
         <li><input type="button" name="save" value="Finalizar" id="'.$row1["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
         if ($tipo_usuario=='Administrador') {
           echo '
@@ -481,10 +481,10 @@
        
           if ($row2['estado']== 'Cerrado') {
             echo '
-         <li><input type="button" name="save" value="Contendor" id="'.$row2["id_packing_list"].'" class="btn btn-success save_data" /></li>
+         <li><input type="button" name="save" value="Contenedores" id="'.$row2["id_packing_list"].'" class="btn btn-success save_data" /></li>
         <li><input type="button" name="observacion" value="Observacion" id="'.$row2["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
           }else{
-            echo ' <li><input type="button" name="save" value="Contendor" id="'.$row2["id_packing_list"].'" class="btn btn-success save_data" /></li>
+            echo ' <li><input type="button" name="save" value="Contenedores" id="'.$row2["id_packing_list"].'" class="btn btn-success save_data" /></li>
         <li><input type="button" name="save" value="Finalizar" id="'.$row2["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
         if ($tipo_usuario=='Administrador') {
           echo '

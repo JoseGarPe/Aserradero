@@ -204,7 +204,7 @@ session_start();
                           <th>Categoria</th> 
                           <th>Cantidad de Piezas</th>   
                           <th>M<sup>3</sup></th> 
-                          <th>Tarimas Aprox></th>                                
+                          <th>Tarimas</th>                                
                         </tr>
                       </thead>
                       <tbody>
