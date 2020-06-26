@@ -1,6 +1,30 @@
 <?php 
   session_start();
   $tipo_usuario = $_SESSION['tipo_usuario'];
+if(isset($_SESSION['tiempo']) ) {
+
+        //Tiempo en segundos para dar vida a la sesión.
+        $inactivo = 1200;//20min en este caso.
+
+        //Calculamos tiempo de vida inactivo.
+        $vida_session = time() - $_SESSION['tiempo'];
+
+            //Compraración para redirigir página, si la vida de sesión sea mayor a el tiempo insertado en inactivo.
+            if($vida_session > $inactivo)
+            {
+                //Removemos sesión.
+                session_unset();
+                //Destruimos sesión.
+                session_destroy();              
+                //Redirigimos pagina.
+                header("Location: ../index.php");
+
+                exit();
+            }
+
+    }
+    $_SESSION['tiempo'] = time();
+ 
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -585,7 +609,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Packing</h4>  
+                                                 <h4 class="modal-title"> Packing</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
                                             </div>  

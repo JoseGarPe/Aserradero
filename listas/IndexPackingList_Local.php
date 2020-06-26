@@ -1,6 +1,29 @@
 <?php 
   session_start();
   $tipo_usuario = $_SESSION['tipo_usuario'];
+if(isset($_SESSION['tiempo']) ) {
+
+        //Tiempo en segundos para dar vida a la sesión.
+        $inactivo = 1200;//20min en este caso.
+
+        //Calculamos tiempo de vida inactivo.
+        $vida_session = time() - $_SESSION['tiempo'];
+
+            //Compraración para redirigir página, si la vida de sesión sea mayor a el tiempo insertado en inactivo.
+            if($vida_session > $inactivo)
+            {
+                //Removemos sesión.
+                session_unset();
+                //Destruimos sesión.
+                session_destroy();              
+                //Redirigimos pagina.
+                header("Location: ../index.php");
+
+                exit();
+            }
+
+    }
+    $_SESSION['tiempo'] = time();
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -195,6 +218,7 @@
                           <th>Total m<sup>3</sup></th>
                           <th>N° Envio</th>
                           <th>INAB</th>
+                          <th>Observacion</th>
                           <th>Opiones</th>                         
                         </tr>
                       </thead>
@@ -252,7 +276,15 @@
                     echo '<td>'.round($metro_cubico,2).' m<sup>3</sup></td>
                           <td>'.$row['numero_factura'].'</td>
                            <td>'.$row['poliza'].'</td>';
-                           
+                            if ($row['estado']== 'Abierto') {
+                            echo '<td>N/A</td>';
+                           }elseif ($row['estado']== 'Cerrado') {
+                             
+                            echo '<td><input type="button" name="observacion" value="Ver" id="'.$row["id_packing_list"].'" bandera="Local" class="btn btn-primary view_obs" /></td>';
+                           }else {
+                             
+                            echo '<td>PENDIENTE</td>';
+                           }    
                            echo '<td>
 <!-- <ul>
    <li class="dropdown">-->
@@ -262,7 +294,8 @@
         <!--  <li><input type="button" name="save" value="envio" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>-->';
          if ($row['estado']== 'Cerrado') {
           echo '
-       <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>';
+       <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>
+        <li><input type="button" name="observacion" value="Observacion" id="'.$row2["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
          }else{
   echo '
        <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>';
@@ -355,7 +388,7 @@
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Packing</h4>  
+                                                 <h4 class="modal-title">Packing</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
                                             </div>  
@@ -397,7 +430,22 @@
            </div>  
       </div>  
  </div>
-    
+  
+  <div id="dataModal00" class="modal fade">  
+                                  <div class="modal-dialog">  
+                                       <div class="modal-content">  
+                                            <div class="modal-header">  
+                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                                 <h4 class="modal-title">Packin List</h4>  
+                                            </div>  
+                                            <div class="modal-body" id="employee_forms00">  
+                                            </div>  
+                                            <div class="modal-footer">  
+                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                            </div>  
+                                       </div>  
+                                  </div>  
+  </div>  
             <!-- footer content -->
             <footer>
               <div class="pull-right">
@@ -488,6 +536,24 @@ ga('send', 'pageview');
                 });  
            }   
       });  
+     
+     
+      $(document).on('click', '.view_obs', function(){  
+           var employee_id = $(this).attr("id");  
+           var employee_bandera = $(this).attr("bandera");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/observacion.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id,employee_bandera:employee_bandera},  
+                     success:function(data){  
+                          $('#employee_forms00').html(data);  
+                          $('#dataModal00').modal('show');  
+                     }  
+                });  
+           }            
+      }); 
      
       $(document).on('click', '.view_data', function(){  
            var employee_id = $(this).attr("id");  

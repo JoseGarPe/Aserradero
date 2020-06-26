@@ -1,5 +1,28 @@
 <?php 
 session_start();
+if(isset($_SESSION['tiempo']) ) {
+
+        //Tiempo en segundos para dar vida a la sesión.
+        $inactivo = 1200;//20min en este caso.
+
+        //Calculamos tiempo de vida inactivo.
+        $vida_session = time() - $_SESSION['tiempo'];
+
+            //Compraración para redirigir página, si la vida de sesión sea mayor a el tiempo insertado en inactivo.
+            if($vida_session > $inactivo)
+            {
+                //Removemos sesión.
+                session_unset();
+                //Destruimos sesión.
+                session_destroy();              
+                //Redirigimos pagina.
+                header("Location: ../index.php");
+
+                exit();
+            }
+
+    }
+    $_SESSION['tiempo'] = time();
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -1244,6 +1267,46 @@ ga('send', 'pageview');
 
 
  });  
+
+      function obtenerValorParametro(sParametroNombre) {
+var sPaginaURL = window.location.search.substring(1);
+ var sURLVariables = sPaginaURL.split('&');
+  for (var i = 0; i < sURLVariables.length; i++) {
+    var sParametro = sURLVariables[i].split('=');
+    if (sParametro[0] == sParametroNombre) {
+      return sParametro[1];
+    }
+  }
+ return null;
+}
+var valor = obtenerValorParametro('id');
+  if (valor){
+   /* alert(valor);
+     var employee_id = valor;  
+           if(employee_id =='')  
+           {  
+                $.ajax({  
+                     url:"../views/listBodega.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms1').html(data);  
+                          $('#dataModal1').modal('toggle');  
+                     }  
+                });  
+           }    */        
+  }else{
+    var employee_id=0;
+     $.ajax({  
+                     url:"../views/listBodega.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms1').html(data);  
+                          $('#dataModal1').modal('toggle');  
+                     }  
+                });  
+  }
 
 </script>
         

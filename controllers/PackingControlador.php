@@ -142,7 +142,7 @@ elseif ($accion=="guardar")
 elseif ($accion=="Cerrar") {
 	$id_packing_list =$_POST['id'];
 	$estado =$_POST['estado'];
-	$fecha =$_POST['fecha'];
+	$fecha =$_POST['fecha1'];
 	if (isset($_POST['bandera'])) {
 		$bandera=$_POST['bandera'];
 	}else{
@@ -166,7 +166,7 @@ elseif ($accion=="Cerrar") {
 			$pl->setEstado($estado);
 			$pl->setId_packing_list($id_packing_list);
 			$vari = 'Ultimo';
-			$update=$pl->updateStatu($vari,$fecha_nueva);
+			$update=$pl->updateStatu($vari,$fecha);
 
 	if ($update==true) {
 		if ($bandera=='Local') {
@@ -189,7 +189,14 @@ elseif ($accion=="Cerrar") {
 		    $update=$pl->updateObservacion();
 
 	if ($update==true) {
+		if (isset($_POST['bandera'])) {
+			
+		header('Location: ../listas/IndexPackingList_Local.php?success=correcto');
+		
+		}else{
+
 		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		}
 		# code...
 	}else{
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');

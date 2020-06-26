@@ -324,6 +324,16 @@ public function saveLocal($til)
 
         return $ListPacking;
     }
+
+    public function select_Dat_Last($id_packing_list){
+        $query="SELECT * from contenedores WHERE id_packing_list = '".$id_packing_list."' AND fecha_ingreso  = (SELECT MAX(fecha_ingreso) FROM contenedores) ORDER BY id_packing_list DESC LIMIT 1";
+        $selectall=$this->db->query($query);
+        
+        $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $ListPacking;
+    }
+
     //-------------------------------------------------------------------//
      public function selectALL_Cerrados(){
         $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado, packing_list.fecha_inicio,packing_list.fecha_cierre,packing_list.poliza,packing_list.correlativo,packing_list.tipo_ingreso from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion  WHERE packing_list.tipo_ingreso='Importacion' AND packing_list.estado='Cerrado'";

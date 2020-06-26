@@ -9,6 +9,8 @@ require_once "../class/Contenedor.php";
 							$codigo=$_POST["employee_id"];
 					     $conte = new Contenedores();
                $listo = $conte->selectALLpack3($codigo);
+
+                
                foreach ($listo as $key) {
                  $posee = $key['posee'];
                }
@@ -41,6 +43,7 @@ require_once "../class/Contenedor.php";
                 $packin = new Packing();
 
                          $catego = $packin->selectOne($codigo);
+                        
                         
                            # code...
                          
@@ -95,6 +98,11 @@ require_once "../class/Contenedor.php";
 
                          $catego = $packin->selectOne($codigo);
                         
+                $contenedor=$packin->select_Dat_Last($codigo);
+                         foreach ($contenedor as $key) {
+                           $fecha_mayor=$key['fecha_ingreso'];
+                         }
+
                            # code...
                          
                          foreach ((array)$catego as $row) {
@@ -105,18 +113,16 @@ require_once "../class/Contenedor.php";
                            if ($ingresados == $esperados) {
                            if ($row['correlativo'] != '00-00' && $row['poliza']!="") {
                             
+
+                              $date = date_create($fecha_mayor);
+                              //date_format($date, 'd/m/Y')
                             echo '
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Fecha Cierre<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div class="input-group date" id="myDatepicker2">
-                            <input type="text" class="form-control" name="fecha" id="fecha" required/>
-                            <span class="input-group-addon">
-                               <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                           </div>
+                            <input type="date" class="form-control" name="fecha1" id="fecha1" value="'.$fecha_mayor.'" required/>
                         </div>
                       </div>
 

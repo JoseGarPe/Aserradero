@@ -152,6 +152,7 @@ class Usuario extends conexion
                 $_SESSION['nombre_usuario']=$key['nombre'] ." ".$key['apellido'];
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
                 $_SESSION['tipo_usuario']=$key['tipo_usuario'];
+                $_SESSION['tiempo']=time();
 
         $query1="INSERT INTO bitacora(id_bitacora,id_usuario, fecha,hora_ingreso,descripcion) values(NULL,'".$key['id_usuarios']."',CURDATE(),TIME(NOW()),'Ingreso al sistema')";
         $save=$this->db->query($query1);
@@ -166,6 +167,7 @@ class Usuario extends conexion
                 $_SESSION['id_tipo_usuario']=$key['id_tipo_usuario'];
                 $_SESSION['id_usuario']=$key['id_usuarios'];
                 $_SESSION['tipo_usuario']=$key['tipo_usuario'];
+                $_SESSION['tiempo']=time();
                 $query1="INSERT INTO bitacora(id_bitacora,id_usuario, fecha,hora_ingreso) values(NULL,'".$key['id_usuarios']."',CURDATE(),TIME(NOW()),'Ingreso al sistema')";
         $save=$this->db->query($query1);
 

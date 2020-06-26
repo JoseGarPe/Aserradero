@@ -26,7 +26,14 @@ if ($accion=='etiquetaDB') {
                              $totalMateriales = $material['total'];
                              $totalMCM = $material['metroCubic'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['piezas']* $a['multiplo'] ;
+                            if ($a['material']=='BK') {
+                            $tarimas = ($a['piezas']*$a['cantidad']*$a['largo'])/1481;
+                             } elseif ($a['material']=='BK EU') {
+                            $tarimas = ($a['piezas']*$a['cantidad']*$a['largo'])/1295;
+                             }else{
+                              
+                            $tarimas= ($a['piezas']*$a['multiplo'] *$a['cantidad'])/$a['factor'] ;
+                             }
                                 
                         echo '
                          <tr>
@@ -80,7 +87,14 @@ elseif ($accion=='reiniciarDB') {
                              $totalMateriales = $material['total'];
                              $totalMCM = $material['metroCubic'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['piezas']* $a['multiplo'] ;
+                            if ($a['material']=='BK') {
+                            $tarimas = ($a['piezas']*$a['cantidad']*$a['largo'])/1481;
+                             } elseif ($a['material']=='BK EU') {
+                            $tarimas = ($a['piezas']*$a['cantidad']*$a['largo'])/1295;
+                             }else{
+                              
+                            $tarimas= ($a['piezas']*$a['multiplo'] *$a['cantidad'])/$a['factor'] ;
+                             }
                                 
                         echo '
                          <tr>
