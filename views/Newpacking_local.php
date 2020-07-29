@@ -1,5 +1,32 @@
 <?php 
 session_start();
+if(isset($_SESSION['tiempo']) ) {
+
+        //Tiempo en segundos para dar vida a la sesión.
+        $inactivo = 600;//20min en este caso.
+
+        //Calculamos tiempo de vida inactivo.
+        $vida_session = time() - $_SESSION['tiempo'];
+
+            //Compraración para redirigir página, si la vida de sesión sea mayor a el tiempo insertado en inactivo.
+            if($vida_session > $inactivo)
+            {
+                //Removemos sesión.
+                session_unset();
+                //Destruimos sesión.
+                session_destroy();              
+                //Redirigimos pagina.
+                header("Location: ../index.php");
+
+                exit();
+            }
+
+    }else{
+    
+                header("Location: ../index.php");
+  }
+
+    $_SESSION['tiempo'] = time();
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -207,7 +234,8 @@ session_start();
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="../controllers/PackingControlador.php?accion=guardarLocal" method="post">
+                    <!--  action="../controllers/PackingControlador.php?accion=guardarLocal"  -->
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Numero envio<span class="required"></span>
@@ -294,7 +322,7 @@ session_start();
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Total Paquetes Esperados <span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="packetes" name="packetes"  class="form-control col-md-7 col-xs-12">
+                          <input type="number" id="packetes" min="1" step="1" name="packetes"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -326,8 +354,9 @@ session_start();
                         <center><div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 
                       <a href="../listas/IndexPackingList_Local.php" class="btn btn-primary">Cancelar</a>
-                         <!-- <button class="btn btn-" type="button">Cancelar</button>-->
-                          <button type="submit" class="btn btn-success">Guardar Ingreso</button>
+                         <!-- <button class="btn btn-" type="button">Cancelar</button>
+                          <button type="button" class="btn btn-success save_data">Guardar Ingreso</button>-->
+                          <input type="button" class="btn btn-success save_data" id="save_data" name="save_data" value="Guardar">
                         </div></center>
                       </div>
                     <!-- Terminan Botones -->
@@ -423,7 +452,51 @@ session_start();
         $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
     });
 
-  
+ /* $(document).ready(function () {
+    $("#packetes").keyup(function () {
+
+        var paquetes = $("#packetes").val();
+  if (paquetes <0 || paquetes==0) {
+
+    alert('Ingrese valores validos para Paquetes esperados');
+
+        $("#packetes").val('1');
+  }       
+    });
+});*/
+</script>
+<script type="text/javascript">
+  document.getElementById('save_data').addEventListener('click', enviarDatos);
+  function enviarDatos(){
+         var numfac = document.getElementById('numfac').value;
+        var combomes =  document.getElementById('combomes').value;
+        var shipper = document.getElementById('shipper').value;
+        var fecha = document.getElementById('fecha').value;
+        var poliza = document.getElementById('poliza').value;
+        var id_bodega =document.getElementById('id_bodega').value;
+        var packetes = document.getElementById('packetes').value;
+        var ingreso_local = document.getElementById('ingreso_local').value;
+        var observaciones = document.getElementById('observaciones').value;
+           console.log(packetes);
+           if(packetes!= '' && packetes!=0)  
+           {  
+                $.ajax({  
+                     url:"../controllers/PackingControlador.php?accion=guardarLocal",  
+                     method:"POST",
+                     data:{numfac:numfac,combomes:combomes,fecha:fecha,poliza:poliza,id_bodega:id_bodega,packetes:packetes,ingreso_local:ingreso_local,observaciones:observaciones,shipper:shipper},  
+                     success:function(data){    
+
+                     // setTimeout(location.reload(), 5000);
+                     location.href="../listas/IndexPackingList_Local.php";
+                     }  
+                });  
+           }else{
+      alert('Ingrese valores validos para Paquetes esperados');
+        $("#packetes").val('1');
+           }            
+  }
+
+
 </script>
 	
   </body>

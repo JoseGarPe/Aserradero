@@ -30,6 +30,9 @@ if(isset($_SESSION['tiempo']) ) {
                 exit();
             }
 
+    }else{
+      
+                header("Location: ../index.php");
     }
     $_SESSION['tiempo'] = time();
 
@@ -256,6 +259,9 @@ if(isset($_SESSION['tiempo']) ) {
 
                          foreach ($orden as $key) {
                            $estado = $key['estado'];
+                           $p_ingresados=$key['paquetes_fisicos'];
+                           $p_esperados=$key['paquetes'];
+                           $maximoP = $p_esperados-$p_ingresados;
                          }
                          if ($estado != 'Cerrado') {
                         ?>
@@ -309,7 +315,16 @@ if(isset($_SESSION['tiempo']) ) {
                               <td><input type="number" id="ancho" name="ancho" min="0.00" step="0.00000000001"   class="form-control col-sm-7"></td>
                               <td ><input type="number"  min="0.00" step="0.0000000001" id="largo" name="largo"  class="form-control col-sm-4"></td>
                               <td><input type="number" id="piezas" name="piezas" min="0.00" step="1"  class="form-control col-md-7"></td>
-                              <td><input type="number" id="num_paque" name="num_paque" min="0" step="1"  class="form-control col-md-7"></td>
+                              <?php 
+                              echo '<td><input type="number" id="num_paque" name="num_paque" min="1" step="1" max="'.$maximoP.'" list="lista_maximo" class="form-control col-md-7"></td>
+                              <datalist id="lista_maximo">
+
+                                  <option value="Valor maximo : '.$maximoP.'">
+
+                                </datalist>
+                              ';
+                               ?>
+                              
                               <td><input type="number" id="multiplo" name="multiplo"  min="0.00000000000000000000" step="0.00000000001"  class="form-control col-md-7"></td>
                            <!--   <td> --> <?php 
                             //  echo $fechaPaquete;
@@ -753,16 +768,17 @@ ga('send', 'pageview');
     })
   });
     $(document).ready(function () {
-    $("#multiplo").keyup(function () {
+    $("#num_paque").keyup(function () {
 
         var piezas = $("#piezas").val();
 
-        var multiplo = $(this).val();
+        var multiplo = $("#multiplo").val();
         var largo = $("#largo").val();
-
+        var sug_multiplo = largo/1000;
+        $("#multiplo").val(Math.round(sug_multiplo));
         var ancho = $("#ancho").val();
         var grueso = $("#grueso").val();
-        var num_paque = $("#num_paque").val();
+        var num_paque = $(this).val();
         var metro_cubico = (piezas * largo * ancho * grueso)/1000000000;
        
         $("#metros_cubicos").val(metro_cubico);

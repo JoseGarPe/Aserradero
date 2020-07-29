@@ -177,6 +177,17 @@ elseif ($accion=="generar")
 		$detalle_bo->setId_material($key['id_material']);
 		$detalle_bo->setCantidad($key['piezas']);
 		$save1=$detalle_bo->save();
+
+				$pl= new Packing();
+	  	$listpl = $pl->selectOne($id_packing_list);
+	  	foreach ($listpl as $key1) {
+	  		$paquetes_ingresados=$key1['paquetes_fisicos'];
+	  			}
+	  	$new_pan_ing=$paquetes_ingresados + 1;
+	  		$pl->setPaquetes_fisicos($new_pan_ing);
+			$pl->setId_packing_list($id_packing_list);
+			$update1=$pl->updateIngresosL();
+
 	}
 $cambio = $Paquetes->modiTemporal_G('Si',$id_paquete_t);
 		}

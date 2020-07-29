@@ -125,7 +125,7 @@ require_once "PackingList.php";
                              <input type="button" name="save" value="Modificar" id="'.$row["id_contenedor"].'" packing="'.$codigo.'" dato="'.$idf.'" estado="Confirmado"  class="btn btn-primary modi_data2" />
 
           <!--  <a href="../views/savePaquetee.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
-            <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
+            <a href="../listas/contenedores.php?id='.$codigo.'&conten='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Detalle de Paquetes</a>  
 
                               </td>
 
@@ -133,7 +133,7 @@ require_once "PackingList.php";
                             }
                           }else{
                             echo '<td>
-            <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  </td>';
+            <a href="../listas/contenedores.php?id='.$codigo.'&conten='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Detalle de Paquetes</a>  </td>';
                           }
 
                          }else{
@@ -155,7 +155,7 @@ require_once "PackingList.php";
                              <!--   <input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" />-->
                              <a href="../controllers/ContenedorControlador.php?id='.$row["id_contenedor"].'&accion=eliminar&packing='.$codigo.'" class="btn btn-danger">Eliminar</a>
           <!--  <a href="../views/savePaquetee.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Paquetes</a>-->
-            <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  
+            <a href="../listas/contenedores.php?id='.$codigo.'&conten='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Detalle de Paquetes</a>  
 
                               </td>
 
@@ -163,7 +163,7 @@ require_once "PackingList.php";
                             }
                           }else{
                             echo '<td>
-            <a href="../listas/contenedores.php?id='.$codigo.'&contenedor='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'" class="btn btn-warning">Detalle de Paquetes</a>  </td>';
+            <a href="../listas/contenedores.php?id='.$codigo.'&conten='.$row['id_contenedor'].'&factura='.$numero_factura.'&inicio='.$fecha_inicio.'&final='.$fecha_cierre.'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-warning">Detalle de Paquetes</a>  </td>';
                           }
                          }
 

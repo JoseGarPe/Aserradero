@@ -1,9 +1,13 @@
 <?php 
 session_start();
+if(!isset( $_SESSION['logged-in'] )){
+     header("Location: ../index.php");
+
+  }
 if(isset($_SESSION['tiempo']) ) {
 
         //Tiempo en segundos para dar vida a la sesión.
-        $inactivo = 600;//20min en este caso.
+        $inactivo = 1200;//20min en este caso.
 
         //Calculamos tiempo de vida inactivo.
         $vida_session = time() - $_SESSION['tiempo'];
@@ -20,11 +24,18 @@ if(isset($_SESSION['tiempo']) ) {
 
                 exit();
             }
-    }else{
-      header("Location: ../index.php");
-    }
 
+    }else{
+
+                header("Location: ../index.php");
+    }
     $_SESSION['tiempo'] = time();
+    if (isset($_GET['id_packing_list'])) {
+      $id_packing_list=$_GET['id_packing_list'];
+    }else{
+
+                header("Location: IndexPackingList.php");
+    }
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -254,12 +265,34 @@ if(isset($_SESSION['tiempo']) ) {
                     <br />
                     <!-- action="../controllers/PackingControlador.php?accion=guardar"-->
                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"  method="post">
+                      <?php 
+                      /*
+                      numero_factura
+  codigo_embarque='".$this->codigo_embarque."',
+        razon_social='".$this->razon_social."',
+        mes='".$this->mes."',
+        fecha='".$this->fecha."',
+        total_contenedores='".$this->total_contenedores."',
+        paquetes='".$this->paquetes."',
+        obervaciones='".$this->obervaciones."',
+        shipper='".$this->shipper."',
+        id_nave='".$this->id_nave."',
+        id_especificacion='".$this->id_especificacion."'
+                      */
+                          require_once "../class/PackingList.php";    
+
+                          $packing = new Packing();
+                          $orden = $packing->SelectOne($id_packing_list);
+                          foreach ($orden as $key) {
+                              echo '<input type="hidden" id="id_packing_list" name="id_packing_list" value="'.$id_packing_list.'">';
+                  
+                       ?>
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Numero de Factura<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="numfac" name="numfac"  class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="numfac" name="numfac" value="<?php echo $key['numero_factura'] ?>" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -267,7 +300,7 @@ if(isset($_SESSION['tiempo']) ) {
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Codigo Embarque<span></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="codembarque" name="codembarque"  class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="codembarque" name="codembarque" value="<?php echo $key['codigo_embarque'] ?>"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -275,7 +308,7 @@ if(isset($_SESSION['tiempo']) ) {
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Razon Social<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="razonsocial" name="razonsocial"  class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="razonsocial" name="razonsocial" value="<?php echo $key['razon_social'] ?>"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -284,35 +317,53 @@ if(isset($_SESSION['tiempo']) ) {
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select class="form-control" id="combomes" name="combomes">
-                          <option value="ENERO">ENERO</option>
-                          <option value="FEBRERO">FEBRERO</option>
-                          <option value="MARZO">MARZO</option>
-                          <option value="ABRIL">ABRIL</option>
-                          <option value="MAYO">MAYO</option>
-                          <option value="JUNIO">JUNIO</option>
-                          <option value="JULIO">JULIO</option>
-                          <option value="AGOSTO">AGOSTO</option>
-                          <option value="SEPTIEMBRE">SEPTIEMBRE</option>
-                          <option value="OCTUBRE">OCTUBRE</option>
-                          <option value="NOVIEMBRE">NOVIEMBRE</option>
-                          <option value="DICIEMBRE">DICIEMBRE</option>
+                            <?php 
+                              if ($key['mes'] == 'ENERO') {
+                                echo '<option value="ENERO" selected>ENERO</option>';
+                              }elseif ($key['mes'] == 'FEBRERO') {
+                                echo '<option value="FEBRERO" selected>FEBRERO</option>';
+                              }elseif ($key['mes'] == 'MARZO') {
+                                echo '<option value="MARZO" selected>MARZO</option>';
+                              } elseif ($key['mes'] == 'ABRIL') {
+                                echo '<option value="ABRIL" selected>ABRIL</option>';
+                              } elseif ($key['mes'] == 'MAYO') {
+                                echo '<option value="MAYO" selected>MAYO</option>';
+                              } elseif ($key['mes'] == 'JUNIO') {
+                                echo '<option value="JUNIO" selected>JUNIO</option>';
+                              } elseif ($key['mes'] == 'JULIO') {
+                                echo '<option value="JULIO" selected>JULIO</option>';
+                              } elseif ($key['mes'] == 'AGOSTO') {
+                                echo '<option value="AGOSTO" selected>AGOSTO</option>';
+                              } elseif ($key['mes'] == 'SEPTIEMBRE') {
+                                echo '<option value="SEPTIEMBRE" selected>SEPTIEMBRE</option>';
+                              } elseif ($key['mes'] == 'OCTUBRE') {
+                                echo '<option value="OCTUBRE" selected>OCTUBRE</option>';
+                              } elseif ($key['mes'] == 'NOVIEMBRE') {
+                                echo '<option value="NOVIEMBRE" selected>NOVIEMBRE</option>';
+                              } elseif ($key['mes'] == 'DICIEMBRE') {
+                                echo '<option value="DICIEMBRE" selected>DICIEMBRE</option>';
+                              } else{
+                                echo '  <option value="Seleccione una opcio">Seleccione una opcio</option>';
+                              }
+                             ?>
+                          
                           </select>
                         </div>
                       </div>
 
 
-                      <div class="form-group">
+                    <!--  <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Posible Fecha<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <div class='input-group date' id='myDatepicker2'>
-                            <input type='text' class="form-control" name="fecha" id="fecha" />
+                            <input type='text' class="form-control" name="fecha" id="fecha" value="<?php echo $key['fecha']; ?>" />
                             <span class="input-group-addon">
                                <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                         </div>
-                      </div>
+                      </div>-->
                       
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Nave Entrante<span class="required"></span>
@@ -324,7 +375,11 @@ if(isset($_SESSION['tiempo']) ) {
                           $misNaves = new Naves();
                          $catego = $misNaves->selectALL();
                           foreach ((array)$catego as $row) {
-                            echo "<option value='".$row['id_nave']."'>".$row['nombre']."</option>";
+                            if ($key['id_nave']==$row['id_nave']) {
+                              echo "<option value='".$row['id_nave']."' selected>".$row['nombre']."</option>";
+                            }else{
+                              echo "<option value='".$row['id_nave']."'>".$row['nombre']."</option>";
+                            }
                           } 
                           ?>
                           </select>
@@ -338,7 +393,7 @@ if(isset($_SESSION['tiempo']) ) {
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                         
-                          <input type="text" id="shipper" name="shipper"  class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="shipper" name="shipper" value="<?php echo $key['shipper'] ?>" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -352,7 +407,13 @@ if(isset($_SESSION['tiempo']) ) {
                           $misEsp = new Especificacion();
                          $catego = $misEsp->selectALL();
                           foreach ((array)$catego as $row) {
+                            if ($key['id_especificacion']==$row['id_especificacion']) {
+                            echo "<option value='".$row['id_especificacion']."' selected>".$row['nombre']."</option>";
+                              
+                            }else{
+
                             echo "<option value='".$row['id_especificacion']."'>".$row['nombre']."</option>";
+                            }
                           } 
                           ?>
                           </select>
@@ -363,7 +424,8 @@ if(isset($_SESSION['tiempo']) ) {
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Total Contenedores<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="totconte" name="totconte"  class="form-control col-md-7 col-xs-12" value="1">
+                          <?php  ?>
+                          <input type="text" id="totconte" name="totconte" value="<?php echo $key['total_contenedores']; ?>"  class="form-control col-md-7 col-xs-12" value="1">
                         </div>
                       </div>
 <!--
@@ -379,7 +441,7 @@ if(isset($_SESSION['tiempo']) ) {
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Packetes <span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="packetes" name="packetes"  class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="packetes" name="packetes" value="<?php echo $key['paquetes'] ?>"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <!--
@@ -395,7 +457,7 @@ if(isset($_SESSION['tiempo']) ) {
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Observaciones<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea id="observaciones" name="observaciones" class="form-control col-md-7 col-xs-12"></textarea>
+                          <textarea id="observaciones" name="observaciones" class="form-control col-md-7 col-xs-12"><?php echo $key['obervaciones'] ?></textarea>
                         </div>
                       </div>
                         
@@ -412,7 +474,7 @@ if(isset($_SESSION['tiempo']) ) {
                         </div>
                       </div>
 -->
-
+          <?php         }//end for each orden ?>
                     
                       <!-- /Botones  -->
                       <div class="ln_solid"></div>
@@ -522,6 +584,7 @@ if(isset($_SESSION['tiempo']) ) {
    
   document.getElementById('save_data').addEventListener('click', enviarDatos);
   function enviarDatos(){
+         var id_packing_list= document.getElementById('id_packing_list').value;
          var numfac = document.getElementById('numfac').value;
         var codembarque = document.getElementById('codembarque').value;
         var razonsocial = document.getElementById('razonsocial').value;
@@ -529,7 +592,7 @@ if(isset($_SESSION['tiempo']) ) {
         var shipper = document.getElementById('shipper').value;
         var id_nave = document.getElementById('id_nave').value;
         var id_especificacion = document.getElementById('id_especificacion').value;
-        var fecha = document.getElementById('fecha').value;
+ 
         var packfisicos =0;
         var packetes = document.getElementById('packetes').value;
         var observaciones = document.getElementById('observaciones').value;
@@ -538,9 +601,9 @@ if(isset($_SESSION['tiempo']) ) {
            if(packetes!= '' && packetes!=0 && totconte >0)  
            {  
                 $.ajax({  
-                     url:"../controllers/PackingControlador.php?accion=guardar",  
+                     url:"../controllers/PackingControlador.php?accion=actualizar",  
                      method:"POST",
-                     data:{numfac:numfac,codembarque:codembarque,razonsocial:razonsocial,combomes:combomes,fecha:fecha,packetes:packetes,observaciones:observaciones,shipper:shipper,id_nave:id_nave,id_especificacion:id_especificacion,packfisicos:packfisicos,totconte:totconte},  
+                     data:{id_packing_list:id_packing_list,numfac:numfac,codembarque:codembarque,razonsocial:razonsocial,combomes:combomes,packetes:packetes,observaciones:observaciones,shipper:shipper,id_nave:id_nave,id_especificacion:id_especificacion,packfisicos:packfisicos,totconte:totconte},  
                      success:function(data){    
 
                      // setTimeout(location.reload(), 5000);

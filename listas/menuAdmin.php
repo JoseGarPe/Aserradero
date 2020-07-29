@@ -12,6 +12,10 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                                     <a href="../index.php" class="btn btn-danger">Iniciar Sesion</a>
            
                 </div>';
+  if(!isset( $_SESSION['logged-in'] )){
+     header("Location: ../index.php");
+
+  }
 }
 
 ?>
@@ -240,7 +244,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }if($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                        <ul class="nav child_menu">    
+                           <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
@@ -248,13 +253,14 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                            <li><a href="../listas/Shipper.php">Shipper</a></li>  
                            <li><a href="../listas/Especificacion.php">Especificacion</a></li>
                            <li><a href="../listas/Maquinas.php">Maquinas</a></li>  
-                           <li><a href="../listas/Presets.php">Presets</a></li>                       
+                           <li><a href="../listas/Presets.php">Presets</a></li>                          
                         </ul>
                       </li>
                       <?php 
                         }elseif ($row['campo_n']==NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                        <ul class="nav child_menu">    
+                           <li><a href="../listas/Insumos.php">Insumos</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
@@ -267,7 +273,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']==NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                        <ul class="nav child_menu">    
+                           <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
@@ -280,7 +287,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']==NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                        <ul class="nav child_menu">    
+                           <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
@@ -293,7 +301,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']==NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                        <ul class="nav child_menu">    
+                           <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li>  
@@ -306,7 +315,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']==NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                        <ul class="nav child_menu">    
+                           <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
@@ -319,7 +329,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']==NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                        <ul class="nav child_menu">    
+                           <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
@@ -332,7 +343,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']==NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                        <ul class="nav child_menu">    
+                           <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
@@ -345,7 +357,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']==NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                        <ul class="nav child_menu">    
+                           <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 

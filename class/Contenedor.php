@@ -282,6 +282,13 @@ class Contenedores extends conexion
         }
 
         //-------------------------------
+        $query_cantidad_paquetes="SELECT COUNT(id_paquete) as cantpaquete FROM paquetes WHERE id_contenedor='".$this->id_contenedor."'";
+        $selectall_piezas1=$this->db->query($query_cantidad_paquetes);
+       $ListPacking_piezas1=$selectall_piezas1->fetch_all(MYSQLI_ASSOC);
+       foreach ($ListPacking_piezas1 as $ke) {
+         $cantidad_eliminar = $ke['cantpaquete'];
+       }
+        //----------------------------------
         $query3="SELECT * FROM contenedores WHERE id_contenedor='".$this->id_contenedor."'";
         $selectall=$this->db->query($query3);
         $ListContenedor=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -293,12 +300,17 @@ class Contenedores extends conexion
        $ListPacking=$selectall1->fetch_all(MYSQLI_ASSOC);
        foreach ($ListPacking as $value1) {
             $recibidos=$value1['contenedores_ingresados'];
+            $paquetes_recibidos=$value1['paquetes_fisicos'];
         }
         $new_recibidos=(int)$recibidos-1;
         if ($new_recibidos<0) {
            $new_recibidos=0;
         }
-             $query00="UPDATE packing_list SET contenedores_ingresados='".$new_recibidos."' WHERE id_packing_list='".$id_pl."'";
+        $new_pquetes = (int)$paquetes_recibidos-$cantidad_eliminar;
+        if ($new_pquetes<=0) {
+          $new_pquetes=0;
+        }
+             $query00="UPDATE packing_list SET contenedores_ingresados='".$new_recibidos."', paquetes_fisicos='".$new_pquetes."' WHERE id_packing_list='".$id_pl."'";
         $update=$this->db->query($query00);
 
 

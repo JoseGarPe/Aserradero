@@ -1,10 +1,11 @@
 <?php 
   session_start();
-  $tipo_usuario = $_SESSION['tipo_usuario'];
+  if (isset($_SESSION['tipo_usuario'])) {
+      $tipo_usuario = $_SESSION['tipo_usuario'];
 if(isset($_SESSION['tiempo']) ) {
 
         //Tiempo en segundos para dar vida a la sesión.
-        $inactivo = 1200;//20min en este caso.
+        $inactivo = 600;//20min en este caso.
 
         //Calculamos tiempo de vida inactivo.
         $vida_session = time() - $_SESSION['tiempo'];
@@ -24,6 +25,11 @@ if(isset($_SESSION['tiempo']) ) {
 
     }
     $_SESSION['tiempo'] = time();
+  }else{
+    
+                header("Location: ../index.php");
+  }
+
  
  ?>
 <!DOCTYPE html>
@@ -333,7 +339,8 @@ if(isset($_SESSION['tiempo']) ) {
        ';
           }else{
             echo ' <li><input type="button" name="save" value="Contenedores" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>
-        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
+        <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" class="btn btn-warning finish_data" /></li>
+        ';
         if ($tipo_usuario=='Administrador') {
           echo '
         <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" class="btn btn-danger delete_data" /></li>';
@@ -358,7 +365,43 @@ if(isset($_SESSION['tiempo']) ) {
                        }
                        //------------------------------------------------//
                           # code...
-                         
+                       
+//---------------------------------------------------------------------------------------------------------------//
+                     
+                     
+                         ?>
+                      </tbody>
+                    </table>
+                  </div><!--end div table-->
+                  <br><br>
+                    <div id="employee_table">
+                    <table id="example7" class="table table-striped table-bordered" name="datatable-buttons">
+                      <h1><caption>Abiertos:</caption></h1>
+                      <thead>
+                        <tr>
+                          <th>N° </th>
+                          <th>Mes</th> 
+                          <th>Shipper</th>
+                          <th>Correlativo</th>
+                          <th>Nave</th>
+                          <th>F.Ingreso</th>
+                          <th>F.Finalizado</th>
+                          <th>Especificacion</th>
+                          <th>Contenedores</th>
+                          <th>Recibidos</th> 
+                          <th>Estado</th>
+                          <th>Total m<sup>3</sup></th>
+                          <th>Factura</th>
+                          <th>Codigo Embarque</th> 
+                          <th>Poliza</th>
+                          <th>Razon Social</th>
+                          <th>Observacion</th>
+                          <th>Opiones</th>                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+
                          foreach ((array)$Abiertos as $row1) {
                           $Contenedor = new Contenedores();
                           $primer_cont = $Contenedor->FstContenedor($row1['id_packing_list']);
@@ -422,6 +465,7 @@ if(isset($_SESSION['tiempo']) ) {
       <!--  <li><input type="button" name="observacion" value="Observacion" id="'.$row1["id_packing_list"].'" class="btn btn-primary view_obs" /></li>-->';
           }else{
             echo ' <li><input type="button" name="save" value="Contenedores" id="'.$row1["id_packing_list"].'" class="btn btn-success save_data" /></li>
+        <li><a href="../views/updatePackinList.php?id_packing_list='.$row1["id_packing_list"].'" class="btn btn-outline-success">Actualizar</a></li>
         <li><input type="button" name="save" value="Finalizar" id="'.$row1["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
         if ($tipo_usuario=='Administrador') {
           echo '
@@ -445,8 +489,42 @@ if(isset($_SESSION['tiempo']) ) {
                           </tr>
                          ';
                        }
-//---------------------------------------------------------------------------------------------------------------//
-                         
+
+                         ?>
+                      </tbody>
+                    </table>
+                  </div><!--end div table-->
+
+                  <br><br>
+
+                  <div id="employee_table">
+                    <table id="example8" class="table table-striped table-bordered" name="datatable-buttons">
+                      <h1><caption>Pendientes:</caption></h1>
+                      <thead>
+                        <tr>
+                          <th>N° </th>
+                          <th>Mes</th> 
+                          <th>Shipper</th>
+                          <th>Correlativo</th>
+                          <th>Nave</th>
+                          <th>F.Ingreso</th>
+                          <th>F.Finalizado</th>
+                          <th>Especificacion</th>
+                          <th>Contenedores</th>
+                          <th>Recibidos</th> 
+                          <th>Estado</th>
+                          <th>Total m<sup>3</sup></th>
+                          <th>Factura</th>
+                          <th>Codigo Embarque</th> 
+                          <th>Poliza</th>
+                          <th>Razon Social</th>
+                          <th>Observacion</th>
+                          <th>Opiones</th>                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+
                          foreach ((array)$Pendientes as $row2) {
                           $Contenedor = new Contenedores();
                           $primer_cont = $Contenedor->FstContenedor($row2['id_packing_list']);
@@ -509,6 +587,7 @@ if(isset($_SESSION['tiempo']) ) {
         <li><input type="button" name="observacion" value="Observacion" id="'.$row2["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
           }else{
             echo ' <li><input type="button" name="save" value="Contenedores" id="'.$row2["id_packing_list"].'" class="btn btn-success save_data" /></li>
+        <li><a href="../views/updatePackinList.php?id_packing_list='.$row2["id_packing_list"].'" class="btn btn-outline-success">Actualizar</a></li>
         <li><input type="button" name="save" value="Finalizar" id="'.$row2["id_packing_list"].'" class="btn btn-warning finish_data" /></li>';
         if ($tipo_usuario=='Administrador') {
           echo '
@@ -532,11 +611,11 @@ if(isset($_SESSION['tiempo']) ) {
                           </tr>
                          ';
                        }
-                     
                          ?>
                       </tbody>
                     </table>
-                  </div>
+                  </div><!--end div table-->
+
                   </div>
                 </div>
               </div>
@@ -941,6 +1020,34 @@ var valor = obtenerValorParametro('id_packing_list');
     } );
 
       $('#example6').DataTable( {
+        order: [[5, 'asc']],
+        rowGroup: {
+            endRender: function ( rows, group ) {
+                var avg = rows
+                    .data()
+                    .pluck(5)
+                    .reduce( function (a, b) {
+                        return a + b.replace(/[^\d]/g, 'Factura:')*1;
+                    }, 0) / rows.count();
+            },
+            dataSrc: 12
+        }
+    } );
+      $('#example7').DataTable( {
+        order: [[12, 'asc']],
+        rowGroup: {
+            endRender: function ( rows, group ) {
+                var avg = rows
+                    .data()
+                    .pluck(5)
+                    .reduce( function (a, b) {
+                        return a + b.replace(/[^\d]/g, 'Factura:')*1;
+                    }, 0) / rows.count();
+            },
+            dataSrc: 12
+        }
+    } );
+      $('#example8').DataTable( {
         order: [[12, 'asc']],
         rowGroup: {
             endRender: function ( rows, group ) {

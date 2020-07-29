@@ -55,7 +55,7 @@ require_once "../class/Contenedor.php";
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <div class="input-group date" id="myDatepicker2">
-                            <input type="text" class="form-control" name="fecha" id="fecha" required/>
+                            <input type="text" class="form-control" name="fecha1" id="fecha1" required/>
                             <span class="input-group-addon">
                                <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -100,7 +100,7 @@ require_once "../class/Contenedor.php";
                         
                 $contenedor=$packin->select_Dat_Last($codigo);
                          foreach ($contenedor as $key) {
-                           $fecha_mayor=$key['fecha_ingreso'];
+                           $fecha_mayor=$key['fecha_mayor'];
                          }
 
                            # code...

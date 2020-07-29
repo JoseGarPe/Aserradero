@@ -132,11 +132,19 @@ elseif ($accion=="guardar")
 	$Pack->setEstado($estado);
 	$save=$Pack->save();
 	if ($save==true) {
-		header('Location: ../listas/IndexPackingList.php?success=correcto');
+		//header('Location: ../listas/IndexPackingList.php?success=correcto');
+
+	session_start();
+		$_SESSION['success']="correcto";
+		$_SESSION['message']="Ingreso guardado con exito";
 		# code...
 	}
 	else{
-		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+	//	header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+
+	session_start();
+		$_SESSION['error']="incorrecto";
+		$_SESSION['message']="Ingreso guardado con exito";
 	}
 }
 elseif ($accion=="Cerrar") {
@@ -199,7 +207,14 @@ elseif ($accion=="Cerrar") {
 		}
 		# code...
 	}else{
-		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+		if (isset($_POST['bandera'])) {	
+		header('Location: ../listas/IndexPackingList_Local.php?error=incorrecto');
+			
+			}else{
+
+		header('Location: ../listas/IndexPackingList.php?error=incorrecto');	
+		}
+		
 	}
 }
 
@@ -228,6 +243,52 @@ elseif($accion=="updatePC") {
 		header('Location: ../listas/IndexPackingList.php?error=incorrecto');
 	}
 
+}
+
+elseif ($accion=="actualizar") 
+{
+	$id_packing_list=$_POST['id_packing_list'];
+	$numero_factura=$_POST['numfac'];
+	$codigo_embarque=$_POST['codembarque'];
+	$razon_social=$_POST['razonsocial'];
+	$mes=$_POST['combomes'];
+	$total_contenedores=$_POST['totconte'];
+	$paquetes=$_POST['packetes'];
+	$obervaciones=$_POST['observaciones'];
+	$Shipper=$_POST['shipper'];
+	$id_nave=$_POST['id_nave'];
+	$id_especificacion=$_POST['id_especificacion'];
+	//$estado=$_POST['comboestado'];
+
+	$Pack = new Packing();
+	$Pack->setNumero_factura($numero_factura);
+	$Pack->setCodigo_embarque($codigo_embarque);
+	$Pack->setRazon_social($razon_social);
+	$Pack->setMes($mes);
+	$Pack->setFecha($fecha);
+	$Pack->setTotal_contenedores($total_contenedores);
+	$Pack->setPaquetes($paquetes);
+	$Pack->setObervaciones($obervaciones);
+	$Pack->setShipper($Shipper);
+	$Pack->setId_nave($id_nave);
+	$Pack->setId_especificacion($id_especificacion);
+	$Pack->setId_packing_list($id_packing_list);
+	$save=$Pack->updateAll();
+	if ($save==true) {
+		//header('Location: ../listas/IndexPackingList.php?success=correcto');
+
+	session_start();
+		$_SESSION['success']="correcto";
+		$_SESSION['message']="Ingreso guardado con exito";
+		# code...
+	}
+	else{
+	//	header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+
+	session_start();
+		$_SESSION['error']="incorrecto";
+		$_SESSION['message']="Ingreso guardado con exito";
+	}
 }
 
 //-------------------------------------------local-----------------------------
@@ -292,12 +353,21 @@ elseif ($accion=="guardarLocal")
 	$Contenedor->setFecha_ingreso($fecha_nueva);
 	$Contenedor->setId_bodega($id_bodega);
 	$save1=$Contenedor->saveEnvio();
+	session_start();
 
-		header('Location: ../listas/IndexPackingList_Local.php?success=correcto&fecha='.date_format($date1,'Y-m-d').'');
+		$_SESSION['success']="correcto";
+		$_SESSION['message']="Ingreso guardado con exito";
+		//header('Location: ../listas/IndexPackingList_Local.php?success=correcto&fecha='.date_format($date1,'Y-m-d').'');
 		# code...
 	}
 	else{
-		header('Location: ../views/Newpacking_local.php?error=incorrecto');
+	//	header('Location: ../views/Newpacking_local.php?error=incorrecto');
+session_start();
+unset($_SESSION['message']);
+unset($_SESSION['error']);
+
+		$_SESSION['error']="incorrecto";
+		$_SESSION['message']="Error: Datos repetidos o erroneos";
 	}
 }
 

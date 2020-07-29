@@ -326,7 +326,8 @@ public function saveLocal($til)
     }
 
     public function select_Dat_Last($id_packing_list){
-        $query="SELECT * from contenedores WHERE id_packing_list = '".$id_packing_list."' AND fecha_ingreso  = (SELECT MAX(fecha_ingreso) FROM contenedores) ORDER BY id_packing_list DESC LIMIT 1";
+      //  $query="SELECT * from contenedores WHERE id_packing_list = '".$id_packing_list."' AND fecha_ingreso  = (SELECT MAX(fecha_ingreso) FROM contenedores) ORDER BY id_packing_list DESC LIMIT 1";
+       $query=" SELECT MAX(fecha_ingreso) as fecha_mayor FROM contenedores WHERE id_packing_list = '".$id_packing_list."' ORDER BY fecha_ingreso DESC LIMIT 1;";
         $selectall=$this->db->query($query);
         
         $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -649,6 +650,28 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
         $selectall=$this->db->query($query);
         $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListClientes;
+    }
+
+        public function updateAll()
+    {
+        $query="UPDATE packing_list SET numero_factura='".$this->numero_factura."',
+        codigo_embarque='".$this->codigo_embarque."',
+        razon_social='".$this->razon_social."',
+        mes='".$this->mes."',
+        fecha='".$this->fecha."',
+        total_contenedores='".$this->total_contenedores."',
+        paquetes='".$this->paquetes."',
+        obervaciones='".$this->obervaciones."',
+        shipper='".$this->shipper."',
+        mes='".$this->mes."',
+        id_nave='".$this->id_nave."',
+        id_especificacion='".$this->id_especificacion."' WHERE id_packing_list='".$this->id_packing_list."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
     }
 }
 ?>

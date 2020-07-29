@@ -100,18 +100,19 @@ public function __construct()
     }
 
     public function getMultiplo() {
-        return $this->estado;
+        return $this->multiplo;
     }
 
-    public function setMultiplo($estado) {
-        $this->estado = $estado;
+    public function setMultiplo($multiplo) {
+        $this->multiplo = $multiplo;
     }
 
       
 //---------------------------
 public function save()
     {
-    	$query="INSERT INTO `detalle_procesado` (`id_detalle_procesado`, `id_materia_prima`, `cantidad_materia_prima`, `id_maquina`, `id_material_saliente`, `cantidad_saliente`, `rendimiento_esperado`, `id_bodega`,estado,multiplo) VALUES (NULL,
+        
+    	$query="INSERT INTO `detalle_procesado` (`id_detalle_procesado`, `id_materia_prima`, `cantidad_materia_prima`, `id_maquina`, `id_material_saliente`, `cantidad_saliente`, `rendimiento_esperado`, `id_bodega`,`estado`,`multiplo`) VALUES (NULL,
     			'".$this->id_materia_prima."',
     			'".$this->cantidad_materia_prima."',
                 '".$this->id_maquina."',
@@ -153,7 +154,7 @@ public function save()
     }
      public function selectALL()
     {
-        $query="SELECT dp.*, m.nombre as material, m.ancho,m.largo,m.grueso FROM detalle_procesado dp  INNER JOIN materiales m ON m.id_material= dp.id_material_saliente";
+        $query="SELECT dp.*, m.nombre as material, m.ancho,m.largo,m.grueso,m.m_cuadrados FROM detalle_procesado dp  INNER JOIN materiales m ON m.id_material= dp.id_material_saliente";
         $selectall=$this->db->query($query);
         $Listcantidad_materia_prima=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listcantidad_materia_prima;

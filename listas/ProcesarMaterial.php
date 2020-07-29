@@ -21,6 +21,9 @@ if(isset($_SESSION['tiempo']) ) {
                 exit();
             }
 
+    }else{
+      
+                header("Location: ../index.php");
     }
     $_SESSION['tiempo'] = time();
  ?>
@@ -155,7 +158,11 @@ if(isset($_SESSION['tiempo']) ) {
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-           <?php 
+       
+
+             <div class="x_content">
+
+                  <?php 
             if (isset($_GET['success'])) {
                 
                 if ($_GET['success']=='correcto') {
@@ -178,7 +185,7 @@ if(isset($_SESSION['tiempo']) ) {
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
               <span class="sr-only">Incorecto:</span>
               
-                Error al guardar, verifique los datos ingresados.
+               Error, Paquete ya procesado o verifique los datos ingresados .
 
            
             </div>
@@ -198,8 +205,6 @@ if(isset($_SESSION['tiempo']) ) {
                 }
             }
              ?>
-
-             <div class="x_content">
                  <!-- Smart Wizard -->
                   
                     <div id="wizard" class="form_wizard wizard_horizontal">
@@ -543,7 +548,7 @@ if(isset($_SESSION['tiempo']) ) {
                          
                          foreach ((array)$catego as $row) {
                            $metros_cubicos_proc= ( $row['grueso'] * $row['ancho'] * $row['largo'] * $row['cantidad_saliente'] )/1000000000;
-                          $tarimas_proc=$row['cantidad_saliente']*$row['multiplo'];
+                          $tarimas_proc=$row['cantidad_saliente']*$row['multiplo']/$row['m_cuadrados'];
                          echo '
                           <tr>
                            <td>'.$row['id_detalle_procesado'].'</td>';

@@ -1,6 +1,5 @@
-<?php 
+<?php
   session_start();
-  $tipo_usuario = $_SESSION['tipo_usuario'];
 if(isset($_SESSION['tiempo']) ) {
 
         //Tiempo en segundos para dar vida a la sesión.
@@ -23,11 +22,17 @@ if(isset($_SESSION['tiempo']) ) {
             }
 
     }else{
-      
+
                 header("Location: ../index.php");
     }
     $_SESSION['tiempo'] = time();
- ?>
+    if (isset($_GET['id_insumo'])) {
+      $id_insumo=$_GET['id_insumo'];
+    }else{
+
+                header("Location: Insumos.php");
+    }
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,15 +59,10 @@ if(isset($_SESSION['tiempo']) ) {
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-        <!-- starrr -->
-    <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
-    <!-- bootstrap-daterangepicker -->
-    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
- 
 </head>
 <body class="nav-md">
         <div class="container body">
@@ -70,7 +70,7 @@ if(isset($_SESSION['tiempo']) ) {
             <div class="col-md-3 left_col">
               <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                  <a href="indexUs.php" class="site_title"><i class="fa fa-paw"></i> <span>Rio Blanco</span></a>
+                  <a href="indexUs.php" class="site_title"><i class="fa fa-paw"></i> <span>Aserradero</span></a>
                 </div>
     
                 <div class="clearfix"></div>
@@ -138,7 +138,7 @@ if(isset($_SESSION['tiempo']) ) {
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Packing List - Local</h2>
+                    <h2>Pagina de movimiento</h2>
 
 
                     
@@ -160,27 +160,31 @@ if(isset($_SESSION['tiempo']) ) {
                     <div class="clearfix"></div>
                   </div>
            <?php 
-            if (isset($_SESSION['success'])) {
+            if (isset($_GET['success'])) {
                 
-                if ($_SESSION['success']=='correcto') {
+                if ($_GET['success']=='correcto') {
                     
                     echo '
               <div class="alert alert-success" role="alert">
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
               <span class="sr-only">Correcto:</span>
-                '.$_SESSION['message'].'
+                Los datos han sido guardados exitosamente.
            
                     ';
                 }
-            }elseif (isset($_SESSION['error'])) {
+            }elseif (isset($_GET['error'])) {
            
-               if ($_SESSION['error']=='incorrecto') {
+               if ($_GET['error']=='incorrecto') {
                     
                     echo '
                 <div class="alert alert-danger" role="alert">
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
               <span class="sr-only">Incorecto:</span>
-               '.$_SESSION['message'].' ';
+              
+                Error al guardar, verifique los datos ingresados.
+
+           
+                    ';
                 }
             }elseif (isset($_GET['seleccion'])) {
                if ($_GET['seleccion']=='nuevo') {
@@ -196,133 +200,79 @@ if(isset($_SESSION['tiempo']) ) {
                 }
             }
              ?></div>
-
-
                   <div class="x_content">
-                    <a href="../views/Newpacking_local.php" class="btn btn-primary" role="button">Nueva Orden</a>
-                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO--> 
-                    <br>
-                    <br>
-                    <div id="employee_table">
-                    <table id="example5" class="table table-striped table-bordered" name="datatable-buttons">
+                     <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                         <tr>
-                          <th>No</th>
-                          <th>ID </th>
-                          <th>Mes</th> 
-                          <th>Proveedor</th>
-                          <th>Tipo</th>
-                          <th>F.Ingreso</th>
-                          <th>Estado</th>
-                          <th>Total m<sup>3</sup></th>
-                          <th>N° Envio</th>
-                          <th>INAB</th>
-                          <th>Observacion</th>
-                          <th>Opiones</th>                         
+                          <th>#</th>
+                          <th>Nombre</th>
+                          <th>Tipo Insumo</th>
+                          <th>Cantidad</th>                            
                         </tr>
                       </thead>
                       <tbody>
                         <?php 
-                         require_once "../class/PackingList.php";
-                         $misPacks = new Packing();
-                         $todos = $misPacks->selectALL_Local();
+                         require_once "../class/Insumo.php";
+                         $miMovimiento = new Insumo();
+                         $catego = $miMovimiento->selectOne($id_insumo);
                         
                            # code...
-                         $contador= 1;
-                         foreach ((array)$todos as $row) {
-                        //  $fecha1= date_create($row['fecha']);
-                         $sumCub = $misPacks->selectTotalMetrosCubicos($row['id_packing_list']);
-                         foreach ($sumCub as $key) {
-                           $metro_cubico = $key['metro_cubico'];
-                          //$metro_cubico = 3;
-                         }
+                         
+                         foreach ((array)$catego as $row1) {
                          echo '
                           <tr>
-                          <td>'.$contador.'</td>
-                          <td>'.$row['id_packing_list'].'</td>
-                           <td>'.$row['mes'].'</td>
-                           <td>'.$row['shipper'].'</td>';
-                           if ($row['ingreso_local']=='Importada') {
-                             echo '<td>IMPORTADA</td>';
-                           }else{
-                            echo '<td>LOCAL</td>';
-                           }
-
-                           
-                           if ($row['fecha']!=NULL) {
-                            $date1=date_create($row['fecha']);
-                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
-                           }else{
-                            echo '<td></td>';
-                           }
-                               if ($row['estado']== 'Abierto') {
-                            echo '<td>ABIERTO</td>';
-                           }elseif ($row['estado']== 'Cerrado') {
-                             
-                            echo '<td>CERRADO</td>';
-                           }else {
-                             
-                            echo '<td>PENDIENTE</td>';
-                           }      
-
+                           <td>'.$row1['id_insumo'].'</td>
+                           <td>'.$row1['nombre_insumo']. '</td>
+                           <td>'.$row1['tipo_insumos'].'</td>
+                          <td>'.$row1['stock'].' </td>
+                          </tr>
+                         ';
+                       }
+                     
+                     
+                         ?>
+                      </tbody>
+                    </table>
+                    <br><br>
+                <?php 
+                echo '<input type="button" name="accion" value="Nuevo Movimiento" id="'.$id_insumo.'" class="btn btn-success save_data" />';
+                 ?>    
+                    <br>
+                    <br>
+                    <div id="employee_table">
+                      <label>Movimiento</label>
+                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Cantidad</th>
+                          <th>Nombre</th>
+                          <th>Stock</th>
+                          <th>Opciones</th>                            
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                         require_once "../class/Movimiento.php";
+                         $miMovimiento = new Movimiento();
+                         $catego = $miMovimiento->selectAll_movimientos($id_insumo);
+                        
+                           # code...
                          
-                        /*   if ($row['fecha_cierre']!=NULL) {
-                            $date1=date_create($row['fecha_cierre']);
-                             echo '<td>'.date_format($date1, 'd/m/Y').'</td>';
-                           }else{
-                            echo '<td></td>';
-                           }*/
-                    echo '<td>'.round($metro_cubico,2).' m<sup>3</sup></td>
-                          <td>'.$row['numero_factura'].'</td>
-                           <td>'.$row['poliza'].'</td>';
-                            if ($row['estado']== 'Abierto') {
-                            echo '<td>N/A</td>';
-                           }elseif ($row['estado']== 'Cerrado') {
-                             
-                            echo '<td><input type="button" name="observacion" value="Ver" id="'.$row["id_packing_list"].'" bandera="Local" class="btn btn-primary view_obs" /></td>';
-                           }else {
-                             
-                            echo '<td>PENDIENTE</td>';
-                           }    
-                           echo '<td>
-<!-- <ul>
-   <li class="dropdown">-->
-   <div class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-menu-hamburger"></i><b class="caret"></b></a>
-        <ul class="dropdown-menu">
-        <!--  <li><input type="button" name="save" value="envio" id="'.$row["id_packing_list"].'" class="btn btn-success save_data" /></li>-->';
-         if ($row['estado']== 'Cerrado') {
-          echo '
-       <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>
-        <li><input type="button" name="observacion" value="Observacion" id="'.$row2["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
-         }else{
-  echo '
-       <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>';
-        
-          if ($tipo_usuario=='Administrador') {
-          echo '
-        <li><input type="button" name="delete" value="Eliminar" id="'.$row["id_packing_list"].'" bandera="local" class="btn btn-danger delete_data" /></li>';
-        }
-        if ($row['paquetes']==$row['paquetes_fisicos']) {
-          # code...
-        echo '  <li><input type="button" name="save" value="Finalizar" id="'.$row["id_packing_list"].'" bandera="local" class="btn btn-warning finish_data" /></li> ';
-        }
-         }
-        echo'
-     
-            
-        </ul>
-    </div>    
-   <!-- </li>
-</ul>-->
-
-
-
+                         foreach ((array)$catego as $row) {
+                         echo '
+                          <tr>
+                           <td>'.$row['id_movimiento'].'</td>
+                           <td>'.$row['cantidad'].'</td>
+                           <td>'.$row['fecha']. '</td>
+                           <td>'.$row['tipo_movimiento'].'</td>
+                               <!--  <input type="button" name="view" value="Ver Movimiento" id="" class="btn btn-info view_data"/>  -->
+                            <td>        <input type="button" name="edit" value="Editar" id="'.$row["id_movimiento"].'" class="btn btn-warning edit_data" />
+                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_movimiento"].'" class="btn btn-danger delete_data" />
 
                            </td>
                           </tr>
                          ';
-                      $contador = $contador+1;
                        }
                      
                      
@@ -330,6 +280,7 @@ if(isset($_SESSION['tiempo']) ) {
                       </tbody>
                     </table>
                   </div>
+
                   </div>
                 </div>
               </div>
@@ -337,27 +288,12 @@ if(isset($_SESSION['tiempo']) ) {
         
         
             </div>
- <div id="dataModal" class="modal fade">  
+ <div id="dataModal1" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_detail">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>  
-  </div>  
-   <div id="dataModal2" class="modal fade">  
-                                  <div class="modal-dialog">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalle Packing</h4>  
+                                                 <h4 class="modal-title">Editar Movimiento</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -365,14 +301,29 @@ if(isset($_SESSION['tiempo']) ) {
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
                                             </div>  
                                        </div>  
-                                  </div>  
-  </div>
-     <div id="dataModal3" class="modal fade">  
+                                  </div>    
+</div>  
+ <div id="dataModal2" class="modal fade">  
                                   <div class="modal-dialog">  
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Orden</h4>  
+                                                 <h4 class="modal-title">Detalles Movimiento</h4>  
+                                            </div>  
+                                            <div class="modal-body" id="employee_forms2">  
+                                            </div>  
+                                            <div class="modal-footer">  
+                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+                                            </div>  
+                                       </div>  
+                                  </div>    
+</div>  
+        <div id="dataModal3" class="modal fade">  
+                                  <div class="modal-dialog">  
+                                       <div class="modal-content">  
+                                            <div class="modal-header">  
+                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
+                                                 <h4 class="modal-title">Agregar Nuevo Movimiento</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -387,24 +338,9 @@ if(isset($_SESSION['tiempo']) ) {
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Packing</h4>  
+                                                 <h4 class="modal-title">Eliminar Movimiento</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>  
-  </div>
-  <div id="dataModal5" class="modal fade">  
-                                  <div class="modal-dialog modal-lg">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Envios</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_forms5">  
                                             </div>  
                                             <div class="modal-footer">  
                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
@@ -418,7 +354,7 @@ if(isset($_SESSION['tiempo']) ) {
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nueva Orden</h4>  
+                     <h4 class="modal-title">Agregar Nuevo Movimiento</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -429,22 +365,7 @@ if(isset($_SESSION['tiempo']) ) {
            </div>  
       </div>  
  </div>
-  
-  <div id="dataModal00" class="modal fade">  
-                                  <div class="modal-dialog">  
-                                       <div class="modal-content">  
-                                            <div class="modal-header">  
-                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Packin List</h4>  
-                                            </div>  
-                                            <div class="modal-body" id="employee_forms00">  
-                                            </div>  
-                                            <div class="modal-footer">  
-                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
-                                            </div>  
-                                       </div>  
-                                  </div>  
-  </div>  
+    
             <!-- footer content -->
             <footer>
               <div class="pull-right">
@@ -481,11 +402,6 @@ if(isset($_SESSION['tiempo']) ) {
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
-     <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <!-- bootstrap-datetimepicker -->    
-    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
@@ -525,77 +441,45 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/naves/modiNaves.php",  
+                     url:"../views/movimiento/modiMovimiento.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
-                          $('#dataModal2').modal('show');  
+                          $('#dataModal1').modal('show');  
                      }  
                 });  
            }   
       });  
-     
-     
-      $(document).on('click', '.view_obs', function(){  
-           var employee_id = $(this).attr("id");  
-           var employee_bandera = $(this).attr("bandera");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/observacion.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id,employee_bandera:employee_bandera},  
-                     success:function(data){  
-                          $('#employee_forms00').html(data);  
-                          $('#dataModal00').modal('show');  
-                     }  
-                });  
-           }            
-      }); 
      
       $(document).on('click', '.view_data', function(){  
            var employee_id = $(this).attr("id");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/selectUsuario.php",  
+                     url:"../views/movimiento/selectMovimiento.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
                           $('#employee_forms2').html(data);  
-                          $('#dataModal2').modal('show');  
+                          $('#dataModal1').modal('show');  
                      }  
                 });  
            }            
       });  
 
         $(document).on('click', '.save_data', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
+           var employee_action = $(this).attr("accion");  
+           var employee_id_insumo= $(this).attr("id");  
+           if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/contenedor/saveConts2.php",  
+                     url:"../views/movimiento/saveMovimiento.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id},  
+                     data:{employee_action:employee_action,employee_id_insumo:employee_id_insumo},  
                      success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
-                     }  
-                });  
-           }            
-      });
-         $(document).on('click', '.save_data1', function(){  
-           var employee_id = $(this).attr("id");  
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/contenedor/savePaquetes.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id},  
-                     success:function(data){  
-                          $('#employee_forms5').html(data);  
-                          $('#dataModal5').modal('show');  
+                          $('#employee_forms3').html(data);  
+                          $('#dataModal3').modal('show');  
                      }  
                 });  
            }            
@@ -604,30 +488,12 @@ ga('send', 'pageview');
 
       $(document).on('click', '.delete_data', function(){  
           var employee_id = $(this).attr("id");  
-          var employee_bandera = $(this).attr("bandera");  
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/deletePacking.php",  
+                     url:"../views/movimiento/deleteMovimiento.php",  
                      method:"POST",  
-                     data:{employee_id:employee_id,employee_bandera:employee_bandera},  
-                     success:function(data){  
-                          $('#employee_forms4').html(data);  
-                          $('#dataModal4').modal('show');  
-                     }  
-                });  
-           }   
-      });
-      $(document).on('click', '.finish_data', function(){  
-          var employee_id = $(this).attr("id");
-
-          var employee_flag = $(this).attr("bandera");   
-           if(employee_id != '')  
-           {  
-                $.ajax({  
-                     url:"../views/cerrarPackingList.php",  
-                     method:"POST",  
-                     data:{employee_id:employee_id,employee_flag:employee_flag},  
+                     data:{employee_id:employee_id},  
                      success:function(data){  
                           $('#employee_forms4').html(data);  
                           $('#dataModal4').modal('show');  
@@ -639,22 +505,6 @@ ga('send', 'pageview');
  });  
 
 </script>
-        <script>
-  $(function () {
-    $('#example1').DataTable()
-    $('#example3').DataTable()
-    $('#example4').DataTable()
-    $('#example5').DataTable({
-      'paging'      : true,
-      'lengthChange': true,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : true,
-      'order'       : [[5, "asc"]]
-    })
-  })
-</script>
-
+        
     </body>
 </html>

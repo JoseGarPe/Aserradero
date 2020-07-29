@@ -33,7 +33,7 @@ if ($accion=='etiquetaDB') {
                              }else{
                               
                             $tarimas= ($a['piezas']*$a['multiplo'] *$a['cantidad'])/$a['factor'] ;
-                             }
+                             } 
                                 
                         echo '
                          <tr>

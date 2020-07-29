@@ -55,7 +55,7 @@ class Especificacion extends conexion
     }
     public function update(){
 
-    	$query="UPDATE especificacion SET nombre='".$this->nombre."', descripcion='".$this->descripcion."'";
+    	$query="UPDATE especificacion SET nombre='".$this->nombre."', descripcion='".$this->descripcion."' WHERE id_especificacion='".$this->id_especificacion."'";
         $update=$this->db->query($query);
         if ($update==true) {
             return true;

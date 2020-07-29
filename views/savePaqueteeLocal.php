@@ -29,6 +29,9 @@
                 exit();
             }
 
+    }else{
+      
+                header("Location: ../index.php");
     }
     $_SESSION['tiempo'] = time();
  ?>
@@ -321,7 +324,7 @@
                                  ?>
                               </td>
                               <?php 
-                              echo '<td><input type="number" id="num_paque" name="num_paque" min="0" step="1" max="'.$maximo.'" list="lista_maximo" class="form-control col-md-7"></td>
+                              echo '<td><input type="number" id="num_paque" name="num_paque" min="1" step="1" max="'.$maximo.'" list="lista_maximo" class="form-control col-md-7"></td>
                                   <datalist id="lista_maximo">
 
                                   <option value="Valor maximo : '.$maximo.'">
@@ -752,8 +755,11 @@ ga('send', 'pageview');
 
         var piezas = $("#piezas").val();
 
-        var multiplo = $(this).val();
         var largo = $("#largo").val();
+
+        var sug_multiplo = largo/1000;
+        $("#multiplo").val(Math.round(sug_multiplo));
+        var multiplo = $(this).val();
 
         var ancho = $("#ancho").val();
         var grueso = $("#grueso").val();

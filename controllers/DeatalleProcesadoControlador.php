@@ -70,7 +70,10 @@ $multiplo2 = $_POST['multiplo2'];
 		foreach ($paquete as $ky) {
 			$material11=$ky['id_material'];
 			$cantidadPiezas = $ky['piezas'];
+			$stock =$ky['stock'];
 		}
+		if ($stock>0) {
+			
 $nueva_cantidad = $disponibles - $cantidadPiezas;
 
 	# code...
@@ -123,12 +126,18 @@ $nueva_cantidad = $disponibles - $cantidadPiezas;
 		}
 
 		
-		header('Location: ../listas/ProcesarMaterial.php?success=correcto');
+		header('Location: ../listas/ProcesarMaterial.php?success=correcto'.$multiplo.'&'.$multiplo2.'');
 		# code... header('Location: ../listas/ProcesarMaterial.php?success=correcto&materiaPrima='.$id_bodega_mp.'&materia2='.$id_materia_prima.'&materia1='.$disponibles.'&materia2='.$cantidad_materia_prima.'');
 	}
 	else{
 		header('Location: ../listas/ProcesarMaterial.php?error=incorrecto');
 	}
+		}else{
+		header('Location: ../listas/ProcesarMaterial.php?error=incorrecto');
+
+	}
+
+	
 }
 elseif ($accion=="confirmar") {
 	$id_detalle_procesado =$_POST['id'];
