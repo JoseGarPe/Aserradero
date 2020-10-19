@@ -206,7 +206,7 @@ public function getPoliza() {
 //---------------------------
 function save()
     {
-        $query1="SELECT * FROM packing_list WHERE id_especificacion='".$this->id_especificacion."' AND numero_factura='".$this->numerofactura."'";
+        $query1="SELECT * FROM packing_list WHERE id_especificacion='".$this->id_especificacion."' AND numero_factura='".$this->numero_factura."'";
         $selectall=$this->db->query($query1);
         $Listdetalle_bodega=$selectall->fetch_all(MYSQLI_ASSOC);
 
@@ -386,7 +386,7 @@ public function saveLocal($til)
     }
      public function selectOne($codigo)
     {
-        $query="SELECT * FROM packing_list WHERE id_packing_list='".$codigo."'";
+        $query="SELECT pl.*,e.nombre as esp FROM packing_list pl,especificacion e WHERE pl.id_especificacion = e.id_especificacion AND pl.id_packing_list='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPacking;
@@ -443,7 +443,7 @@ public function updateIngresosL()
     }
     public function selectTotalMetrosCubicos($codigo)
     {
-        $query="SELECT SUM(metros_cubicos) as metro_cubico FROM paquetes WHERE id_packing_list ='".$codigo."'";
+        $query="SELECT SUM(metros_cubicos) as metro_cubico FROM paquetes WHERE id_packing_list ='".$codigo."' ORDER BY fecha_ingreso asc";
         $selectall=$this->db->query($query);
        $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPacking;
@@ -673,5 +673,77 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
             return false;
         }  
     }
+
+       public function updateLocal()
+    {
+        $queryINAB="SELECT *  FROM packing_list WHERE poliza ='".$this->poliza."' AND tipo_ingreso='Local' AND id_packing_list != '".$this->id_packing_list."' ";
+        $selectall1=$this->db->query($queryINAB);
+            
+             $queryENVIO="SELECT *  FROM packing_list WHERE numero_factura ='".$this->numero_factura."' AND tipo_ingreso='Local' AND id_packing_list != '".$this->id_packing_list."' ";
+        $selectall2=$this->db->query($queryENVIO);
+        if($selectall1->num_rows==0 && $selectall2->num_rows==0){
+
+            $query="UPDATE packing_list SET numero_factura='".$this->numero_factura."',
+            mes='".$this->mes."',
+            fecha='".$this->fecha."',
+            paquetes='".$this->paquetes."',
+            obervaciones='".$this->obervaciones."',
+            mes='".$this->mes."',
+            poliza='".$this->poliza."'
+             WHERE id_packing_list='".$this->id_packing_list."'";
+            $update=$this->db->query($query);
+            if ($update==true) {
+                return true;
+            }else {
+                return false;
+            }   
+        }else{
+             return false;
+           }
+    }
+    public function avanzado($tipo,$etiqueta,$ingreso){
+        if($tipo=="1"){
+            $query="SELECT c.*, p.numero_factura  FROM contenedores c, packing_list p WHERE c.id_packing_list = p.id_packing_list AND c.etiqueta ='".$etiqueta."'";
+            $selectall1=$this->db->query($query);
+                     if($selectall1->num_rows>0){
+                        $ListClientes=$selectall1->fetch_all(MYSQLI_ASSOC);
+                        return $ListClientes;
+                     }else{
+                        return false;
+                     }
+                    
+        }elseif($tipo=="2"){
+            $query="SELECT c.*, p.numero_factura  FROM contenedores c, packing_list p, paquetes pa WHERE c.id_packing_list = p.id_packing_list AND pa.id_contenedor = c.id_contenedor AND pa.etiqueta ='".$etiqueta."'";
+            $selectall1=$this->db->query($query);
+            if($selectall1->num_rows>0){
+                $ListClientes=$selectall1->fetch_all(MYSQLI_ASSOC);
+                return $ListClientes;
+             }else{
+                return false;
+             }
+            
+        }/*else{
+                 $query="SELECT c.*, p.numero_factura  FROM contenedores c, packing_list p, paquetes pa WHERE c.id_packing_list = p.id_packing_list AND pa.id_contenedor = c.id_contenedor AND pl.numero_factura ='".$etiqueta."' AND p.tipo_ingreso='".$ingreso."'";
+            $selectall1=$this->db->query($query);
+            if($selectall1->num_rows>0){
+                $ListClientes=$selectall1->fetch_all(MYSQLI_ASSOC);
+                return $ListClientes;
+             }else{
+                return false;
+             }
+            
+        }*/
+    }
+  public function selectALL_envio($tipo_ingreso){
+        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion WHERE packing_list.tipo_ingreso='".$tipo_ingreso."'";
+        $selectall=$this->db->query($query);
+        
+        $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $ListPacking;
+    }
+
+
 }
+
 ?>

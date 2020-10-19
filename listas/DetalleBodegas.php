@@ -242,6 +242,8 @@ if(isset($_SESSION['tiempo']) ) {
 
                          foreach ($contacto as $row) {
                          $dim_material=$pacDime->selectALL_dimensiones($codigo,$row['id_material']);
+                          if($row['id_categoria']==2){
+
                           foreach ($dim_material as $dimension) {
                             //---------- TARIMAS POR MATERIAL DE LA BODEGA-------//
                             if ($row['material']=='BK') {
@@ -250,7 +252,7 @@ if(isset($_SESSION['tiempo']) ) {
                             $tarimas = ($dimension['cant_piezas']*$dimension['largo'])/1295;
                              }else{
                               
-                            $tarimas= ($dimension['cant_piezas']*$dimension['multiplo'])/$row['factor'] ;
+                            $tarimas= ($dimension['cant_piezas']*$dimension['multiplo']*$dimension['cantidad'])/$row['factor'] ;
                              }
                              //--------------------------------------------------//
 
@@ -258,21 +260,15 @@ if(isset($_SESSION['tiempo']) ) {
                           foreach ($metrosC as $key) {
                             $metroCubicos_m = $key['m_cubicos'];
                           }
-                          $metros_cubicos_proc=0;
-                           $contacto1 = $ms->selectALL_Bodega_PROCESADO($codigo,$row['id_material']);
-                         foreach ($contacto1 as $row1) {
-                          $metros_cubicos_proc1= ( $row1['grueso'] * $row1['ancho'] * $row1['largo'] * $row1['cantidad_saliente'] )/1000000000;
-                          $metros_cubicos_proc=$metros_cubicos_proc+$metros_cubicos_proc1;
-                          $tarimas_procs= ($row1['cantidad_saliente']*$row1['multiplo'])/$row1['factor'];
-                         }
-
+                          
                           echo '<tr>
                           <td style="vertical-align:middle;">'.$row['id_material'].'</td>
                           <td style="vertical-align:middle;">'.$row['material'].'</td>
                          <!--  <td>'.$row['grueso'].'x'.$row['ancho'].'x'.$row['largo'].'</td>-->
                          <td>'.$dimension['dimensiones'].'</td>
                            <td>'.$row['categoria'].'</td>
-                           <td>'.$dimension['cant_piezas'].'</td>';
+                           <td>'.$dimension['cant_piezas'].'</td>
+                           <td>'.$dimension['cantidad'].'</td>';
                            if ($metroCubicos_m==0 || $metroCubicos_m==NULL) {
                              echo '
                            <td>'.round($metros_cubicos_proc,2).'m<sup>3</sup></td>';
@@ -288,7 +284,30 @@ if(isset($_SESSION['tiempo']) ) {
                             <td>'.round($tarimas).'</td>
                           </tr>';
                           } // foreach dimensiones del material
-                         }// for each materiales de la bodega
+                        }else{
+                              $metros_cubicos_proc=0;
+                               $contacto1 = $ms->selectALL_Bodega_PROCESADO($codigo,$row['id_material']);
+                             foreach ($contacto1 as $row1) {
+                              $metros_cubicos_proc1= ( $row1['grueso'] * $row1['ancho'] * $row1['largo'] * $row1['cantidad_saliente'] )/1000000000;
+                              $metros_cubicos_proc=$metros_cubicos_proc+$metros_cubicos_proc1;
+                              $tarimas_procs= ($row1['cantidad_saliente']*$row1['multiplo'])/$row1['factor'];
+                              $cantidadPro=$row1['cantidad_saliente'];
+                             }
+                               echo '<tr>
+                          <td style="vertical-align:middle;">'.$row['id_material'].'</td>
+                          <td style="vertical-align:middle;">'.$row['material'].'</td>
+                          <td>'.$row['grueso'].'x'.$row['ancho'].'x'.$row['largo'].'</td>
+                           <td>'.$row['categoria'].'</td>
+                           <td>'.$cantidadPro.'</td>';
+                          
+                             echo '
+                           <td>'.round($metros_cubicos_proc,2).'m<sup>3</sup></td>';
+                           $total_m3 = $total_m3 +$metros_cubicos_proc;
+                           echo'
+                            <td>'.round($tarimas_procs).'</td>
+                          </tr>';
+                          }// for each materiales de la bodega
+                        }
                        
                         
             ?>

@@ -161,7 +161,14 @@ public function save()
         $Listdetalle_preset=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listdetalle_preset;
     }
-
+        public function selectALLInsumos($codigo)
+    {
+        $query="SELECT db.*, b.nombre as preset,c.nombre_insumo as categoria,i.nombre_insumo as material FROM detalle_preset_insumo db INNER JOIN presets b ON b.id_preset = db.id_preset INNER JOIN insumo i ON i.id_insumo = db.id_insumo INNER JOIN tipo_insumo c ON c.id_tipo_insumo = i.id_tipo_insumo WHERE db.id_preset='".$codigo."'";
+        $selectall=$this->db->query($query);
+        $Listdetalle_preset=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listdetalle_preset;
+    }
+  
 
 }
 

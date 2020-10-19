@@ -138,32 +138,69 @@ if(isset($_SESSION['tiempo']) ) {
                   <div class="x_title">
                     <h2>Pagina de Paquetes</h2>
                      <table class="table table-striped">
-                      <thead>
+                    <!--  <thead>
                         <tr><th>Orden</th><th>Contenedor</th><th>ID</th></tr>
-                      </thead>
+                      </thead>-->
                       <tbody>
 
                     <?php 
+                    $fecha_ingresoC='00/00/0000';
+
                     if (isset($_GET['id'])) {
                         $codigo=$_GET['id'];
                     $etic=$_GET['etiquetaCo'];
+
+                       require_once "../class/PackingList.php";
+                           $nave = new Packing();
+                         $catego = $nave->selectOne($codigo);
+                         foreach ($catego as $datoPL) {
+                           $factura =$datoPL['numero_factura'];
+                            $date1=date_create($datoPL['fecha_inicio']);
+                           $fecha_inicio =  date_format($date1, 'd/m/Y');
+                             $date2=date_create($datoPL['fecha_cierre']);
+                           $fecha_cierre =date_format($date2, 'd/m/Y');
+                           $mes=$datoPL['mes'];
+                           $poliza=$datoPL['poliza'];
+                           $correlativo=$datoPL['correlativo'];
+                           $especificacion=$datoPL['esp'];
+                           $razon_social=$datoPL['razon_social'];
+
+                            $date1=date_create($_GET['fechaContenedor']);
+                           $fecha_ingresoC=date_format($date1, 'd/m/Y');
+                             
+                           $sumCub = $nave->selectTotalMetrosCubicos($codigo);
+                          foreach ($sumCub as $key) {
+                            $metro_cubico = $key['metro_cubico'];
+                          }
+                         }
+
                     }else{
                       $codigo=0;
                            $factura ='####';
                            $fecha_inicio ='';
                            $fecha_cierre ='';
                       $etic ='####';
-                    }
-                  
-                        require_once "../class/PackingList.php";
-                           $nave = new Packing();
-                         $catego = $nave->selectOne($codigo);
-                         foreach ($catego as $datoPL) {
-                           $factura =$datoPL['numero_factura'];
-                           $fecha_inicio =$datoPL['fecha_inicio'];
-                           $fecha_cierre =$datoPL['fecha_cierre'];
-                         }
-                    echo '<tr><td><strong>'.$codigo.'</strong></td><td>'.$etic.'</td><td>'.$contenedor.'</td></tr>';
+                       $mes="";
+                           $poliza="";
+                           $correlativo="";
+                           $especificacion="";
+                           $razon_social="";
+                           $metro_cubico =0;
+                    }                     echo '
+                     <tr><td>Orden:</td><td>'.$codigo.'</td></tr>
+                     <tr><td>Numero factura:</td><td>'.$factura.'</td></tr>
+                     <tr><td>Mes de ingreso:</td><td>'.$mes.'</td></tr>
+                     <tr><td>Poliza:</td><td>'.$poliza.'</td></tr>
+                     <tr><td>Correlativo:</td><td>'.$correlativo.'</td></tr>
+                     <tr><td>M<sup>3</sup>:</td><td>'.$metro_cubico.'m<sup>3</sup></td></tr>
+                     <tr><td>Especificacion:</td><td>'.$especificacion.'</td></tr>
+                     <tr><td>Razon social:</td><td>'.$razon_social.'</td></tr>
+                     <tr><td></td><td></td></tr>
+                     <tr><td>Etiqueta Contenedor:</td><td>'.$etic.'</td></tr>
+                     <tr><td>Numero Contenedor:</td><td>'.$contenedor.'</td></tr>
+                     <tr><td>Fecha Ingreso Contenedor:</td><td>'.$fecha_ingresoC.'</td></tr>
+                     ';
+                  //  echo '<tr><td><strong>'.$codigo.'</strong></td><td>'.$etic.'</td><td>'.$contenedor.'</td></tr>';
                      ?>
                         <tr></tr>
                       </tbody>
@@ -231,8 +268,8 @@ if(isset($_SESSION['tiempo']) ) {
              ?></div>
                   <div class="x_content">
                       <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
-
-                   <input type="button" name="accion" value="Ingresos por Barco" id="accion" class="btn btn-primary view_data1" /> 
+                   <input type="button" name="accion" value="Busqueda por contenedor o etiqueta" id="accion" class=" btn btn-dark avanzado" /> 
+                   <input type="button" name="accion" value="busqueda por envio" id="accion" class="btn btn-primary view_data1" /> 
                    <?php 
                    if (isset($_GET["id"])) {
                         $codigo=$_GET["id"];
@@ -288,76 +325,153 @@ if(isset($_SESSION['tiempo']) ) {
                        }
                          $datos=1;
                          foreach ($paquetes as $key) {
-                          $fecha_1= date_create($key['fecha_ingreso']);
+                          if (isset($_GET['etiquetaPaquete'])) {
+                            if ($_GET['etiquetaPaquete']==$key['etiqueta']) {
+                               $fecha_1= date_create($key['fecha_ingreso']);
 
-                          echo '<tr>
-                          <td>'.$datos.'</td>
-                          <td>'.$key['material'].'</td>';
-                          if ($key['etiqueta']==NULL) {
-                          echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
-                          }
-                          else{
-                            echo '<td>'.$key['etiqueta'].'</td>
+                                      echo '<tr>
+                                      <td>'.$datos.'</td>
+                                      <td>'.$key['material'].'</td>';
+                                      if ($key['etiqueta']==NULL) {
+                                      echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
+                                      }
+                                      else{
+                                        echo '<td>'.$key['etiqueta'].'</td>
 
-                            <input type="hidden" name="eti'.$datos.'" id="eti'.$datos.'" value ="POSEE">
-                            ';
-                          }
-                          if (isset($_GET['Confirmado'])) {
-                           $bodega_s='No Definido';
-                          }else{
-                            $bodega_s=$key['bodega'];
-                          }
-                          echo '
-                          <td>'.$key['grueso'].'</td>
-                          <td>'.$key['ancho'].'</td>
-                          <td>'.$key['largo'].'</td>
-                          <td>'.$key['piezas'].'</td>
-                          <td>'.$key['multiplo'].'</td>
-                          <td>'.date_format($fecha_1,'d/m/y').'</td>
-                          <td>'.$bodega_s.'</td>
-                          <td>'.$key['contenedor'].'</td>
-                          <td>'.$key['stock'].'</td>
-                          <td>'.$key['estado'].'</td>
+                                        <input type="hidden" name="eti'.$datos.'" id="eti'.$datos.'" value ="POSEE">
+                                        ';
+                                      }
+                                      if (isset($_GET['Confirmado'])) {
+                                       $bodega_s='No Definido';
+                                      }else{
+                                        $bodega_s=$key['bodega'];
+                                      }
+                                      echo '
+                                      <td>'.$key['grueso'].'</td>
+                                      <td>'.$key['ancho'].'</td>
+                                      <td>'.$key['largo'].'</td>
+                                      <td>'.$key['piezas'].'</td>
+                                      <td>'.$key['multiplo'].'</td>
+                                      <td>'.date_format($fecha_1,'d/m/y').'</td>
+                                      <td>'.$bodega_s.'</td>
+                                      <td>'.$key['contenedor'].'</td>
+                                      <td>'.$key['stock'].'</td>
+                                      <td>'.$key['estado'].'</td>
 
-                          ';
+                                      ';
 
-                            if ($key['estado']== 'Sin Confirmar') {
-                             echo'
-                            <td>
-                               <!-- <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" factura="'.$factura.'" contenedorr="'.$contenedor.'" class="btn btn-info confirm_data"/> -->  
-                                   
-                                  <!--   <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
+                                        if ($key['estado']== 'Sin Confirmar') {
+                                         echo'
+                                        <td>
+                                           <!-- <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" factura="'.$factura.'" contenedorr="'.$contenedor.'" class="btn btn-info confirm_data"/> -->  
+                                               
+                                              <!--   <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
 
-                          if ($key['etiqueta']!=NULL) {
-                            echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
-                          }else{
-                            echo '
-                          <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
+                                      if ($key['etiqueta']!=NULL) {
+                                        echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
+                                      }else{
+                                        echo '
+                                      <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
 
-                          }
-                          echo '
-                            </td>';
-                            }else{
-                               echo'
-                            <td>  
-                                   
-                                    <!-- <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
-                          if ($key['etiqueta']!=NULL) {
-                            echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
-                          }else{
-                            echo '
-                          <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
+                                      }
+                                      echo '
+                                        </td>';
+                                        }else{
+                                           echo'
+                                        <td>  
+                                               
+                                                <!-- <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
+                                      if ($key['etiqueta']!=NULL) {
+                                        echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
+                                      }else{
+                                        echo '
+                                      <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
 
-                          }
-                          echo '
-                            </td>';
+                                      }
+                                      echo '
+                                        </td>';
 
+                                        }
+
+                                        
+                                        echo'
+                                      </tr>';
+                                      $datos =$datos+1;
                             }
+                                     
+                          }else{
+                                      $fecha_1= date_create($key['fecha_ingreso']);
 
-                            
-                            echo'
-                          </tr>';
-                          $datos =$datos+1;
+                                      echo '<tr>
+                                      <td>'.$datos.'</td>
+                                      <td>'.$key['material'].'</td>';
+                                      if ($key['etiqueta']==NULL) {
+                                      echo '<td><input type="text" class="form-control" name="eti'.$datos.'" id="eti'.$datos.'"> </td>';
+                                      }
+                                      else{
+                                        echo '<td>'.$key['etiqueta'].'</td>
+
+                                        <input type="hidden" name="eti'.$datos.'" id="eti'.$datos.'" value ="POSEE">
+                                        ';
+                                      }
+                                      if (isset($_GET['Confirmado'])) {
+                                       $bodega_s='No Definido';
+                                      }else{
+                                        $bodega_s=$key['bodega'];
+                                      }
+                                      echo '
+                                      <td>'.$key['grueso'].'</td>
+                                      <td>'.$key['ancho'].'</td>
+                                      <td>'.$key['largo'].'</td>
+                                      <td>'.$key['piezas'].'</td>
+                                      <td>'.$key['multiplo'].'</td>
+                                      <td>'.date_format($fecha_1,'d/m/y').'</td>
+                                      <td>'.$bodega_s.'</td>
+                                      <td>'.$key['contenedor'].'</td>
+                                      <td>'.$key['stock'].'</td>
+                                      <td>'.$key['estado'].'</td>
+
+                                      ';
+
+                                        if ($key['estado']== 'Sin Confirmar') {
+                                         echo'
+                                        <td>
+                                           <!-- <input type="button" name="confirm" value="Confirmar" id="'.$key["id_paquete"].'" pl="'.$key["id_packing_list"].'" factura="'.$factura.'" contenedorr="'.$contenedor.'" class="btn btn-info confirm_data"/> -->  
+                                               
+                                              <!--   <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
+
+                                      if ($key['etiqueta']!=NULL) {
+                                        echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
+                                      }else{
+                                        echo '
+                                      <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
+
+                                      }
+                                      echo '
+                                        </td>';
+                                        }else{
+                                           echo'
+                                        <td>  
+                                               
+                                                <!-- <input type="button" name="delete" value="Eliminar" id="'.$key["id_paquete"].'" class="btn btn-danger delete_data" />-->';
+                                      if ($key['etiqueta']!=NULL) {
+                                        echo '<input type="button" name="modi_dataa" value="Modificar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" contenedor="'.$contenedor.'" etiquetaCo="'.$etic.'" flag="modificar_c" class="btn btn-warning modi_data" />';
+                                      }else{
+                                        echo '
+                                      <input type="button" name="guardar_data" value="Guardar" id="'.$key["id_paquete"].'" packing="'.$codigo.'" dato="'.$datos.'" class="btn btn-success view_data2" />';
+
+                                      }
+                                      echo '
+                                        </td>';
+
+                                        }
+
+                                        
+                                        echo'
+                                      </tr>';
+                                      $datos =$datos+1;
+                          }
+
                          }
            
             ?>
@@ -661,6 +775,23 @@ $(document).on('click', '.modi_data', function(){
                 });  
            }            
       });
+
+      $(document).on('click', '.avanzado', function(){  
+          var employee_id = $(this).attr("id");  
+           if(employee_id != '')  
+           {  
+                $.ajax({  
+                     url:"../views/contenedor/avanzado.php",  
+                     method:"POST",  
+                     data:{employee_id:employee_id},  
+                     success:function(data){  
+                          $('#employee_forms1').html(data);  
+                          $('#dataModal1').modal('show');  
+                     }  
+                });  
+           }   
+      });  
+     
 
  });  
 

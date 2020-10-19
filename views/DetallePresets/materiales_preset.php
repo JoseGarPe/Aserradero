@@ -1,7 +1,8 @@
 <?php 
                          require_once "DetallePreset.php";
-
-                             $codigo = $_POST['cod_banda'];
+$tipo=$_GET['tipo'];
+if($tipo=="material"){
+                          $codigo = $_POST['cod_banda'];
                          $misCategoriass = new DetallePreset();
                          $catego = $misCategoriass->selectALLP($codigo);
                         
@@ -20,6 +21,28 @@
                           </tr>
                          ';
                        }
+}else{
+
+                          $codigo = $_POST['cod_banda'];
+                         $misCategoriass = new DetallePreset();
+                         $catego = $misCategoriass->selectALLInsumos($codigo);
+                        
+                           # code...
+                         
+                         foreach ((array)$catego as $row) {
+                         echo '
+                          <tr>
+                           <td>'.$row['material'].'</td>
+                           <td>'.$row['categoria'].'</td>
+                           <td>'.$row["cantidad"].'</td>
+                           <td>
+                          
+                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_detalle_preset_insumo"].'" class="btn btn-danger delete_data" />
+                           </td>
+                          </tr>
+                         ';
+                       }
+}                           
                      
                      
                          ?>

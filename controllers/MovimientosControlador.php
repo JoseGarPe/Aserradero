@@ -41,14 +41,25 @@ elseif ($accion=="guardar")
 	$cantidad=$_POST['cantidad'];
 	$id_insumo=$_POST['id_insumo'];
 	$fecha=$_POST['fecha'];
-  	$id_tipo_Movimiento =1;
+	if (isset($_POST['id_tipo_movimiento'])) {
+		$id_tipo_Movimiento =$_POST['id_tipo_movimiento'];
+			$Movimientos = new Movimiento();
+			$Movimientos->setCantidad($cantidad);
+			$Movimientos->setFecha($fecha);
+			$Movimientos->setId_insumo($id_insumo);
+			$Movimientos->setId_tipo_movimiento($id_tipo_Movimiento);
+			$save=$Movimientos->saveSub();
+	}else{
+		$id_tipo_Movimiento =1;	
+		$Movimientos = new Movimiento();
+		$Movimientos->setCantidad($cantidad);
+		$Movimientos->setFecha($fecha);
+		$Movimientos->setId_insumo($id_insumo);
+		$Movimientos->setId_tipo_movimiento($id_tipo_Movimiento);
+		$save=$Movimientos->save();
+	}
 
-	$Movimientos = new Movimiento();
-	$Movimientos->setCantidad($cantidad);
-	$Movimientos->setFecha($fecha);
-	$Movimientos->setId_insumo($id_insumo);
-	$Movimientos->setId_tipo_movimiento($id_tipo_Movimiento);
-	$save=$Movimientos->save();
+
 	if ($save==true) {
 		header('Location: ../listas/Movimientos.php?success=correcto&id_insumo='.$id_insumo.'');
 		# code...

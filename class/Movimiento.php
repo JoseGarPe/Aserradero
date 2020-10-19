@@ -135,7 +135,35 @@ public function save()
        $ListTipoUsuario=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListTipoUsuario;
     }
-
+public function saveSub()
+    {
+        $query="INSERT INTO `movimiento`(`id_movimiento`, `fecha`, `cantidad`, `id_insumo`, `id_tipo_movimiento`) VALUES(NULL,'".$this->fecha."','".$this->cantidad."','".$this->id_insumo."','".$this->id_tipo_movimiento."');";
+        $save=$this->db->query($query);
+        if ($save==true) {
+             $query="SELECT * FROM insumo WHERE id_insumo=$this->id_insumo";
+        $selectall=$this->db->query($query);
+        $ListTipoUsuario=$selectall->fetch_all(MYSQLI_ASSOC);
+        foreach ($ListTipoUsuario as $key) {
+            $cantidad_anterior=$key['stock'];
+        }
+        if($this->id_tipo_movimiento==1){
+            $nueva_cantidad = $cantidad_anterior+$this->cantidad;
+        }else{
+            $nueva_cantidad = $cantidad_anterior-$this->cantidad;
+        }
+        
+             $query="UPDATE insumo SET stock='".$nueva_cantidad."' WHERE id_insumo='".$this->id_insumo."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+              return true;
+        }else {
+            return false;
+        }   
+          
+        }else {
+            return false;
+        }   
+    }
     
 
 

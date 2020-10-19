@@ -802,7 +802,12 @@ if(isset($_SESSION['tiempo']) ) {
                        ?>
                             <tr>
                             <th>N°</th>
+                            <th>Especificacion</th>
+                            <th>Mes</th>
+                            <th>Factura</th>
                             <th>Proveedor</th>
+                            <th>Barco</th>
+                            <th>Bodega</th>
                             <th>Rec</th>
                             <th>N° Con</th>
                             <?php
@@ -833,9 +838,26 @@ if(isset($_SESSION['tiempo']) ) {
                                 echo '
                                 <tr>
                                 <td>'.$numero.'</td>
-                                <td>'.$value['shipper'].'</td>';
+                                <td>'.$value['especificacion'].'</td>
+                                <td>'.$value['mes'].'</td>
+                                <td>'.$value['numero_factura'].'</td>
+                                <td>'.$value['shipper'].'</td>
+                                <td>'.$value['nave'].'</td>';
                                 $nContenedor = $pq->selectShipperNP_date($value['shipper'],$estado_pro,$fecha3,$fecha4);
                                 foreach ($nContenedor as $k) {
+                                   if ($k['id_bodega']==0) {
+                                            echo '<td>Pendiente</td>';
+                                            }else{
+                                                 require_once "../class/Bodega.php";
+                              
+                                               $bod = new Bodega();
+                                               $datoBd = $bod->SelectOne($k['id_bodega']);
+                                               foreach ($datoBd as $valorBodega) {
+                                                echo'<td>'.$valorBodega['nombre'].'</td>';
+                                                 
+                                               }
+                                             }
+
                                   echo '<td>'.$k['N_Paquetes'].'</td>
                                       <td>'.$value['TOTAL'].'</td>
                                   ';
@@ -871,7 +893,7 @@ if(isset($_SESSION['tiempo']) ) {
                                 $numero = $numero +1;
                               }
                               echo '<tr class="success">
-                              <td>'.$numero.'</td><td>TOTAL</td><td>'.$totalPaquetes.'</td><td>'.$totalContenedores.'</td>
+                              <td>'.$numero.'</td><td colspan="6">TOTAL</td><td>'.$totalPaquetes.'</td><td>'.$totalContenedores.'</td>
                               ';
                               $tarimaCal=0;
                               foreach ($materialess as $m1) {
@@ -906,9 +928,27 @@ if(isset($_SESSION['tiempo']) ) {
                                 echo '
                                 <tr>
                                 <td>'.$numero.'</td>
-                                <td>'.$value['shipper'].'</td>';
+                                <td>'.$value['especificacion'].'</td>
+                                <td>'.$value['mes'].'</td>
+                                <td>'.$value['numero_factura'].'</td>
+                                <td>'.$value['shipper'].'</td>
+                                <td>'.$value['nave'].'</td>';
                                 $nContenedor = $pq->selectShipperNP_status($value['shipper'],$estado_pro);
                                 foreach ($nContenedor as $k) {
+
+                                   if ($k['id_bodega']==0) {
+                                            echo '<td>Pendiente</td>';
+                                            }else{
+                                                 require_once "../class/Bodega.php";
+                              
+                                               $bod = new Bodega();
+                                               $datoBd = $bod->SelectOne($k['id_bodega']);
+                                               foreach ($datoBd as $valorBodega) {
+                                                echo'<td>'.$valorBodega['nombre'].'</td>';
+                                                 
+                                               }
+                                             }
+                                             
                                   echo '<td>'.$k['N_Paquetes'].'</td>
                                       <td>'.$value['TOTAL'].'</td>
                                   ';
@@ -940,7 +980,7 @@ if(isset($_SESSION['tiempo']) ) {
                                 $numero = $numero +1;
                               }
                                echo '<tr class="success">
-                              <td>'.$numero.'</td><td>TOTAL</td><td>'.$totalPaquetes.'</td><td>'.$totalContenedores.'</td>
+                              <td>'.$numero.'</td><td colspan="3">TOTAL</td><td>'.$totalPaquetes.'</td><td>'.$totalContenedores.'</td>
                               ';
                               $tarimaCal=0;
                               foreach ($materialess as $m1) {
@@ -996,7 +1036,87 @@ if(isset($_SESSION['tiempo']) ) {
 
                    </div>
                 </div><!-- X PANEL 2-->
+                <br>
+                <!-- Proyecciones por bodega-->
+  <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Proyeccion Paquetes por bodega y especificación</h2>
 
+
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione una bodega<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control"  id="employee_bodega" name="employee_bodega">
+                          <?php
+                                 require_once "../class/Bodega.php";
+                              
+                                               $bod = new Bodega();
+                                               $datoBd = $bod->selectALL();
+                                               foreach ($datoBd as $valorBodega) {
+                                                echo' <option value="'.$valorBodega['id_bodega'].'">'.$valorBodega['nombre'].'</td>';
+                                                 
+                                               }
+                           ?>
+                            <option value="0">Pendiente</option>
+                          </select>
+                        </div>
+                       </div><br><br>
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione una Especificación<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control"  id="employee_especificacion" name="employee_especificacion">
+                          <?php 
+                          require_once "../class/Especificacion.php";
+                          $misEsp = new Especificacion();
+                         $catego = $misEsp->selectALL();
+                          foreach ((array)$catego as $row) {
+                            echo "<option value='".$row['id_especificacion']."'>".$row['nombre']."</option>";
+                          } 
+                          ?>
+                          </select>
+                        </div>
+                      </div>
+                      <br><br>
+                        <div class="text-center form-group">
+                        <center>
+                          <div class="col-md-2">
+                              <button id="consultaBodega" class="form-control btn btn-success" name="consultaBodega" onclick="consultaBodega()"> Consultar</button>
+                          </div> 
+                        </center>   
+                      </div>
+
+                      <br><br>
+
+                  <div id="tableBodega" class="table-responsive">
+                  
+
+                  </div>
+
+                  <!--END X CONTENT-->
+                   </div>
+                   </div>
+                <!-- -->
               </div>
         </div>
         
@@ -1245,6 +1365,7 @@ ga('send', 'pageview');
 
  });  
 
+
 </script>
   <script>
   $(function () {
@@ -1361,7 +1482,38 @@ ga('send', 'pageview');
             },
             'colvis'
         ]
-    })
+    });
+        $('#tableBodega2').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true,
+      responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: 'visible'
+                }
+            },
+            'colvis'
+        ]
+    });
   });
 </script>
 <script>
@@ -1624,6 +1776,22 @@ xmlhttp.open("POST","../views/contenedor/consulta.php?accion=bodegas",true);
 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 xmlhttp.send("cod_banda1="+cod);
 }
+</script>
+<script type="text/javascript">
+  function consultaBodega(){
+
+  var employee_especificacion= document.getElementById("employee_especificacion").value;
+  var employee_bodega = document.getElementById("employee_bodega").value;
+  
+       $.ajax({  
+                     url:"../listas/proyeccionBodega.php",  
+                     method:"POST",  
+                     data:{employee_especificacion:employee_especificacion,employee_bodega:employee_bodega},  
+                     success:function(data){  
+                          $('#tableBodega').html(data);  
+                     }  
+                });  
+  }
 </script>
     </body>
 </html>

@@ -16,6 +16,7 @@ require_once "Materiales.php";
 
                             <label>¿Desea eliminar el material '.$row['nombre'].'?</label>
                           <input type="hidden" name="id" id="id" value="'.$row['id_material'].'"/>  
+                          <input type="hidden" name="id_categoria" id="id_categoria" value="'.$row['id_categoria'].'"/>  
 
                         
                 

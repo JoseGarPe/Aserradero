@@ -184,7 +184,13 @@ class Paquetes extends conexion
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
-
+ public function selectOneM($codigo)
+    {
+        $query="SELECT * FROM paquetes WHERE etiqueta='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+    }
 /*
 INNER JOIN contenedores c ON c.id_packing_list = p.id_packing_list 
 SELECT p.*, pl.numero_factura,pl.shipper, m.nombre  FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list=p.id_packing_list INNER JOIN materiales m on m.id_material = p.id_material WHERE p.id_bodega = 2*/

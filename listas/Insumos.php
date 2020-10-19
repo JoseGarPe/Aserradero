@@ -284,44 +284,7 @@ if(isset($_SESSION['tiempo']) ) {
                   </div>
                   <br><br>
 
-                    <div id="employee_table">
-                      <label>Sub Productos</label>
-                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Nombre</th>
-                          <th>Stock</th>
-                          <th>Opciones</th>                            
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                         require_once "../class/Insumo.php";
-                         $miMaterial = new Insumo();
-                         $catego = $miMaterial->selectALL_subproductos();   
-                         foreach($catego as $row) {
-                         echo '
-                          <tr>
-                           <td>'.$row['id_insumo'].'</td>
-                           <td>'.$row['nombre_insumo']. '</td>
-                           <td>'.$row['stock'].'</td>
-                           <td>
-                                    <a class="btn btn-info view_data" href="movimientos.php?id_insumo='.$row["id_insumo"].'">Ver movimientos</a>
-                                  <!--  <input type="button" name="view" value="Ver Movimiento" id="" class="btn btn-info view_data"/>  -->
-                                    <input type="button" name="edit" value="Editar" id="'.$row["id_insumo"].'" class="btn btn-warning edit_data" />
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_insumo"].'" class="btn btn-danger delete_data" />
-                           </td>
-                          </tr>
-                         ';
-                       }
-                      
-                     
-                     
-                         ?>
-                      </tbody>
-                    </table>
-                  </div>
+                  
 
                   </div>
                 </div>

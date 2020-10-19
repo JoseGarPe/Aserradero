@@ -59,10 +59,13 @@ if(isset($_SESSION['tiempo']) ) {
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
- 
+  <style type="text/css">
+    #example5 span {
+    display:none; 
+}
+  </style>
 </head>
 <body class="nav-md">
         <div class="container body">
@@ -294,9 +297,10 @@ if(isset($_SESSION['tiempo']) ) {
          if ($row['estado']== 'Cerrado') {
           echo '
        <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>
-        <li><input type="button" name="observacion" value="Observacion" id="'.$row2["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
+        <li><input type="button" name="observacion" value="Observacion" id="'.$row["id_packing_list"].'" class="btn btn-primary view_obs" /></li>';
          }else{
   echo '
+             <li><a href="../views/updatePackinListLocal.php?id_packing_list='.$row["id_packing_list"].'" class="btn btn-outline-success">Actualizar</a></li>
        <li>  <a href="../views/savePaqueteeLocal.php?id='.$row["id_packing_list"].'&factura='.$row['numero_factura'].'&inab='.$row['poliza'].'" class="btn btn-warning">Paquetes</a></li>';
         
           if ($tipo_usuario=='Administrador') {
@@ -465,6 +469,7 @@ if(isset($_SESSION['tiempo']) ) {
     <script src="../vendors/nprogress/nprogress.js"></script>
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
     <!-- Datatables -->
     <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -481,8 +486,10 @@ if(isset($_SESSION['tiempo']) ) {
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment-with-locales.min.js"></script>
      <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
+  
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
     <!-- bootstrap-datetimepicker -->    
     <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
@@ -641,9 +648,10 @@ ga('send', 'pageview');
 </script>
         <script>
   $(function () {
-    $('#example1').DataTable()
-    $('#example3').DataTable()
-    $('#example4').DataTable()
+    $.fn.dataTable.moment('DD/MM/YYYY', 'DD-MM-YYYY');
+    $('#example1').DataTable();
+    $('#example3').DataTable();
+    $('#example4').DataTable();
     $('#example5').DataTable({
       'paging'      : true,
       'lengthChange': true,
@@ -651,9 +659,48 @@ ga('send', 'pageview');
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : true,
+     /* columnDefs: [ {
+      targets: 5,
+      render: $.fn.DataTable.render.moment('DD/MM/YYYY', 'DD-MM-YYYY')
+    } ],*/
       'order'       : [[5, "asc"]]
-    })
+    });
   })
+ /*  THIS IS ONLY FOR EXAMPLE TO CHANGE THE DATE FORMAT */
+/*var changeDateFormat = $('#example5 tbody tr').each(function(i,e) {
+  var dateTD = $(this).find('td:eq(5)');
+  var date = dateTD.text().trim();
+  var parts = date.split('/');
+  dateTD.text(parts[2]+'/'+parts[0]+'/'+parts[1]);
+});
+
+$.when(changeDateFormat).done(function() {
+  processDates(); 
+})*/
+/* THIS IS ONLY FOR EXAMPLE TO CHANGE THE DATE FORMAT */
+
+
+/*function processDates() {
+  var process = $('#example5 tbody tr').each(function(i,e) {
+    var dateTD = $(this).find('td:eq(5)');
+    var date = dateTD.text().trim();
+    var parts = date.split('/');
+    dateTD.prepend('<span>'+parts[2]+parts[1]+parts[0]+'</span>');
+  });
+
+  $.when(process).done(function() {
+      $('#example5').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true,
+      'order'       : [[5, "asc"]]
+    });
+  })
+}*/
+
 </script>
 
     </body>

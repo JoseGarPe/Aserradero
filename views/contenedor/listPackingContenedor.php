@@ -51,11 +51,11 @@
                            <td>'.$row['estado'].'</td>';
 
                           if ($row['estado']!='Confirmado') {
-                           echo '<td>  <a href="../listas/contenedores.php?id='.$codigo.'&factura='.$factura.'&conten='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'&Confirmado=no" class="btn btn-primary">Seleccionar</a></td></tr>';
+                           echo '<td>  <a href="../listas/contenedores.php?id='.$codigo.'&factura='.$factura.'&conten='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'&Confirmado=no&fechaContenedor='.$row['fecha_ingreso'].'" class="btn btn-primary">Seleccionar</a></td></tr>';
                            } else{
                 echo '
                            <td>
-                         <a href="../listas/contenedores.php?id='.$codigo.'&factura='.$factura.'&conten='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'" class="btn btn-primary">Seleccionar</a>
+                         <a href="../listas/contenedores.php?id='.$codigo.'&factura='.$factura.'&conten='.$row['id_contenedor'].'&etiquetaCo='.$row['etiqueta'].'&fechaContenedor='.$row['fecha_ingreso'].'" class="btn btn-primary">Seleccionar</a>
                          </td>
                           </tr>
                          ';

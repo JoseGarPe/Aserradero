@@ -49,12 +49,19 @@ elseif ($accion=="guardar")
 	$Insumos->setId_tipo_insumo($id_tipo_insumo);
 	$save=$Insumos->save();
 	if ($save==true) {
-		header('Location: ../listas/Insumos.php?success=correcto');
-		# code...
+		if ($id_tipo_insumo==3) {
+			header('Location: ../listas/subProductos.php?success=correcto');
+		}else{
+			header('Location: ../listas/Insumos.php?success=correcto');
+		}
 	}
 	else{
+		if ($id_tipo_insumo==3) {
+		header('Location: ../listas/subProductos.php?error=incorrecto');
+		}else{
 		header('Location: ../listas/Insumos.php?error=incorrecto');
 	}
+  }
 }
 
  ?>

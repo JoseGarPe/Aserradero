@@ -23,23 +23,38 @@ if ($accion=="modificar") {
 	$update=$Materiales->update();
 
 	if ($update==true) {
-		header('Location: ../listas/Materiales.php?success=correcto');
-		# code...
+			if ($id_categoria==1) {
+			header('Location: ../listas/MaterialesProcesados.php?success=correcto');
+		}else{
+			header('Location: ../listas/Materiales.php?success=correcto');
+		}
 	}else{
-		header('Location: ../listas/Materiales.php?error=incorrecto');
+		if ($id_categoria==1) {
+		header('Location: ../listas/MaterialesProcesados.php?error=incorrecto');
+		}else{
+		header('Location: ../listas/Materiales.php?error=incorrecto');	
+		}
 	}
 
 }
 elseif ($accion=="eliminar") {
 	$id_material =$_POST['id'];
+	$id_categoria =$_POST['id_categoria'];
 	$Materiales = new Materiales();
 	$Materiales->setId_materiales($id_material);
 	$delete=$Materiales->delete();
 	if ($delete==true) {
-		header('Location: ../listas/Materiales.php?success=correcto');
-		# code...
+		if ($id_categoria==1) {
+			header('Location: ../listas/MaterialesProcesados.php?success=correcto');
+		}else{
+			header('Location: ../listas/Materiales.php?success=correcto');
+		}
 	}else{
-		header('Location: ../listas/Materiales.php?error=incorrecto');
+		if ($id_categoria==1) {
+		header('Location: ../listas/MaterialesProcesados.php?error=incorrecto');
+		}else{
+		header('Location: ../listas/Materiales.php?error=incorrecto');	
+		}
 	}
 }
 elseif ($accion=="guardar") 
@@ -60,11 +75,19 @@ elseif ($accion=="guardar")
 	$Materiales->setId_categoria($id_categoria);
 	$save=$Materiales->save();
 	if ($save==true) {
-		header('Location: ../listas/Materiales.php?success=correcto');
-		# code...
+		if ($id_categoria==1) {
+			header('Location: ../listas/MaterialesProcesados.php?success=correcto');
+		}else{
+			header('Location: ../listas/Materiales.php?success=correcto');
+		}
 	}
 	else{
-		header('Location: ../listas/Materiales.php?error=incorrecto');
+		if ($id_categoria==1) {
+		header('Location: ../listas/MaterialesProcesados.php?error=incorrecto');
+		}else{
+		header('Location: ../listas/Materiales.php?error=incorrecto');	
+		}
+		
 	}
 }
 

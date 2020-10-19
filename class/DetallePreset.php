@@ -7,6 +7,10 @@ private $id_preset;
 private $id_material;
 private $cantidad;
 
+//-----------------insumos----------------------------//
+
+private $id_insumo;
+private $cantidad_insumo;
 
 public function __construct()
 {
@@ -50,6 +54,24 @@ public function __construct()
     public function setCantidad($cantidad) {
         $this->cantidad = $cantidad;
     }
+    //---------------------------------------------------------------------//
+
+    public function getId_insumo() {
+        return $this->id_insumo;
+    }
+
+    public function setId_insumo($id_insumo) {
+        $this->id_insumo = $id_insumo;
+    }
+
+    public function getCantidad_insumo() {
+        return $this->cantidad_insumo;
+    }
+
+    public function setCantidad_insumo($cantidad) {
+        $this->cantidad_insumo = $cantidad;
+    }
+
 
     //-------------------------------------------------------------------------------------------------------//
 public function save()
@@ -169,6 +191,52 @@ public function save()
         return $Listdetalle_preset;
     }
 
+         public function selectALL_insumos($codigo)
+    {
+        $query="SELECT * FROM detalle_preset_insumo WHERE id_preset='".$codigo."'";
+        $selectall=$this->db->query($query);
+        $Listdetalle_preset=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listdetalle_preset;
+    }
+public function saveInsumo()
+    {
+        $query1="SELECT * FROM detalle_preset_insumo WHERE id_preset='".$this->id_preset."' AND id_insumo='".$this->id_insumo."'";
+        $selectall=$this->db->query($query1);
+        $Listdetalle_preset=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        if ($selectall->num_rows==0) {
+            // consultamos si ya se encuentra guardaado el material 
+        $query="INSERT INTO detalle_preset_insumo(id_detalle_preset_insumo,id_preset,id_insumo,cantidad)
+                values(NULL,
+                '".$this->id_preset."',
+                '".$this->id_insumo."',
+                '".$this->cantidad_insumo."');";
+        $save=$this->db->query($query);
+        if ($save==true) {
+            return true;
+        }else {
+            return false;
+        }   
+
+        }
+        elseif($selectall->num_rows==1)
+        {
+            foreach ($Listdetalle_preset as $key) {
+                $cantidad_anterior= $key['cantidad'];
+            }
+            $cantidad=$this->cantidad_insumo;
+            $nueva_cantidad=$cantidad_anterior+$cantidad;
+          $query="UPDATE detalle_preset_insumo SET cantidad='".$nueva_cantidad."' WHERE id_insumo='".$this->id_insumo."' AND id_preset='".$this->id_preset."'";
+        $update=$this->db->query($query);
+        if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }    
+        }
+
+        
+    }
 
 }
 

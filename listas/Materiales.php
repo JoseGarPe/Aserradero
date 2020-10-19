@@ -216,7 +216,7 @@ if(isset($_SESSION['tiempo']) ) {
                         <?php 
                          require_once "../class/Materiales.php";
                          $miMaterial = new Materiales();
-                         $catego = $miMaterial->selectALL();
+                         $catego = $miMaterial->selectALLPrima();
                         
                            # code...
                          

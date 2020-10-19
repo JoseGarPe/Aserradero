@@ -178,7 +178,22 @@ class Materiales extends conexion
        $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listmateriales;
     }
+  public function selectALLPrima(){
+        $query="SELECT u.id_material, u.nombre, u.largo, u.ancho, u.grueso, u.m_cuadrados, t.nombre as categoria FROM materiales u INNER JOIN categorias t ON u.id_categoria = t.id_categoria WHERE t.nombre ='Materia Prima'";
+        $selectall=$this->db->query($query);
+        
+        $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
 
+        return $Listmateriales;
+    }
+ public function selectALLProcesado(){
+        $query="SELECT u.id_material, u.nombre, u.largo, u.ancho, u.grueso, u.m_cuadrados, t.nombre as categoria FROM materiales u INNER JOIN categorias t ON u.id_categoria = t.id_categoria WHERE t.nombre ='Procesado'";
+        $selectall=$this->db->query($query);
+        
+        $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $Listmateriales;
+    }
 }
 
 

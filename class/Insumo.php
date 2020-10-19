@@ -126,6 +126,34 @@ public function save()
         return $ListTipoUsuario;
     }
 
+   public function updateCInsumo($id_preset,$tipo,$factor)
+    {
+        $queryConsulta="SELECT dpi.* FROM detalle_preset_insumo dpi , insumo i WHERE dpi.id_insumo=i.id_insumo AND dpi.id_preset='".$id_preset."' and i.id_tipo_insumo='".$tipo."'";
+        $selectall=$this->db->query($queryConsulta);
+       $ListDetalle=$selectall->fetch_all(MYSQLI_ASSOC);
+       if($selectall->num_rows>0){
+       foreach ($ListDetalle as $key) {
+           $cantidadDescuento = $key['cantidad'];
+             $queryConsulta="SELECT * FROM insumo WHERE id_insumo='".$key['id_insumo']."'";
+        $selectall1=$this->db->query($queryConsulta);
+       $ListInsumo=$selectall1->fetch_all(MYSQLI_ASSOC);
+                foreach ($ListInsumo as $value) {
+                    $stock=$value['stock'];
+                }
+                $cantidad= $stock-($cantidadDescuento*$factor);
+           $query="UPDATE insumo SET stock='".$cantidad."' WHERE id_insumo ='".$key['id_insumo']."'";
+        $update=$this->db->query($query);
+        }
+       if ($update==true) {
+            return true;
+        }else {
+            return false;
+        }  
+
+    }else{
+        return false;
+    }
+    }
 
     
 

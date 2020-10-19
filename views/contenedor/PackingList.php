@@ -294,6 +294,14 @@ function save()
         $ListClientes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListClientes;
     }
+    public function selectALL_envio($tipo_ingreso){
+        $query="SELECT packing_list.id_packing_list,packing_list.numero_factura,packing_list.codigo_embarque,packing_list.razon_social,packing_list.mes,packing_list.fecha,packing_list.total_contenedores,packing_list.contenedores_ingresados,packing_list.paquetes,packing_list.paquetes_fisicos,packing_list.obervaciones,packing_list.shipper,nave.nombre as nav,especificacion.nombre as esp,packing_list.estado from packing_list INNER JOIN nave on packing_list.id_nave = nave.id_nave INNER JOIN especificacion on packing_list.id_especificacion = especificacion.id_especificacion WHERE packing_list.tipo_ingreso=".$tipo_ingreso."";
+        $selectall=$this->db->query($query);
+        
+        $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+
+        return $ListPacking;
+    }
 
 }
 ?>

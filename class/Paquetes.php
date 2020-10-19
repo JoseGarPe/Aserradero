@@ -226,7 +226,7 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
     public function selectALL_dimensiones($bodega,$materia){
-        $query="SELECT dimensiones, SUM(piezas) as cant_piezas,multiplo,largo, COUNT( dimensiones ) AS total FROM paquetes  WHERE id_bodega='".$bodega."' AND stock >0 AND id_material='".$materia."' GROUP BY dimensiones ORDER BY total DESC ";
+        $query="SELECT dimensiones, SUM(piezas) as cant_piezas,multiplo,largo,cantidad,COUNT( dimensiones ) AS total FROM paquetes  WHERE id_bodega='".$bodega."' AND stock >0 AND id_material='".$materia."' GROUP BY dimensiones ORDER BY total DESC ";
         $selectall=$this->db->query($query);
         
         $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -535,7 +535,7 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
    //general
    public function selectALLShippers()
     {
-        $query="SELECT shipper ,COUNT(shipper) as proveedores, SUM(contenedores_ingresados) AS TOTAL FROM packing_list GROUP BY shipper HAVING COUNT(*)";
+        $query="SELECT pl.shipper,n.nombre as nave,esp.nombre as especificacion,COUNT(pl.shipper) as proveedores, SUM(pl.contenedores_ingresados) AS TOTAL,pl.mes,pl.numero_factura FROM packing_list pl, nave n, especificacion esp WHERE pl.id_nave=n.id_nave AND esp.id_especificacion = pl.id_especificacion GROUP BY shipper HAVING COUNT(*)";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
@@ -560,7 +560,7 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
  
    public function selectShipperNP_status($codigo,$estado)
     {
-        $query="SELECT COUNT(p.id_paquete) as N_Paquetes, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."' AND p.estado='".$estado."'";
+        $query="SELECT COUNT(p.id_paquete) as N_Paquetes,p.id_bodega, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."' AND p.estado='".$estado."'";
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
@@ -585,15 +585,14 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
 
    public function selectShipperNP_date($codigo,$estado,$fecha1,$fecha2)
     {
-        $query="SELECT COUNT(p.id_paquete) as N_Paquetes, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."' AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+        $query="SELECT COUNT(p.id_paquete) as N_Paquetes,p.id_bodega, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."' AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
-   }
-
+    }
   public function selectShipperMCT_date($codigo,$materia,$estado,$fecha1,$fecha2)
     {
-        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo,p.id_bodega, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
@@ -619,9 +618,41 @@ public function updatePaquete(){
         }  
 
     }
+    //-------------------------------Proyecciones por bodega y especificacion------------------------------------------------------------//
+ public function selectShipperNP_bodega($codigo,$bodega)
+    {
+        $query="SELECT COUNT(p.id_paquete) as N_Paquetes,p.id_bodega, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."' AND p.id_bodega='".$bodega."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+    }
+     public function selectALLShippersEspecificacion($especificacion)
+    {
+        $query="SELECT pl.shipper,n.nombre as nave,esp.nombre as especificacion,COUNT(pl.shipper) as proveedores, SUM(pl.contenedores_ingresados) AS TOTAL FROM packing_list pl, nave n, especificacion esp WHERE pl.id_nave=n.id_nave AND esp.id_especificacion = pl.id_especificacion AND pl.id_especificacion='".$especificacion."' GROUP BY shipper HAVING COUNT(*)";
+        $selectall=$this->db->query($query);
+       $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquetes;
+   }
+
+  public function selectShipperMCT_bodega($codigo,$materia,$bodega)
+    {
+        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo,p.id_bodega, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND  p.id_bodega ='".$bodega."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+
+
+  public function selectTotalMCT_bodega($materia,$bodega,$especificacion)
+    {
+        $query="SELECT p.metros_cubicos, p.multiplo FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE p.id_material ='".$materia."' AND  p.id_bodega ='".$bodega."' AND  pl.id_especificacion ='".$especificacion."' ";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
 
 }
-
+  ///////
 /*
 Consultar todos los Shipper :
 -- SELECT shipper ,COUNT(shipper) as proveedores FROM packing_list GROUP BY shipper HAVING COUNT(*) > 1

@@ -69,7 +69,7 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         <ul class="nav child_menu">
                           <li><a href="../listas/IndexPackingList_local.php">Local</a></li>
                           <li><a href="../listas/IndexPackingList.php">Por Barco</a></li>
-                          <li><a href="../listas/contenedores.php">Confirmar Paquetes</a></li>
+                          <li><a href="../listas/contenedores.php">Busqueda M.P</a></li>
                           <li><a href="../listas/proyecciones.php">Proyecciones</a></li>  
                           <li><a href="../listas/proyecciones_local.php">Proyecciones Locales</a></li>                      
                         </ul>
@@ -78,7 +78,7 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         } elseif ($row['campo_d']== NULL && $row['campo_e']!= NULL) {  ?>
                       <li><a><i class="fa fa-ship"></i> Ingresos <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="../listas/contenedores.php">Confirmar Paquetes</a></li> 
+                          <li><a href="../listas/contenedores.php">Busqueda M.P</a></li> 
                           <li><a href="../listas/proyecciones.php">Proyecciones</a></li>                     
                         </ul>
                       </li>
@@ -244,10 +244,12 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }if($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">    
+                        <ul class="nav child_menu">   
+                           <li><a href="../listas/subProductos.php">Sub Productos</a></li> 
                            <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
+                           <li><a href="../listas/MaterialesProcesados.php">Materiales Procesados</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
                            <li><a href="../listas/Shipper.php">Shipper</a></li>  
@@ -260,8 +262,10 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         }elseif ($row['campo_n']==NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">    
+                           <li><a href="../listas/subProductos.php">Sub Productos</a></li>   
                            <li><a href="../listas/Insumos.php">Insumos</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
+                           <li><a href="../listas/MaterialesProcesados.php">Materiales Procesados</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
                            <li><a href="../listas/Shipper.php">Shipper</a></li>  
@@ -273,7 +277,8 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']==NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">    
+                        <ul class="nav child_menu">   
+                           <li><a href="../listas/subProductos.php">Sub Productos</a></li>    
                            <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
@@ -288,9 +293,11 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']==NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">    
+                           <li><a href="../listas/subProductos.php">Sub Productos</a></li>   
                            <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li> 
+                           <li><a href="../listas/MaterialesProcesados.php">Materiales Procesados</a></li>  
                            <li><a href="../listas/Naves.php">Naves</a></li>   
                            <li><a href="../listas/Shipper.php">Shipper</a></li>  
                            <li><a href="../listas/Especificacion.php">Especificacion</a></li>
@@ -301,10 +308,12 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']==NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">    
+                        <ul class="nav child_menu">     
+                           <li><a href="../listas/subProductos.php">Sub Productos</a></li>  
                            <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
+                           <li><a href="../listas/MaterialesProcesados.php">Materiales Procesados</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li>  
                            <li><a href="../listas/Shipper.php">Shipper</a></li>  
                            <li><a href="../listas/Especificacion.php">Especificacion</a></li>
@@ -315,10 +324,12 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']==NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">    
+                        <ul class="nav child_menu">     
+                           <li><a href="../listas/subProductos.php">Sub Productos</a></li>  
                            <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
-                           <li><a href="../listas/Materiales.php">Materiales</a></li>  
+                           <li><a href="../listas/Materiales.php">Materiales</a></li>
+                           <li><a href="../listas/MaterialesProcesados.php">Materiales Procesados</a></li>    
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
                            <li><a href="../listas/Especificacion.php">Especificacion</a></li>
@@ -329,10 +340,12 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']==NULL && $row['campo_t']!=NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">    
+                        <ul class="nav child_menu">      
+                           <li><a href="../listas/subProductos.php">Sub Productos</a></li> 
                            <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
+                           <li><a href="../listas/MaterialesProcesados.php">Materiales Procesados</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
                            <li><a href="../listas/Shipper.php">Shipper</a></li>  
@@ -343,10 +356,12 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']==NULL && $row['campo_u']!=NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">    
+                        <ul class="nav child_menu">  
+                           <li><a href="../listas/subProductos.php">Sub Productos</a></li>     
                            <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
-                           <li><a href="../listas/Materiales.php">Materiales</a></li>  
+                           <li><a href="../listas/Materiales.php">Materiales</a></li> 
+                           <li><a href="../listas/MaterialesProcesados.php">Materiales Procesados</a></li>   
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
                            <li><a href="../listas/Shipper.php">Shipper</a></li>  
@@ -357,10 +372,12 @@ if (isset($_SESSION['id_tipo_usuario'])) {
                       <?php 
                         }elseif ($row['campo_n']!=NULL && $row['campo_o']!=NULL && $row['campo_p']!=NULL && $row['campo_q']!=NULL && $row['campo_r']!=NULL && $row['campo_s']!=NULL && $row['campo_t']!=NULL && $row['campo_u']==NULL ) { ?>
                          <li><a><i class="fa fa-cog"></i> Mantenimientos <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">    
+                        <ul class="nav child_menu">      
+                           <li><a href="../listas/subProductos.php">Sub Productos</a></li> 
                            <li><a href="../listas/Insumos.php">Insumos</a></li>
                           <li><a href="../listas/Categorias.php">Categorias</a></li>
                            <li><a href="../listas/Materiales.php">Materiales</a></li>  
+                           <li><a href="../listas/MaterialesProcesados.php">Materiales Procesados</a></li>  
                            <li><a href="../listas/Bodega.php">Bodega</a></li> 
                            <li><a href="../listas/Naves.php">Naves</a></li>   
                            <li><a href="../listas/Shipper.php">Shipper</a></li>  

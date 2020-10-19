@@ -239,7 +239,23 @@ if(isset($_SESSION['tiempo']) ) {
                         
                       </tbody>
                     </table>
+                  </div>   
+                     <div id="employee_table">
+                    <table id="example3" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                        <tr>
+                          <th>Insumo </th>
+                          <th>Categoria</th>
+                          <th>Cantidad</th>
+                          <th>Opciones</th>                          
+                        </tr>
+                      </thead>
+                      <tbody id="insumos">
+                        
+                      </tbody>
+                    </table>
                   </div>
+
                               
                             </div>
                       </div>
@@ -251,7 +267,7 @@ if(isset($_SESSION['tiempo']) ) {
                                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Categoria Material <span class="required">*</span>
                                   </label>
                                   <div class="col-md-6 col-sm-6 col-xs-12">
-                                     <select onchange="mostrarInfo1(this.value)" class="form-control" name="id_preset" id="id_preset">
+                                     <select onchange="mostrarInfo1(this.value)" class="form-control" name="id_tipos_materiales" id="id_tipos_materiales">
                                       <option value="0">Seleccione una Opcion</option>
                                       <?php 
                                         require_once "../class/Materiales.php";
@@ -283,6 +299,46 @@ if(isset($_SESSION['tiempo']) ) {
                         </tr>
                       </thead>
                       <tbody id="datos1">
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                       <h2>Filtrar Insumos</h2>
+                      <div class="form-group">
+                                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Categoria Insumos <span class="required">*</span>
+                                  </label>
+                                  <div class="col-md-6 col-sm-6 col-xs-12">
+                                     <select onchange="mostrarInfo2(this.value)" class="form-control" name="id_tipos_materiales" id="id_tipos_materiales">
+                                      <option value="0">Seleccione una Opcion</option>
+                                      <?php 
+                                        require_once "../class/Tipo_Insumo.php";
+
+                                      $miCatt = new Tipo_insumo();
+                                     $categos = $miCatt->selectALL();
+                                      foreach ((array)$categos as $riw) {
+
+                                        echo "<option value='".$riw['id_tipo_insumo']."'>".$riw['nombre_insumo']."</option>";
+
+                                      } 
+
+                                
+                                      ?>
+                                      </select>
+                                  </div>
+                           </div>
+
+
+                    <div id="employee_table">
+                    <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
+                      <thead>
+                        <tr>
+
+                          <th></th> 
+                          <th>Material</th>
+                          <th>Cantidad</th>                         
+                        </tr>
+                      </thead>
+                      <tbody id="datosInsumo">
                         
                       </tbody>
                     </table>
@@ -509,10 +565,12 @@ ga('send', 'pageview');
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
+  xmlhttp2=new XMLHttpRequest();
   }
 else
   {// code for IE6, IE5
   xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
   }
 xmlhttp.onreadystatechange=function()
   {
@@ -522,10 +580,23 @@ xmlhttp.onreadystatechange=function()
     }else{ 
   document.getElementById("datos").innerHTML='Cargando...';
     }
+  } 
+  xmlhttp2.onreadystatechange=function()
+  {
+  if (xmlhttp2.readyState==4 && xmlhttp2.status==200)
+    {
+    document.getElementById("insumos").innerHTML=xmlhttp2.responseText;
+    }else{ 
+  document.getElementById("insumos").innerHTML='Cargando...';
+    }
   }
-xmlhttp.open("POST","../views/DetallePresets/materiales_preset.php",true);
+xmlhttp.open("POST","../views/DetallePresets/materiales_preset.php?tipo=material",true);
 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 xmlhttp.send("cod_banda="+cod);
+
+xmlhttp2.open("POST","../views/DetallePresets/materiales_preset.php?tipo=insumo",true);
+xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp2.send("cod_banda="+cod);
 
 };
 
@@ -548,12 +619,35 @@ xmlhttp.onreadystatechange=function()
   document.getElementById("datos1").innerHTML='Cargando...';
     }
   }
-xmlhttp.open("POST","../views/DetallePresets/materiales_categoria.php",true);
+xmlhttp.open("POST","../views/DetallePresets/materiales_categoria.php?tipo=materiales",true);
 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 xmlhttp.send("cod_banda="+cod);
 
 };
 
+              function mostrarInfo2(cod){
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("datosInsumo").innerHTML=xmlhttp.responseText;
+    }else{ 
+  document.getElementById("datosInsumo").innerHTML='Cargando...';
+    }
+  }
+xmlhttp.open("POST","../views/DetallePresets/materiales_categoria.php?tipo=insumos",true);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send("cod_banda="+cod);
+
+};
 </script>
 
 <script>

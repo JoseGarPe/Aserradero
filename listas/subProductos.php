@@ -22,16 +22,9 @@ if(isset($_SESSION['tiempo']) ) {
             }
 
     }else{
-
-                header("Location: ../index.php");
+      header("Location: ../index.php");
     }
     $_SESSION['tiempo'] = time();
-    if (isset($_GET['id_insumo'])) {
-      $id_insumo=$_GET['id_insumo'];
-    }else{
-
-                header("Location: Insumos.php");
-    }
   ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,7 +131,7 @@ if(isset($_SESSION['tiempo']) ) {
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de movimiento</h2>
+                    <h2>Pagina de Insumos</h2>
 
 
                     
@@ -201,86 +194,43 @@ if(isset($_SESSION['tiempo']) ) {
             }
              ?></div>
                   <div class="x_content">
-                     <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Nombre</th>
-                          <th>Tipo Insumo</th>
-                          <th>Cantidad</th>                            
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                         require_once "../class/Insumo.php";
-                         $miMovimiento = new Insumo();
-                         $catego = $miMovimiento->selectOne($id_insumo);
-                        
-                           # code...
-                         
-                         foreach ((array)$catego as $row1) {
-                          $id_tipo_insumo=$row1['id_tipo_insumo'];
-                         echo '
-                          <tr>
-                           <td>'.$row1['id_insumo'].'</td>
-                           <td>'.$row1['nombre_insumo']. '</td>
-                           <td>'.$row1['tipo_insumos'].'</td>
-                          <td>'.$row1['stock'].' </td>
-                          </tr>
-                         ';
-                       }
-                     
-                     
-                         ?>
-                      </tbody>
-                    </table>
-                    <br><br>
-                <?php 
-                if ($id_tipo_insumo==3) {
-                  
-                echo '<input type="button" name="accion" value="Nuevo Movimiento" id="'.$id_insumo.'" class="btn btn-success save_data_sub" />';
-                }else{
+                      <!-- MODAL PARA AGREGAR UN NUEVO USUARIO-->
 
-                echo '<input type="button" name="accion" value="Nuevo Movimiento" id="'.$id_insumo.'" class="btn btn-success save_data" />';
-                }
-                 ?>    
-                    <br>
-                    <br>
+                   <input type="button" name="accion" value="Nuevo Material" id="accion" class="btn btn-success save_data" /> 
+                 
+
                     <div id="employee_table">
-                      <label>Movimiento</label>
+                      <label>Sub Productos</label>
                     <table id="datatable-buttons" class="table table-striped table-bordered" name="datatable-buttons">
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Cantidad</th>
                           <th>Nombre</th>
-                          <th>Stock</th>
+                          <th>Tipo Movimiento</th>
                           <th>Opciones</th>                            
                         </tr>
                       </thead>
                       <tbody>
                         <?php 
-                         require_once "../class/Movimiento.php";
-                         $miMovimiento = new Movimiento();
-                         $catego = $miMovimiento->selectAll_movimientos($id_insumo);
-                        
-                           # code...
-                         
-                         foreach ((array)$catego as $row) {
+                         require_once "../class/Insumo.php";
+                         $miMaterial = new Insumo();
+                         $catego = $miMaterial->selectALL_subproductos();   
+                         foreach($catego as $row) {
                          echo '
                           <tr>
-                           <td>'.$row['id_movimiento'].'</td>
-                           <td>'.$row['cantidad'].'</td>
-                           <td>'.$row['fecha']. '</td>
-                           <td>'.$row['tipo_movimiento'].'</td>
-                               <!--  <input type="button" name="view" value="Ver Movimiento" id="" class="btn btn-info view_data"/>  -->
-                            <td>        <input type="button" name="edit" value="Editar" id="'.$row["id_movimiento"].'" class="btn btn-warning edit_data" />
-                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_movimiento"].'" class="btn btn-danger delete_data" />
-
+                           <td>'.$row['id_insumo'].'</td>
+                           <td>'.$row['nombre_insumo']. '</td>
+                           <td>'.$row['stock'].'</td>
+                           <td>
+                                    <a class="btn btn-info view_data" href="movimientos.php?id_insumo='.$row["id_insumo"].'">Ver movimientos</a>
+                                  <!--  <input type="button" name="view" value="Ver Movimiento" id="" class="btn btn-info view_data"/>  -->
+                                    <input type="button" name="edit" value="Editar" id="'.$row["id_insumo"].'" class="btn btn-warning edit_data" />
+                                     <input type="button" name="delete" value="Eliminar" id="'.$row["id_insumo"].'" class="btn btn-danger delete_data" />
                            </td>
                           </tr>
                          ';
                        }
+                      
                      
                      
                          ?>
@@ -300,7 +250,7 @@ if(isset($_SESSION['tiempo']) ) {
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Editar Movimiento</h4>  
+                                                 <h4 class="modal-title">Editar Material</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -315,7 +265,7 @@ if(isset($_SESSION['tiempo']) ) {
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Detalles Movimiento</h4>  
+                                                 <h4 class="modal-title">Detalles Material</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms2">  
                                             </div>  
@@ -330,7 +280,7 @@ if(isset($_SESSION['tiempo']) ) {
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Agregar Nuevo Movimiento</h4>  
+                                                 <h4 class="modal-title">Agregar Nuevo Material</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms3">  
                                             </div>  
@@ -345,7 +295,7 @@ if(isset($_SESSION['tiempo']) ) {
                                        <div class="modal-content">  
                                             <div class="modal-header">  
                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                                                 <h4 class="modal-title">Eliminar Movimiento</h4>  
+                                                 <h4 class="modal-title">Eliminar Material</h4>  
                                             </div>  
                                             <div class="modal-body" id="employee_forms4">  
                                             </div>  
@@ -361,7 +311,7 @@ if(isset($_SESSION['tiempo']) ) {
            <div class="modal-content">  
                 <div class="modal-header">  
                      <button type="button" class="close" data-dismiss="modal">&times;</button>  
-                     <h4 class="modal-title">Agregar Nuevo Movimiento</h4>  
+                     <h4 class="modal-title">Agregar Nuevo Material</h4>  
                 </div>  
                 <div class="modal-body">  
                      
@@ -448,7 +398,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/movimiento/modiMovimiento.php",  
+                     url:"../views/Insumos/modiInsumos.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -464,7 +414,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/movimiento/selectMovimiento.php",  
+                     url:"../views/Insumos/selectInsumos.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -477,13 +427,12 @@ ga('send', 'pageview');
 
         $(document).on('click', '.save_data', function(){  
            var employee_action = $(this).attr("accion");  
-           var employee_id_insumo= $(this).attr("id");  
            if(employee_action != '')  
            {  
                 $.ajax({  
-                     url:"../views/movimiento/saveMovimiento.php",  
+                     url:"../views/Insumos/saveInsumo.php",  
                      method:"POST",  
-                     data:{employee_action:employee_action,employee_id_insumo:employee_id_insumo},  
+                     data:{employee_action:employee_action},  
                      success:function(data){  
                           $('#employee_forms3').html(data);  
                           $('#dataModal3').modal('show');  
@@ -498,7 +447,7 @@ ga('send', 'pageview');
            if(employee_id != '')  
            {  
                 $.ajax({  
-                     url:"../views/movimiento/deleteMovimiento.php",  
+                     url:"../views/Insumos/deleteInsumos.php",  
                      method:"POST",  
                      data:{employee_id:employee_id},  
                      success:function(data){  
@@ -507,23 +456,6 @@ ga('send', 'pageview');
                      }  
                 });  
            }   
-      });
-
-        $(document).on('click', '.save_data_sub', function(){  
-           var employee_action = $(this).attr("accion");  
-           var employee_id_insumo= $(this).attr("id");  
-           if(employee_action != '')  
-           {  
-                $.ajax({  
-                     url:"../views/movimiento/saveMovimientoSub.php",  
-                     method:"POST",  
-                     data:{employee_action:employee_action,employee_id_insumo:employee_id_insumo},  
-                     success:function(data){  
-                          $('#employee_forms3').html(data);  
-                          $('#dataModal3').modal('show');  
-                     }  
-                });  
-           }            
       });
 
  });  

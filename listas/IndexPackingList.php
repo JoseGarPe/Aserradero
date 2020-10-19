@@ -752,7 +752,8 @@ if(isset($_SESSION['tiempo']) ) {
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
     <!-- Datatables -->
-
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+    <!--<script src="../vendors/moment/min/moment.min.js"></script>-->
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
 
@@ -771,8 +772,10 @@ if(isset($_SESSION['tiempo']) ) {
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment-with-locales.min.js"></script>
       <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
+
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
     <!-- bootstrap-datetimepicker -->    
     <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
@@ -989,6 +992,7 @@ var valor = obtenerValorParametro('id_packing_list');
 </script>
 <script>
   $(document).ready(function() {
+    $.fn.dataTable.moment('DD/MM/YYYY', 'DD-MM-YYYY');
     $('#example2').DataTable( {
         order: [[12, 'asc']],
         rowGroup: {
@@ -1020,7 +1024,7 @@ var valor = obtenerValorParametro('id_packing_list');
     } );
 
       $('#example6').DataTable( {
-        order: [[5, 'asc']],
+        order: [[6, 'asc']],
         rowGroup: {
             endRender: function ( rows, group ) {
                 var avg = rows
@@ -1034,7 +1038,7 @@ var valor = obtenerValorParametro('id_packing_list');
         }
     } );
       $('#example7').DataTable( {
-        order: [[12, 'asc']],
+        order: [[5, 'asc']],
         rowGroup: {
             endRender: function ( rows, group ) {
                 var avg = rows
@@ -1048,7 +1052,7 @@ var valor = obtenerValorParametro('id_packing_list');
         }
     } );
       $('#example8').DataTable( {
-        order: [[12, 'asc']],
+        order: [[5, 'asc']],
         rowGroup: {
             endRender: function ( rows, group ) {
                 var avg = rows

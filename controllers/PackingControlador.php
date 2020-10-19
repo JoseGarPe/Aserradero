@@ -370,5 +370,105 @@ unset($_SESSION['error']);
 		$_SESSION['message']="Error: Datos repetidos o erroneos";
 	}
 }
+elseif ($accion=="updateLocal") 
+{
+	$id_packing_list=$_POST['id_packing_list'];
+	$numero_factura=$_POST['numfac'];
+	$codigo_embarque=null;
+	$razon_social=null;
+	$mes=$_POST['combomes'];
+	$total_contenedores=0;
+	$paquetes=$_POST['packetes'];
+	$obervaciones=$_POST['observaciones'];
+	$Shipper=$_POST['shipper'];
+	$id_nave=null;
+	$id_especificacion=null;
+	$fecha=$_POST['fecha'];
+	$poliza=$_POST['poliza'];
+	//$estado=$_POST['comboestado'];
+	$id_contenedor=$_POST['id_contenedor'];
+	$id_bodega=$_POST['id_bodega'];
+$fecha_nueva='';
+
+                           $array_falla = str_split($fecha);
+                           $falla_count = strlen($fecha);
+                           $fecha_nueva = "".$array_falla[6]."".$array_falla[7]."".$array_falla[8]."".$array_falla[9]."-".$array_falla[3]."".$array_falla[4]."-".$array_falla[0]."".$array_falla[1]."";
+
+
+	$Pack = new Packing();
+	$Pack->setNumero_factura($numero_factura);
+	$Pack->setCodigo_embarque($codigo_embarque);
+	$Pack->setRazon_social($razon_social);
+	$Pack->setMes($mes);
+	$Pack->setFecha($fecha_nueva);
+	$Pack->setTotal_contenedores($total_contenedores);
+	$Pack->setPaquetes($paquetes);
+	$Pack->setObervaciones($obervaciones);
+	$Pack->setShipper($Shipper);
+	$Pack->setId_nave($id_nave);
+	$Pack->setId_especificacion($id_especificacion);
+	$Pack->setPoliza($poliza);
+	$Pack->setId_packing_list($id_packing_list);
+	$save=$Pack->updateLocal();
+	if ($save==true) {
+		//header('Location: ../listas/IndexPackingList.php?success=correcto');
+		 $Contenedor = new Contenedores();
+			  $Contenedor->setId_contenedor($id_contenedor);
+			  $Contenedor->setId_packing_list($id_packing_list);
+			  $Contenedor->setFecha_ingreso($fecha);
+			  $Contenedor->setId_bodega($id_bodega);
+			  $delete=$Contenedor->updateCont();
+			 if($delete==true){
+			session_start();
+		unset($_SESSION['message']);
+		unset($_SESSION['success']);
+				$_SESSION['success']="correcto";
+				$_SESSION['message']="Ingreso guardado con exito";
+				# code...
+			  }else{
+	//	header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+			session_start();
+		unset($_SESSION['message']);
+		unset($_SESSION['error']);
+				$_SESSION['error']="incorrecto";
+				$_SESSION['message']="Ingreso no guardado";
+			}
+	}
+	else{
+	//	header('Location: ../listas/IndexPackingList.php?error=incorrecto');
+
+	session_start();
+unset($_SESSION['message']);
+unset($_SESSION['error']);
+		$_SESSION['error']="incorrecto";
+		$_SESSION['message']="Ingreso no guardado. Posee datos ya ingresados";
+	}
+}
+elseif ($accion=='avanzado') {
+	$tipo=$_POST['tipo'];
+	$etiqueta=$_POST['etiqueta'];
+	$ingreso=$_POST['ingreso'];
+	$Pack = new Packing();
+	$resultado=$Pack->avanzado($tipo,$etiqueta,$ingreso);
+	if(is_array($resultado)){
+		foreach ($resultado as $key) {
+			$etiquetaCo =$etiqueta;
+			$id=$key['id_packing_list'];
+			$factura=$key['numero_factura'];
+			$conten=$key['id_contenedor'];
+			$etiquetaCo=$key['etiqueta'];
+			$fecha_ingreso=$key['fecha_ingreso'];
+	}
+		if($tipo==2){
+			header('Location: ../listas/contenedores.php?id='.$id.'&factura='.$factura.'&conten='.$conten.'&etiquetaCo='.$etiquetaCo.'&seleccion='.$tipo.'&etiquetaPaquete='.$etiqueta.'&fechaContenedor='.$fecha_ingreso);
+		}else{
+			header('Location: ../listas/contenedores.php?id='.$id.'&factura='.$factura.'&conten='.$conten.'&etiquetaCo='.$etiquetaCo.'&seleccion='.$tipo);
+		}
+		
+	}else{
+		header('Location: ../listas/contenedores.php&etiqueta='.$etiqueta.'&tipo='.$ingreso);
+	}
+	
+}
 
 ?>

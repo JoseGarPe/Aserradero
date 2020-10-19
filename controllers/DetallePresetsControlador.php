@@ -34,13 +34,26 @@ elseif ($accion=="eliminar") {
 elseif ($accion=="guardar") 
 {
 	$id_preset=$_POST['id_preset'];
-$id_material=$_POST['idmaterial'];
-$count_materiales = count($id_material);
-$i=0;
-$cantidad=$_POST['cantidad'];
-$tm=$_POST['total'];
-
-
+	if(isset($_POST['idmaterial'])){
+				$id_material=$_POST['idmaterial'];
+		$count_materiales = count($id_material);
+		$i=0;
+		$cantidad=$_POST['cantidad'];
+		$tm=$_POST['total'];
+	}else{
+		$i=0;
+		$tm=0;
+	}
+	if (isset($_POST['idinsumo'])) {
+		$id_insumo=$_POST['idinsumo'];
+		$count_insumo = count($id_insumo);
+		$cantidad_insumo=$_POST['cantidad_insumo'];
+		$ti=$_POST['total_insumo'];
+		$j=0;
+	}else{
+		$j=0;
+		$ti=0;
+	}
 	while ($i<$tm) {
 		if ($cantidad[$i]=="") {
 		
@@ -54,13 +67,26 @@ $tm=$_POST['total'];
 			$i=$i+1;
 		}
 	}
+		while ($j<$ti) {
+		if ($cantidad_insumo[$j]=="") {
 		
+		$j=$j+1;
+		}else{	
+		$deta_pres= new DetallePreset();
+		$deta_pres->setId_preset($id_preset);
+		$deta_pres->setId_insumo($id_insumo[$j]);
+		$deta_pres->setCantidad_insumo($cantidad_insumo[$j]);
+		$save1=$deta_pres->saveInsumo();
+			$j=$j+1;
+		}
+	}
+			
 	if ($save1==true) {
 		header('Location: ../listas/DetallePresets.php?success=correcto');
 		# code...
 	}
 	else{
-		header('Location: ../listas/Presets.php?error=incorrecto$cantidad='.$id_material[1].'');
+		header('Location: ../listas/DetallePresets.php?error=incorrecto$cantidad='.$ti.'');
 	}
 }
 

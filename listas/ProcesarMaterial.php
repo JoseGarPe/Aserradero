@@ -338,7 +338,9 @@ if(isset($_SESSION['tiempo']) ) {
                             <div class="col-md-6 col-sm-6 col-xs-12">
                              
                              <input id="etiqueta"  name="etiqueta" class="form-control col-md-7 col-xs-12"  type="text"></div>
-                          </div></p>
+                             </div>
+                             <div id="valido"></div>
+                           </p>
                         </div>
 
                       <div id="step-2">
@@ -896,6 +898,50 @@ xmlhttp.send("cod_banda="+cod+"&bod="+bod);
       </script>
       
    <script>
+      $(document).ready(function(){
+                         
+      var consulta;
+             
+      //hacemos focus
+      $("#etiqueta").focus();
+                                                 
+      //comprobamos si se pulsa una tecla
+      $("#etiqueta").keyup(function(e){
+             //obtenemos el texto introducido en el campo
+             consulta = $("#etiqueta").val();
+                                      
+             //hace la búsqueda
+            // $("#valido").delay(100).queue(function(n) {      
+                if(consulta!=''){
+                   $("#valido").html('<img src="https://deltassis.com.br/assets/img/loader5.gif" />');
+                                           
+                        $.ajax({
+                              type: "POST",
+                              url: "../views/procesar/comprobar.php",
+                              data: "b="+consulta,
+                              dataType: "html",
+                              error: function(){
+                                    alert("error petición ajax");
+                              },
+                              success: function(data){      
+                              console.log(data);   
+                                  var array = JSON.parse(data);                                             
+                                   // $("#resultado").html(data);
+                                   if(array.valido=="false"){
+                                    $('#valido').html('<center><p class="alert alert-danger">'+array.mensaje+'</p></center>');
+                                   }else{
+                                     $('#valido').html('<center><p class="alert alert-success">'+array.mensaje+'</p></center>');
+                                   }
+                              }
+                  });
+                         
+                }
+                                   
+          //   });
+                                
+      });
+                      
+});
 function myFunction() {
   var checkBox = document.getElementById("id_material");
 

@@ -3,6 +3,7 @@ require_once "../class/OrdenProducto.php";
 require_once "../class/DetalleOrden.php";
 require_once "../class/DetalleBodega.php";
 require_once "../class/DetalleBodegaPro.php";
+require_once "../class/Insumo.php";
 
 $accion=$_GET['accion'];
 if ($accion=="modificar") {
@@ -148,8 +149,14 @@ elseif ($accion=="fase") {
 				$detalle_bo_pro->setId_preset($id);
 				$detalle_bo_pro->setCantidad($cantidad);
 				$save1=$detalle_bo_pro->save();
+		}elseif ($fase=="Pintado") {
+			$ins= new Insumo();
+			$actualizarInsumo=$ins->updateCInsumo($id,1,$cantidad);
+		}elseif ($fase=="Enbalado") {
+			$ins= new Insumo();
+			$actualizarInsumo=$ins->updateCInsumo($id,2,$cantidad);
 		}
-		header('Location: ../listas/cambio_fase.php?success=correcto&id='.$id.'&preset='.$preset.'');
+		header('Location: ../listas/cambio_fase.php?success=correcto&id='.$id.'&preset='.$preset.'&insumo='.$actualizarInsumo.'');
 		# code...
 	}else{
 		header('Location: ../listas/OrdenProducto.php?error=incorrecto');

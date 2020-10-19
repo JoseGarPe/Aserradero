@@ -1,13 +1,9 @@
 <?php 
 session_start();
-if(!isset( $_SESSION['logged-in'] )){
-     header("Location: ../index.php");
-
-  }
 if(isset($_SESSION['tiempo']) ) {
 
         //Tiempo en segundos para dar vida a la sesión.
-        $inactivo = 1200;//20min en este caso.
+        $inactivo = 600;//20min en este caso.
 
         //Calculamos tiempo de vida inactivo.
         $vida_session = time() - $_SESSION['tiempo'];
@@ -26,16 +22,16 @@ if(isset($_SESSION['tiempo']) ) {
             }
 
     }else{
-
+    
                 header("Location: ../index.php");
-    }
-    $_SESSION['tiempo'] = time();
-    if (isset($_GET['id_packing_list'])) {
+  } if (isset($_GET['id_packing_list'])) {
       $id_packing_list=$_GET['id_packing_list'];
     }else{
 
-                header("Location: IndexPackingList.php");
+                header("Location: IndexPackingList_local.php");
     }
+
+    $_SESSION['tiempo'] = time();
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -154,7 +150,7 @@ if(isset($_SESSION['tiempo']) ) {
           </div>
         </div>
         <!-- /top navigation -->
-
+         
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
@@ -162,6 +158,7 @@ if(isset($_SESSION['tiempo']) ) {
               <div class="title_left">
                 <h3>Ingreso Por Barco</h3>
               </div>
+
 
               <div class="title_right">
                 <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -174,6 +171,7 @@ if(isset($_SESSION['tiempo']) ) {
                 </div>
               </div>
             </div>
+
             <div class="clearfix"></div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -195,13 +193,55 @@ if(isset($_SESSION['tiempo']) ) {
                       <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
                     </ul>
-                    <div class="clearfix"></div>
+                    <div class="clearfix">
+                       <?php 
+            if (isset($_GET['success'])) {
+                
+                if ($_GET['success']=='correcto') {
+                    
+                    echo '
+              <div class="alert alert-success" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Correcto:</span>
+                Los datos han sido guardados exitosamente.
+           </div>
+                    ';
+                }
+            }elseif (isset($_GET['error'])) {
+           
+               if ($_GET['error']=='incorrecto') {
+                    
+                    echo '
+                <div class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Incorecto:</span>
+              
+                Error al guardar, verifique los datos ingresados.
+ </div>
+           
+                    ';
+                }
+            }elseif (isset($_GET['seleccion'])) {
+               if ($_GET['seleccion']=='nuevo') {
+                    
+                    echo '
+                 <div class="alert alert-primary" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Atencion:</span>
+              
+                Ingrese todos los datos.
+             </div>
+                    ';
+                }
+            }
+             ?>
+                    </div>
                   </div>
                   <div class="x_content">
                     <br />
-                    <!-- action="../controllers/PackingControlador.php?accion=guardar"-->
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"  method="post">
-                      <?php 
+                    <!--  action="../controllers/PackingControlador.php?accion=guardarLocal"  -->
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="post">
+                    <?php 
                       /*
                       numero_factura
   codigo_embarque='".$this->codigo_embarque."',
@@ -216,44 +256,41 @@ if(isset($_SESSION['tiempo']) ) {
         id_especificacion='".$this->id_especificacion."'
                       */
                           require_once "../class/PackingList.php";    
+                          require_once "../class/Contenedor.php";   
 
                           $packing = new Packing();
                           $orden = $packing->SelectOne($id_packing_list);
+
+                          $conten = new Contenedores();
+                          $cont_Packin=$conten->selectALLpack($id_packing_list);
+                          foreach ($cont_Packin as $value) {
+                            $contenedor_guardado = $value['id_contenedor'];
+                            $bodega_guardado = $value['id_bodega'];
+                          }
                           foreach ($orden as $key) {
+                            $fecha_nueva='';
+
+                           $array_falla = str_split($key['fecha']);
+                           $falla_count = strlen($key['fecha']);
+                           $fecha_nueva = "".$array_falla[8]."".$array_falla[9]."/".$array_falla[6]."".$array_falla[7]."/".$array_falla[0]."".$array_falla[1]."".$array_falla[2]."".$array_falla[3]."";
                               echo '<input type="hidden" id="id_packing_list" name="id_packing_list" value="'.$id_packing_list.'">';
+                              echo '<input type="hidden" id="id_contenedor" name="id_contenedor" value="'.$contenedor_guardado.'">';
                   
                        ?>
-
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Numero de Factura<span class="required"></span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Numero envio<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="numfac" name="numfac" value="<?php echo $key['numero_factura'] ?>" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="numfac" name="numfac" value="<?php echo $key['numero_factura'] ?>"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Codigo Embarque<span></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="codembarque" name="codembarque" value="<?php echo $key['codigo_embarque'] ?>"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Razon Social<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="razonsocial" name="razonsocial" value="<?php echo $key['razon_social'] ?>"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
+                    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Mes<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select class="form-control" id="combomes" name="combomes">
-                            <?php 
+                             <?php 
                               if ($key['mes'] == 'ENERO') {
                                 echo '<option value="ENERO" selected>ENERO</option>';
                               }else{
@@ -447,49 +484,26 @@ if(isset($_SESSION['tiempo']) ) {
                               }
                              ?>
                           
+                          
                           </select>
                         </div>
                       </div>
 
 
-                    <!--  <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Posible Fecha<span class="required"></span>
+                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Fecha de Ingreso<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <div class='input-group date' id='myDatepicker2'>
-                            <input type='text' class="form-control" name="fecha" id="fecha" value="<?php //echo $key['fecha']; ?>" />
+                            <input type='text' class="form-control" name="fecha" id="fecha" value="<?php echo $fecha_nueva; ?>" />
                             <span class="input-group-addon">
                                <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                         </div>
-                      </div>-->
-                      
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Nave Entrante<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control" name="id_nave" id="id_nave">
-                          <?php 
-                          require_once "../class/Naves.php";
-                          $misNaves = new Naves();
-                         $catego = $misNaves->selectALL();
-                          foreach ((array)$catego as $row) {
-                            if ($key['id_nave']==$row['id_nave']) {
-                              echo "<option value='".$row['id_nave']."' selected>".$row['nombre']."</option>";
-                            }else{
-                              echo "<option value='".$row['id_nave']."'>".$row['nombre']."</option>";
-                            }
-                          } 
-                          ?>
-                          </select>
-                        </div>
                       </div>
-
-
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Shipper<span class="required"></span>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Proveedor<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                         
@@ -497,62 +511,72 @@ if(isset($_SESSION['tiempo']) ) {
                         </div>
                       </div>
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Especificacion<span class="required"></span>
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">INAB<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control" name="id_especificacion" id="id_especificacion">
-                          <?php 
-                          require_once "../class/Especificacion.php";
-                          $misEsp = new Especificacion();
-                         $catego = $misEsp->selectALL();
-                          foreach ((array)$catego as $row) {
-                            if ($key['id_especificacion']==$row['id_especificacion']) {
-                            echo "<option value='".$row['id_especificacion']."' selected>".$row['nombre']."</option>";
-                              
-                            }else{
+                        
+                          <input type="text" id="poliza" name="poliza" value="<?php echo $key['poliza'] ?>" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
 
-                            echo "<option value='".$row['id_especificacion']."'>".$row['nombre']."</option>";
+                         <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Bodega Destino<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control col-md-7 col-xs-12" name="id_bodega" id="id_bodega" required>
+                          <option value="">Seleccione una opcion</option>
+                          <<?php 
+                          require_once "../class/Bodega.php";
+
+                        $mistipos = new Bodega();
+                         $catego = $mistipos->selectALL();
+                          foreach ((array)$catego as $rows1) {
+                            if ($rows1['id_bodega']==$bodega_guardado) {
+                               echo "<option value='".$rows1['id_bodega']."' selected>".$rows1['nombre']."</option>";
+                            }else{
+                              echo "<option value='".$rows1['id_bodega']."'>".$rows1['nombre']."</option>";
                             }
+                           
+
                           } 
-                          ?>
+                           ?>
+                     </select>
+
+                        </div>
+                      </div>
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Total Paquetes Esperados <span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="packetes" min="1" step="1" name="packetes"  value="<?php echo $key['paquetes'] ?>" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Tipo Ingreso<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" id="ingreso_local" name="ingreso_local">
+                            <?php
+                              if ($key['ingreso_local']=='Local') {
+                                echo '<option value="Local" selected>Local</option>';
+                              }else{
+                                echo '<option value="Local">Local</option>';
+                              }
+                              if ($key['ingreso_local']=='Importada') {
+                             echo ' <option value="Importada" selected>Importada</option>';
+                              }else{
+                             echo ' <option value="Importada">Importada</option>';
+                              }
+                            ?>
+                          
+                          
                           </select>
                         </div>
                       </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Total Contenedores<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <?php  ?>
-                          <input type="text" id="totconte" name="totconte" value="<?php echo $key['total_contenedores']; ?>"  class="form-control col-md-7 col-xs-12" value="1">
-                        </div>
-                      </div>
-<!--
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Contenedores Ingresados<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="conteingre" name="conteingre"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
--->
-                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Packetes <span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="packetes" name="packetes" value="<?php echo $key['paquetes'] ?>"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <!--
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Packetes Fisicos<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="packfisicos" name="packfisicos"  class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                        -->
+                                          
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Observaciones<span class="required"></span>
                         </label>
@@ -560,28 +584,18 @@ if(isset($_SESSION['tiempo']) ) {
                           <textarea id="observaciones" name="observaciones" class="form-control col-md-7 col-xs-12"><?php echo $key['obervaciones'] ?></textarea>
                         </div>
                       </div>
-                        
-                      <!--
-                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Estado<span class="required"></span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control" id="comboestado" name="comboestado">
-                          <option value="abierto">Abierto</option>
-                          <option value="pendiente">Pendiente</option>
-                          <option value="finalizado">Finalizado</option>
-                          </select>
-                        </div>
-                      </div>
--->
-          <?php         }//end for each orden ?>
+                      
+
                     
                       <!-- /Botones  -->
                       <div class="ln_solid"></div>
+                         <?php         }//end for each orden ?>
                       <div class="form-group">
                         <center><div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                      <a href="../listas/IndexPackingList.php" class="btn btn-primary">Cancelar</a>
-                          <!--<button type="button" class="btn btn-success save_data">Guardar Ingreso</button>-->
+
+                      <a href="../listas/IndexPackingList_Local.php" class="btn btn-primary">Cancelar</a>
+                         <!-- <button class="btn btn-" type="button">Cancelar</button>
+                          <button type="button" class="btn btn-success save_data">Guardar Ingreso</button>-->
                           <input type="button" class="btn btn-success save_data" id="save_data" name="save_data" value="Guardar">
                         </div></center>
                       </div>
@@ -678,44 +692,52 @@ if(isset($_SESSION['tiempo']) ) {
         $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
     });
 
-  
+ /* $(document).ready(function () {
+    $("#packetes").keyup(function () {
+
+        var paquetes = $("#packetes").val();
+  if (paquetes <0 || paquetes==0) {
+
+    alert('Ingrese valores validos para Paquetes esperados');
+
+        $("#packetes").val('1');
+  }       
+    });
+});*/
 </script>
-	<script type="text/javascript">
-   
+<script type="text/javascript">
   document.getElementById('save_data').addEventListener('click', enviarDatos);
   function enviarDatos(){
-         var id_packing_list= document.getElementById('id_packing_list').value;
          var numfac = document.getElementById('numfac').value;
-        var codembarque = document.getElementById('codembarque').value;
-        var razonsocial = document.getElementById('razonsocial').value;
         var combomes =  document.getElementById('combomes').value;
         var shipper = document.getElementById('shipper').value;
-        var id_nave = document.getElementById('id_nave').value;
-        var id_especificacion = document.getElementById('id_especificacion').value;
- 
-        var packfisicos =0;
+        var fecha = document.getElementById('fecha').value;
+        var poliza = document.getElementById('poliza').value;
+        var id_bodega =document.getElementById('id_bodega').value;
         var packetes = document.getElementById('packetes').value;
+        var ingreso_local = document.getElementById('ingreso_local').value;
         var observaciones = document.getElementById('observaciones').value;
-        var totconte = document.getElementById('totconte').value;
+        var id_contenedor = document.getElementById('id_contenedor').value;
+        var id_packing_list = document.getElementById('id_packing_list').value;
            console.log(packetes);
-           if(packetes!= '' && packetes!=0 && totconte >0)  
+           if(packetes!= '' && packetes!=0)  
            {  
                 $.ajax({  
-                     url:"../controllers/PackingControlador.php?accion=actualizar",  
+                     url:"../controllers/PackingControlador.php?accion=updateLocal",  
                      method:"POST",
-                     data:{id_packing_list:id_packing_list,numfac:numfac,codembarque:codembarque,razonsocial:razonsocial,combomes:combomes,packetes:packetes,observaciones:observaciones,shipper:shipper,id_nave:id_nave,id_especificacion:id_especificacion,packfisicos:packfisicos,totconte:totconte},  
+                     data:{numfac:numfac,combomes:combomes,fecha:fecha,poliza:poliza,id_bodega:id_bodega,packetes:packetes,ingreso_local:ingreso_local,observaciones:observaciones,shipper:shipper,id_contenedor:id_contenedor,id_packing_list:id_packing_list},  
                      success:function(data){    
-
-                     // setTimeout(location.reload(), 5000);
-                     location.href="../listas/IndexPackingList.php";
+                     location.href="../listas/IndexPackingList_Local.php";
                      }  
                 });  
            }else{
-      alert('Ingrese valores validos para Contenedores esperados');
-        $("#totconte").val('1');
+      alert('Ingrese valores validos para Paquetes esperados');
+        $("#packetes").val('1');
            }            
   }
- 
-  </script>
+
+
+</script>
+	
   </body>
 </html>

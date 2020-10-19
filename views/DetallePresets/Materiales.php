@@ -164,6 +164,13 @@ class Materiales extends conexion
        $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
         return $Listmateriales;
     }
+    public function selectALL_IN($codigo)
+    {
+        $query="SELECT * FROM insumo WHERE id_tipo_insumo='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $Listmateriales=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $Listmateriales;
+    }
 
 
 }
