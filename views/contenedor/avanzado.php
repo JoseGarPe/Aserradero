@@ -11,7 +11,7 @@
                               <input type="text" name="etiqueta" id="etiqueta" class="form-control" />  
                                <br />  
                           </div>
-                          <div id="porEnvio" style="display: none">
+                       <!--   <div id="porEnvio" style="display: none">
                               <label>Numero de envio o Numero de factura</label>  
                               <input type="text" name="envio" id="envio" class="form-control" />  
                                <br />  
@@ -23,7 +23,8 @@
                               </select>
                               <br>
                               <button class>Consultar Envio</button>
-                          </div>
+                          </div>-->
+
                           <br>
                           <input type="submit" name="insert" id="insert" value="Buscar" class="btn btn-success" />  
                      </form>

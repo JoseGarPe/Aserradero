@@ -265,7 +265,7 @@ elseif ($accion=="actualizar")
 	$Pack->setCodigo_embarque($codigo_embarque);
 	$Pack->setRazon_social($razon_social);
 	$Pack->setMes($mes);
-	$Pack->setFecha($fecha);
+	//$Pack->setFecha($fecha);
 	$Pack->setTotal_contenedores($total_contenedores);
 	$Pack->setPaquetes($paquetes);
 	$Pack->setObervaciones($obervaciones);
@@ -415,7 +415,7 @@ $fecha_nueva='';
 		 $Contenedor = new Contenedores();
 			  $Contenedor->setId_contenedor($id_contenedor);
 			  $Contenedor->setId_packing_list($id_packing_list);
-			  $Contenedor->setFecha_ingreso($fecha);
+			  $Contenedor->setFecha_ingreso($fecha_nueva);
 			  $Contenedor->setId_bodega($id_bodega);
 			  $delete=$Contenedor->updateCont();
 			 if($delete==true){
@@ -458,11 +458,20 @@ elseif ($accion=='avanzado') {
 			$conten=$key['id_contenedor'];
 			$etiquetaCo=$key['etiqueta'];
 			$fecha_ingreso=$key['fecha_ingreso'];
+			$confirmado =$key['estado'];
 	}
 		if($tipo==2){
+			if ($confirmado!='Confirmado') {
+			header('Location: ../listas/contenedores.php?id='.$id.'&factura='.$factura.'&conten='.$conten.'&etiquetaCo='.$etiquetaCo.'&Confirmado=no&seleccion='.$tipo.'&etiquetaPaquete='.$etiqueta.'&fechaContenedor='.$fecha_ingreso);
+			}else{
 			header('Location: ../listas/contenedores.php?id='.$id.'&factura='.$factura.'&conten='.$conten.'&etiquetaCo='.$etiquetaCo.'&seleccion='.$tipo.'&etiquetaPaquete='.$etiqueta.'&fechaContenedor='.$fecha_ingreso);
+			}
 		}else{
-			header('Location: ../listas/contenedores.php?id='.$id.'&factura='.$factura.'&conten='.$conten.'&etiquetaCo='.$etiquetaCo.'&seleccion='.$tipo);
+			if($confirmado!='Confirmado'){
+			header('Location: ../listas/contenedores.php?id='.$id.'&factura='.$factura.'&conten='.$conten.'&etiquetaCo='.$etiquetaCo.'&Confirmado=no&seleccion='.$tipo.'&fechaContenedor='.$fecha_ingreso);
+			}else{
+			header('Location: ../listas/contenedores.php?id='.$id.'&factura='.$factura.'&conten='.$conten.'&etiquetaCo='.$etiquetaCo.'&seleccion='.$tipo.'&fechaContenedor='.$fecha_ingreso);				
+			}
 		}
 		
 	}else{

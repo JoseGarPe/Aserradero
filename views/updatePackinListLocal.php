@@ -156,7 +156,7 @@ if(isset($_SESSION['tiempo']) ) {
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Ingreso Por Barco</h3>
+                <h3>Ingreso Local</h3>
               </div>
 
 
@@ -257,19 +257,19 @@ if(isset($_SESSION['tiempo']) ) {
                       */
                           require_once "../class/PackingList.php";    
                           require_once "../class/Contenedor.php";   
-
-                          $packing = new Packing();
-                          $orden = $packing->SelectOne($id_packing_list);
-
                           $conten = new Contenedores();
                           $cont_Packin=$conten->selectALLpack($id_packing_list);
                           foreach ($cont_Packin as $value) {
                             $contenedor_guardado = $value['id_contenedor'];
                             $bodega_guardado = $value['id_bodega'];
                           }
+
+                          $packing = new Packing();
+                          $orden = $packing->SelectOneLocal($id_packing_list);
+                      
+                          
                           foreach ($orden as $key) {
                             $fecha_nueva='';
-
                            $array_falla = str_split($key['fecha']);
                            $falla_count = strlen($key['fecha']);
                            $fecha_nueva = "".$array_falla[8]."".$array_falla[9]."/".$array_falla[6]."".$array_falla[7]."/".$array_falla[0]."".$array_falla[1]."".$array_falla[2]."".$array_falla[3]."";
@@ -495,7 +495,7 @@ if(isset($_SESSION['tiempo']) ) {
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <div class='input-group date' id='myDatepicker2'>
-                            <input type='text' class="form-control" name="fecha" id="fecha" value="<?php echo $fecha_nueva; ?>" />
+                            <input type='text' class="form-control" name="fecha" id="fecha" value="<?php echo $fecha_nueva ?>" />
                             <span class="input-group-addon">
                                <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -526,7 +526,7 @@ if(isset($_SESSION['tiempo']) ) {
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select class="form-control col-md-7 col-xs-12" name="id_bodega" id="id_bodega" required>
                           <option value="">Seleccione una opcion</option>
-                          <<?php 
+                          <?php 
                           require_once "../class/Bodega.php";
 
                         $mistipos = new Bodega();
@@ -581,7 +581,7 @@ if(isset($_SESSION['tiempo']) ) {
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Observaciones<span class="required"></span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea id="observaciones" name="observaciones" class="form-control col-md-7 col-xs-12"><?php echo $key['obervaciones'] ?></textarea>
+                          <textarea id="observaciones" name="observaciones" class="form-control col-md-7 col-xs-12"><?php echo $key['obervaciones']?></textarea>
                         </div>
                       </div>
                       
@@ -589,7 +589,8 @@ if(isset($_SESSION['tiempo']) ) {
                     
                       <!-- /Botones  -->
                       <div class="ln_solid"></div>
-                         <?php         }//end for each orden ?>
+                         <?php         }//end for each orden 
+                         ?>
                       <div class="form-group">
                         <center><div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 

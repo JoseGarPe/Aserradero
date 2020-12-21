@@ -48,7 +48,13 @@ if ($accion=='etiqueta') {
                              $totalMC = $key['metroCubic'];
                              $totalPiezas = $key['piezas_totales'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['piezas']* $a['multiplo'] ;
+                              if ($a['material']=='BK') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1481;
+                             } elseif ($a['material']=='BK EU') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1295;
+                             }else{
+                            $tarimas= ($a['piezas']*$a['multiplo']*$a['cantidad'])/$a['factorTarima'] ;
+                                }
                                 
                         echo '
                          <tr>
@@ -96,7 +102,13 @@ elseif ($accion=='bodegas') {
                              $totalMC = $key['metroCubic'];
                              $totalPiezas = $key['piezas_totales'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['piezas']* $a['multiplo'] ;
+                                    if ($a['material']=='BK') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1481;
+                             } elseif ($a['material']=='BK EU') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1295;
+                             }else{
+                            $tarimas= ($a['piezas']*$a['multiplo']*$a['cantidad'])/$a['factorTarima'] ;
+                                }
                               foreach ($TPM as $key1) {
                              $totalPiezasM = $key1['piezas_totales'];
                               }

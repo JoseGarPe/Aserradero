@@ -228,7 +228,7 @@ if(isset($_SESSION['tiempo']) ) {
                         <div class="col-md-5 col-sm-5 col-xs-12">
                           <select class="form-control" id="bod" name="bod">
                           <option value="">SELECCIONE UNA OPCION</option>
-                          <option value="0">Entrante</option>
+                          <option value="0">Pendiente de Ingreso</option>
                           <?php 
                            require_once "../class/Bodega.php";
                          $misBodegas = new Bodega();
@@ -300,10 +300,20 @@ if(isset($_SESSION['tiempo']) ) {
                     <div id="employee_table">
                      <?php 
                       if (isset($_POST['myCheck']) && isset($_POST['fecha_inicial']) && isset($_POST['fecha_final'])) {
-                        $fecha1=$_POST['fecha_inicial'];
-                        $fecha2=$_POST['fecha_final'];
+                      
+
+                           $array_falla = str_split($_POST['fecha_inicial']);
+                           $falla_count = strlen($_POST['fecha_inicial']);
+                           $fecha1= "".$array_falla[6]."".$array_falla[7]."".$array_falla[8]."".$array_falla[9]."-".$array_falla[3]."".$array_falla[4]."-".$array_falla[0]."".$array_falla[1]."";
+                          echo $fecha1;
+                           $array_falla = str_split($_POST['fecha_final']);
+                           $falla_count = strlen($_POST['fecha_final']);
+                            $fecha2="".$array_falla[6]."".$array_falla[7]."".$array_falla[8]."".$array_falla[9]."-".$array_falla[3]."".$array_falla[4]."-".$array_falla[0]."".$array_falla[1]."";
+                        echo ' '.$fecha2;
+
                         $id_material=$_POST['id_material'];
                         $bodega=$_POST['bod'];
+                        echo " ".$id_material." ".$bodega;
                          require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
                          $paquetes1 = $mss->selectALLpack_fechas_metros($fecha1,$fecha2,$id_material,$bodega);
@@ -313,7 +323,26 @@ if(isset($_SESSION['tiempo']) ) {
                             <h2>Suma de metros cubicos de su busqueda: <strong>'.$key1['metros_cub'].' m<sup>3</sup></strong> </h2>
                            ';
                          }
+                           $TarimaTotal=0;
+                           $tarima=0;
+                           /* material*/
+                             $mistipos = new Materiales();
+                         $catego = $mistipos->selectOne($id_material);
+                          foreach ((array)$catego as $row) {
 
+                            $materialNombre=$row['nombre'];
+
+                          } 
+                          //---------------------------------------------------------------------------//
+
+                           $paquetesTarimas = $mss->tarimasProyeccionGeneral_fechas($id_material,$bodega,$materialNombre,$fecha1,$fecha2);
+                           foreach ($paquetesTarimas as $key) {
+                            
+                            $TarimaTotal=$TarimaTotal+$key['tarima'];
+                         }
+                          echo '
+                            <h2>Suma de Tarimas posibles de su busqueda: <strong>'.round($TarimaTotal,0).'</strong> </h2>
+                           ';
 
                       }elseif (isset($_POST['myCheck1'])&&isset($_POST['estado_con'])) {
                         $estado=$_POST['estado_con'];
@@ -329,6 +358,26 @@ if(isset($_SESSION['tiempo']) ) {
                             <h2>Suma de metros cubicos de su busqueda: <strong>'.$key2['metros_cub'].' m<sup>3</sup></strong> </h2>
                            ';
                          }
+                           $TarimaTotal=0;
+                           $tarima=0;  
+                           /* material*/
+                             $mistipos = new Materiales();
+                         $catego = $mistipos->selectOne($id_material);
+                          foreach ((array)$catego as $row) {
+
+                            $materialNombre=$row['nombre'];
+
+                          } 
+                          //---------------------------------------------------------------------------//
+
+                           $paquetesTarimas = $mss->tarimasProyeccionGeneral_estado($id_material,$bodega,$materialNombre,$estado);
+                           foreach ($paquetesTarimas as $key) {
+                            $TarimaTotal=$TarimaTotal+$key['tarima'];
+                             }
+                          echo '
+                            <h2>Suma de Tarimas posibles de su busqueda: <strong>'.round($TarimaTotal,0).'</strong> </h2>
+                           ';
+
                       }
 
                      ?>
@@ -348,8 +397,15 @@ if(isset($_SESSION['tiempo']) ) {
                             <tbody>
                      <?php 
                       if (isset($_POST['myCheck']) && isset($_POST['fecha_inicial']) && isset($_POST['fecha_final'])) {
-                        $fecha1=$_POST['fecha_inicial'];
-                        $fecha2=$_POST['fecha_final'];
+                           $array_falla = str_split($_POST['fecha_inicial']);
+                           $falla_count = strlen($_POST['fecha_inicial']);
+                           $fecha1= "".$array_falla[6]."".$array_falla[7]."".$array_falla[8]."".$array_falla[9]."-".$array_falla[3]."".$array_falla[4]."-".$array_falla[0]."".$array_falla[1]."";
+                          
+                           $array_falla = str_split($_POST['fecha_final']);
+                           $falla_count = strlen($_POST['fecha_final']);
+                            $fecha2="".$array_falla[6]."".$array_falla[7]."".$array_falla[8]."".$array_falla[9]."-".$array_falla[3]."".$array_falla[4]."-".$array_falla[0]."".$array_falla[1]."";
+                    
+
                         $id_material=$_POST['id_material'];
                          require_once "../class/Paquetes.php";
                             $mss = new Paquetes();
@@ -405,7 +461,7 @@ if(isset($_SESSION['tiempo']) ) {
                   </div>
                   </div>
                 </div> <!--X PANEL 1 -->
-                   <div class="x_panel">
+                <!--   <div class="x_panel">
                   <div class="x_title">
                     <h2>Proyeccion Paquetes</h2>
 
@@ -443,8 +499,8 @@ if(isset($_SESSION['tiempo']) ) {
                       <br><br>
 
                   <div id="employee_table" class="table-responsive">
-                   <table id="examplePa" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
-                  <thead>
+                   <table id="examplePa" class="table table-striped table-bordered"> --><!-- Lo cambiaremos por CSS -->
+              <!--    <thead>
                       <th>Bodega</th>
                       <th>Fecha Ingreso</th>
                       <th>Etiqueta</th>
@@ -460,9 +516,9 @@ if(isset($_SESSION['tiempo']) ) {
                       <th>Piezas TOTAL</th>
                       <th>Existente</th>
                   </thead>
-                  <tbody id="consu">
+                  <tbody id="consu">-->
                     <?php 
-                      require_once "../class/PackingList.php";
+                   /*   require_once "../class/PackingList.php";
                          require_once "../class/Paquetes.php";
                          require_once "../class/Contenedor.php";
                          $misPacks = new Packing();
@@ -480,8 +536,13 @@ if(isset($_SESSION['tiempo']) ) {
                              $totalMC = $key['metroCubic'];
                              $totalPiezas = $key['piezas_totales'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['piezas']*$a['multiplo'] ;
-                                
+                              if ($a['material']=='BK') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1481;
+                             } elseif ($a['material']=='BK EU') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1295;
+                             }else{
+                            $tarimas= ($a['piezas']*$a['multiplo']*$a['cantidad'])/$a['factorTarima'] ;
+                                }
                             $datePP=date_create($a['fecha_ingreso']);
                         echo '
                          <tr>
@@ -503,20 +564,20 @@ if(isset($_SESSION['tiempo']) ) {
                                 
                                 
                               
-                          }
+                          }*/
 
                      ?>
-            </tbody>
+           <!-- </tbody>
         </table>
 
-                  </div>
+                  </div>-->
 
                   <!--END X CONTENT-->
-                   </div>
-                   </div>
+                  <!-- </div>
+                   </div>-->
 
 <!-- PROYECCIONES POR BODEGA-->
- <div class="x_panel">
+ <!--<div class="x_panel">
                   <div class="x_title">
                     <h2>Proyeccion Paquetes</h2>
 
@@ -548,14 +609,14 @@ if(isset($_SESSION['tiempo']) ) {
                           <option value="">SELECCIONE UNA OPCION</option>
                           <option value="0">Entrante</option>
                           <?php 
-                           require_once "../class/Bodega.php";
+                          /* require_once "../class/Bodega.php";
                          $misBodegas = new Bodega();
                          $catego = $misBodegas->selectALL();
                             foreach ((array)$catego as $row) {
                                 echo '
                           <option value="'.$row['id_bodega'].'">'.$row['nombre'].'</option>';
 
-                            }
+                            }*/
                            ?>
                           </select>
                         </div>
@@ -563,8 +624,8 @@ if(isset($_SESSION['tiempo']) ) {
                       <br><br>
 
                   <div id="employee_table" class="table-responsive">
-                   <table id="examplePa1" class="table table-striped table-bordered"> <!-- Lo cambiaremos por CSS -->
-                  <thead>
+                   <table id="examplePa1" class="table table-striped table-bordered">--> <!-- Lo cambiaremos por CSS -->
+               <!--   <thead>
                       <th>Bodega</th>
                       <th>Fecha Ingreso</th>
                       <th>Etiqueta</th>
@@ -581,9 +642,9 @@ if(isset($_SESSION['tiempo']) ) {
                       <th>Piezas TOTAL</th>
                       <th>Existente</th>
                   </thead>
-                  <tbody id="consu1">
+                  <tbody id="consu1">-->
                     <?php 
-                      require_once "../class/PackingList.php";
+ /*                     require_once "../class/PackingList.php";
                          require_once "../class/Paquetes.php";
                          require_once "../class/Contenedor.php";
                          $misPacks = new Packing();
@@ -604,8 +665,13 @@ if(isset($_SESSION['tiempo']) ) {
                              $totalMC = $key['metroCubic'];
                              $totalPiezas = $key['piezas_totales'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['piezas']*$a['multiplo'] ;
-                                
+                                  if ($a['material']=='BK') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1481;
+                             } elseif ($a['material']=='BK EU') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1295;
+                             }else{
+                            $tarimas= ($a['piezas']*$a['multiplo']*$a['cantidad'])/$a['factorTarima'] ;
+                                }
                             $datePP=date_create($a['fecha_ingreso']);
 
                               foreach ($TPM as $key1) {
@@ -649,7 +715,13 @@ if(isset($_SESSION['tiempo']) ) {
                              $totalMC = $key['metroCubic'];
                              $totalPiezas = $key['piezas_totales'];
                             }// consulta de total de paquetes
-                            $tarimas= $a['piezas']*$a['multiplo'] ;
+                             if ($a['material']=='BK') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1481;
+                             } elseif ($a['material']=='BK EU') {
+                            $tarimas = ($a['cant_piezas']*$a['largo']*$a['cantidad'])/1295;
+                             }else{
+                            $tarimas= ($a['piezas']*$a['multiplo']*$a['cantidad'])/$a['factorTarima'] ;
+                                }
                                 
                             $datePP=date_create($a['fecha_ingreso']);
 
@@ -685,16 +757,16 @@ if(isset($_SESSION['tiempo']) ) {
                                 
                               
                           }
-
+*/
                      ?>
-            </tbody>
+           <!-- </tbody>
         </table>
 
-                  </div>
+                  </div>-->
 
                   <!--END X CONTENT-->
-                   </div>
-                   </div>
+                <!--   </div>
+                   </div>-->
 
 
                 <div class="x_panel">
@@ -823,18 +895,20 @@ if(isset($_SESSION['tiempo']) ) {
 
                           }
                              ?>
-                            <!-- <th></th>-->
+                             <th>Total M<sup>3</sup></th>
                             </tr></thead>
                             <tbody>
                               <?php 
                               $totalPaquetes=0;
                               $totalContenedores=0;
+
                                 if (isset($_POST['myCheck2']) && isset($_POST['fecha_inicialp']) && isset($_POST['fecha_finalp']) && isset($_POST['estado_conp'])) {
                         $fecha3=$_POST['fecha_inicialp'];
                         $fecha4=$_POST['fecha_finalp'];
-
+                        $volumenTotal=0;
                         $estado_pro=$_POST['estado_conp'];
                          foreach ($shippers as $value) {
+                        $volumenShipper=0;
                                 echo '
                                 <tr>
                                 <td>'.$numero.'</td>
@@ -865,7 +939,7 @@ if(isset($_SESSION['tiempo']) ) {
                                  $totalContenedores = $totalContenedores + $value['TOTAL']; 
                                 }
                                 foreach ($materialess as $m) {
-                                  $mct=$pq->selectShipperMCT_date($value['shipper'],$m['id_material'],$estado_pro,$fecha3,$fecha4);
+                                  $mct=$pq->selectShipperMCT_date($value['shipper'],$m['id_material'],$estado_pro,$fecha3,$fecha4,$m['nombre']);
                                   foreach ($mct as $valor) {
                                     $metrocu =0;
                                     if($valor['metroCubicot']== NULL){
@@ -875,18 +949,21 @@ if(isset($_SESSION['tiempo']) ) {
                                     }
 
                                     echo '
-                                    <td>'.$metrocu.'</td><td>'.round($valor['tarima'],0).'</td>
-
-                                    ';
-                                  /*  $totales[$numero][$columnas]=$valor['metroCubicot'];
-                                    $columnas = $columnas + 1;
-
-                                    $totales[$numero][$columnas]=round($valor['tarima'],0);
-                                    $columnas = $columnas +1;*/
+                                    <td>'.$metrocu.'</td>';
+                                    $volumenShipper = $volumenShipper +$metrocu;
+                                    $volumenTotal = $volumenTotal+$metrocu;
+                                  
                                   }
+                                  //tarimas
+                                  $tarimaMatierl=0;
+                                   $mct=$pq->selectShipperMCT_dateTarima($value['shipper'],$m['id_material'],$estado_pro,$fecha3,$fecha4,$m['nombre']);
+                                  foreach ($mct as $valor) {
+                                    $tarimaMaterial=$tarimaMaterial+$valor['tarima'];
+                                  }
+                          echo '<td>'.round($tarimaMaterial,0).'</td>';
                                 }
 
-
+                                echo '<td>'.$volumenShipper.'</td>';
                                 echo '
                                  </tr>
                                 ';
@@ -899,16 +976,32 @@ if(isset($_SESSION['tiempo']) ) {
                               foreach ($materialess as $m1) {
                                 $totalcubico = 0;
                                 $totaltarimas =0;
-                                $mct1=$pq->selectTotalMCT_date($m1['id_material'],$estado_pro,$fecha3,$fecha4); 
+                                $mct1=$pq->selectTotalMCT_date($m1['id_material'],$estado_pro,$fecha3,$fecha4,$m1['nombre']); 
                                 foreach ($mct1 as $ma) {
-                                  $totalcubico = $totalcubico + $ma['metros_cubicos'];
-                                  $tarimaCal = ($ma['metros_cubicos'])/$ma['multiplo'];
-                                  $totaltarimas = $totaltarimas + $tarimaCal;
+
+                                /*  $totalcubico = $totalcubico + $ma['metros_cubicos'];
+                                  if ($m1['nombre']=='BK') {
+                                     $tarimaCal = ($ma['piezas']*$ma['largo']*$ma['cantidad'])/1481;
+                                  }elseif($m1['nombre']=='BK EU'){
+                                     $tarimaCal = ($ma['piezas']*$ma['largo']*$ma['cantidad'])/1295;
+                                  }else{
+                                     $tarimaCal = ($ma['piezas']*$ma['multiplo']*$ma['cantidad'])/$ma['factorTarima'];
+                                  }
+                                 */
+                                  $totalcubico=$totalcubico+$ma['metroCubicot'];
+                                  
                                 }
+                                   $mct1=$pq->selectTotalMCT_dateTarima($m1['id_material'],$estado_pro,$fecha3,$fecha4,$m1['nombre']); 
+                                foreach ($mct1 as $ma) {
+
+                                  $totaltarimas=$totaltarimas+$ma['tarima'];
+                                  
+                                }
+                                //----------------------------------------------------------------//
                                 echo '<td>'.$totalcubico.'</td><td>'.round($totaltarimas,0).'</td>';
 
                               }
-                              echo'</tr>';
+                              echo'<td>'.$volumenTotal.'</td></tr>';
                              /* $cont = 0;
                               $sumat = 0;
                               for ($i=0; $i < $columnas ; $i++) { 
@@ -923,9 +1016,15 @@ if(isset($_SESSION['tiempo']) ) {
                               }
                               */
                       }elseif (isset($_POST['myCheck3'])&&isset($_POST['estado_conp'])) {
+                        $volumenTotal=0;
                         $estado_pro=$_POST['estado_conp'];
                             foreach ($shippers as $value) {
-                                echo '
+                              $shipperEnvio=0;
+                        $volumenShipper=0;
+                               
+                                $nContenedor = $pq->selectShipperNP_status($value['shipper'],$estado_pro);
+                                foreach ($nContenedor as $k) {
+                                   echo '
                                 <tr>
                                 <td>'.$numero.'</td>
                                 <td>'.$value['especificacion'].'</td>
@@ -933,9 +1032,7 @@ if(isset($_SESSION['tiempo']) ) {
                                 <td>'.$value['numero_factura'].'</td>
                                 <td>'.$value['shipper'].'</td>
                                 <td>'.$value['nave'].'</td>';
-                                $nContenedor = $pq->selectShipperNP_status($value['shipper'],$estado_pro);
-                                foreach ($nContenedor as $k) {
-
+                                $shipperEnvio=$shipperEnvio+1;
                                    if ($k['id_bodega']==0) {
                                             echo '<td>Pendiente</td>';
                                             }else{
@@ -949,15 +1046,10 @@ if(isset($_SESSION['tiempo']) ) {
                                                }
                                              }
                                              
-                                  echo '<td>'.$k['N_Paquetes'].'</td>
-                                      <td>'.$value['TOTAL'].'</td>
-                                  ';
-
-                                 $totalPaquetes = $totalPaquetes + $k['N_Paquetes'];
-                                 $totalContenedores = $totalContenedores + $value['TOTAL']; 
-                                }
+                                    echo '<td>'.$shipperEnvio.'</td>
+                                      <td>'.$value['TOTAL'].'</td>';
                                 foreach ($materialess as $m) {
-                                  $mct=$pq->selectShipperMCT_status($value['shipper'],$m['id_material'],$estado_pro);
+                                  $mct=$pq->selectShipperMCT_status($value['shipper'],$m['id_material'],$estado_pro,$m['nombre'],$k['id_bodega']);
                                   foreach ($mct as $valor) {
                                     $metrocu =0;
                                     if($valor['metroCubicot']== NULL){
@@ -967,35 +1059,65 @@ if(isset($_SESSION['tiempo']) ) {
                                     }
 
                                     echo '
-                                    <td>'.$metrocu.'</td><td>'.round($valor['tarima'],0).'</td>
+                                    <td>'.$metrocu.'</td>
 
                                     ';
+                                    $volumenShipper = $volumenShipper +$metrocu;
+                                    $volumenTotal = $volumenTotal+$metrocu;
                                   }
+                                  //-----------------------------------------------//
+                                  $tarimaMaterial=0;
+                                   $mct=$pq->selectShipperMCT_statusTarima($value['shipper'],$m['id_material'],$estado_pro,$m['nombre'],$k['id_bodega']);
+                                  foreach ($mct as $valor) {
+                                    $tarimaMaterial=$tarimaMaterial+$valor['tarima'];
+                                  }
+                                    echo '
+                                   <td>'.round($tarimaMaterial,0).'</td>
+
+                                    ';
+                                  //-----------------------------------------------//
                                 }
-
-
+                                echo '<td>'.$volumenShipper.'</td>';
                                 echo '
                                  </tr>
                                 ';
+                                 /* echo '<!--<td>'.$k['N_Paquetes'].'</td>-->
+                                      <td>'.$value['TOTAL'].'</td>
+                                  ';*/
+                                  
+                                 $totalPaquetes = $totalPaquetes + 1;
+                                 $totalContenedores = $totalContenedores + $value['TOTAL']; 
+                                }
                                 $numero = $numero +1;
                               }
                                echo '<tr class="success">
-                              <td>'.$numero.'</td><td colspan="3">TOTAL</td><td>'.$totalPaquetes.'</td><td>'.$totalContenedores.'</td>
+                              <td>'.$numero.'</td><td colspan="6">TOTAL</td><td>'.$totalPaquetes.'</td><td>'.$totalContenedores.'</td>
                               ';
                               $tarimaCal=0;
                               foreach ($materialess as $m1) {
                                 $totalcubico = 0;
                                 $totaltarimas =0;
-                                $mct1=$pq->selectTotalMCT_status($m1['id_material'],$estado_pro); 
+                                $mct1=$pq->selectTotalMCT_status($m1['id_material'],$estado_pro,$m1['nombre']); 
                                 foreach ($mct1 as $ma) {
-                                  $totalcubico = $totalcubico + $ma['metros_cubicos'];
-                                  $tarimaCal = ($ma['metros_cubicos'])/$ma['multiplo'];
-                                  $totaltarimas = $totaltarimas + $tarimaCal;
+                                 
+                               /*   if ($m1['nombre']=='BK') {
+                                     $tarimaCal = ($ma['piezas']*$ma['largo']*$ma['cantidad'])/1481;
+                                  }elseif($m1['nombre']=='BK EU'){
+                                     $tarimaCal = ($ma['piezas']*$ma['largo']*$ma['cantidad'])/1295;
+                                  }else{
+                                     $tarimaCal = ($ma['piezas']*$ma['multiplo']*$ma['cantidad'])/$ma['factorTarima'];
+                                  }*/
+                                  $totalcubico = $totalcubico + $ma['metroCubicot'];
                                 }
+                                $mct1=$pq->selectTotalMCT_statusTarima($m1['id_material'],$estado_pro,$m1['nombre']); 
+                                foreach ($mct1 as $ma) {
+                                 $totaltarimas = $totaltarimas + $ma['tarima'];
+                                }
+                                //----------------------------------------------------------------//
                                 echo '<td>'.$totalcubico.'</td><td>'.round($totaltarimas,0).'</td>';
 
                               }
-                              echo'</tr>';
+                              echo'<td>'.$volumenTotal.'</td></tr>';
                       
                       }
 
@@ -1117,6 +1239,70 @@ if(isset($_SESSION['tiempo']) ) {
                    </div>
                    </div>
                 <!-- -->
+                <br><br>
+                          <!-- Proyecciones por bodega-->
+  <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Proyeccion de volumenes y tarimas por especificación</h2>
+
+
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                        <br><br>
+                        <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nfactura">Seleccione una Especificación<span class="required"></span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control"  id="especificacionVolumen" name="especificacionVolumen">
+                          <?php 
+                          require_once "../class/Especificacion.php";
+                          $misEsp = new Especificacion();
+                         $catego = $misEsp->selectALL();
+                          foreach ((array)$catego as $row) {
+                            echo "<option value='".$row['id_especificacion']."'>".$row['nombre']."</option>";
+                          } 
+                          ?>
+                          </select>
+                        </div>
+                      </div>
+                      <br><br>
+                        <div class="text-center form-group">
+                        <center>
+                          <div class="col-md-2">
+                              <button id="consultaBodega" class="form-control btn btn-success" name="consultaBodega" onclick="consultaEspecificacion()"> Consultar</button>
+                          </div> 
+                        </center>   
+                      </div>
+
+                      <br><br>
+
+                  <div id="tableEspecificacion" class="table-responsive">
+                  
+
+                  </div>
+
+                  <!--END X CONTENT-->
+                   </div>
+                   </div>
+                <!-- -->
+                <br>
               </div>
         </div>
         
@@ -1613,11 +1799,11 @@ ga('send', 'pageview');
     $('#myDatepicker').datetimepicker();
     
     $('#myDatepicker2').datetimepicker({
-        format: 'YYYY.MM.DD'
+        format: 'DD/MM/YYYY'
     });
     
     $('#myDatepicker3').datetimepicker({
-          format: 'YYYY-MM-DD'
+          format: 'DD/MM/YYYY'
     });
      $('#myDatepicker33').datetimepicker({
           format: 'YYYY-MM-DD'
@@ -1789,6 +1975,19 @@ xmlhttp.send("cod_banda1="+cod);
                      data:{employee_especificacion:employee_especificacion,employee_bodega:employee_bodega},  
                      success:function(data){  
                           $('#tableBodega').html(data);  
+                     }  
+                });  
+  }
+   function consultaEspecificacion(){
+
+  var employee_especificacion= document.getElementById("especificacionVolumen").value;
+  
+       $.ajax({  
+                     url:"../listas/proyeccionEspecificacion.php",  
+                     method:"POST",  
+                     data:{employee_especificacion:employee_especificacion},  
+                     success:function(data){  
+                          $('#tableEspecificacion').html(data);  
                      }  
                 });  
   }

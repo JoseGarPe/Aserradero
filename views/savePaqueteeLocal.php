@@ -237,7 +237,7 @@
                           require_once "../class/Contenedor.php";
 
                           $packing = new Packing();
-                          $orden = $packing->SelectOne($codigo);
+                          $orden = $packing->SelectOneLocal($codigo);
                            $material = new Contenedores();
                                   $catego1 = $material->selectOneL($codigo);
                                   foreach ($catego1 as $k) {

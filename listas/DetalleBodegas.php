@@ -247,9 +247,9 @@ if(isset($_SESSION['tiempo']) ) {
                           foreach ($dim_material as $dimension) {
                             //---------- TARIMAS POR MATERIAL DE LA BODEGA-------//
                             if ($row['material']=='BK') {
-                            $tarimas = ($dimension['cant_piezas']*$dimension['largo'])/1481;
+                            $tarimas = ($dimension['cant_piezas']*$dimension['largo']*$dimension['cantidad'])/1481;
                              } elseif ($row['material']=='BK EU') {
-                            $tarimas = ($dimension['cant_piezas']*$dimension['largo'])/1295;
+                            $tarimas = ($dimension['cant_piezas']*$dimension['largo']*$dimension['cantidad'])/1295;
                              }else{
                               
                             $tarimas= ($dimension['cant_piezas']*$dimension['multiplo']*$dimension['cantidad'])/$row['factor'] ;
@@ -397,6 +397,8 @@ if(isset($_SESSION['tiempo']) ) {
 
                             foreach ($paquetes as $a) {
                             
+                            $dateI=date_create($a['fecha_ingreso']);
+                            $fechaIngresoo=date_format($dateI, 'd/m/Y');
                            $TP = $mss->countPaquetesBodega_general($codigo);
                            $tm = $mss->countMcubicos_material($a['id_material'],$codigo);
                            foreach ($TP as $key) {
@@ -419,7 +421,7 @@ if(isset($_SESSION['tiempo']) ) {
                         echo '
                          <tr>
                             <td>'.$a['id_paquete'].'</td>
-                            <td style="vertical-align:middle;">'.$a['fecha_ingreso'].'</td>
+                            <td style="vertical-align:middle;">'.$fechaIngresoo.'</td>
                             <td>'.$a['etiqueta'].'</td>
                             <td style="vertical-align:middle;">'.$a['material'].'</td>
                             <td>'.$a['grueso'].'</td>

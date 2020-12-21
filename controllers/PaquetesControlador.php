@@ -346,7 +346,7 @@ elseif ($accion=="generarLocal")
 		$save1=$detalle_bo->save();
 
 		$pl= new Packing();
-  	$listpl = $pl->selectOne($id_packing_list);
+  	$listpl = $pl->selectOneLocal($id_packing_list);
   	foreach ($listpl as $key1) {
   		$paquetes_ingresados=$key1['paquetes_fisicos'];
   	}

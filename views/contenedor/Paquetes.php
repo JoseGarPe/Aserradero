@@ -209,7 +209,7 @@ class Paquetes extends conexion
     }
      public function selectALLpack_BodegaEs($estado)
     {
-        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.estado ='".$estado."' ORDER BY con.id_bodega";
+        $query="SELECT con.*, m.nombre as material,m.m_cuadrados as tarimaFactor, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.estado ='".$estado."' ORDER BY con.id_bodega";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
@@ -247,14 +247,14 @@ class Paquetes extends conexion
     // NEWS--
         public function selectALLpack_BodegaEsB($estado)
     {
-        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.id_bodega ='".$estado."'";
+        $query="SELECT con.*, m.nombre as material,m.m_cuadrados as tarimaFactor, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.id_bodega ='".$estado."'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
      public function selectALLpack_BodegaEsB_CERO($estado)
     {
-        $query="SELECT con.*, m.nombre as material,c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.id_bodega ='".$estado."'";
+        $query="SELECT con.*, m.nombre as material,m.m_cuadrados as tarimaFactor,c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.id_bodega ='".$estado."'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;

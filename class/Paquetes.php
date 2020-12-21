@@ -226,7 +226,7 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
     public function selectALL_dimensiones($bodega,$materia){
-        $query="SELECT dimensiones, SUM(piezas) as cant_piezas,multiplo,largo,cantidad,COUNT( dimensiones ) AS total FROM paquetes  WHERE id_bodega='".$bodega."' AND stock >0 AND id_material='".$materia."' GROUP BY dimensiones ORDER BY total DESC ";
+        $query="SELECT dimensiones, piezas as cant_piezas,multiplo,largo,cantidad,COUNT( dimensiones ) AS total FROM paquetes  WHERE id_bodega='".$bodega."' AND stock >0 AND id_material='".$materia."' GROUP BY dimensiones ORDER BY total DESC ";
         $selectall=$this->db->query($query);
         
         $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
@@ -269,7 +269,7 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
 
      public function selectOne($codigo)
     {
-        $query="SELECT * FROM Paquetes WHERE id_paquete='".$codigo."'";
+        $query="SELECT * FROM paquetes WHERE id_paquete='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
@@ -394,7 +394,7 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
     //------------------PROYECCIONES---------------------------//
      public function selectALL_estado($codigo,$material,$bodega)
     {
-        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_bodega = '".$bodega."' AND con.id_material = '".$material."' AND stock>0 AND con.estado='".$codigo."'";
+        $query="SELECT con.*, m.nombre as material, m.m_cuadrados as factorTarima, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_bodega = '".$bodega."' AND con.id_material = '".$material."' AND stock>0 AND con.estado='".$codigo."'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
@@ -408,7 +408,7 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
     }
      public function selectALLpack_fechas($fecha1,$fecha2,$material,$bodega)
     {
-        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_bodega = '".$bodega."' AND con.id_material = '".$material."' AND stock>0 AND con.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+        $query="SELECT con.*, m.nombre as material, m.m_cuadrados as factorTarima, b.nombre as bodega, c.etiqueta as contenedor FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor WHERE con.id_bodega = ".$bodega." AND con.id_material = ".$material." AND stock>0 AND con.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
@@ -461,21 +461,21 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
 
     public function selectALLpack_Bodega()
     {
-        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.stock > 0 ORDER BY con.id_bodega";
+        $query="SELECT con.*, m.nombre as material, b.nombre as bodega,con.multiplo,con.cantidad,m.m_cuadrados as factorTarima, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.stock > 0 ORDER BY con.id_bodega";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
      public function selectALLpack_Bodega_CERO()
     {
-        $query="SELECT con.*, m.nombre as material,c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.stock>0 AND con.id_bodega=0";
+        $query="SELECT con.*, m.nombre as material,m.m_cuadrados as factorTarima,c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.stock>0 AND con.id_bodega=0";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
     }
      public function selectALLpack_BodegaEs($estado)
     {
-        $query="SELECT con.*, m.nombre as material, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.estado ='".$estado."' AND con.stock > 0 ORDER BY con.id_bodega";
+        $query="SELECT con.*, m.nombre as material,m.m_cuadrados as tarimaFactor, b.nombre as bodega, c.etiqueta as contenedor, pl.tipo_ingreso FROM paquetes con INNER JOIN materiales m ON m.id_material = con.id_material INNER JOIN bodegas b ON b.id_bodega = con.id_bodega INNER JOIN contenedores c ON c.id_contenedor = con.id_contenedor INNER JOIN packing_list pl ON pl.id_packing_list = con.id_packing_list WHERE pl.tipo_ingreso='Importacion' AND con.estado ='".$estado."' AND con.stock > 0 ORDER BY con.id_bodega";
         $selectall=$this->db->query($query);
        $ListPaquetes=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquetes;
@@ -551,7 +551,7 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
 
   public function selectShipperMCT($codigo,$materia)
     {
-        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'";
+        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo,((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima  as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list  INNER JOIN material m ON m.id_material = p.id_materialWHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0";
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
@@ -560,27 +560,59 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
  
    public function selectShipperNP_status($codigo,$estado)
     {
-        $query="SELECT COUNT(p.id_paquete) as N_Paquetes,p.id_bodega, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."' AND p.estado='".$estado."'";
+       // $query="SELECT COUNT(p.id_paquete) as N_Paquetes,p.id_bodega, pl.shipper FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list WHERE pl.shipper = '".$codigo."' AND p.estado='".$estado."' AND p.stock>0";
+        $query="SELECT COUNT(pl.id_packing_list) as N_Paquetes,p.id_bodega FROM packing_list pl INNER JOIN paquetes p on p.id_packing_list = pl.id_packing_list WHERE pl.shipper = '".$codigo."'  AND p.estado='".$estado."' AND p.stock>0 GROUP BY pl.id_packing_list";
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
    }
 
-  public function selectShipperMCT_status($codigo,$materia,$estado)
+  public function selectShipperMCT_status($codigo,$materia,$estado,$materialNombre,$id_bodega)
     {
-        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'  AND p.estado='".$estado."'";
+       
+            $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.stock>0 AND p.id_bodega='".$id_bodega."'"; 
+        
+       $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+     public function selectShipperMCT_statusTarima($codigo,$materia,$estado,$materialNombre,$id_bodega)
+    {
+        if($materialNombre=='BK'){
+        $query="SELECT p.multiplo, ((p.piezas*p.largo*p.cantidad) / 1481) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0 AND p.estado='".$estado."'AND p.id_bodega='".$id_bodega."' GROUP BY tarima"; 
+        }elseif ($materialNombre=='BK EU') {
+        $query="SELECT p.multiplo, ((p.piezas*p.largo*p.cantidad) / 1295) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0 AND p.estado='".$estado."'AND p.id_bodega='".$id_bodega."' GROUP BY tarima"; 
+        }else{
+            $query="SELECT p.multiplo, ((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0 AND p.estado='".$estado."'AND p.id_bodega='".$id_bodega."' GROUP BY tarima"; 
+        }
+       $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+ public function selectTotalMCT_status($materia,$estado,$materialNombre)
+    {
+       /* $query="SELECT p.metros_cubicos,p.piezas, p.multiplo,p.cantidad,m.m_cuadrados as factorTarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."'";*/
+     
+            $query="SELECT SUM(p.metros_cubicos) as metroCubicot FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.stock>0"; 
+        
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
    }
- public function selectTotalMCT_status($materia,$estado)
+ public function selectTotalMCT_statusTarima($materia,$estado,$materialNombre)
     {
-        $query="SELECT p.metros_cubicos, p.multiplo FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."'";
+      
+       if($materialNombre=='BK'){
+        $query="SELECT  p.multiplo, ((p.piezas*p.largo*p.cantidad) / 1481) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND p.estado='".$estado."' GROUP BY tarima"; 
+        }elseif ($materialNombre=='BK EU') {
+        $query="SELECT  p.multiplo, ((p.piezas*p.largo*p.cantidad) / 1295) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND p.estado='".$estado."' GROUP BY tarima"; 
+        }else{
+            $query="SELECT  p.multiplo, ((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND p.estado='".$estado."' GROUP BY tarima"; 
+        }
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
    }
-
    // por fecha y estado
 
    public function selectShipperNP_date($codigo,$estado,$fecha1,$fecha2)
@@ -590,21 +622,57 @@ $dimensiones ="".$this->grueso."x".$this->ancho."x".$this->largo;
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
     }
-  public function selectShipperMCT_date($codigo,$materia,$estado,$fecha1,$fecha2)
+  public function selectShipperMCT_date($codigo,$materia,$estado,$fecha1,$fecha2,$materialNombre)
     {
-        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo,p.id_bodega, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+    
+        $query="SELECT SUM(p.metros_cubicos) as metroCubicot FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.stock>0 AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+    
+     $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+public function selectShipperMCT_dateTarima($codigo,$materia,$estado,$fecha1,$fecha2,$materialNombre)
+    {
+     if($materialNombre=='BK'){
+         $query="SELECT p.multiplo,p.id_bodega, ((p.piezas*p.largo*p.cantidad) /1481) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."' GROUP BY tarima";
+    }elseif($materialNombre=='BK EU'){
+         $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.largo*p.cantidad) /1295) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."' GROUP BY tarima";
+    }else{
+
+        $query="SELECT p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."' GROUP BY tarima";
+      }
+     $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+
+  public function selectTotalMCT_date($materia,$estado,$fecha1,$fecha2,$materialNombre)
+    {
+    /*    $query="SELECT p.metros_cubicos,p.piezas, p.multiplo,p.cantidad,m.m_cuadrados as factorTarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";*/
+     
+        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo,p.id_bodega FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
+      
+
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+    public function selectTotalMCT_dateTarima($materia,$estado,$fecha1,$fecha2,$materialNombre)
+    {
+    /*    $query="SELECT p.metros_cubicos,p.piezas, p.multiplo,p.cantidad,m.m_cuadrados as factorTarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";*/
+      if($materialNombre=='BK'){
+         $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.largo*p.cantidad) /1481) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.stock>0 AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'  GROUP BY tarima";
+    }elseif($materialNombre=='BK EU'){
+         $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.largo*p.cantidad) /1295) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.stock>0 AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'  GROUP BY tarima";
+    }else{
+         $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.stock>0 AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'  GROUP BY tarima";
+      }
+
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
    }
 
-  public function selectTotalMCT_date($materia,$estado,$fecha1,$fecha2)
-    {
-        $query="SELECT p.metros_cubicos, p.multiplo FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE p.id_material ='".$materia."'  AND p.estado='".$estado."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'";
-        $selectall=$this->db->query($query);
-       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
-        return $ListPaquete;
-   }
    //------------------- TRASLADOS--------------
 
 public function updatePaquete(){
@@ -634,23 +702,118 @@ public function updatePaquete(){
         return $ListPaquetes;
    }
 
-  public function selectShipperMCT_bodega($codigo,$materia,$bodega)
+  public function selectShipperMCT_bodega($codigo,$materia,$bodega,$materialNombre,$especificacion)
     {
-        $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo,p.id_bodega, (SUM(p.metros_cubicos) / p.multiplo) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND  p.id_bodega ='".$bodega."'";
+       $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo,p.id_bodega FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0 AND  p.id_bodega ='".$bodega."' AND pl.id_especificacion=".$especificacion;  
+        
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
    }
 
-
-  public function selectTotalMCT_bodega($materia,$bodega,$especificacion)
+  public function selectShipperMCT_bodegaTarima($codigo,$materia,$bodega,$materialNombre,$especificacion)
     {
-        $query="SELECT p.metros_cubicos, p.multiplo FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list WHERE p.id_material ='".$materia."' AND  p.id_bodega ='".$bodega."' AND  pl.id_especificacion ='".$especificacion."' ";
+        if ($materialNombre=='BK') {
+        $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.largo) / 1481) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0 AND  p.id_bodega ='".$bodega."' AND pl.id_especificacion=".$especificacion." GROUP BY tarima";  
+        }elseif ($materialNombre=='BK EU') {
+            $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.largo) / 1295) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0 AND  p.id_bodega ='".$bodega."' AND pl.id_especificacion=".$especificacion." GROUP BY tarima";  
+        }else{
+            $query="SELECT p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE pl.shipper='".$codigo."' AND p.id_material ='".$materia."' AND p.stock>0 AND  p.id_bodega ='".$bodega."' AND pl.id_especificacion=".$especificacion." GROUP BY tarima";  
+        }
+      
         $selectall=$this->db->query($query);
        $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPaquete;
    }
 
+  public function selectTotalMCT_bodega($materia,$bodega,$especificacion,$materialNombre)
+    {
+       // $query="SELECT p.metros_cubicos,p.piezas, p.multiplo,p.cantidad,m.m_cuadrados as factorTarima, p.largo ,m.nombre FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list  INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."' AND  p.id_bodega ='".$bodega."' AND  pl.id_especificacion ='".$especificacion."' ";
+      
+            $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo,p.id_bodega FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."' AND p.stock>0 AND  p.id_bodega ='".$bodega."' AND pl.id_especificacion=".$especificacion;  
+  
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+   public function selectTotalMCT_bodegaTarima($materia,$bodega,$especificacion,$materialNombre)
+    {
+         if ($materialNombre=='BK') {
+        $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.largo) / 1481) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."' AND  p.id_bodega ='".$bodega."' AND p.stock>0 AND pl.id_especificacion=".$especificacion." GROUP BY tarima";  
+        }elseif ($materialNombre=='BK EU') {
+            $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.largo) / 1295) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."' AND  p.id_bodega ='".$bodega."' AND p.stock>0 AND pl.id_especificacion=".$especificacion." GROUP BY tarima";  
+        }else{
+            $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."' AND  p.id_bodega ='".$bodega."' AND p.stock>0 AND pl.id_especificacion=".$especificacion." GROUP BY tarima";  
+        }
+
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+
+//---------------------- PROYECCION POR ESPECIFICACION -------------------------//
+
+  public function selectTotalMCT_especificacion($materia,$especificacion,$materialNombre)
+    {
+       // $query="SELECT p.metros_cubicos,p.piezas, p.multiplo,p.cantidad,m.m_cuadrados as factorTarima, p.largo ,m.nombre FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list  INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."' AND  pl.id_especificacion ='".$especificacion."' ";
+         $query="SELECT SUM(p.metros_cubicos) as metroCubicot, p.multiplo,p.id_bodega FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND pl.id_especificacion=".$especificacion;  
+       $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+   public function selectTotalMCT_especificacionTarima($materia,$especificacion,$materialNombre)
+    {
+       // $query="SELECT p.metros_cubicos,p.piezas, p.multiplo,p.cantidad,m.m_cuadrados as factorTarima, p.largo ,m.nombre FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list  INNER JOIN materiales m ON m.id_material = p.id_material WHERE p.id_material ='".$materia."' AND  pl.id_especificacion ='".$especificacion."' ";
+          if ($materialNombre=='BK') {
+        $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.largo) / 1481) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0  AND pl.id_especificacion=".$especificacion." GROUP BY tarima";  
+        }elseif ($materialNombre=='BK EU') {
+            $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.largo) / 1295) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND pl.id_especificacion=".$especificacion." GROUP BY tarima";  
+        }else{
+            $query="SELECT  p.multiplo,p.id_bodega, ((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND pl.id_especificacion=".$especificacion." GROUP BY tarima";  
+        }
+
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+
+    public function selectShipperNP_Especificacion($codigo,$especificacion)
+    {
+        $query="SELECT COUNT(p.id_paquete) as N_Paquetes,p.id_bodega, pl.shipper, e.nombre FROM paquetes p INNER JOIN packing_list pl on pl.id_packing_list = p.id_packing_list INNER JOIN especificacion e on pl.id_especificacion = e.id_especificacion WHERE pl.shipper = '".$codigo."' AND pl.id_especificacion='".$especificacion."'";
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+    }
+    //---------------------------------------------------------------------------------//
+     public function tarimasProyeccionGeneral_fechas($materia,$bodega,$materialNombre,$fecha1,$fecha2)
+    {
+      
+       if($materialNombre=='BK'){
+        $query="SELECT  p.multiplo, ((p.piezas*p.largo*p.cantidad) / 1481) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND p.id_bodega ='".$bodega."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."'  GROUP BY tarima"; 
+        }elseif ($materialNombre=='BK EU') {
+        $query="SELECT  p.multiplo, ((p.piezas*p.largo*p.cantidad) / 1295) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND  p.id_bodega ='".$bodega."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."' GROUP BY tarima"; 
+        }else{
+            $query="SELECT  p.multiplo, ((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND  p.id_bodega ='".$bodega."' AND p.fecha_ingreso BETWEEN '".$fecha1."' AND '".$fecha2."' GROUP BY tarima"; 
+        }
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
+   //---------------------------------------------------------------------------------//
+     public function tarimasProyeccionGeneral_estado($materia,$bodega,$materialNombre,$estado)
+    {
+      
+       if($materialNombre=='BK'){
+        $query="SELECT  p.multiplo, ((p.piezas*p.largo*p.cantidad) / 1481) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND p.id_bodega ='".$bodega."' AND p.estado='".$estado."' GROUP BY tarima"; 
+        }elseif ($materialNombre=='BK EU') {
+        $query="SELECT  p.multiplo, ((p.piezas*p.largo*p.cantidad) / 1295) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND  p.id_bodega ='".$bodega."' AND p.estado='".$estado."' GROUP BY tarima"; 
+        }else{
+            $query="SELECT  p.multiplo, ((p.piezas*p.cantidad*p.multiplo) / m.m_cuadrados) as tarima FROM paquetes p INNER JOIN packing_list pl ON pl.id_packing_list = p.id_packing_list INNER JOIN materiales m ON m.id_material = p.id_material WHERE  p.id_material ='".$materia."' AND p.stock>0 AND  p.id_bodega ='".$bodega."' AND p.estado='".$estado."' GROUP BY tarima"; 
+        }
+        $selectall=$this->db->query($query);
+       $ListPaquete=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPaquete;
+   }
 }
   ///////
 /*

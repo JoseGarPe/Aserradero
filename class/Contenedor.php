@@ -229,27 +229,32 @@ class Contenedores extends conexion
            foreach ($ListPacking_piezas as $value1) {
                             $query_dp="SELECT * FROM detalle_bodega WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
                             $selectall_dp=$this->db->query($query_dp);
-                           $ListPacking_dp=$selectall_dp->fetch_all(MYSQLI_ASSOC);
-                           foreach ($ListPacking_dp as $dp) {
-                           /* do{
-                                
-                               $nueva_piezas=$dp['cantidad']-$value1['piezas'];
-                                 $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
-                                    $updatedp=$this->db->query($query_dp1);
+                                  if ($selectall_dp->num_rows==0) {
+                                      // consultamos si ya se encuentra guardaado el material 
+                                  $query="INSERT INTO detalle_bodega(id_detalle_bodega,id_bodega,id_material,cantidad)
+                                          values(NULL,
+                                          '".$this->id_bodega."',
+                                          '".$value1['id_material']."',
+                                          '".$value1['piezas']."');";
+                                  $save=$this->db->query($query);
+                                }else{
 
-                            }while ($dp['cantidad'] >0) */
-                          if ($dp['cantidad'] >=$value1['piezas']) {
-                                
-                               $nueva_piezas=$dp['cantidad']-$value1['piezas'];
-                                 $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
-                                    $updatedp=$this->db->query($query_dp1);
-                            }else{
+                                       $ListPacking_dp=$selectall_dp->fetch_all(MYSQLI_ASSOC);
+                                       foreach ($ListPacking_dp as $dp) {
+                                    
+                                      if ($dp['cantidad'] >=$value1['piezas']) {
+                                            
+                                           $nueva_piezas=$dp['cantidad']-$value1['piezas'];
+                                             $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
+                                                $updatedp=$this->db->query($query_dp1);
+                                        }else{
 
-                               $nueva_piezas=$dp['cantidad'];
-                                 $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
-                                    $updatedp=$this->db->query($query_dp1);
-                            }
-                           }
+                                           $nueva_piezas=$dp['cantidad'];
+                                             $query_dp1="UPDATE detalle_bodega SET cantidad='".$nueva_piezas."' WHERE id_bodega='".$value1['id_bodega']."' AND id_material='".$value1['id_material']."'";
+                                                $updatedp=$this->db->query($query_dp1);
+                                        }
+                                       }
+                                }
 
             }
 

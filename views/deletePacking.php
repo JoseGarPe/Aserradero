@@ -13,7 +13,7 @@ require_once "../class/PackingList.php";
 
            }
               $Pack = new Packing();
-                         $catego = $Pack->selectOne($codigo);
+                         $catego = $Pack->selectOneLocal($codigo);
 
                         
                          

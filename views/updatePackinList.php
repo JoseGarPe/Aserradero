@@ -705,9 +705,9 @@ if(isset($_SESSION['tiempo']) ) {
                      method:"POST",
                      data:{id_packing_list:id_packing_list,numfac:numfac,codembarque:codembarque,razonsocial:razonsocial,combomes:combomes,packetes:packetes,observaciones:observaciones,shipper:shipper,id_nave:id_nave,id_especificacion:id_especificacion,packfisicos:packfisicos,totconte:totconte},  
                      success:function(data){    
-
+                      console.log(data);
                      // setTimeout(location.reload(), 5000);
-                     location.href="../listas/IndexPackingList.php";
+                   //  location.href="../listas/IndexPackingList.php";
                      }  
                 });  
            }else{

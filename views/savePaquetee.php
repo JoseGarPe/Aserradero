@@ -316,6 +316,7 @@ if(isset($_SESSION['tiempo']) ) {
                               <td ><input type="number"  min="0.00" step="0.0000000001" id="largo" name="largo"  class="form-control col-sm-4"></td>
                               <td><input type="number" id="piezas" name="piezas" min="0.00" step="1"  class="form-control col-md-7"></td>
                               <?php 
+                              echo '<input type="hidden" id="maximoPQT" name="maximoPQT" value="'.$maximoP.'">';
                               echo '<td><input type="number" id="num_paque" name="num_paque" min="1" step="1" max="'.$maximoP.'" list="lista_maximo" class="form-control col-md-7"></td>
                               <datalist id="lista_maximo">
 
@@ -386,8 +387,10 @@ if(isset($_SESSION['tiempo']) ) {
                       </div>
                             <div class="box-footer">
 
-                
-                <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
+          <div id="btnSubmit" style="display: none;">
+                            <input type="submit" class="btn btn-primary" name="submit" value="Guardar" >
+          </div>                
+
    </div><br><br>
                         </form>
                         <?php 
@@ -769,7 +772,8 @@ ga('send', 'pageview');
   });
     $(document).ready(function () {
     $("#num_paque").keyup(function () {
-
+      var btnSubmit= document.getElementById("btnSubmit");
+         var maximoPQT= $("#maximoPQT").val();
         var piezas = $("#piezas").val();
 
         var multiplo = $("#multiplo").val();
@@ -780,9 +784,15 @@ ga('send', 'pageview');
         var grueso = $("#grueso").val();
         var num_paque = $(this).val();
         var metro_cubico = (piezas * largo * ancho * grueso)/1000000000;
-       
-        $("#metros_cubicos").val(metro_cubico);
+       if (num_paque >maximoPQT) {
+        alert("El valor de paquetes sobrepasa el valor permitido, Valor maxiomo: "+maximoPQT);
+      btnSubmit.style.display = "none";
+       }else{
+
+        $("#metros_cubicos").val(metro_cubico); 
         $("#metros_cubicos_total").val(metro_cubico*num_paque);
+          btnSubmit.style.display = "block";
+       }
     });
 });
 </script>

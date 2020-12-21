@@ -391,6 +391,13 @@ public function saveLocal($til)
        $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
         return $ListPacking;
     } 
+    public function selectOneLocal($codigo)
+    {
+        $query="SELECT * FROM packing_list  WHERE id_packing_list='".$codigo."'";
+        $selectall=$this->db->query($query);
+       $ListPacking=$selectall->fetch_all(MYSQLI_ASSOC);
+        return $ListPacking;
+    } 
      public function updateIngresos()
     {
           $query1="SELECT COUNT(id_contenedor) as inscritos FROM contenedores WHERE id_packing_list='".$this->id_packing_list."' AND estado='Confirmado'";
@@ -658,7 +665,6 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
         codigo_embarque='".$this->codigo_embarque."',
         razon_social='".$this->razon_social."',
         mes='".$this->mes."',
-        fecha='".$this->fecha."',
         total_contenedores='".$this->total_contenedores."',
         paquetes='".$this->paquetes."',
         obervaciones='".$this->obervaciones."',
@@ -689,6 +695,7 @@ public function updateCorrelativo($packing_list,$dia,$mes,$c,$poliza)
             paquetes='".$this->paquetes."',
             obervaciones='".$this->obervaciones."',
             mes='".$this->mes."',
+            shipper='".$this->shipper."',
             poliza='".$this->poliza."'
              WHERE id_packing_list='".$this->id_packing_list."'";
             $update=$this->db->query($query);

@@ -32,14 +32,17 @@
 
                           }
                              ?>
-                            <!-- <th></th>-->
+                             <th>TOTAL M<sup>3</sup></th>
                             </tr></thead>
                             <tbody>
                               <?php 
                               $totalPaquetes=0;
                               $totalContenedores=0;
-                           
+                            
+                            $volumenTotal=0;
                          foreach ($shippers as $value) {
+                          $volumenShipper=0;
+                          $tarimaShipper =0;
                                 echo '
                                 <tr>
                                 <td>'.$numero.'</td>
@@ -68,7 +71,7 @@
                                  $totalContenedores = $totalContenedores + $value['TOTAL']; 
                                 }
                                 foreach ($materialess as $m) {
-                                  $mct=$pq->selectShipperMCT_bodega($value['shipper'],$m['id_material'],$bodega);
+                                  $mct=$pq->selectShipperMCT_bodega($value['shipper'],$m['id_material'],$bodega,$m['nombre'],$especificacion);
                                   foreach ($mct as $valor) {
                                     $metrocu =0;
                                     if($valor['metroCubicot']== NULL){
@@ -78,12 +81,22 @@
                                     }
 
                                     echo '
-                                    <td>'.$metrocu.'</td><td>'.round($valor['tarima'],0).'</td>
+                                    <td>'.$metrocu.'</td>
 
                                     ';
-                                  }
-                                }
+                                    $volumenShipper = $volumenShipper +$metrocu;
+                                    $volumenTotal = $volumenTotal+$metrocu;
 
+                                  }
+                                  $tarimaMaterial=0;
+                                  $mct=$pq->selectShipperMCT_bodegaTarima($value['shipper'],$m['id_material'],$bodega,$m['nombre'],$especificacion);
+                                  foreach ($mct as $valor) {
+                                   $tarimaMaterial=$tarimaMaterial+$valor['tarima'];
+                                  }
+                                   echo '<td>'.round($tarimaMaterial,0).'</td>';
+
+                                }
+                                echo '<td>'.$volumenShipper.'</td>';
 
                                 echo '
                                  </tr>
@@ -95,18 +108,33 @@
                               ';
                               $tarimaCal=0;
                               foreach ($materialess as $m1) {
+                                $MCubicoT=0;
+                                $TarimaT=0;
                                 $totalcubico = 0;
                                 $totaltarimas =0;
-                                $mct1=$pq->selectTotalMCT_bodega($m1['id_material'],$bodega,$especificacion); 
+                                $mct1=$pq->selectTotalMCT_bodega($m1['id_material'],$bodega,$especificacion,$m1['nombre']); 
                                 foreach ($mct1 as $ma) {
-                                  $totalcubico = $totalcubico + $ma['metros_cubicos'];
-                                  $tarimaCal = ($ma['metros_cubicos'])/$ma['multiplo'];
-                                  $totaltarimas = $totaltarimas + $tarimaCal;
+                                  $totalcubico = $totalcubico + $ma['metroCubicot'];
+                                   /* if ($ma['nombre']=='BK') {
+                                     $tarimaCal = ($ma['piezas']*$ma['largo']*$ma['cantidad'])/1481;
+                                  }elseif($ma['nombre']=='BK EU'){
+                                     $tarimaCal = ($ma['piezas']*$ma['largo']*$ma['cantidad'])/1295;
+                                  }else{
+                                     $tarimaCal = ($ma['piezas']*$ma['multiplo']*$ma['cantidad'])/$ma['factorTarima'];
+                                  }*/
+
                                 }
+                                $mct1=$pq->selectTotalMCT_bodegaTarima($m1['id_material'],$bodega,$especificacion,$m1['nombre']); 
+                                foreach ($mct1 as $ma) {
+                                  $totaltarimas = $totaltarimas + $ma['tarima'];
+                                  }
+                                //------------------------------------------------------------------------------//
                                 echo '<td>'.$totalcubico.'</td><td>'.round($totaltarimas,0).'</td>';
+                   
+                              
 
                               }
-                              echo'</tr>';
+                              echo'<td>'.$volumenTotal.'</td></tr>';
           ?>
         </tbody>
       </table>

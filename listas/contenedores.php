@@ -136,7 +136,7 @@ if(isset($_SESSION['tiempo']) ) {
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pagina de Paquetes</h2>
+                    <h2>Datos de Busqueda</h2>
                      <table class="table table-striped">
                     <!--  <thead>
                         <tr><th>Orden</th><th>Contenedor</th><th>ID</th></tr>
@@ -157,16 +157,31 @@ if(isset($_SESSION['tiempo']) ) {
                            $factura =$datoPL['numero_factura'];
                             $date1=date_create($datoPL['fecha_inicio']);
                            $fecha_inicio =  date_format($date1, 'd/m/Y');
+                           if($datoPL['fecha_cierre']!=NULL || $datoPL['fecha_cierre']!=''){
                              $date2=date_create($datoPL['fecha_cierre']);
-                           $fecha_cierre =date_format($date2, 'd/m/Y');
+                             $fecha_cierre =date_format($date2, 'd/m/Y');
+                           }else{
+                              $fecha_cierra='';
+                           }
+                           
                            $mes=$datoPL['mes'];
                            $poliza=$datoPL['poliza'];
                            $correlativo=$datoPL['correlativo'];
                            $especificacion=$datoPL['esp'];
                            $razon_social=$datoPL['razon_social'];
-
+                           $shipper=$datoPL['shipper'];
+                           $totalContenedores =$datoPL['total_contenedores'];
+/*
                             $date1=date_create($_GET['fechaContenedor']);
-                           $fecha_ingresoC=date_format($date1, 'd/m/Y');
+                           $fecha_ingresoC=date_format($date1, 'd/m/Y');*/
+                           if (isset($_GET['fechaContenedor'])) {
+                             $fecha_ingresoC='';
+                             $array_falla = str_split($_GET['fechaContenedor']);
+                             $falla_count = strlen($_GET['fechaContenedor']);
+                             $fecha_ingresoC = "".$array_falla[8]."".$array_falla[9]."/".$array_falla[5]."".$array_falla[6]."/".$array_falla[0]."".$array_falla[1]."".$array_falla[2]."".$array_falla[3]."";
+                           }else{
+                             $fecha_ingresoC='No confirmado';
+                           }
                              
                            $sumCub = $nave->selectTotalMetrosCubicos($codigo);
                           foreach ($sumCub as $key) {
@@ -186,18 +201,21 @@ if(isset($_SESSION['tiempo']) ) {
                            $especificacion="";
                            $razon_social="";
                            $metro_cubico =0;
+                           $totalContenedores =0;
+                           $shipper='';
                     }                     echo '
                      <tr><td>Orden:</td><td>'.$codigo.'</td></tr>
                      <tr><td>Numero factura:</td><td>'.$factura.'</td></tr>
+                     <tr><td>Proveedor:</td><td>'.$shipper.'</td></tr>
                      <tr><td>Mes de ingreso:</td><td>'.$mes.'</td></tr>
                      <tr><td>Poliza:</td><td>'.$poliza.'</td></tr>
                      <tr><td>Correlativo:</td><td>'.$correlativo.'</td></tr>
                      <tr><td>M<sup>3</sup>:</td><td>'.$metro_cubico.'m<sup>3</sup></td></tr>
                      <tr><td>Especificacion:</td><td>'.$especificacion.'</td></tr>
                      <tr><td>Razon social:</td><td>'.$razon_social.'</td></tr>
+                     <tr><td>Numero de Contenedores:</td><td>'.$totalContenedores.'</td></tr>
                      <tr><td></td><td></td></tr>
                      <tr><td>Etiqueta Contenedor:</td><td>'.$etic.'</td></tr>
-                     <tr><td>Numero Contenedor:</td><td>'.$contenedor.'</td></tr>
                      <tr><td>Fecha Ingreso Contenedor:</td><td>'.$fecha_ingresoC.'</td></tr>
                      ';
                   //  echo '<tr><td><strong>'.$codigo.'</strong></td><td>'.$etic.'</td><td>'.$contenedor.'</td></tr>';
